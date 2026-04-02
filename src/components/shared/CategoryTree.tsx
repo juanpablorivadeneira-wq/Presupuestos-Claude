@@ -24,6 +24,7 @@ interface CategoryTreeProps {
   onUpdateCategory: (category: Category) => void;
   onDeleteCategory: (id: string) => void;
   allLabel: string;
+  readOnly?: boolean;
 }
 
 interface TreeNodeProps {
@@ -35,6 +36,7 @@ interface TreeNodeProps {
   onEdit: (category: Category) => void;
   onDelete: (category: Category) => void;
   depth: number;
+  readOnly?: boolean;
 }
 
 function TreeNode({
@@ -46,6 +48,7 @@ function TreeNode({
   onEdit,
   onDelete,
   depth,
+  readOnly = false,
 }: TreeNodeProps) {
   const children = categories.filter((c) => c.parentId === category.id);
   const [expanded, setExpanded] = useState(true);
@@ -83,38 +86,40 @@ function TreeNode({
         <span className="flex-1 truncate font-medium">{category.name}</span>
 
         {/* Action buttons - show on hover */}
-        <span className="hidden group-hover:flex items-center gap-0.5 shrink-0">
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onAdd(category.id);
-            }}
-            title="Agregar subcategoría"
-            className="p-0.5 rounded hover:bg-green-100 hover:text-green-700 text-gray-400"
-          >
-            <Plus size={12} />
-          </button>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onEdit(category);
-            }}
-            title="Editar categoría"
-            className="p-0.5 rounded hover:bg-blue-100 hover:text-blue-700 text-gray-400"
-          >
-            <Pencil size={12} />
-          </button>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onDelete(category);
-            }}
-            title="Eliminar categoría"
-            className="p-0.5 rounded hover:bg-red-100 hover:text-red-700 text-gray-400"
-          >
-            <Trash2 size={12} />
-          </button>
-        </span>
+        {!readOnly && (
+          <span className="hidden group-hover:flex items-center gap-0.5 shrink-0">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onAdd(category.id);
+              }}
+              title="Agregar subcategoría"
+              className="p-0.5 rounded hover:bg-green-100 hover:text-green-700 text-gray-400"
+            >
+              <Plus size={12} />
+            </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onEdit(category);
+              }}
+              title="Editar categoría"
+              className="p-0.5 rounded hover:bg-blue-100 hover:text-blue-700 text-gray-400"
+            >
+              <Pencil size={12} />
+            </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete(category);
+              }}
+              title="Eliminar categoría"
+              className="p-0.5 rounded hover:bg-red-100 hover:text-red-700 text-gray-400"
+            >
+              <Trash2 size={12} />
+            </button>
+          </span>
+        )}
       </div>
 
       {/* Children */}
@@ -130,6 +135,7 @@ function TreeNode({
             onEdit={onEdit}
             onDelete={onDelete}
             depth={depth + 1}
+            readOnly={readOnly}
           />
         ))}
     </div>
@@ -149,6 +155,7 @@ export default function CategoryTree({
   onUpdateCategory,
   onDeleteCategory,
   allLabel,
+  readOnly = false,
 }: CategoryTreeProps) {
   const [search, setSearch] = useState('');
   const [modal, setModal] = useState<null | {
@@ -234,15 +241,17 @@ export default function CategoryTree({
       </div>
 
       {/* Add root category button */}
-      <div className="px-3 pb-2">
-        <button
-          onClick={() => openAdd(null)}
-          className="flex items-center gap-1 text-xs text-green-600 hover:text-green-700 font-medium"
-        >
-          <Plus size={13} />
-          Nueva categoría
-        </button>
-      </div>
+      {!readOnly && (
+        <div className="px-3 pb-2">
+          <button
+            onClick={() => openAdd(null)}
+            className="flex items-center gap-1 text-xs text-green-600 hover:text-green-700 font-medium"
+          >
+            <Plus size={13} />
+            Nueva categoría
+          </button>
+        </div>
+      )}
 
       {/* Tree */}
       <div className="flex-1 overflow-y-auto px-1">
@@ -286,6 +295,7 @@ export default function CategoryTree({
               onEdit={openEdit}
               onDelete={openDelete}
               depth={0}
+              readOnly={readOnly}
             />
           ))
         )}

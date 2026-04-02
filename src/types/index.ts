@@ -46,3 +46,39 @@ export interface SortConfig {
   key: string;
   direction: SortDirection;
 }
+
+export interface Database {
+  id: string;
+  name: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+  items: Item[];
+  itemCategories: ItemCategory[];
+  rubros: Rubro[];
+  rubroCategories: RubroCategory[];
+}
+
+export interface BudgetLineItem {
+  id: string;
+  rubroId: string;
+  rubroCode: string;
+  rubroName: string;
+  rubroDescription: string;
+  rubroUnit: string;
+  quantity: number;
+  unitCost: number;
+}
+
+export interface Budget {
+  id: string;
+  name: string;
+  description: string;
+  databaseId: string;
+  databaseName: string;
+  createdAt: string;
+  updatedAt: string;
+  lineItems: BudgetLineItem[];
+}
+
+export type AppView = 'home' | 'database' | 'budget' | 'compare';

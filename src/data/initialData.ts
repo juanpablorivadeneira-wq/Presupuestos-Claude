@@ -1,4 +1,4 @@
-import { Item, ItemCategory, Rubro, RubroCategory } from '../types';
+import { Item, ItemCategory, Rubro, RubroCategory, Database } from '../types';
 
 export const initialItemCategories: ItemCategory[] = [
   { id: 'cat-eq', name: 'EQUIPOS', parentId: null },
@@ -290,3 +290,18 @@ export const initialRubros: Rubro[] = [
     categoryId: 'rcat-002',
   },
 ];
+
+export function createDefaultDatabase(): Database {
+  const now = new Date().toISOString();
+  return {
+    id: 'db-default',
+    name: 'Base General 2025',
+    description: 'Base de datos de precios para construcción general 2025',
+    createdAt: now,
+    updatedAt: now,
+    items: initialItems,
+    itemCategories: initialItemCategories,
+    rubros: initialRubros,
+    rubroCategories: initialRubroCategories,
+  };
+}

@@ -9,9 +9,12 @@ import Modal from '../shared/Modal';
 import Pagination from '../shared/Pagination';
 
 export default function ItemsView() {
+  const currentDb = useStore((state) =>
+    state.databases.find((d) => d.id === state.currentDatabaseId) ?? null
+  );
+  const items = currentDb?.items ?? [];
+  const itemCategories = currentDb?.itemCategories ?? [];
   const {
-    items,
-    itemCategories,
     addItem,
     updateItem,
     deleteItem,

@@ -9,11 +9,14 @@ import Modal from '../shared/Modal';
 import Pagination from '../shared/Pagination';
 
 export default function RubrosView() {
+  const currentDb = useStore((state) =>
+    state.databases.find((d) => d.id === state.currentDatabaseId) ?? null
+  );
+  const rubros = currentDb?.rubros ?? [];
+  const rubroCategories = currentDb?.rubroCategories ?? [];
+  const items = currentDb?.items ?? [];
+  const itemCategories = currentDb?.itemCategories ?? [];
   const {
-    rubros,
-    rubroCategories,
-    items,
-    itemCategories,
     addRubro,
     updateRubro,
     deleteRubro,
