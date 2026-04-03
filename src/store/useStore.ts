@@ -51,7 +51,7 @@ interface AppState {
   getCurrentRubros: () => Rubro[];
 
   // Database actions
-  createDatabase: (name: string, description: string) => void;
+  createDatabase: (name: string, description: string) => string;
   updateDatabase: (id: string, name: string, description: string) => void;
   deleteDatabase: (id: string) => void;
   duplicateDatabase: (id: string, newName: string) => void;
@@ -143,9 +143,10 @@ export const useStore = create<AppState>((set, get) => ({
     };
     set((state) => {
       const databases = [...state.databases, newDb];
-      saveToStorage({ databases, currentDatabaseId: state.currentDatabaseId, budgets: state.budgets, currentBudgetId: state.currentBudgetId });
-      return { databases };
+      saveToStorage({ databases, currentDatabaseId: newDb.id, budgets: state.budgets, currentBudgetId: state.currentBudgetId });
+      return { databases, currentDatabaseId: newDb.id };
     });
+    return newDb.id;
   },
 
   updateDatabase: (id, name, description) => {
