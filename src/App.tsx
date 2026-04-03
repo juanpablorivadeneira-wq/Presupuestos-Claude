@@ -65,13 +65,13 @@ export default function App() {
             <span className="text-sm font-semibold text-gray-800 truncate max-w-xs">
               {currentDb?.name ?? 'Base de Datos'}
             </span>
-            <div className="ml-6 flex items-center gap-1 bg-gray-100 rounded-lg p-1">
+            <div className="ml-6 flex items-center gap-1">
               <button
                 onClick={() => setDbTab('items')}
                 className={`flex items-center gap-2 px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${
                   dbTab === 'items'
-                    ? 'bg-white text-gray-900 shadow-sm'
-                    : 'text-gray-500 hover:text-gray-700'
+                    ? 'bg-gray-800 text-white'
+                    : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
                 }`}
               >
                 <List size={15} />
@@ -81,8 +81,8 @@ export default function App() {
                 onClick={() => setDbTab('rubros')}
                 className={`flex items-center gap-2 px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${
                   dbTab === 'rubros'
-                    ? 'bg-white text-gray-900 shadow-sm'
-                    : 'text-gray-500 hover:text-gray-700'
+                    ? 'bg-gray-800 text-white'
+                    : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
                 }`}
               >
                 <Share2 size={15} />

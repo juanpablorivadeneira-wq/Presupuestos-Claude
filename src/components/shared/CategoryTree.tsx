@@ -7,6 +7,7 @@ import {
   Plus,
   Pencil,
   Trash2,
+  Search,
 } from 'lucide-react';
 import Modal from './Modal';
 
@@ -225,31 +226,63 @@ export default function CategoryTree({
     ? categories.find((c) => c.id === modal.parentId)?.name
     : null;
 
+  const selectedCategory = selectedCategoryId
+    ? categories.find((c) => c.id === selectedCategoryId) ?? null
+    : null;
+
   return (
     <div className="flex flex-col h-full">
       {/* Search */}
       <div className="px-3 pt-3 pb-2">
+        <p className="font-bold text-gray-800 text-sm mb-2">Buscar</p>
         <div className="relative">
+          <Search size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400" />
           <input
             type="text"
             placeholder="Buscar categorías..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-3 pr-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+            className="w-full pl-8 pr-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
           />
         </div>
       </div>
 
-      {/* Add root category button */}
+      {/* Action buttons */}
       {!readOnly && (
         <div className="px-3 pb-2">
-          <button
-            onClick={() => openAdd(null)}
-            className="flex items-center gap-1 text-xs text-green-600 hover:text-green-700 font-medium"
-          >
-            <Plus size={13} />
-            Nueva categoría
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={() => openAdd(null)}
+              title="Nueva categoría"
+              className="border border-gray-300 rounded px-3 py-1.5 hover:bg-gray-50 flex-1 flex items-center justify-center text-gray-600"
+            >
+              <Plus size={14} />
+            </button>
+            <button
+              onClick={() => { if (selectedCategory) openEdit(selectedCategory); }}
+              title="Editar categoría"
+              disabled={!selectedCategory}
+              className={`border border-gray-300 rounded px-3 py-1.5 flex-1 flex items-center justify-center transition-colors ${
+                selectedCategory
+                  ? 'hover:bg-gray-50 text-gray-600'
+                  : 'text-gray-300 cursor-not-allowed'
+              }`}
+            >
+              <Pencil size={14} />
+            </button>
+            <button
+              onClick={() => { if (selectedCategory) openDelete(selectedCategory); }}
+              title="Eliminar categoría"
+              disabled={!selectedCategory}
+              className={`border border-gray-300 rounded px-3 py-1.5 flex-1 flex items-center justify-center transition-colors ${
+                selectedCategory
+                  ? 'hover:bg-gray-50 text-red-400 hover:text-red-600'
+                  : 'text-gray-300 cursor-not-allowed'
+              }`}
+            >
+              <Trash2 size={14} />
+            </button>
+          </div>
         </div>
       )}
 

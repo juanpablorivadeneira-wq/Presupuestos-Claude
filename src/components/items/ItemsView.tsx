@@ -24,7 +24,7 @@ export default function ItemsView() {
   } = useStore();
 
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
-  const [search, setSearch] = useState('');
+  const [search, _setSearch] = useState('');
   const [sortConfig, setSortConfig] = useState<SortConfig>({ key: '', direction: null });
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
@@ -132,9 +132,6 @@ export default function ItemsView() {
     <div className="flex flex-1 overflow-hidden">
       {/* Left sidebar - category tree */}
       <div className="w-72 shrink-0 border-r border-gray-200 bg-white flex flex-col overflow-hidden">
-        <div className="px-4 py-3 border-b border-gray-200">
-          <h2 className="text-sm font-semibold text-gray-700">Categorías de Items</h2>
-        </div>
         <div className="flex-1 overflow-hidden">
           <CategoryTree
             categories={itemCategories}
@@ -159,25 +156,15 @@ export default function ItemsView() {
           <div className="flex items-center gap-3">
             <button
               onClick={openCreate}
-              className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-md text-sm font-medium hover:bg-green-700 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-gray-800 text-white rounded-md text-sm font-medium hover:bg-gray-700 transition-colors"
             >
               <Plus size={16} />
               Nuevo Item
             </button>
-
-            <div className="relative">
-              <Filter size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Buscar items..."
-                value={search}
-                onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-                className="pl-8 pr-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 w-56"
-              />
-            </div>
           </div>
 
           <div className="flex items-center gap-3">
+            <Filter size={14} className="text-gray-400" />
             <span className="text-sm text-gray-500">
               {selectedCategoryId
                 ? `Filtrado (${totalItems})`
@@ -216,7 +203,7 @@ export default function ItemsView() {
       {/* Create/Edit Modal */}
       {(modalMode === 'create' || modalMode === 'edit') && (
         <Modal
-          title={modalMode === 'create' ? 'Nuevo Item' : 'Editar Item'}
+          title="Detalles del Item"
           onClose={() => setModalMode(null)}
           size="lg"
         >
