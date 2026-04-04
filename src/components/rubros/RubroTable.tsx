@@ -121,7 +121,7 @@ export default function RubroTable({
             return (
               <React.Fragment key={rubro.id}>
                 {/* ── Main rubro row ─────────────────────────────────── */}
-                <tr className={`hover:bg-gray-50 transition-colors ${isExpanded ? 'bg-gray-50' : ''}`}>
+                <tr className={`transition-colors ${isExpanded ? 'bg-blue-50 hover:bg-blue-100' : 'hover:bg-gray-50'}`}>
                   {/* Expand toggle */}
                   <td className="px-2 py-3 text-center">
                     <button
@@ -198,47 +198,42 @@ export default function RubroTable({
                 {/* ── Expanded detail — grouped by type ──────────────── */}
                 {isExpanded && (
                   <tr>
-                    <td colSpan={9} className="p-0 bg-gray-50 border-b border-gray-200">
+                    <td colSpan={9} className="p-0 bg-blue-50 border-b border-blue-100">
                       {rubro.components.length === 0 ? (
                         <p className="px-10 py-3 text-sm text-gray-400 italic">Sin componentes</p>
                       ) : (
-                        <div className="px-10 py-3 space-y-3">
-                          {TYPE_GROUPS.map(({ type, label, labelEs, headerBg, labelColor }) => {
+                        <div className="pb-3">
+                          {TYPE_GROUPS.map(({ type, label, labelEs }) => {
                             const comps = rubro.components.filter((c) => c.type === type);
                             if (comps.length === 0) return null;
-                            const groupTotal = comps.reduce((sum, c) => {
-                              const item = items.find((i) => i.id === c.itemId);
-                              return item ? sum + itemTotal(item) * c.quantity : sum;
-                            }, 0);
 
                             return (
-                              <div key={type} className="border border-gray-200 rounded overflow-hidden">
-                                {/* Section header */}
-                                <div className={`px-3 py-1.5 ${headerBg} flex items-center justify-between`}>
-                                  <span className={`text-xs font-semibold ${labelColor}`}>
-                                    {labelEs} ({comps.length} {comps.length === 1 ? 'item' : 'items'}) — {label}
-                                    <span className="font-normal text-gray-500 ml-2 truncate hidden sm:inline">· {rubro.name}</span>
+                              <div key={type}>
+                                {/* Section title — plain text, like reference */}
+                                <div className="px-10 pt-2.5 pb-1">
+                                  <span className="text-xs text-gray-600">
+                                    <span className="font-semibold">{labelEs}</span>
+                                    {' '}({comps.length} {comps.length === 1 ? 'quote' : 'quotes'}) - {rubro.code} {rubro.name}
+                                    <span className="text-gray-400 ml-1 hidden sm:inline">— {label}</span>
                                   </span>
-                                  <span className={`text-xs font-bold ${labelColor}`}>{formatMoney(groupTotal)}</span>
                                 </div>
 
                                 {/* Sub-table */}
-                                <table className="w-full text-xs bg-white">
+                                <table className="w-full text-xs">
                                   <thead>
-                                    <tr className="border-b border-gray-100">
-                                      <th className="px-3 py-1.5 text-left text-gray-400 font-medium">Nombre</th>
-                                      <th className="px-3 py-1.5 text-left text-gray-400 font-medium w-16">Unidad</th>
-                                      <th className="px-3 py-1.5 text-right text-gray-400 font-medium w-24">Cantidad</th>
-                                      <th className="px-3 py-1.5 text-right text-gray-400 font-medium w-24">Costo Unit.</th>
-                                      <th className="px-3 py-1.5 text-right text-gray-400 font-medium w-24">Total</th>
+                                    <tr className="bg-gray-300 text-gray-700">
+                                      <th className="pl-10 pr-3 py-1.5 text-left font-semibold w-[40%]">Name</th>
+                                      <th className="px-3 py-1.5 text-right font-semibold w-24">Quantity</th>
+                                      <th className="px-3 py-1.5 text-right font-semibold w-24">Cost</th>
+                                      <th className="px-3 py-1.5 text-right font-semibold w-28 pr-10">Total Cost</th>
                                     </tr>
                                   </thead>
-                                  <tbody className="divide-y divide-gray-50">
-                                    {comps.map((comp) => {
+                                  <tbody>
+                                    {comps.map((comp, idx) => {
                                       const item = items.find((i) => i.id === comp.itemId);
                                       if (!item) return (
-                                        <tr key={comp.id}>
-                                          <td colSpan={5} className="px-3 py-1.5 text-red-400 italic">
+                                        <tr key={comp.id} className="bg-white">
+                                          <td colSpan={4} className="pl-10 pr-3 py-1.5 text-red-400 italic">
                                             Item no encontrado
                                           </td>
                                         </tr>
@@ -246,15 +241,14 @@ export default function RubroTable({
                                       const unitPrice = itemTotal(item);
                                       const subtotal = unitPrice * comp.quantity;
                                       return (
-                                        <tr key={comp.id} className="hover:bg-gray-50">
-                                          <td className="px-3 py-1.5">
-                                            <span className="text-gray-800 font-medium">{item.name}</span>
-                                            <span className="text-gray-400 ml-2 font-mono">{item.code}</span>
+                                        <tr key={comp.id} className={idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                                          <td className="pl-10 pr-3 py-1.5 text-gray-800 truncate max-w-0">
+                                            <span className="truncate block">{item.name}</span>
+                                            <span className="text-gray-400 font-mono text-[10px]">{item.code} · {item.unit}</span>
                                           </td>
-                                          <td className="px-3 py-1.5 text-gray-500">{item.unit}</td>
                                           <td className="px-3 py-1.5 text-right text-gray-700">{comp.quantity}</td>
                                           <td className="px-3 py-1.5 text-right text-gray-700">{formatMoney(unitPrice)}</td>
-                                          <td className="px-3 py-1.5 text-right font-semibold text-green-600">{formatMoney(subtotal)}</td>
+                                          <td className="px-3 py-1.5 text-right font-semibold text-gray-800 pr-10">{formatMoney(subtotal)}</td>
                                         </tr>
                                       );
                                     })}
@@ -263,14 +257,6 @@ export default function RubroTable({
                               </div>
                             );
                           })}
-
-                          {/* Grand total row */}
-                          <div className="flex justify-end">
-                            <div className="bg-green-50 border border-green-200 rounded px-4 py-1.5 flex items-center gap-4">
-                              <span className="text-xs font-semibold text-green-700">Costo Total del Rubro:</span>
-                              <span className="text-sm font-bold text-green-700">{formatMoney(total)}</span>
-                            </div>
-                          </div>
                         </div>
                       )}
                     </td>

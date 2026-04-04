@@ -8,7 +8,12 @@ import RubroForm from './RubroForm';
 import Modal from '../shared/Modal';
 import Pagination from '../shared/Pagination';
 
-export default function RubrosView() {
+interface RubrosViewProps {
+  activeTab: 'items' | 'rubros';
+  onTabChange: (tab: 'items' | 'rubros') => void;
+}
+
+export default function RubrosView({ onTabChange }: RubrosViewProps) {
   const currentDb = useStore((state) =>
     state.databases.find((d) => d.id === state.currentDatabaseId) ?? null
   );
@@ -128,8 +133,22 @@ export default function RubrosView() {
 
   return (
     <div className="flex flex-1 overflow-hidden">
-      {/* Left sidebar - category tree */}
-      <div className="w-72 shrink-0 border-r border-gray-200 bg-white flex flex-col overflow-hidden">
+      {/* Left sidebar */}
+      <div className="w-64 shrink-0 border-r border-gray-200 bg-white flex flex-col overflow-hidden">
+        {/* Items / Assemblies tabs */}
+        <div className="flex border-b border-gray-200 shrink-0">
+          <button
+            onClick={() => onTabChange('items')}
+            className="flex-1 py-2.5 text-sm font-medium text-gray-500 bg-gray-50 hover:bg-gray-100 hover:text-gray-700 border-b-2 border-transparent transition-colors"
+          >
+            Items
+          </button>
+          <button
+            className="flex-1 py-2.5 text-sm font-semibold text-gray-900 bg-white border-b-2 border-gray-800 transition-colors"
+          >
+            Assemblies
+          </button>
+        </div>
         <div className="flex-1 overflow-hidden">
           <CategoryTree
             categories={rubroCategories}

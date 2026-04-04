@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { ChevronLeft, List, Share2, BarChart2, Database, ChevronDown, Check, Plus } from 'lucide-react';
+import { ChevronLeft, BarChart2, Database, ChevronDown, Check, Plus } from 'lucide-react';
 import { useStore } from './store/useStore';
 import { AppView } from './types';
 import HomeView from './components/home/HomeView';
@@ -144,30 +144,10 @@ export default function App() {
               )}
             </div>
 
-            <div className="ml-4 flex items-center gap-1">
-              <button
-                onClick={() => setDbTab('items')}
-                className={`flex items-center gap-2 px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                  dbTab === 'items'
-                    ? 'bg-gray-800 text-white'
-                    : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
-                }`}
-              >
-                <List size={15} />
-                Items
-              </button>
-              <button
-                onClick={() => setDbTab('rubros')}
-                className={`flex items-center gap-2 px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                  dbTab === 'rubros'
-                    ? 'bg-gray-800 text-white'
-                    : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
-                }`}
-              >
-                <Share2 size={15} />
-                Rubros
-              </button>
-            </div>
+            <span className="text-gray-300">/</span>
+            <span className="text-sm font-semibold text-gray-800">
+              {dbTab === 'items' ? 'Items' : 'Assemblies'}
+            </span>
           </>
         ) : view === 'budget' ? (
           <>
@@ -249,7 +229,9 @@ export default function App() {
       <main className="flex-1 flex overflow-hidden">
         {view === 'home' && <HomeView onNavigate={handleNavigate} />}
         {view === 'database' && (
-          dbTab === 'items' ? <ItemsView /> : <RubrosView />
+          dbTab === 'items'
+            ? <ItemsView activeTab="items" onTabChange={setDbTab} />
+            : <RubrosView activeTab="rubros" onTabChange={setDbTab} />
         )}
         {view === 'budget' && <BudgetView onNavigate={handleNavigate} />}
         {view === 'compare' && <CompareView onNavigate={handleNavigate} />}
