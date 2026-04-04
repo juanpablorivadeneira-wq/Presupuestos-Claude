@@ -6,9 +6,10 @@ interface ModalProps {
   onClose: () => void;
   children: React.ReactNode;
   size?: 'sm' | 'md' | 'lg' | 'xl';
+  flush?: boolean;
 }
 
-export default function Modal({ title, onClose, children, size = 'md' }: ModalProps) {
+export default function Modal({ title, onClose, children, size = 'md', flush = false }: ModalProps) {
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -37,7 +38,7 @@ export default function Modal({ title, onClose, children, size = 'md' }: ModalPr
             <X size={20} />
           </button>
         </div>
-        <div className="overflow-y-auto flex-1 px-6 py-4">
+        <div className={flush ? 'flex-1 overflow-hidden flex flex-col' : 'overflow-y-auto flex-1 px-6 py-4'}>
           {children}
         </div>
       </div>

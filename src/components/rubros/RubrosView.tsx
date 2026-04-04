@@ -220,9 +220,10 @@ export default function RubrosView({ onTabChange }: RubrosViewProps) {
       {/* Create/Edit Modal */}
       {(modalMode === 'create' || modalMode === 'edit') && (
         <Modal
-          title={modalMode === 'create' ? 'Nuevo Rubro' : 'Editar Rubro'}
+          title={modalMode === 'create' ? 'Nuevo Rubro' : 'Detalles del Rubro'}
           onClose={() => setModalMode(null)}
           size="xl"
+          flush
         >
           <RubroForm
             rubro={selectedRubro ?? undefined}
