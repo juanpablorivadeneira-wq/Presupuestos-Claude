@@ -106,6 +106,10 @@ interface AppState {
   closeBudgetUpdate: () => void;
   changeBudgetUpdateDatabase: (id: string, newDatabaseId: string) => void;
   updateBudgetUpdateProgress: (updateId: string, lineItemId: string, progress: number) => void;
+
+  // Backup / Restore
+  exportBackup: () => void;
+  importBackup: (json: string) => { ok: boolean; error?: string };
 }
 
 const saved = loadFromStorage();
@@ -692,6 +696,46 @@ export const useStore = create<AppState>((set, get) => ({
       );
       return { budgetUpdates };
     });
+  },
+
+  exportBackup: () => {
+    const s = useStore.getState();
+    const data: StorageData = {
+      databases: s.databases,
+      currentDatabaseId: s.currentDatabaseId,
+      budgets: s.budgets,
+      currentBudgetId: s.currentBudgetId,
+      budgetUpdates: s.budgetUpdates,
+      currentBudgetUpdateId: s.currentBudgetUpdateId,
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const date = new Date().toISOString().slice(0, 10);
+    a.href = url;
+    a.download = `buildkontrol-backup-${date}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  },
+
+  importBackup: (json) => {
+    try {
+      const data = JSON.parse(json) as StorageData;
+      if (!Array.isArray(data.databases) || !Array.isArray(data.budgets) || !Array.isArray(data.budgetUpdates)) {
+        return { ok: false, error: 'Archivo inválido: estructura incorrecta.' };
+      }
+      set({
+        databases: data.databases,
+        currentDatabaseId: data.currentDatabaseId ?? null,
+        budgets: data.budgets,
+        currentBudgetId: data.currentBudgetId ?? null,
+        budgetUpdates: data.budgetUpdates,
+        currentBudgetUpdateId: data.currentBudgetUpdateId ?? null,
+      });
+      return { ok: true };
+    } catch {
+      return { ok: false, error: 'No se pudo leer el archivo. Asegúrate de que sea un backup válido.' };
+    }
   },
 }));
 

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Database, FileText, TrendingUp, ChevronDown, Check, Plus, User, Menu } from 'lucide-react';
+import { Database, FileText, TrendingUp, ChevronDown, Check, Plus, User, Menu, HardDrive } from 'lucide-react';
 import { useStore } from './store/useStore';
 import { AppView } from './types';
 import HomeView from './components/home/HomeView';
@@ -10,6 +10,7 @@ import ActualizacionView from './components/actualizacion/ActualizacionView';
 import CompareView from './components/compare/CompareView';
 import Modal from './components/shared/Modal';
 import BuildKontrolLogo from './components/shared/BuildKontrolLogo';
+import BackupModal from './components/shared/BackupModal';
 
 type DbTab = 'items' | 'rubros';
 type HomeSection = 'databases' | 'budgets' | 'actualizacion';
@@ -19,6 +20,7 @@ export default function App() {
   const [dbTab, setDbTab] = useState<DbTab>('items');
   const [dbSwitcherOpen, setDbSwitcherOpen] = useState(false);
   const [createDbModal, setCreateDbModal] = useState(false);
+  const [backupModal, setBackupModal] = useState(false);
   const [newDbName, setNewDbName] = useState('');
   const [newDbDesc, setNewDbDesc] = useState('');
   const dbSwitcherRef = useRef<HTMLDivElement>(null);
@@ -123,8 +125,17 @@ export default function App() {
           {/* Separator */}
           <div className="h-6 w-px bg-white/20 mx-1 shrink-0" />
 
-          {/* RIGHT: User */}
-          <div className="flex items-center gap-2.5 shrink-0">
+          {/* RIGHT: Backup + User */}
+          <div className="flex items-center gap-2 pr-3 shrink-0">
+            <button
+              onClick={() => setBackupModal(true)}
+              title="Backup y Restauración"
+              className="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded cursor-pointer transition-colors text-sm text-gray-100 font-medium"
+            >
+              <HardDrive size={14} className="shrink-0" />
+              <span className="hidden sm:block">Backup</span>
+            </button>
+            <div className="h-5 w-px bg-white/20 shrink-0" />
             <div className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded cursor-pointer transition-colors">
               <div className="w-6 h-6 rounded-full bg-white/30 flex items-center justify-center shrink-0">
                 <User size={13} className="text-white" />
@@ -206,6 +217,8 @@ export default function App() {
           </div>
         )}
       </header>
+
+      {backupModal && <BackupModal onClose={() => setBackupModal(false)} />}
 
       {/* Create DB Modal */}
       {createDbModal && (
