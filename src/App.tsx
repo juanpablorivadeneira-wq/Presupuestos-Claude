@@ -92,7 +92,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className="h-screen flex flex-col bg-gray-50 overflow-hidden">
       {/* Header */}
       <header className="bg-white border-b border-gray-200 px-5 py-3 flex items-center gap-3 shadow-sm shrink-0 z-20">
         {view === 'home' ? (
