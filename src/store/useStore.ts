@@ -8,7 +8,7 @@ import {
   Budget,
   BudgetLineItem,
 } from '../types';
-import { createDefaultDatabase } from '../data/initialData';
+import { createDefaultDatabase, initialItemCategories } from '../data/initialData';
 
 const STORAGE_KEY = 'presupuestos-v2';
 
@@ -131,14 +131,22 @@ export const useStore = create<AppState>((set, get) => ({
 
   createDatabase: (name, description) => {
     const now = new Date().toISOString();
+    const newId = genId();
+    // Clone standard categories with new IDs so each DB has its own instances
+    const idMap: Record<string, string> = {};
+    const clonedCategories = initialItemCategories.map((c) => {
+      const newCatId = genId();
+      idMap[c.id] = newCatId;
+      return { ...c, id: newCatId };
+    }).map((c) => ({ ...c, parentId: c.parentId ? idMap[c.parentId] ?? c.parentId : null }));
     const newDb: Database = {
-      id: genId(),
+      id: newId,
       name,
       description,
       createdAt: now,
       updatedAt: now,
       items: [],
-      itemCategories: [],
+      itemCategories: clonedCategories,
       rubros: [],
       rubroCategories: [],
     };
