@@ -19,8 +19,8 @@ interface StorageData {
   currentDatabaseId: string | null;
   budgets: Budget[];
   currentBudgetId: string | null;
-  budgetUpdates?: BudgetUpdate[];
-  currentBudgetUpdateId?: string | null;
+  budgetUpdates: BudgetUpdate[];
+  currentBudgetUpdateId: string | null;
 }
 
 function loadFromStorage(): StorageData | null {
@@ -122,17 +122,6 @@ function updateDbInList(databases: Database[], dbId: string | null, updater: (db
   return databases.map((db) => (db.id === dbId ? updater(db) : db));
 }
 
-function save(state: { databases: Database[]; currentDatabaseId: string | null; budgets: Budget[]; currentBudgetId: string | null; budgetUpdates: BudgetUpdate[]; currentBudgetUpdateId: string | null }) {
-  saveToStorage({
-    databases: state.databases,
-    currentDatabaseId: state.currentDatabaseId,
-    budgets: state.budgets,
-    currentBudgetId: state.currentBudgetId,
-    budgetUpdates: state.budgetUpdates,
-    currentBudgetUpdateId: state.currentBudgetUpdateId,
-  });
-}
-
 export const useStore = create<AppState>((set, get) => ({
   databases: initialDatabases,
   currentDatabaseId: initialCurrentDatabaseId,
@@ -163,7 +152,6 @@ export const useStore = create<AppState>((set, get) => ({
   createDatabase: (name, description) => {
     const now = new Date().toISOString();
     const newId = genId();
-    // Clone standard categories with new IDs so each DB has its own instances
     const idMap: Record<string, string> = {};
     const clonedCategories = initialItemCategories.map((c) => {
       const newCatId = genId();
@@ -183,7 +171,6 @@ export const useStore = create<AppState>((set, get) => ({
     };
     set((state) => {
       const databases = [...state.databases, newDb];
-      saveToStorage({ databases, currentDatabaseId: newDb.id, budgets: state.budgets, currentBudgetId: state.currentBudgetId });
       return { databases, currentDatabaseId: newDb.id };
     });
     return newDb.id;
@@ -194,7 +181,6 @@ export const useStore = create<AppState>((set, get) => ({
       const databases = state.databases.map((db) =>
         db.id === id ? { ...db, name, description, updatedAt: new Date().toISOString() } : db
       );
-      saveToStorage({ databases, currentDatabaseId: state.currentDatabaseId, budgets: state.budgets, currentBudgetId: state.currentBudgetId });
       return { databases };
     });
   },
@@ -203,7 +189,6 @@ export const useStore = create<AppState>((set, get) => ({
     set((state) => {
       const databases = state.databases.filter((db) => db.id !== id);
       const currentDatabaseId = state.currentDatabaseId === id ? null : state.currentDatabaseId;
-      saveToStorage({ databases, currentDatabaseId, budgets: state.budgets, currentBudgetId: state.currentBudgetId });
       return { databases, currentDatabaseId };
     });
   },
@@ -225,23 +210,16 @@ export const useStore = create<AppState>((set, get) => ({
         rubroCategories: source.rubroCategories.map((c) => ({ ...c })),
       };
       const databases = [...state.databases, newDb];
-      saveToStorage({ databases, currentDatabaseId: state.currentDatabaseId, budgets: state.budgets, currentBudgetId: state.currentBudgetId });
       return { databases };
     });
   },
 
   openDatabase: (id) => {
-    set((state) => {
-      saveToStorage({ databases: state.databases, currentDatabaseId: id, budgets: state.budgets, currentBudgetId: state.currentBudgetId });
-      return { currentDatabaseId: id };
-    });
+    set(() => ({ currentDatabaseId: id }));
   },
 
   closeDatabase: () => {
-    set((state) => {
-      saveToStorage({ databases: state.databases, currentDatabaseId: null, budgets: state.budgets, currentBudgetId: state.currentBudgetId });
-      return { currentDatabaseId: null };
-    });
+    set(() => ({ currentDatabaseId: null }));
   },
 
   importDatabase: (db) => {
@@ -259,7 +237,6 @@ export const useStore = create<AppState>((set, get) => ({
     };
     set((state) => {
       const databases = [...state.databases, imported];
-      saveToStorage({ databases, currentDatabaseId: newId, budgets: state.budgets, currentBudgetId: state.currentBudgetId });
       return { databases, currentDatabaseId: newId };
     });
     return newId;
@@ -274,7 +251,6 @@ export const useStore = create<AppState>((set, get) => ({
         items: [...db.items, item],
         updatedAt: new Date().toISOString(),
       }));
-      saveToStorage({ databases, currentDatabaseId: state.currentDatabaseId, budgets: state.budgets, currentBudgetId: state.currentBudgetId });
       return { databases };
     });
   },
@@ -286,7 +262,6 @@ export const useStore = create<AppState>((set, get) => ({
         items: db.items.map((i) => (i.id === item.id ? item : i)),
         updatedAt: new Date().toISOString(),
       }));
-      saveToStorage({ databases, currentDatabaseId: state.currentDatabaseId, budgets: state.budgets, currentBudgetId: state.currentBudgetId });
       return { databases };
     });
   },
@@ -298,7 +273,6 @@ export const useStore = create<AppState>((set, get) => ({
         items: db.items.filter((i) => i.id !== id),
         updatedAt: new Date().toISOString(),
       }));
-      saveToStorage({ databases, currentDatabaseId: state.currentDatabaseId, budgets: state.budgets, currentBudgetId: state.currentBudgetId });
       return { databases };
     });
   },
@@ -310,7 +284,6 @@ export const useStore = create<AppState>((set, get) => ({
         itemCategories: [...db.itemCategories, category],
         updatedAt: new Date().toISOString(),
       }));
-      saveToStorage({ databases, currentDatabaseId: state.currentDatabaseId, budgets: state.budgets, currentBudgetId: state.currentBudgetId });
       return { databases };
     });
   },
@@ -322,7 +295,6 @@ export const useStore = create<AppState>((set, get) => ({
         itemCategories: db.itemCategories.map((c) => (c.id === category.id ? category : c)),
         updatedAt: new Date().toISOString(),
       }));
-      saveToStorage({ databases, currentDatabaseId: state.currentDatabaseId, budgets: state.budgets, currentBudgetId: state.currentBudgetId });
       return { databases };
     });
   },
@@ -344,7 +316,6 @@ export const useStore = create<AppState>((set, get) => ({
         ),
         updatedAt: new Date().toISOString(),
       }));
-      saveToStorage({ databases, currentDatabaseId: state.currentDatabaseId, budgets: state.budgets, currentBudgetId: state.currentBudgetId });
       return { databases };
     });
   },
@@ -358,7 +329,6 @@ export const useStore = create<AppState>((set, get) => ({
         rubros: [...db.rubros, rubro],
         updatedAt: new Date().toISOString(),
       }));
-      saveToStorage({ databases, currentDatabaseId: state.currentDatabaseId, budgets: state.budgets, currentBudgetId: state.currentBudgetId });
       return { databases };
     });
   },
@@ -370,7 +340,6 @@ export const useStore = create<AppState>((set, get) => ({
         rubros: db.rubros.map((r) => (r.id === rubro.id ? rubro : r)),
         updatedAt: new Date().toISOString(),
       }));
-      saveToStorage({ databases, currentDatabaseId: state.currentDatabaseId, budgets: state.budgets, currentBudgetId: state.currentBudgetId });
       return { databases };
     });
   },
@@ -382,7 +351,6 @@ export const useStore = create<AppState>((set, get) => ({
         rubros: db.rubros.filter((r) => r.id !== id),
         updatedAt: new Date().toISOString(),
       }));
-      saveToStorage({ databases, currentDatabaseId: state.currentDatabaseId, budgets: state.budgets, currentBudgetId: state.currentBudgetId });
       return { databases };
     });
   },
@@ -394,7 +362,6 @@ export const useStore = create<AppState>((set, get) => ({
         rubroCategories: [...db.rubroCategories, category],
         updatedAt: new Date().toISOString(),
       }));
-      saveToStorage({ databases, currentDatabaseId: state.currentDatabaseId, budgets: state.budgets, currentBudgetId: state.currentBudgetId });
       return { databases };
     });
   },
@@ -406,7 +373,6 @@ export const useStore = create<AppState>((set, get) => ({
         rubroCategories: db.rubroCategories.map((c) => (c.id === category.id ? category : c)),
         updatedAt: new Date().toISOString(),
       }));
-      saveToStorage({ databases, currentDatabaseId: state.currentDatabaseId, budgets: state.budgets, currentBudgetId: state.currentBudgetId });
       return { databases };
     });
   },
@@ -428,7 +394,6 @@ export const useStore = create<AppState>((set, get) => ({
         ),
         updatedAt: new Date().toISOString(),
       }));
-      saveToStorage({ databases, currentDatabaseId: state.currentDatabaseId, budgets: state.budgets, currentBudgetId: state.currentBudgetId });
       return { databases };
     });
   },
@@ -451,7 +416,6 @@ export const useStore = create<AppState>((set, get) => ({
     };
     set((state) => {
       const budgets = [...state.budgets, newBudget];
-      saveToStorage({ databases: state.databases, currentDatabaseId: state.currentDatabaseId, budgets, currentBudgetId: state.currentBudgetId });
       return { budgets };
     });
   },
@@ -461,7 +425,6 @@ export const useStore = create<AppState>((set, get) => ({
       const budgets = state.budgets.map((b) =>
         b.id === id ? { ...b, name, description, updatedAt: new Date().toISOString() } : b
       );
-      saveToStorage({ databases: state.databases, currentDatabaseId: state.currentDatabaseId, budgets, currentBudgetId: state.currentBudgetId });
       return { budgets };
     });
   },
@@ -470,23 +433,16 @@ export const useStore = create<AppState>((set, get) => ({
     set((state) => {
       const budgets = state.budgets.filter((b) => b.id !== id);
       const currentBudgetId = state.currentBudgetId === id ? null : state.currentBudgetId;
-      saveToStorage({ databases: state.databases, currentDatabaseId: state.currentDatabaseId, budgets, currentBudgetId });
       return { budgets, currentBudgetId };
     });
   },
 
   openBudget: (id) => {
-    set((state) => {
-      saveToStorage({ databases: state.databases, currentDatabaseId: state.currentDatabaseId, budgets: state.budgets, currentBudgetId: id });
-      return { currentBudgetId: id };
-    });
+    set(() => ({ currentBudgetId: id }));
   },
 
   closeBudget: () => {
-    set((state) => {
-      saveToStorage({ databases: state.databases, currentDatabaseId: state.currentDatabaseId, budgets: state.budgets, currentBudgetId: null });
-      return { currentBudgetId: null };
-    });
+    set(() => ({ currentBudgetId: null }));
   },
 
   addLineItem: (budgetId, rubroId, quantity) => {
@@ -520,7 +476,6 @@ export const useStore = create<AppState>((set, get) => ({
           ? { ...b, lineItems: [...b.lineItems, lineItem], updatedAt: new Date().toISOString() }
           : b
       );
-      saveToStorage({ databases: state.databases, currentDatabaseId: state.currentDatabaseId, budgets, currentBudgetId: state.currentBudgetId });
       return { budgets };
     });
   },
@@ -560,7 +515,6 @@ export const useStore = create<AppState>((set, get) => ({
           ? { ...b, lineItems: [...b.lineItems, ...newLineItems], updatedAt: new Date().toISOString() }
           : b
       );
-      saveToStorage({ databases: state.databases, currentDatabaseId: state.currentDatabaseId, budgets, currentBudgetId: state.currentBudgetId });
       return { budgets };
     });
   },
@@ -576,7 +530,6 @@ export const useStore = create<AppState>((set, get) => ({
             }
           : b
       );
-      saveToStorage({ databases: state.databases, currentDatabaseId: state.currentDatabaseId, budgets, currentBudgetId: state.currentBudgetId });
       return { budgets };
     });
   },
@@ -592,7 +545,6 @@ export const useStore = create<AppState>((set, get) => ({
             }
           : b
       );
-      saveToStorage({ databases: state.databases, currentDatabaseId: state.currentDatabaseId, budgets, currentBudgetId: state.currentBudgetId });
       return { budgets };
     });
   },
@@ -622,7 +574,6 @@ export const useStore = create<AppState>((set, get) => ({
           updatedAt: new Date().toISOString(),
         };
       });
-      saveToStorage({ databases: state.databases, currentDatabaseId: state.currentDatabaseId, budgets, currentBudgetId: state.currentBudgetId });
       return { budgets };
     });
   },
@@ -665,7 +616,6 @@ export const useStore = create<AppState>((set, get) => ({
     };
     set((s) => {
       const budgetUpdates = [...s.budgetUpdates, newUpdate];
-      save({ ...s, budgetUpdates, currentBudgetUpdateId: newUpdate.id });
       return { budgetUpdates, currentBudgetUpdateId: newUpdate.id };
     });
     return newUpdate.id;
@@ -676,7 +626,6 @@ export const useStore = create<AppState>((set, get) => ({
       const budgetUpdates = s.budgetUpdates.map((u) =>
         u.id === id ? { ...u, name, description, updatedAt: new Date().toISOString() } : u
       );
-      save({ ...s, budgetUpdates });
       return { budgetUpdates };
     });
   },
@@ -685,23 +634,16 @@ export const useStore = create<AppState>((set, get) => ({
     set((s) => {
       const budgetUpdates = s.budgetUpdates.filter((u) => u.id !== id);
       const currentBudgetUpdateId = s.currentBudgetUpdateId === id ? null : s.currentBudgetUpdateId;
-      save({ ...s, budgetUpdates, currentBudgetUpdateId });
       return { budgetUpdates, currentBudgetUpdateId };
     });
   },
 
   openBudgetUpdate: (id) => {
-    set((s) => {
-      save({ ...s, currentBudgetUpdateId: id });
-      return { currentBudgetUpdateId: id };
-    });
+    set(() => ({ currentBudgetUpdateId: id }));
   },
 
   closeBudgetUpdate: () => {
-    set((s) => {
-      save({ ...s, currentBudgetUpdateId: null });
-      return { currentBudgetUpdateId: null };
-    });
+    set(() => ({ currentBudgetUpdateId: null }));
   },
 
   changeBudgetUpdateDatabase: (id, newDatabaseId) => {
@@ -712,7 +654,6 @@ export const useStore = create<AppState>((set, get) => ({
           ? { ...u, newDatabaseId, newDatabaseName: db?.name ?? '', updatedAt: new Date().toISOString() }
           : u
       );
-      save({ ...s, budgetUpdates });
       return { budgetUpdates };
     });
   },
@@ -728,11 +669,23 @@ export const useStore = create<AppState>((set, get) => ({
             }
           : u
       );
-      save({ ...s, budgetUpdates });
       return { budgetUpdates };
     });
   },
 }));
+
+// ── Auto-persist on every state change ───────────────────────────────────────
+// Single subscription saves ALL fields — no action needs its own saveToStorage call.
+useStore.subscribe((state) => {
+  saveToStorage({
+    databases: state.databases,
+    currentDatabaseId: state.currentDatabaseId,
+    budgets: state.budgets,
+    currentBudgetId: state.currentBudgetId,
+    budgetUpdates: state.budgetUpdates,
+    currentBudgetUpdateId: state.currentBudgetUpdateId,
+  });
+});
 
 // ── Standalone helper functions ───────────────────────────────────────────────
 

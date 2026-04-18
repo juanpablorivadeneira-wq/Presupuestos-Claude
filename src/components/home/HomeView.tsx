@@ -15,7 +15,13 @@ interface HomeViewProps {
 }
 
 export default function HomeView({ onNavigate }: HomeViewProps) {
-  const [activeSection, setActiveSection] = useState<HomeSection>('databases');
+  const [activeSection, setActiveSection] = useState<HomeSection>(() => {
+    // Start on the section that already has data so users see their work immediately
+    const s = useStore.getState();
+    if (s.budgets.length > 0) return 'budgets';
+    if (s.databases.length > 0) return 'databases';
+    return 'databases';
+  });
 
   const {
     databases, budgets, budgetUpdates,
