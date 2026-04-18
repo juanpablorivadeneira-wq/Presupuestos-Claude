@@ -103,20 +103,20 @@ export default function App() {
 
       {/* ── Top header ─────────────────────────────────────────────────────── */}
       <header className="bg-[#6b6b6b] text-white shrink-0 z-20 shadow-md">
-        <div className="h-12 px-4 flex items-center gap-3">
+        <div className="h-12 flex items-center">
 
-          {/* LEFT: Logo + hamburger */}
-          <div className="flex items-center gap-3 shrink-0">
-            <button className="text-gray-300 hover:text-white transition-colors">
-              <Menu size={20} />
-            </button>
-            <button onClick={handleBackToHome} className="focus:outline-none">
-              <BuildKontrolLogo />
-            </button>
+          {/* LEFT: Logo sobre fondo blanco + hamburger */}
+          <div className="flex items-center gap-0 shrink-0 h-full">
+            <div className="bg-white h-full flex items-center px-3 gap-2.5">
+              <button className="text-gray-400 hover:text-gray-600 transition-colors">
+                <Menu size={18} />
+              </button>
+              <button onClick={handleBackToHome} className="focus:outline-none">
+                <BuildKontrolLogo />
+              </button>
+            </div>
+            <div className="h-full w-px bg-white/20" />
           </div>
-
-          {/* Separator */}
-          <div className="h-6 w-px bg-white/25 mx-1 shrink-0" />
 
           {/* CENTER: Proyecto/Obra selector — siempre visible */}
           <div className="flex-1 flex items-center justify-center">
