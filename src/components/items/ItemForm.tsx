@@ -137,25 +137,25 @@ export default function ItemForm({ item, categories, onSave, onCancel }: ItemFor
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="block text-sm text-gray-700 mb-1">Costo Material</label>
-          <input type="number" min="0" step="0.01" value={material}
+          <input type="number" min="0" step="0.0001" value={material}
             onChange={(e) => setMaterial(e.target.value)}
             className={inputCls()} />
         </div>
         <div>
           <label className="block text-sm text-gray-700 mb-1">Costo Mano de Obra</label>
-          <input type="number" min="0" step="0.01" value={manoDeObra}
+          <input type="number" min="0" step="0.0001" value={manoDeObra}
             onChange={(e) => setManoDeObra(e.target.value)}
             className={inputCls()} />
         </div>
         <div>
           <label className="block text-sm text-gray-700 mb-1">Costo Equipo</label>
-          <input type="number" min="0" step="0.01" value={equipo}
+          <input type="number" min="0" step="0.0001" value={equipo}
             onChange={(e) => setEquipo(e.target.value)}
             className={inputCls()} />
         </div>
         <div>
           <label className="block text-sm text-gray-700 mb-1">Costos Indirectos</label>
-          <input type="number" min="0" step="0.01" value={indirectos}
+          <input type="number" min="0" step="0.0001" value={indirectos}
             onChange={(e) => setIndirectos(e.target.value)}
             className={inputCls()} />
         </div>
