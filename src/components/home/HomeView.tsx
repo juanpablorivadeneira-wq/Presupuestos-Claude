@@ -20,15 +20,19 @@ export default function HomeView({ onNavigate, activeSection, onSectionChange }:
 
   const {
     databases, budgets, budgetUpdates,
-    createDatabase, updateDatabase, deleteDatabase, duplicateDatabase, openDatabase, importDatabase,
+    createDatabase, updateDatabase, deleteDatabase, duplicateDatabase, openDatabase, importDatabase, updateDatabaseContents,
     createBudget, updateBudget, deleteBudget, openBudget,
     createBudgetUpdate, updateBudgetUpdate, deleteBudgetUpdate, openBudgetUpdate,
   } = useStore();
 
   function handleLoadPrueba01() {
     const existing = databases.find((d) => d.name === 'Prueba 01');
-    if (existing) deleteDatabase(existing.id);
-    importDatabase(prueba01Database);
+    if (existing) {
+      updateDatabaseContents(existing.id, prueba01Database);
+      openDatabase(existing.id);
+    } else {
+      importDatabase(prueba01Database);
+    }
     onNavigate('database');
   }
 

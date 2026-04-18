@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef } from 'react';
-import { Plus, Trash2, RefreshCw, FileDown, Search, X, ChevronDown, ChevronRight, CheckSquare, Check } from 'lucide-react';
+import { Plus, Trash2, RefreshCw, FileDown, Search, X, ChevronDown, ChevronRight, CheckSquare, Check, AlertTriangle } from 'lucide-react';
 import { useStore, formatMoney, rubroTotal, getCategoryIds } from '../../store/useStore';
 import { AppView, BudgetLineItem, Rubro } from '../../types';
 import Modal from '../shared/Modal';
@@ -74,6 +74,16 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
       a.categoryName.localeCompare(b.categoryName)
     );
   }, [filteredLineItems]);
+
+  // ── Staleness detection ─────────────────────────────────────────────────────
+  const isPricesStale = useMemo(() => {
+    if (!budget || !sourceDb || budget.lineItems.length === 0) return false;
+    return budget.lineItems.some((li) => {
+      const rubro = sourceDb.rubros.find((r) => r.id === li.rubroId);
+      if (!rubro) return false;
+      return Math.abs(rubroTotal(rubro, sourceDb.items) - li.unitCost) > 0.0001;
+    });
+  }, [budget, sourceDb]);
 
   // ── Available rubros for add modal ──────────────────────────────────────────
   const availableRubros = useMemo(() => {
@@ -298,6 +308,23 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
           </button>
         </div>
       </div>
+
+      {/* Staleness warning */}
+      {isPricesStale && (
+        <div className="bg-amber-50 border-b border-amber-200 px-5 py-2.5 flex items-center gap-3 shrink-0">
+          <AlertTriangle size={15} className="text-amber-600 shrink-0" />
+          <p className="text-sm text-amber-800 flex-1">
+            Los precios de la base de datos han cambiado. Los totales pueden estar desactualizados.
+          </p>
+          <button
+            onClick={() => recalculateBudget(budget.id)}
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-600 text-white rounded-md text-sm font-medium hover:bg-amber-700 shrink-0"
+          >
+            <RefreshCw size={13} />
+            Actualizar precios
+          </button>
+        </div>
+      )}
 
       {/* Table */}
       <div className="flex-1 overflow-auto bg-white">

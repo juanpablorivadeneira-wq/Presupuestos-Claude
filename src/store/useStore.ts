@@ -64,6 +64,7 @@ interface AppState {
   openDatabase: (id: string) => void;
   closeDatabase: () => void;
   importDatabase: (db: Database) => string;
+  updateDatabaseContents: (id: string, db: Database) => void;
 
   // Item actions (operate on currentDatabaseId)
   addItem: (item: Item) => void;
@@ -240,6 +241,26 @@ export const useStore = create<AppState>((set, get) => ({
       return { databases, currentDatabaseId: newId };
     });
     return newId;
+  },
+
+  updateDatabaseContents: (id, db) => {
+    set((state) => {
+      const databases = state.databases.map((d) =>
+        d.id === id
+          ? {
+              ...d,
+              name: db.name,
+              description: db.description,
+              items: db.items.map((i) => ({ ...i })),
+              itemCategories: db.itemCategories.map((c) => ({ ...c })),
+              rubros: db.rubros.map((r) => ({ ...r, components: r.components.map((c) => ({ ...c })) })),
+              rubroCategories: db.rubroCategories.map((c) => ({ ...c })),
+              updatedAt: new Date().toISOString(),
+            }
+          : d
+      );
+      return { databases };
+    });
   },
 
   // ── Item actions ──────────────────────────────────────────────────────────
