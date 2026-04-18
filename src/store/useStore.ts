@@ -57,6 +57,7 @@ interface AppState {
   duplicateDatabase: (id: string, newName: string) => void;
   openDatabase: (id: string) => void;
   closeDatabase: () => void;
+  importDatabase: (db: Database) => string;
 
   // Item actions (operate on currentDatabaseId)
   addItem: (item: Item) => void;
@@ -202,6 +203,27 @@ export const useStore = create<AppState>((set, get) => ({
       saveToStorage({ databases: state.databases, currentDatabaseId: null, budgets: state.budgets, currentBudgetId: state.currentBudgetId });
       return { currentDatabaseId: null };
     });
+  },
+
+  importDatabase: (db) => {
+    const now = new Date().toISOString();
+    const newId = genId();
+    const imported: Database = {
+      ...db,
+      id: newId,
+      createdAt: now,
+      updatedAt: now,
+      items: db.items.map((i) => ({ ...i })),
+      itemCategories: db.itemCategories.map((c) => ({ ...c })),
+      rubros: db.rubros.map((r) => ({ ...r, components: r.components.map((c) => ({ ...c })) })),
+      rubroCategories: db.rubroCategories.map((c) => ({ ...c })),
+    };
+    set((state) => {
+      const databases = [...state.databases, imported];
+      saveToStorage({ databases, currentDatabaseId: newId, budgets: state.budgets, currentBudgetId: state.currentBudgetId });
+      return { databases, currentDatabaseId: newId };
+    });
+    return newId;
   },
 
   // ── Item actions ──────────────────────────────────────────────────────────

@@ -12,6 +12,7 @@ import {
 import { useStore, formatMoney } from '../../store/useStore';
 import { AppView, Budget } from '../../types';
 import Modal from '../shared/Modal';
+import { prueba01Database } from '../../data/prueba01';
 
 interface HomeViewProps {
   onNavigate: (view: AppView) => void;
@@ -26,11 +27,23 @@ export default function HomeView({ onNavigate }: HomeViewProps) {
     deleteDatabase,
     duplicateDatabase,
     openDatabase,
+    importDatabase,
     createBudget,
     updateBudget,
     deleteBudget,
     openBudget,
   } = useStore();
+
+  function handleLoadPrueba01() {
+    const exists = databases.find((d) => d.name === 'Prueba 01');
+    if (exists) {
+      openDatabase(exists.id);
+    } else {
+      const id = importDatabase(prueba01Database);
+      openDatabase(id);
+    }
+    onNavigate('database');
+  }
 
   // ── DB modal state ──────────────────────────────────────────────────────
   const [dbModal, setDbModal] = useState<'create' | 'edit' | 'delete' | 'duplicate' | null>(null);
@@ -158,13 +171,23 @@ export default function HomeView({ onNavigate }: HomeViewProps) {
             <Database size={20} className="text-gray-600" />
             <h2 className="text-lg font-semibold text-gray-800">Bases de Datos</h2>
           </div>
-          <button
-            onClick={openCreateDb}
-            className="flex items-center gap-2 px-4 py-2 bg-gray-800 text-white rounded-md text-sm font-medium hover:bg-gray-700 transition-colors"
-          >
-            <Plus size={16} />
-            Nueva Base de Datos
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleLoadPrueba01}
+              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-500 transition-colors"
+              title="Carga 329 ítems y 93 rubros desde Excel APUS"
+            >
+              <Database size={16} />
+              Cargar Prueba 01
+            </button>
+            <button
+              onClick={openCreateDb}
+              className="flex items-center gap-2 px-4 py-2 bg-gray-800 text-white rounded-md text-sm font-medium hover:bg-gray-700 transition-colors"
+            >
+              <Plus size={16} />
+              Nueva Base de Datos
+            </button>
+          </div>
         </div>
 
         {databases.length === 0 ? (
