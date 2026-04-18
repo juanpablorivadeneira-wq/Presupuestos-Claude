@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef } from 'react';
-import { Plus, Trash2, RefreshCw, FileDown, Search, X, ChevronDown, ChevronRight } from 'lucide-react';
+import { Plus, Trash2, RefreshCw, FileDown, Search, X, ChevronDown, ChevronRight, CheckSquare } from 'lucide-react';
 import { useStore, formatMoney, rubroTotal, getCategoryIds } from '../../store/useStore';
 import { AppView, BudgetLineItem, Rubro } from '../../types';
 import Modal from '../shared/Modal';
@@ -40,6 +40,9 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
 
   // ── Totals ──────────────────────────────────────────────────────────────────
   const subtotal = budget ? budget.lineItems.reduce((s, li) => s + li.unitCost * li.quantity, 0) : 0;
+  const subtotalMat = budget ? budget.lineItems.reduce((s, li) => s + (li.materialCost ?? 0) * li.quantity, 0) : 0;
+  const subtotalMO = budget ? budget.lineItems.reduce((s, li) => s + (li.manoDeObraCost ?? 0) * li.quantity, 0) : 0;
+  const subtotalEq = budget ? budget.lineItems.reduce((s, li) => s + (li.equipoCost ?? 0) * li.quantity, 0) : 0;
   const ivaAmount = subtotal * ivaRate;
   const total = subtotal + ivaAmount;
 
@@ -138,6 +141,26 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
       return next;
     });
   }
+
+  function selectAllVisible() {
+    setSelectedRubros((prev) => {
+      const next = new Map(prev);
+      for (const r of availableRubros) {
+        if (!next.has(r.id)) next.set(r.id, 1);
+      }
+      return next;
+    });
+  }
+
+  function deselectAllVisible() {
+    setSelectedRubros((prev) => {
+      const next = new Map(prev);
+      for (const r of availableRubros) next.delete(r.id);
+      return next;
+    });
+  }
+
+  const allVisibleSelected = availableRubros.length > 0 && availableRubros.every((r) => selectedRubros.has(r.id));
 
   function openAddModal() {
     setSelectedRubros(new Map());
@@ -253,13 +276,16 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
           <table className="w-full text-sm">
             <thead className="bg-gray-50 text-xs text-gray-500 uppercase tracking-wide sticky top-0 z-10 border-b border-gray-200">
               <tr>
-                <th className="px-4 py-3 text-left font-medium w-32">Código</th>
+                <th className="px-4 py-3 text-left font-medium w-28">Código</th>
                 <th className="px-4 py-3 text-left font-medium">Nombre</th>
-                <th className="px-4 py-3 text-left font-medium w-20">Unidad</th>
-                <th className="px-4 py-3 text-right font-medium w-32">Precio Unit.</th>
-                <th className="px-4 py-3 text-right font-medium w-32">Cantidad</th>
-                <th className="px-4 py-3 text-right font-medium w-36">Total</th>
-                <th className="px-4 py-3 w-10"></th>
+                <th className="px-4 py-3 text-left font-medium w-16">Unidad</th>
+                <th className="px-3 py-3 text-right font-medium w-28 text-blue-600">Material</th>
+                <th className="px-3 py-3 text-right font-medium w-28 text-orange-600">Mano Obra</th>
+                <th className="px-3 py-3 text-right font-medium w-24 text-purple-600">Equipo</th>
+                <th className="px-3 py-3 text-right font-medium w-28">Precio Unit.</th>
+                <th className="px-3 py-3 text-right font-medium w-24">Cantidad</th>
+                <th className="px-3 py-3 text-right font-medium w-32">Total</th>
+                <th className="px-3 py-3 w-10"></th>
               </tr>
             </thead>
             <tbody>
@@ -269,29 +295,39 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
                 return (
                   <React.Fragment key={key}>
                     {/* Chapter header */}
-                    <tr
-                      className="bg-gray-100 cursor-pointer select-none hover:bg-gray-200 transition-colors"
-                      onClick={() => toggleChapter(key)}
-                    >
-                      <td colSpan={5} className="px-4 py-2">
-                        <div className="flex items-center gap-2">
-                          {isCollapsed
-                            ? <ChevronRight size={14} className="text-gray-500 shrink-0" />
-                            : <ChevronDown size={14} className="text-gray-500 shrink-0" />
-                          }
-                          <span className="text-xs font-bold text-gray-700 uppercase tracking-wide">
-                            {categoryName}
-                          </span>
-                          <span className="text-xs text-gray-400">
-                            ({items.length} rubro{items.length !== 1 ? 's' : ''})
-                          </span>
-                        </div>
-                      </td>
-                      <td className="px-4 py-2 text-right text-xs font-bold text-gray-700">
-                        {formatMoney(chapterTotal)}
-                      </td>
-                      <td />
-                    </tr>
+                    {(() => {
+                      const chMat = items.reduce((s, li) => s + (li.materialCost ?? 0) * li.quantity, 0);
+                      const chMO  = items.reduce((s, li) => s + (li.manoDeObraCost ?? 0) * li.quantity, 0);
+                      const chEq  = items.reduce((s, li) => s + (li.equipoCost ?? 0) * li.quantity, 0);
+                      return (
+                        <tr
+                          className="bg-gray-100 cursor-pointer select-none hover:bg-gray-200 transition-colors"
+                          onClick={() => toggleChapter(key)}
+                        >
+                          <td colSpan={3} className="px-4 py-2">
+                            <div className="flex items-center gap-2">
+                              {isCollapsed
+                                ? <ChevronRight size={14} className="text-gray-500 shrink-0" />
+                                : <ChevronDown size={14} className="text-gray-500 shrink-0" />
+                              }
+                              <span className="text-xs font-bold text-gray-700 uppercase tracking-wide">
+                                {categoryName}
+                              </span>
+                              <span className="text-xs text-gray-400">
+                                ({items.length} rubro{items.length !== 1 ? 's' : ''})
+                              </span>
+                            </div>
+                          </td>
+                          <td className="px-3 py-2 text-right text-xs font-semibold text-blue-700">{formatMoney(chMat)}</td>
+                          <td className="px-3 py-2 text-right text-xs font-semibold text-orange-700">{formatMoney(chMO)}</td>
+                          <td className="px-3 py-2 text-right text-xs font-semibold text-purple-700">{formatMoney(chEq)}</td>
+                          <td />{/* Precio Unit. */}
+                          <td />{/* Cantidad */}
+                          <td className="px-3 py-2 text-right text-xs font-bold text-gray-700">{formatMoney(chapterTotal)}</td>
+                          <td />
+                        </tr>
+                      );
+                    })()}
 
                     {/* Line items */}
                     {!isCollapsed && items.map((li) => (
@@ -299,8 +335,11 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
                         <td className="px-4 py-2.5 font-mono text-xs text-gray-500">{li.rubroCode}</td>
                         <td className="px-4 py-2.5 text-gray-800">{li.rubroName}</td>
                         <td className="px-4 py-2.5 text-gray-500">{li.rubroUnit}</td>
-                        <td className="px-4 py-2.5 text-right text-gray-700">{formatMoney(li.unitCost)}</td>
-                        <td className="px-4 py-2.5 text-right">
+                        <td className="px-3 py-2.5 text-right text-sm text-blue-700">{(li.materialCost ?? 0) > 0 ? formatMoney(li.materialCost) : <span className="text-gray-300">—</span>}</td>
+                        <td className="px-3 py-2.5 text-right text-sm text-orange-700">{(li.manoDeObraCost ?? 0) > 0 ? formatMoney(li.manoDeObraCost) : <span className="text-gray-300">—</span>}</td>
+                        <td className="px-3 py-2.5 text-right text-sm text-purple-700">{(li.equipoCost ?? 0) > 0 ? formatMoney(li.equipoCost) : <span className="text-gray-300">—</span>}</td>
+                        <td className="px-3 py-2.5 text-right text-gray-700">{formatMoney(li.unitCost)}</td>
+                        <td className="px-3 py-2.5 text-right">
                           {editingId === li.id ? (
                             <input
                               type="number"
@@ -326,10 +365,10 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
                             </button>
                           )}
                         </td>
-                        <td className="px-4 py-2.5 text-right font-semibold text-green-700">
+                        <td className="px-3 py-2.5 text-right font-semibold text-green-700">
                           {formatMoney(li.unitCost * li.quantity)}
                         </td>
-                        <td className="px-4 py-2.5 text-center">
+                        <td className="px-3 py-2.5 text-center">
                           <button
                             onClick={() => removeLineItem(budget.id, li.id)}
                             className="p-1 rounded hover:bg-red-50 text-gray-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
@@ -346,30 +385,25 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
             </tbody>
             <tfoot className="border-t-2 border-gray-300">
               <tr className="bg-gray-50">
-                <td colSpan={5} className="px-4 py-2.5 text-right text-sm text-gray-600 font-medium">
-                  Subtotal
-                </td>
-                <td className="px-4 py-2.5 text-right text-sm text-gray-800 font-semibold">
-                  {formatMoney(subtotal)}
-                </td>
+                <td colSpan={3} className="px-4 py-2.5 text-right text-sm text-gray-600 font-medium">Subtotal</td>
+                <td className="px-3 py-2.5 text-right text-sm text-blue-700 font-semibold">{formatMoney(subtotalMat)}</td>
+                <td className="px-3 py-2.5 text-right text-sm text-orange-700 font-semibold">{formatMoney(subtotalMO)}</td>
+                <td className="px-3 py-2.5 text-right text-sm text-purple-700 font-semibold">{formatMoney(subtotalEq)}</td>
+                <td />{/* Precio Unit. */}
+                <td />{/* Cantidad */}
+                <td className="px-3 py-2.5 text-right text-sm text-gray-800 font-semibold">{formatMoney(subtotal)}</td>
                 <td />
               </tr>
               <tr className="bg-gray-50">
-                <td colSpan={5} className="px-4 py-2 text-right text-sm text-gray-500">
+                <td colSpan={8} className="px-4 py-2 text-right text-sm text-gray-500">
                   IVA ({(ivaRate * 100).toFixed(0)}%)
                 </td>
-                <td className="px-4 py-2 text-right text-sm text-gray-600">
-                  {formatMoney(ivaAmount)}
-                </td>
+                <td className="px-3 py-2 text-right text-sm text-gray-600">{formatMoney(ivaAmount)}</td>
                 <td />
               </tr>
               <tr className="bg-green-50">
-                <td colSpan={5} className="px-4 py-3 text-right text-sm font-bold text-gray-800">
-                  TOTAL
-                </td>
-                <td className="px-4 py-3 text-right text-base font-bold text-green-700">
-                  {formatMoney(total)}
-                </td>
+                <td colSpan={8} className="px-4 py-3 text-right text-sm font-bold text-gray-800">TOTAL</td>
+                <td className="px-3 py-3 text-right text-base font-bold text-green-700">{formatMoney(total)}</td>
                 <td />
               </tr>
             </tfoot>
@@ -397,9 +431,9 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
 
             {/* Right panel */}
             <div className="flex-1 flex flex-col overflow-hidden">
-              {/* Search */}
-              <div className="p-3 border-b border-gray-100 shrink-0">
-                <div className="relative">
+              {/* Search + select all */}
+              <div className="p-3 border-b border-gray-100 shrink-0 flex gap-2 items-center">
+                <div className="relative flex-1">
                   <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
                   <input
                     type="text"
@@ -410,6 +444,20 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
                     autoFocus
                   />
                 </div>
+                {availableRubros.length > 0 && (
+                  <button
+                    onClick={allVisibleSelected ? deselectAllVisible : selectAllVisible}
+                    className={`flex items-center gap-1.5 px-3 py-2 text-xs rounded-md border transition-colors shrink-0 font-medium ${
+                      allVisibleSelected
+                        ? 'bg-green-100 border-green-300 text-green-800 hover:bg-green-200'
+                        : 'border-gray-300 text-gray-600 hover:bg-gray-50'
+                    }`}
+                    title={allVisibleSelected ? 'Deseleccionar todos' : 'Seleccionar todos'}
+                  >
+                    <CheckSquare size={13} />
+                    {allVisibleSelected ? 'Deseleccionar' : `Seleccionar todo (${availableRubros.length})`}
+                  </button>
+                )}
               </div>
 
               {/* Rubro list */}

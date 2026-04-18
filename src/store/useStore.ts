@@ -468,6 +468,7 @@ export const useStore = create<AppState>((set, get) => ({
       const rubro = db.rubros.find((r) => r.id === rubroId);
       if (!rubro) return {};
       const unitCost = rubroTotal(rubro, db.items);
+      const bd = rubroBreakdown(rubro, db.items);
       const category = rubro.categoryId ? db.rubroCategories.find((c) => c.id === rubro.categoryId) : null;
       const lineItem: BudgetLineItem = {
         id: genId(),
@@ -480,6 +481,9 @@ export const useStore = create<AppState>((set, get) => ({
         categoryName: category?.name ?? '',
         quantity,
         unitCost,
+        materialCost: bd.material,
+        manoDeObraCost: bd.manoDeObra,
+        equipoCost: bd.equipo,
       };
       const budgets = state.budgets.map((b) =>
         b.id === budgetId
@@ -502,6 +506,7 @@ export const useStore = create<AppState>((set, get) => ({
         const rubro = db.rubros.find((r) => r.id === rubroId);
         if (!rubro || quantity <= 0) continue;
         const unitCost = rubroTotal(rubro, db.items);
+        const bd = rubroBreakdown(rubro, db.items);
         const category = rubro.categoryId ? db.rubroCategories.find((c) => c.id === rubro.categoryId) : null;
         newLineItems.push({
           id: genId(),
@@ -514,6 +519,9 @@ export const useStore = create<AppState>((set, get) => ({
           categoryName: category?.name ?? '',
           quantity,
           unitCost,
+          materialCost: bd.material,
+          manoDeObraCost: bd.manoDeObra,
+          equipoCost: bd.equipo,
         });
       }
       if (newLineItems.length === 0) return {};
@@ -572,7 +580,14 @@ export const useStore = create<AppState>((set, get) => ({
           lineItems: b.lineItems.map((li) => {
             const rubro = db.rubros.find((r) => r.id === li.rubroId);
             if (!rubro) return li;
-            return { ...li, unitCost: rubroTotal(rubro, db.items) };
+            const bd = rubroBreakdown(rubro, db.items);
+            return {
+              ...li,
+              unitCost: rubroTotal(rubro, db.items),
+              materialCost: bd.material,
+              manoDeObraCost: bd.manoDeObra,
+              equipoCost: bd.equipo,
+            };
           }),
           updatedAt: new Date().toISOString(),
         };
@@ -595,6 +610,19 @@ export function rubroTotal(rubro: Rubro, items: Item[]): number {
     if (!item) return sum;
     return sum + itemTotal(item) * comp.quantity;
   }, 0);
+}
+
+export function rubroBreakdown(rubro: Rubro, items: Item[]): { material: number; manoDeObra: number; equipo: number } {
+  let material = 0, manoDeObra = 0, equipo = 0;
+  for (const comp of rubro.components) {
+    const item = items.find((i) => i.id === comp.itemId);
+    if (!item) continue;
+    const cost = itemTotal(item) * comp.quantity;
+    if (comp.type === 'material') material += cost;
+    else if (comp.type === 'manoDeObra') manoDeObra += cost;
+    else if (comp.type === 'equipo') equipo += cost;
+  }
+  return { material, manoDeObra, equipo };
 }
 
 export function getCategoryIds(

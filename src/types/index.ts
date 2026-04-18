@@ -70,6 +70,9 @@ export interface BudgetLineItem {
   categoryName: string;
   quantity: number;
   unitCost: number;
+  materialCost: number;
+  manoDeObraCost: number;
+  equipoCost: number;
 }
 
 export interface Budget {
