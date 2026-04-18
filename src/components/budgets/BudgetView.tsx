@@ -342,19 +342,19 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
             )}
           </div>
         ) : (
-          <table className="w-full text-sm">
-            <thead className="bg-gray-50 text-xs text-gray-500 uppercase tracking-wide sticky top-0 z-10 border-b border-gray-200">
+          <table className="w-full text-sm border-separate border-spacing-0">
+            <thead className="bg-gray-50 text-xs text-gray-500 uppercase tracking-wide sticky top-0 z-10">
               <tr>
-                <th className="px-4 py-3 text-left font-medium w-28">Código</th>
-                <th className="px-4 py-3 text-left font-medium">Nombre</th>
-                <th className="px-4 py-3 text-left font-medium w-16">Unidad</th>
-                <th className="px-3 py-3 text-right font-medium w-28 text-blue-600">Material</th>
-                <th className="px-3 py-3 text-right font-medium w-28 text-orange-600">Mano Obra</th>
-                <th className="px-3 py-3 text-right font-medium w-24 text-purple-600">Equipo</th>
-                <th className="px-3 py-3 text-right font-medium w-28">Precio Unit.</th>
-                <th className="px-3 py-3 text-right font-medium w-24">Cantidad</th>
-                <th className="px-3 py-3 text-right font-medium w-32">Total</th>
-                <th className="px-3 py-3 w-10"></th>
+                <th className="px-4 py-3 text-left font-medium w-28 border-b border-gray-200">Código</th>
+                <th className="px-4 py-3 text-left font-medium border-b border-gray-200">Nombre</th>
+                <th className="px-4 py-3 text-left font-medium w-16 border-b border-gray-200">Unidad</th>
+                <th className="px-3 py-3 text-right font-medium w-28 text-blue-600 border-b border-gray-200">Material</th>
+                <th className="px-3 py-3 text-right font-medium w-28 text-orange-600 border-b border-gray-200">Mano Obra</th>
+                <th className="px-3 py-3 text-right font-medium w-24 text-purple-600 border-b border-gray-200">Equipo</th>
+                <th className="px-3 py-3 text-right font-medium w-28 border-b border-gray-200">Precio Unit.</th>
+                <th className="px-3 py-3 text-right font-medium w-24 border-b border-gray-200">Cantidad</th>
+                <th className="px-3 py-3 text-right font-medium w-32 border-b border-gray-200">Total</th>
+                <th className="px-3 py-3 w-10 border-b border-gray-200"></th>
               </tr>
             </thead>
             <tbody>
@@ -452,16 +452,16 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
                 );
               })}
             </tbody>
-            <tfoot className="border-t-2 border-gray-300">
+            <tfoot className="sticky bottom-0 z-10">
               <tr className="bg-gray-50">
-                <td colSpan={3} className="px-4 py-2.5 text-right text-sm text-gray-600 font-medium">Subtotal</td>
-                <td className="px-3 py-2.5 text-right text-sm text-blue-700 font-semibold">{formatMoney(subtotalMat)}</td>
-                <td className="px-3 py-2.5 text-right text-sm text-orange-700 font-semibold">{formatMoney(subtotalMO)}</td>
-                <td className="px-3 py-2.5 text-right text-sm text-purple-700 font-semibold">{formatMoney(subtotalEq)}</td>
-                <td />{/* Precio Unit. */}
-                <td />{/* Cantidad */}
-                <td className="px-3 py-2.5 text-right text-sm text-gray-800 font-semibold">{formatMoney(subtotal)}</td>
-                <td />
+                <td colSpan={3} className="px-4 py-2.5 text-right text-sm text-gray-600 font-medium border-t-2 border-gray-300">Subtotal</td>
+                <td className="px-3 py-2.5 text-right text-sm text-blue-700 font-semibold border-t-2 border-gray-300">{formatMoney(subtotalMat)}</td>
+                <td className="px-3 py-2.5 text-right text-sm text-orange-700 font-semibold border-t-2 border-gray-300">{formatMoney(subtotalMO)}</td>
+                <td className="px-3 py-2.5 text-right text-sm text-purple-700 font-semibold border-t-2 border-gray-300">{formatMoney(subtotalEq)}</td>
+                <td className="border-t-2 border-gray-300" />{/* Precio Unit. */}
+                <td className="border-t-2 border-gray-300" />{/* Cantidad */}
+                <td className="px-3 py-2.5 text-right text-sm text-gray-800 font-semibold border-t-2 border-gray-300">{formatMoney(subtotal)}</td>
+                <td className="border-t-2 border-gray-300" />
               </tr>
               <tr className="bg-gray-50">
                 <td colSpan={8} className="px-4 py-2 text-right text-sm text-gray-500">
