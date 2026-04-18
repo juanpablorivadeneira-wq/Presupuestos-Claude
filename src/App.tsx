@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Database, FileText, TrendingUp, ChevronDown, Check, Plus, User, Menu, HardDrive } from 'lucide-react';
+import { Database, FileText, TrendingUp, ChevronDown, Check, Plus, User, Menu, HardDrive, Search, Bell, Bookmark, HelpCircle } from 'lucide-react';
 import { useStore } from './store/useStore';
 import { AppView } from './types';
 import HomeView from './components/home/HomeView';
@@ -96,52 +96,59 @@ export default function App() {
       <header className="bg-[#1e2d45] text-white shrink-0 z-20 shadow-md">
         <div className="h-12 flex items-center">
 
-          {/* LEFT: Logo + hamburger sobre el gris del header */}
-          <div className="flex items-center gap-2.5 px-4 shrink-0">
+          {/* LEFT: hamburger + logo */}
+          <div className="flex items-center gap-3 px-4 shrink-0 self-stretch">
             <button className="text-white/60 hover:text-white transition-colors">
               <Menu size={18} />
             </button>
-            <button onClick={handleBackToHome} className="focus:outline-none">
+            <button onClick={handleBackToHome} className="focus:outline-none flex items-center">
               <BuildKontrolLogo />
             </button>
           </div>
 
-          {/* Separator */}
-          <div className="h-6 w-px bg-white/20 shrink-0" />
+          {/* Separator — mismo alto que el logo para alinearse */}
+          <div className="w-px bg-white/20 shrink-0 self-stretch" />
 
-          {/* CENTER: Proyecto selector — genérico, se conectará a sistema externo */}
-          <div className="flex-1 flex items-center justify-center">
-            <div className="flex items-center gap-2">
-              <span className="text-gray-300 text-sm font-medium">Proyecto:</span>
-              <div className="flex items-center gap-2 bg-white/10 border border-white/25 px-3 py-1.5 rounded text-sm font-semibold min-w-[180px] justify-between cursor-default">
-                <span className="truncate max-w-[220px] text-white/80">
-                  Sin proyecto seleccionado
-                </span>
-                <ChevronDown size={14} className="shrink-0 ml-1 text-white/50" />
-              </div>
+          {/* Spacer */}
+          <div className="flex-1" />
+
+          {/* PROYECTO selector — derecha del centro */}
+          <div className="flex items-center gap-2.5 px-3 py-1.5 rounded border border-white/20 hover:bg-white/10 cursor-default transition-colors min-w-[190px] mr-3 shrink-0">
+            <div className="w-2 h-2 rounded-full bg-blue-400 shrink-0" />
+            <div className="flex-1 min-w-0">
+              <p className="text-[10px] font-bold text-white/50 uppercase tracking-widest leading-none">Proyecto</p>
+              <p className="text-sm text-white/80 font-medium leading-tight mt-0.5 truncate">Sin proyecto seleccionado</p>
             </div>
+            <ChevronDown size={13} className="shrink-0 text-white/50" />
           </div>
 
           {/* Separator */}
-          <div className="h-6 w-px bg-white/20 mx-1 shrink-0" />
+          <div className="w-px bg-white/20 shrink-0 self-stretch" />
 
-          {/* RIGHT: Backup + User */}
-          <div className="flex items-center gap-2 pr-3 shrink-0">
-            <button
-              onClick={() => setBackupModal(true)}
-              title="Backup y Restauración"
-              className="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded cursor-pointer transition-colors text-sm text-gray-100 font-medium"
-            >
-              <HardDrive size={14} className="shrink-0" />
-              <span className="hidden sm:block">Backup</span>
+          {/* RIGHT: icon toolbar + user */}
+          <div className="flex items-center gap-1 px-2 shrink-0">
+            <button onClick={() => setBackupModal(true)} title="Backup y Restauración" className="w-8 h-8 flex items-center justify-center rounded hover:bg-white/15 text-white/70 hover:text-white transition-colors">
+              <HardDrive size={16} />
             </button>
-            <div className="h-5 w-px bg-white/20 shrink-0" />
-            <div className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded cursor-pointer transition-colors">
-              <div className="w-6 h-6 rounded-full bg-white/30 flex items-center justify-center shrink-0">
-                <User size={13} className="text-white" />
+            <button title="Buscar" className="w-8 h-8 flex items-center justify-center rounded hover:bg-white/15 text-white/70 hover:text-white transition-colors">
+              <Search size={16} />
+            </button>
+            <button title="Notificaciones" className="w-8 h-8 flex items-center justify-center rounded hover:bg-white/15 text-white/70 hover:text-white transition-colors">
+              <Bell size={16} />
+            </button>
+            <button title="Marcadores" className="w-8 h-8 flex items-center justify-center rounded hover:bg-white/15 text-white/70 hover:text-white transition-colors">
+              <Bookmark size={16} />
+            </button>
+            <button title="Ayuda" className="w-8 h-8 flex items-center justify-center rounded hover:bg-white/15 text-white/70 hover:text-white transition-colors">
+              <HelpCircle size={16} />
+            </button>
+            <div className="w-px h-5 bg-white/20 mx-1 shrink-0" />
+            <button className="flex items-center gap-2 hover:bg-white/15 px-2 py-1 rounded transition-colors">
+              <div className="w-7 h-7 rounded-full bg-white/25 flex items-center justify-center shrink-0">
+                <User size={14} className="text-white" />
               </div>
-              <span className="text-sm text-gray-100 hidden sm:block font-medium">Usuario</span>
-            </div>
+              <span className="text-sm text-white/80 hidden sm:block font-medium">Usuario</span>
+            </button>
           </div>
 
         </div>
