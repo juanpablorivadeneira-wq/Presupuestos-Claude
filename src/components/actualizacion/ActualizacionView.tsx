@@ -1,62 +1,52 @@
 import React, { useState, useMemo } from 'react';
 import { ChevronDown, ChevronRight } from 'lucide-react';
-import { useStore, formatMoney, rubroTotal, rubroBreakdown } from '../../store/useStore';
+import { useStore, formatMoney, rubroTotal } from '../../store/useStore';
 import { AppView } from '../../types';
 
-interface BudgetUpdateViewProps {
+interface ActualizacionViewProps {
   onNavigate: (view: AppView) => void;
 }
 
-export default function BudgetUpdateView({ onNavigate: _onNavigate }: BudgetUpdateViewProps) {
-  const budgets = useStore((s) => s.budgets);
-  const currentBudgetId = useStore((s) => s.currentBudgetId);
+export default function ActualizacionView({ onNavigate: _onNavigate }: ActualizacionViewProps) {
+  const budgetUpdates = useStore((s) => s.budgetUpdates);
+  const currentBudgetUpdateId = useStore((s) => s.currentBudgetUpdateId);
   const databases = useStore((s) => s.databases);
-  const { updateLineItemProgress } = useStore();
+  const { changeBudgetUpdateDatabase, updateBudgetUpdateProgress } = useStore();
 
-  const budget = budgets.find((b) => b.id === currentBudgetId) ?? null;
-  const ivaRate = budget?.ivaRate ?? 0.12;
+  const update = budgetUpdates.find((u) => u.id === currentBudgetUpdateId) ?? null;
+  const newDb = update ? databases.find((d) => d.id === update.newDatabaseId) ?? null : null;
+  const ivaRate = update?.ivaRate ?? 0.12;
 
-  const [newDbId, setNewDbId] = useState<string>(budget?.databaseId ?? databases[0]?.id ?? '');
-  const [editingProgressId, setEditingProgressId] = useState<string | null>(null);
-  const [editingProgressVal, setEditingProgressVal] = useState('');
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editingVal, setEditingVal] = useState('');
   const [collapsedChapters, setCollapsedChapters] = useState<Set<string>>(new Set());
 
-  const newDb = databases.find((d) => d.id === newDbId) ?? null;
-  const isSameDb = newDbId === budget?.databaseId;
-
-  // Compute per-line-item comparison
+  // Compute enriched line items (new prices computed on-the-fly from new DB)
   const enriched = useMemo(() => {
-    if (!budget) return [];
-    return budget.lineItems.map((li) => {
+    if (!update) return [];
+    return update.lineItems.map((li) => {
       const progress = li.progress ?? 0;
       const remainingQty = li.quantity * (1 - progress / 100);
-      const oldRemainingCost = li.unitCost * remainingQty;
+      const oldRemainingCost = li.oldUnitCost * remainingQty;
 
-      let newUnitCost = li.unitCost;
-      let newMat = li.materialCost ?? 0;
-      let newMO = li.manoDeObraCost ?? 0;
-      let newEq = li.equipoCost ?? 0;
+      let newUnitCost = li.oldUnitCost;
       let matched = false;
 
       if (newDb) {
         const matchedRubro = newDb.rubros.find((r) => r.code === li.rubroCode);
         if (matchedRubro) {
           newUnitCost = rubroTotal(matchedRubro, newDb.items);
-          const bd = rubroBreakdown(matchedRubro, newDb.items);
-          newMat = bd.material;
-          newMO = bd.manoDeObra;
-          newEq = bd.equipo;
           matched = true;
         }
       }
 
       const newRemainingCost = newUnitCost * remainingQty;
       const impact = newRemainingCost - oldRemainingCost;
-      const priceDiff = newUnitCost - li.unitCost;
+      const priceDiff = newUnitCost - li.oldUnitCost;
 
-      return { ...li, progress, remainingQty, oldRemainingCost, newUnitCost, newMat, newMO, newEq, matched, newRemainingCost, impact, priceDiff };
+      return { ...li, progress, remainingQty, oldRemainingCost, newUnitCost, matched, newRemainingCost, impact, priceDiff };
     });
-  }, [budget, newDb]);
+  }, [update, newDb]);
 
   // Group by chapter
   const grouped = useMemo(() => {
@@ -69,26 +59,24 @@ export default function BudgetUpdateView({ onNavigate: _onNavigate }: BudgetUpda
     return Array.from(map.entries()).sort(([, a], [, b]) => a.categoryName.localeCompare(b.categoryName));
   }, [enriched]);
 
-  // Summary totals
+  // Summary
   const totalOldRemaining = enriched.reduce((s, li) => s + li.oldRemainingCost, 0);
   const totalNewRemaining = enriched.reduce((s, li) => s + li.newRemainingCost, 0);
   const totalImpact = totalNewRemaining - totalOldRemaining;
-  const totalBudget = enriched.reduce((s, li) => s + li.unitCost * li.quantity, 0);
-  const totalExecuted = enriched.reduce((s, li) => s + li.unitCost * li.quantity * ((li.progress ?? 0) / 100), 0);
+  const totalBudget = enriched.reduce((s, li) => s + li.oldUnitCost * li.quantity, 0);
+  const totalExecuted = enriched.reduce((s, li) => s + li.oldUnitCost * li.quantity * (li.progress / 100), 0);
   const overallProgress = totalBudget > 0 ? (totalExecuted / totalBudget) * 100 : 0;
 
-  function startEditProgress(id: string, current: number) {
-    setEditingProgressId(id);
-    setEditingProgressVal(String(current));
+  function startEdit(id: string, current: number) {
+    setEditingId(id);
+    setEditingVal(String(current));
   }
 
-  function commitProgress() {
-    if (!editingProgressId || !budget) { setEditingProgressId(null); return; }
-    const val = parseFloat(editingProgressVal);
-    if (!isNaN(val)) {
-      updateLineItemProgress(budget.id, editingProgressId, Math.max(0, Math.min(100, val)));
-    }
-    setEditingProgressId(null);
+  function commitEdit() {
+    if (!editingId || !update) { setEditingId(null); return; }
+    const val = parseFloat(editingVal);
+    if (!isNaN(val)) updateBudgetUpdateProgress(update.id, editingId, Math.max(0, Math.min(100, val)));
+    setEditingId(null);
   }
 
   function toggleChapter(key: string) {
@@ -99,20 +87,17 @@ export default function BudgetUpdateView({ onNavigate: _onNavigate }: BudgetUpda
     });
   }
 
-  function impactColor(val: number) {
+  function ic(val: number) {
     if (val > 0.005) return 'text-red-600';
     if (val < -0.005) return 'text-green-600';
     return 'text-gray-400';
   }
+  function sign(val: number) { return val > 0.005 ? '+' : ''; }
 
-  function impactSign(val: number) {
-    return val > 0.005 ? '+' : '';
-  }
-
-  if (!budget) {
+  if (!update) {
     return (
       <div className="flex-1 flex items-center justify-center text-gray-400 text-sm">
-        No hay presupuesto abierto.
+        No hay actualización abierta.
       </div>
     );
   }
@@ -123,54 +108,49 @@ export default function BudgetUpdateView({ onNavigate: _onNavigate }: BudgetUpda
       <div className="bg-white border-b border-gray-200 px-5 py-3">
         <div className="flex items-center justify-between gap-6 flex-wrap">
           <div>
-            <h2 className="text-base font-semibold text-gray-800">Actualización de Precios</h2>
+            <h2 className="text-base font-semibold text-gray-800">{update.name}</h2>
+            {update.description && <p className="text-xs text-gray-500 mt-0.5">{update.description}</p>}
             <p className="text-xs text-gray-400 mt-0.5">
-              Presupuesto: <span className="text-gray-600 font-medium">{budget.name}</span>
-              {' · '}
-              Avance general: <span className="font-semibold text-amber-600">{overallProgress.toFixed(1)}%</span>
-              {' · '}
-              Base original: <span className="text-gray-600">{budget.databaseName}</span>
+              Presupuesto origen: <span className="text-gray-600 font-medium">{update.sourceBudgetName}</span>
+              {' · '}Avance general: <span className="font-semibold text-amber-600">{overallProgress.toFixed(1)}%</span>
+              {' · '}Creado: {new Date(update.createdAt).toLocaleDateString('es-EC')}
             </p>
           </div>
           <div className="flex items-center gap-8 shrink-0">
             <div className="text-center">
-              <p className="text-xs text-gray-400">Restante (precios actuales)</p>
+              <p className="text-xs text-gray-400">Restante (precios originales)</p>
               <p className="text-lg font-bold text-gray-700">{formatMoney(totalOldRemaining * (1 + ivaRate))}</p>
             </div>
             <div className="text-center">
               <p className="text-xs text-gray-400">Restante (precios nuevos)</p>
-              <p className={`text-lg font-bold ${impactColor(totalImpact)}`}>
-                {formatMoney(totalNewRemaining * (1 + ivaRate))}
-              </p>
+              <p className={`text-lg font-bold ${ic(totalImpact)}`}>{formatMoney(totalNewRemaining * (1 + ivaRate))}</p>
             </div>
             <div className="text-center">
               <p className="text-xs text-gray-400">Impacto total (c/IVA)</p>
-              <p className={`text-lg font-bold ${impactColor(totalImpact)}`}>
-                {impactSign(totalImpact)}{formatMoney(totalImpact * (1 + ivaRate))}
+              <p className={`text-lg font-bold ${ic(totalImpact)}`}>
+                {sign(totalImpact)}{formatMoney(totalImpact * (1 + ivaRate))}
               </p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Toolbar */}
+      {/* DB selector toolbar */}
       <div className="flex items-center gap-3 px-4 py-2.5 bg-amber-50 border-b border-amber-200 flex-wrap">
-        <label className="text-sm font-semibold text-amber-800 shrink-0">Nueva base de precios:</label>
+        <label className="text-sm font-semibold text-amber-800 shrink-0">Base de precios actualizada:</label>
         <select
-          value={newDbId}
-          onChange={(e) => setNewDbId(e.target.value)}
+          value={update.newDatabaseId}
+          onChange={(e) => changeBudgetUpdateDatabase(update.id, e.target.value)}
           className="px-3 py-1.5 text-sm border border-amber-300 rounded-md focus:outline-none focus:ring-1 focus:ring-amber-400 bg-white min-w-52"
         >
           {databases.map((db) => (
             <option key={db.id} value={db.id}>
-              {db.name}{db.id === budget.databaseId ? ' (actual)' : ''}
+              {db.name}
             </option>
           ))}
         </select>
         <span className="text-xs text-amber-700">
-          {isSameDb
-            ? 'Selecciona una base diferente para ver el impacto de precios actualizados'
-            : `Comparando contra: ${newDb?.name ?? '—'} · rubros emparejados por código`}
+          Rubros emparejados por código · los no encontrados mantienen precio original
         </span>
       </div>
 
@@ -178,7 +158,7 @@ export default function BudgetUpdateView({ onNavigate: _onNavigate }: BudgetUpda
       <div className="flex-1 overflow-auto bg-white">
         {enriched.length === 0 ? (
           <div className="flex items-center justify-center h-full text-gray-400 text-sm py-16">
-            No hay rubros en el presupuesto.
+            No hay rubros en esta actualización.
           </div>
         ) : (
           <table className="w-full text-sm">
@@ -188,24 +168,23 @@ export default function BudgetUpdateView({ onNavigate: _onNavigate }: BudgetUpda
                 <th className="px-3 py-3 text-left">Nombre</th>
                 <th className="px-3 py-3 text-left w-16">Unidad</th>
                 <th className="px-3 py-3 text-right w-24">Cant. Total</th>
-                <th className="px-3 py-3 text-right w-28 text-amber-600">% Avance</th>
+                <th className="px-3 py-3 text-right w-32 text-amber-600">% Avance</th>
                 <th className="px-3 py-3 text-right w-24">Cant. Rest.</th>
-                <th className="px-3 py-3 text-right w-28">P.Unit Actual</th>
+                <th className="px-3 py-3 text-right w-28">P.Unit Original</th>
                 <th className="px-3 py-3 text-right w-28 text-blue-600">P.Unit Nuevo</th>
-                <th className="px-3 py-3 text-right w-32">Costo Rest. Act.</th>
+                <th className="px-3 py-3 text-right w-32">Costo Rest. Orig.</th>
                 <th className="px-3 py-3 text-right w-32 text-blue-600">Costo Rest. Nuevo</th>
                 <th className="px-3 py-3 text-right w-28">Impacto</th>
               </tr>
             </thead>
             <tbody>
               {grouped.map(([key, { categoryName, items }]) => {
-                const chOldRem = items.reduce((s, li) => s + li.oldRemainingCost, 0);
-                const chNewRem = items.reduce((s, li) => s + li.newRemainingCost, 0);
-                const chImpact = chNewRem - chOldRem;
+                const chOld = items.reduce((s, li) => s + li.oldRemainingCost, 0);
+                const chNew = items.reduce((s, li) => s + li.newRemainingCost, 0);
+                const chImpact = chNew - chOld;
                 const isCollapsed = collapsedChapters.has(key);
                 return (
                   <React.Fragment key={key}>
-                    {/* Chapter header */}
                     <tr
                       className="bg-gray-100 cursor-pointer select-none hover:bg-gray-200 transition-colors"
                       onClick={() => toggleChapter(key)}
@@ -220,21 +199,20 @@ export default function BudgetUpdateView({ onNavigate: _onNavigate }: BudgetUpda
                           <span className="text-xs text-gray-400">({items.length} rubro{items.length !== 1 ? 's' : ''})</span>
                         </div>
                       </td>
-                      <td className="px-3 py-2 text-right text-xs font-semibold text-gray-700">{formatMoney(chOldRem)}</td>
-                      <td className="px-3 py-2 text-right text-xs font-semibold text-blue-700">{formatMoney(chNewRem)}</td>
-                      <td className={`px-3 py-2 text-right text-xs font-semibold ${impactColor(chImpact)}`}>
-                        {Math.abs(chImpact) > 0.005 ? impactSign(chImpact) + formatMoney(chImpact) : '—'}
+                      <td className="px-3 py-2 text-right text-xs font-semibold text-gray-700">{formatMoney(chOld)}</td>
+                      <td className="px-3 py-2 text-right text-xs font-semibold text-blue-700">{formatMoney(chNew)}</td>
+                      <td className={`px-3 py-2 text-right text-xs font-semibold ${ic(chImpact)}`}>
+                        {Math.abs(chImpact) > 0.005 ? sign(chImpact) + formatMoney(chImpact) : '—'}
                       </td>
                     </tr>
 
-                    {/* Line items */}
                     {!isCollapsed && items.map((li) => (
                       <tr key={li.id} className="border-t border-gray-50 hover:bg-gray-50">
                         <td className="px-3 py-2.5 font-mono text-xs text-gray-500">{li.rubroCode}</td>
                         <td className="px-3 py-2.5 text-gray-800">
-                          <span>{li.rubroName}</span>
-                          {!li.matched && !isSameDb && (
-                            <span className="ml-1.5 text-xs text-amber-500" title="No encontrado en nueva base — se mantiene precio original">⚠ sin match</span>
+                          {li.rubroName}
+                          {!li.matched && (
+                            <span className="ml-1.5 text-xs text-amber-500" title="No encontrado en la nueva base">⚠</span>
                           )}
                         </td>
                         <td className="px-3 py-2.5 text-gray-500">{li.rubroUnit}</td>
@@ -242,39 +220,32 @@ export default function BudgetUpdateView({ onNavigate: _onNavigate }: BudgetUpda
                           {li.quantity % 1 === 0 ? li.quantity : li.quantity.toFixed(2)}
                         </td>
 
-                        {/* % Avance — editable */}
+                        {/* % Avance — editable inline */}
                         <td className="px-3 py-2.5 text-right">
-                          {editingProgressId === li.id ? (
+                          {editingId === li.id ? (
                             <div className="flex items-center justify-end gap-1">
                               <input
                                 type="number"
-                                value={editingProgressVal}
-                                onChange={(e) => setEditingProgressVal(e.target.value)}
-                                onBlur={commitProgress}
+                                value={editingVal}
+                                onChange={(e) => setEditingVal(e.target.value)}
+                                onBlur={commitEdit}
                                 onKeyDown={(e) => {
-                                  if (e.key === 'Enter') commitProgress();
-                                  if (e.key === 'Escape') setEditingProgressId(null);
+                                  if (e.key === 'Enter') commitEdit();
+                                  if (e.key === 'Escape') setEditingId(null);
                                 }}
-                                className="w-16 px-1.5 py-0.5 text-sm text-right border border-amber-400 rounded focus:outline-none focus:ring-1 focus:ring-amber-400"
-                                autoFocus
-                                min="0"
-                                max="100"
-                                step="1"
+                                className="w-16 px-1.5 py-0.5 text-sm text-right border border-amber-400 rounded focus:outline-none"
+                                autoFocus min="0" max="100" step="1"
                               />
                               <span className="text-xs text-gray-500">%</span>
                             </div>
                           ) : (
                             <div className="flex items-center justify-end gap-1.5">
-                              {/* Progress bar mini */}
                               <div className="w-16 bg-gray-200 rounded-full h-1.5 overflow-hidden">
-                                <div
-                                  className="h-1.5 rounded-full bg-amber-400"
-                                  style={{ width: `${li.progress}%` }}
-                                />
+                                <div className="h-1.5 rounded-full bg-amber-400" style={{ width: `${li.progress}%` }} />
                               </div>
                               <button
-                                onClick={() => startEditProgress(li.id, li.progress)}
-                                className="text-amber-700 font-semibold hover:underline tabular-nums text-sm w-10 text-right"
+                                onClick={() => startEdit(li.id, li.progress)}
+                                className="text-amber-700 font-semibold hover:underline tabular-nums w-10 text-right text-sm"
                                 title="Click para editar % de avance"
                               >
                                 {li.progress.toFixed(0)}%
@@ -283,13 +254,11 @@ export default function BudgetUpdateView({ onNavigate: _onNavigate }: BudgetUpda
                           )}
                         </td>
 
-                        <td className="px-3 py-2.5 text-right text-gray-700 tabular-nums">
-                          {li.remainingQty.toFixed(2)}
-                        </td>
-                        <td className="px-3 py-2.5 text-right text-gray-700">{formatMoney(li.unitCost)}</td>
+                        <td className="px-3 py-2.5 text-right text-gray-700 tabular-nums">{li.remainingQty.toFixed(2)}</td>
+                        <td className="px-3 py-2.5 text-right text-gray-700">{formatMoney(li.oldUnitCost)}</td>
                         <td className="px-3 py-2.5 text-right">
                           <div className="flex items-center justify-end gap-1">
-                            <span className={li.matched && !isSameDb ? 'text-blue-700 font-medium' : 'text-gray-700'}>
+                            <span className={li.matched ? 'text-blue-700 font-medium' : 'text-gray-700'}>
                               {formatMoney(li.newUnitCost)}
                             </span>
                             {Math.abs(li.priceDiff) > 0.005 && (
@@ -301,8 +270,8 @@ export default function BudgetUpdateView({ onNavigate: _onNavigate }: BudgetUpda
                         </td>
                         <td className="px-3 py-2.5 text-right text-gray-700">{formatMoney(li.oldRemainingCost)}</td>
                         <td className="px-3 py-2.5 text-right text-blue-700 font-medium">{formatMoney(li.newRemainingCost)}</td>
-                        <td className={`px-3 py-2.5 text-right font-medium ${impactColor(li.impact)}`}>
-                          {Math.abs(li.impact) > 0.005 ? impactSign(li.impact) + formatMoney(li.impact) : '—'}
+                        <td className={`px-3 py-2.5 text-right font-medium ${ic(li.impact)}`}>
+                          {Math.abs(li.impact) > 0.005 ? sign(li.impact) + formatMoney(li.impact) : '—'}
                         </td>
                       </tr>
                     ))}
@@ -312,39 +281,27 @@ export default function BudgetUpdateView({ onNavigate: _onNavigate }: BudgetUpda
             </tbody>
             <tfoot className="border-t-2 border-gray-300">
               <tr className="bg-gray-50">
-                <td colSpan={8} className="px-3 py-2.5 text-right text-sm font-semibold text-gray-700">
-                  Subtotal restante
-                </td>
+                <td colSpan={8} className="px-3 py-2.5 text-right text-sm font-semibold text-gray-700">Subtotal restante</td>
                 <td className="px-3 py-2.5 text-right text-sm font-semibold text-gray-800">{formatMoney(totalOldRemaining)}</td>
                 <td className="px-3 py-2.5 text-right text-sm font-semibold text-blue-700">{formatMoney(totalNewRemaining)}</td>
-                <td className={`px-3 py-2.5 text-right text-sm font-semibold ${impactColor(totalImpact)}`}>
-                  {Math.abs(totalImpact) > 0.005 ? impactSign(totalImpact) + formatMoney(totalImpact) : '—'}
+                <td className={`px-3 py-2.5 text-right text-sm font-semibold ${ic(totalImpact)}`}>
+                  {Math.abs(totalImpact) > 0.005 ? sign(totalImpact) + formatMoney(totalImpact) : '—'}
                 </td>
               </tr>
               <tr className="bg-gray-50">
-                <td colSpan={8} className="px-3 py-1.5 text-right text-xs text-gray-400">
-                  IVA ({(ivaRate * 100).toFixed(0)}%)
-                </td>
+                <td colSpan={8} className="px-3 py-1.5 text-right text-xs text-gray-400">IVA ({(ivaRate * 100).toFixed(0)}%)</td>
                 <td className="px-3 py-1.5 text-right text-xs text-gray-500">{formatMoney(totalOldRemaining * ivaRate)}</td>
                 <td className="px-3 py-1.5 text-right text-xs text-blue-500">{formatMoney(totalNewRemaining * ivaRate)}</td>
-                <td className={`px-3 py-1.5 text-right text-xs ${impactColor(totalImpact)}`}>
-                  {Math.abs(totalImpact) > 0.005 ? impactSign(totalImpact * ivaRate) + formatMoney(totalImpact * ivaRate) : '—'}
+                <td className={`px-3 py-1.5 text-right text-xs ${ic(totalImpact)}`}>
+                  {Math.abs(totalImpact) > 0.005 ? sign(totalImpact * ivaRate) + formatMoney(totalImpact * ivaRate) : '—'}
                 </td>
               </tr>
               <tr className="bg-amber-50">
-                <td colSpan={8} className="px-3 py-3 text-right text-sm font-bold text-gray-800">
-                  TOTAL restante (c/IVA)
-                </td>
-                <td className="px-3 py-3 text-right text-base font-bold text-gray-800">
-                  {formatMoney(totalOldRemaining * (1 + ivaRate))}
-                </td>
-                <td className="px-3 py-3 text-right text-base font-bold text-blue-700">
-                  {formatMoney(totalNewRemaining * (1 + ivaRate))}
-                </td>
-                <td className={`px-3 py-3 text-right text-base font-bold ${impactColor(totalImpact)}`}>
-                  {Math.abs(totalImpact) > 0.005
-                    ? impactSign(totalImpact) + formatMoney(totalImpact * (1 + ivaRate))
-                    : '—'}
+                <td colSpan={8} className="px-3 py-3 text-right text-sm font-bold text-gray-800">TOTAL restante (c/IVA)</td>
+                <td className="px-3 py-3 text-right text-base font-bold text-gray-800">{formatMoney(totalOldRemaining * (1 + ivaRate))}</td>
+                <td className="px-3 py-3 text-right text-base font-bold text-blue-700">{formatMoney(totalNewRemaining * (1 + ivaRate))}</td>
+                <td className={`px-3 py-3 text-right text-base font-bold ${ic(totalImpact)}`}>
+                  {Math.abs(totalImpact) > 0.005 ? sign(totalImpact) + formatMoney(totalImpact * (1 + ivaRate)) : '—'}
                 </td>
               </tr>
             </tfoot>

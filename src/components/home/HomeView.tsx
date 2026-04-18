@@ -8,9 +8,10 @@ import {
   BarChart2,
   Database,
   FileText,
+  TrendingUp,
 } from 'lucide-react';
 import { useStore, formatMoney } from '../../store/useStore';
-import { AppView, Budget } from '../../types';
+import { AppView, Budget, BudgetUpdate } from '../../types';
 import Modal from '../shared/Modal';
 import { prueba01Database } from '../../data/prueba01';
 
@@ -22,6 +23,7 @@ export default function HomeView({ onNavigate }: HomeViewProps) {
   const {
     databases,
     budgets,
+    budgetUpdates,
     createDatabase,
     updateDatabase,
     deleteDatabase,
@@ -32,6 +34,10 @@ export default function HomeView({ onNavigate }: HomeViewProps) {
     updateBudget,
     deleteBudget,
     openBudget,
+    createBudgetUpdate,
+    updateBudgetUpdate,
+    deleteBudgetUpdate,
+    openBudgetUpdate,
   } = useStore();
 
   function handleLoadPrueba01() {
@@ -56,6 +62,14 @@ export default function HomeView({ onNavigate }: HomeViewProps) {
   const [budgetName, setBudgetName] = useState('');
   const [budgetDesc, setBudgetDesc] = useState('');
   const [budgetDbId, setBudgetDbId] = useState('');
+
+  // ── BudgetUpdate modal state ────────────────────────────────────────────
+  const [buModal, setBuModal] = useState<'create' | 'edit' | 'delete' | null>(null);
+  const [buTarget, setBuTarget] = useState<BudgetUpdate | null>(null);
+  const [buName, setBuName] = useState('');
+  const [buDesc, setBuDesc] = useState('');
+  const [buSourceBudgetId, setBuSourceBudgetId] = useState('');
+  const [buNewDbId, setBuNewDbId] = useState('');
 
   // ── DB handlers ─────────────────────────────────────────────────────────
   function openCreateDb() {
@@ -158,6 +172,48 @@ export default function HomeView({ onNavigate }: HomeViewProps) {
 
   function budgetTotal(b: Budget): number {
     return b.lineItems.reduce((sum, li) => sum + li.unitCost * li.quantity, 0);
+  }
+
+  // ── BudgetUpdate handlers ────────────────────────────────────────────────
+  function openCreateBu() {
+    setBuName('');
+    setBuDesc('');
+    setBuSourceBudgetId(budgets[0]?.id ?? '');
+    setBuNewDbId(databases[0]?.id ?? '');
+    setBuTarget(null);
+    setBuModal('create');
+  }
+
+  function openEditBu(u: BudgetUpdate) {
+    setBuName(u.name);
+    setBuDesc(u.description);
+    setBuTarget(u);
+    setBuModal('edit');
+  }
+
+  function openDeleteBu(u: BudgetUpdate) {
+    setBuTarget(u);
+    setBuModal('delete');
+  }
+
+  function handleSaveBu() {
+    if (!buName.trim()) return;
+    if (buModal === 'create') {
+      createBudgetUpdate(buName.trim(), buDesc.trim(), buSourceBudgetId, buNewDbId);
+    } else if (buModal === 'edit' && buTarget) {
+      updateBudgetUpdate(buTarget.id, buName.trim(), buDesc.trim());
+    }
+    setBuModal(null);
+  }
+
+  function handleDeleteBu() {
+    if (buTarget) deleteBudgetUpdate(buTarget.id);
+    setBuModal(null);
+  }
+
+  function handleOpenBu(u: BudgetUpdate) {
+    openBudgetUpdate(u.id);
+    onNavigate('actualizacion');
   }
 
   return (
@@ -338,6 +394,148 @@ export default function HomeView({ onNavigate }: HomeViewProps) {
           </div>
         )}
       </section>
+
+      {/* ── Actualización de Presupuestos section ───────────────────────── */}
+      <section>
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <TrendingUp size={20} className="text-amber-600" />
+            <h2 className="text-lg font-semibold text-gray-800">Actualización de Presupuestos</h2>
+          </div>
+          <button
+            onClick={openCreateBu}
+            disabled={budgets.length === 0 || databases.length === 0}
+            className="flex items-center gap-2 px-4 py-2 bg-amber-600 text-white rounded-md text-sm font-medium hover:bg-amber-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <Plus size={16} />
+            Nueva Actualización
+          </button>
+        </div>
+        <p className="text-xs text-gray-400 mb-4">
+          Permite registrar el % de avance por rubro y calcular el costo restante con precios de una base de datos actualizada, sin modificar el presupuesto original.
+        </p>
+
+        {budgetUpdates.length === 0 ? (
+          <div className="border border-dashed border-gray-300 rounded-lg p-10 text-center text-gray-400 text-sm">
+            No hay actualizaciones. Crea una para analizar el impacto de precios actualizados.
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {budgetUpdates.map((u) => (
+              <div key={u.id} className="shadow-sm border border-amber-100 rounded-lg bg-white p-4 flex flex-col gap-3">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-gray-800 truncate">{u.name}</p>
+                    {u.description && <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{u.description}</p>}
+                  </div>
+                  <div className="flex items-center gap-1 shrink-0">
+                    <button onClick={() => openEditBu(u)} className="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600" title="Editar"><Pencil size={14} /></button>
+                    <button onClick={() => openDeleteBu(u)} className="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-red-500" title="Eliminar"><Trash2 size={14} /></button>
+                  </div>
+                </div>
+                <div className="text-xs text-gray-500 space-y-0.5">
+                  <p>Presupuesto: <span className="text-gray-700 font-medium">{u.sourceBudgetName}</span></p>
+                  <p>Base nueva: <span className="text-gray-700 font-medium">{u.newDatabaseName}</span></p>
+                  <p>{u.lineItems.length} rubros · {new Date(u.createdAt).toLocaleDateString('es-EC', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
+                </div>
+                <button
+                  onClick={() => handleOpenBu(u)}
+                  className="flex items-center justify-center gap-2 px-3 py-2 bg-amber-600 text-white rounded-md text-sm font-medium hover:bg-amber-500 transition-colors w-full"
+                >
+                  <FolderOpen size={14} />
+                  Abrir
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* ── BudgetUpdate Modals ──────────────────────────────────────────── */}
+      {(buModal === 'create' || buModal === 'edit') && (
+        <Modal
+          title={buModal === 'create' ? 'Nueva Actualización de Presupuesto' : 'Editar Actualización'}
+          onClose={() => setBuModal(null)}
+          size="md"
+        >
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Nombre <span className="text-red-500">*</span></label>
+              <input
+                type="text"
+                value={buName}
+                onChange={(e) => setBuName(e.target.value)}
+                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-amber-400"
+                placeholder="Actualización Julio 2025"
+                autoFocus
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
+              <textarea
+                value={buDesc}
+                onChange={(e) => setBuDesc(e.target.value)}
+                rows={2}
+                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-amber-400 resize-none"
+                placeholder="Descripción opcional..."
+              />
+            </div>
+            {buModal === 'create' && (
+              <>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Presupuesto origen <span className="text-red-500">*</span></label>
+                  <select
+                    value={buSourceBudgetId}
+                    onChange={(e) => setBuSourceBudgetId(e.target.value)}
+                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-amber-400"
+                  >
+                    {budgets.map((b) => (
+                      <option key={b.id} value={b.id}>{b.name} ({b.lineItems.length} rubros)</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Base de precios actualizada <span className="text-red-500">*</span></label>
+                  <select
+                    value={buNewDbId}
+                    onChange={(e) => setBuNewDbId(e.target.value)}
+                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-amber-400"
+                  >
+                    {databases.map((db) => (
+                      <option key={db.id} value={db.id}>{db.name}</option>
+                    ))}
+                  </select>
+                  <p className="text-xs text-gray-400 mt-1">Puedes cambiarla más tarde dentro de la actualización.</p>
+                </div>
+              </>
+            )}
+            <div className="flex justify-end gap-2 pt-2">
+              <button onClick={() => setBuModal(null)} className="px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50">Cancelar</button>
+              <button
+                onClick={handleSaveBu}
+                disabled={!buName.trim() || (buModal === 'create' && (!buSourceBudgetId || !buNewDbId))}
+                className="px-4 py-2 text-sm bg-amber-600 text-white rounded-md hover:bg-amber-500 disabled:opacity-50"
+              >
+                {buModal === 'create' ? 'Crear' : 'Guardar'}
+              </button>
+            </div>
+          </div>
+        </Modal>
+      )}
+
+      {buModal === 'delete' && buTarget && (
+        <Modal title="Eliminar Actualización" onClose={() => setBuModal(null)} size="sm">
+          <div className="space-y-4">
+            <p className="text-sm text-gray-600">
+              ¿Está seguro que desea eliminar <strong>{buTarget.name}</strong>? Esta acción no se puede deshacer.
+            </p>
+            <div className="flex justify-end gap-2">
+              <button onClick={() => setBuModal(null)} className="px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50">Cancelar</button>
+              <button onClick={handleDeleteBu} className="px-4 py-2 text-sm bg-red-600 text-white rounded-md hover:bg-red-700">Eliminar</button>
+            </div>
+          </div>
+        </Modal>
+      )}
 
       {/* ── DB Modals ────────────────────────────────────────────────────── */}
       {(dbModal === 'create' || dbModal === 'edit') && (

@@ -69,7 +69,6 @@ export interface BudgetLineItem {
   categoryId: string | null;
   categoryName: string;
   quantity: number;
-  progress: number;
   unitCost: number;
   materialCost: number;
   manoDeObraCost: number;
@@ -88,4 +87,36 @@ export interface Budget {
   ivaRate: number;
 }
 
-export type AppView = 'home' | 'database' | 'budget' | 'budget-update' | 'compare';
+// ── Budget Update (Actualización de Presupuesto) ──────────────────────────────
+
+export interface BudgetUpdateLineItem {
+  id: string;
+  rubroId: string;
+  rubroCode: string;
+  rubroName: string;
+  rubroUnit: string;
+  categoryId: string | null;
+  categoryName: string;
+  quantity: number;
+  progress: number;
+  oldUnitCost: number;
+  oldMaterialCost: number;
+  oldManoDeObraCost: number;
+  oldEquipoCost: number;
+}
+
+export interface BudgetUpdate {
+  id: string;
+  name: string;
+  description: string;
+  sourceBudgetId: string;
+  sourceBudgetName: string;
+  newDatabaseId: string;
+  newDatabaseName: string;
+  ivaRate: number;
+  createdAt: string;
+  updatedAt: string;
+  lineItems: BudgetUpdateLineItem[];
+}
+
+export type AppView = 'home' | 'database' | 'budget' | 'actualizacion' | 'compare';

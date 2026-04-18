@@ -6,7 +6,7 @@ import HomeView from './components/home/HomeView';
 import ItemsView from './components/items/ItemsView';
 import RubrosView from './components/rubros/RubrosView';
 import BudgetView from './components/budgets/BudgetView';
-import BudgetUpdateView from './components/budgets/BudgetUpdateView';
+import ActualizacionView from './components/actualizacion/ActualizacionView';
 import CompareView from './components/compare/CompareView';
 import Modal from './components/shared/Modal';
 
@@ -47,7 +47,7 @@ export default function App() {
 
   function handleBackToHome() {
     if (view === 'database') closeDatabase();
-    if (view === 'budget' || view === 'budget-update') closeBudget();
+    if (view === 'budget') closeBudget();
     setView('home');
   }
 
@@ -164,7 +164,7 @@ export default function App() {
               {currentBudget?.name ?? 'Presupuesto'}
             </span>
           </>
-        ) : view === 'budget-update' ? (
+        ) : view === 'actualizacion' ? (
           <>
             <button
               onClick={handleBackToHome}
@@ -174,14 +174,7 @@ export default function App() {
               Inicio
             </button>
             <span className="text-gray-300">/</span>
-            <button
-              onClick={() => setView('budget')}
-              className="text-sm text-gray-500 hover:text-gray-800 transition-colors truncate max-w-xs"
-            >
-              {currentBudget?.name ?? 'Presupuesto'}
-            </button>
-            <span className="text-gray-300">/</span>
-            <span className="text-sm font-semibold text-amber-700">Actualización de Precios</span>
+            <span className="text-sm font-semibold text-amber-700">Actualización de Presupuestos</span>
           </>
         ) : view === 'compare' ? (
           <>
@@ -254,7 +247,7 @@ export default function App() {
             : <RubrosView activeTab="rubros" onTabChange={setDbTab} />
         )}
         {view === 'budget' && <BudgetView onNavigate={handleNavigate} />}
-        {view === 'budget-update' && <BudgetUpdateView onNavigate={handleNavigate} />}
+        {view === 'actualizacion' && <ActualizacionView onNavigate={handleNavigate} />}
         {view === 'compare' && <CompareView onNavigate={handleNavigate} />}
       </main>
     </div>

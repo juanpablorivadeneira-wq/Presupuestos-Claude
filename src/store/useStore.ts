@@ -7,6 +7,8 @@ import {
   Database,
   Budget,
   BudgetLineItem,
+  BudgetUpdate,
+  BudgetUpdateLineItem,
 } from '../types';
 import { createDefaultDatabase, initialItemCategories } from '../data/initialData';
 
@@ -17,6 +19,8 @@ interface StorageData {
   currentDatabaseId: string | null;
   budgets: Budget[];
   currentBudgetId: string | null;
+  budgetUpdates?: BudgetUpdate[];
+  currentBudgetUpdateId?: string | null;
 }
 
 function loadFromStorage(): StorageData | null {
@@ -44,6 +48,8 @@ interface AppState {
   currentDatabaseId: string | null;
   budgets: Budget[];
   currentBudgetId: string | null;
+  budgetUpdates: BudgetUpdate[];
+  currentBudgetUpdateId: string | null;
 
   // Computed selectors
   getCurrentDatabase: () => Database | null;
@@ -88,9 +94,17 @@ interface AppState {
   addLineItem: (budgetId: string, rubroId: string, quantity: number) => void;
   addLineItemsBulk: (budgetId: string, items: Array<{ rubroId: string; quantity: number }>) => void;
   updateLineItem: (budgetId: string, lineItemId: string, quantity: number) => void;
-  updateLineItemProgress: (budgetId: string, lineItemId: string, progress: number) => void;
   removeLineItem: (budgetId: string, lineItemId: string) => void;
   recalculateBudget: (budgetId: string) => void;
+
+  // BudgetUpdate actions
+  createBudgetUpdate: (name: string, description: string, sourceBudgetId: string, newDatabaseId: string) => string;
+  updateBudgetUpdate: (id: string, name: string, description: string) => void;
+  deleteBudgetUpdate: (id: string) => void;
+  openBudgetUpdate: (id: string) => void;
+  closeBudgetUpdate: () => void;
+  changeBudgetUpdateDatabase: (id: string, newDatabaseId: string) => void;
+  updateBudgetUpdateProgress: (updateId: string, lineItemId: string, progress: number) => void;
 }
 
 const saved = loadFromStorage();
@@ -100,10 +114,23 @@ const initialDatabases: Database[] = saved?.databases ?? [defaultDb];
 const initialCurrentDatabaseId: string | null = saved?.currentDatabaseId ?? null;
 const initialBudgets: Budget[] = saved?.budgets ?? [];
 const initialCurrentBudgetId: string | null = saved?.currentBudgetId ?? null;
+const initialBudgetUpdates: BudgetUpdate[] = saved?.budgetUpdates ?? [];
+const initialCurrentBudgetUpdateId: string | null = saved?.currentBudgetUpdateId ?? null;
 
 function updateDbInList(databases: Database[], dbId: string | null, updater: (db: Database) => Database): Database[] {
   if (!dbId) return databases;
   return databases.map((db) => (db.id === dbId ? updater(db) : db));
+}
+
+function save(state: { databases: Database[]; currentDatabaseId: string | null; budgets: Budget[]; currentBudgetId: string | null; budgetUpdates: BudgetUpdate[]; currentBudgetUpdateId: string | null }) {
+  saveToStorage({
+    databases: state.databases,
+    currentDatabaseId: state.currentDatabaseId,
+    budgets: state.budgets,
+    currentBudgetId: state.currentBudgetId,
+    budgetUpdates: state.budgetUpdates,
+    currentBudgetUpdateId: state.currentBudgetUpdateId,
+  });
 }
 
 export const useStore = create<AppState>((set, get) => ({
@@ -111,6 +138,8 @@ export const useStore = create<AppState>((set, get) => ({
   currentDatabaseId: initialCurrentDatabaseId,
   budgets: initialBudgets,
   currentBudgetId: initialCurrentBudgetId,
+  budgetUpdates: initialBudgetUpdates,
+  currentBudgetUpdateId: initialCurrentBudgetUpdateId,
 
   getCurrentDatabase: () => {
     const state = get();
@@ -481,7 +510,6 @@ export const useStore = create<AppState>((set, get) => ({
         categoryId: rubro.categoryId,
         categoryName: category?.name ?? '',
         quantity,
-        progress: 0,
         unitCost,
         materialCost: bd.material,
         manoDeObraCost: bd.manoDeObra,
@@ -520,7 +548,6 @@ export const useStore = create<AppState>((set, get) => ({
           categoryId: rubro.categoryId,
           categoryName: category?.name ?? '',
           quantity,
-          progress: 0,
           unitCost,
           materialCost: bd.material,
           manoDeObraCost: bd.manoDeObra,
@@ -545,22 +572,6 @@ export const useStore = create<AppState>((set, get) => ({
           ? {
               ...b,
               lineItems: b.lineItems.map((li) => (li.id === lineItemId ? { ...li, quantity } : li)),
-              updatedAt: new Date().toISOString(),
-            }
-          : b
-      );
-      saveToStorage({ databases: state.databases, currentDatabaseId: state.currentDatabaseId, budgets, currentBudgetId: state.currentBudgetId });
-      return { budgets };
-    });
-  },
-
-  updateLineItemProgress: (budgetId, lineItemId, progress) => {
-    set((state) => {
-      const budgets = state.budgets.map((b) =>
-        b.id === budgetId
-          ? {
-              ...b,
-              lineItems: b.lineItems.map((li) => (li.id === lineItemId ? { ...li, progress } : li)),
               updatedAt: new Date().toISOString(),
             }
           : b
@@ -613,6 +624,112 @@ export const useStore = create<AppState>((set, get) => ({
       });
       saveToStorage({ databases: state.databases, currentDatabaseId: state.currentDatabaseId, budgets, currentBudgetId: state.currentBudgetId });
       return { budgets };
+    });
+  },
+
+  // ── BudgetUpdate actions ────────────────────────────────────────────────────
+
+  createBudgetUpdate: (name, description, sourceBudgetId, newDatabaseId) => {
+    const now = new Date().toISOString();
+    const state = get();
+    const sourceBudget = state.budgets.find((b) => b.id === sourceBudgetId);
+    if (!sourceBudget) return '';
+    const newDb = state.databases.find((d) => d.id === newDatabaseId);
+    const lineItems: BudgetUpdateLineItem[] = sourceBudget.lineItems.map((li) => ({
+      id: genId(),
+      rubroId: li.rubroId,
+      rubroCode: li.rubroCode,
+      rubroName: li.rubroName,
+      rubroUnit: li.rubroUnit,
+      categoryId: li.categoryId,
+      categoryName: li.categoryName,
+      quantity: li.quantity,
+      progress: 0,
+      oldUnitCost: li.unitCost,
+      oldMaterialCost: li.materialCost,
+      oldManoDeObraCost: li.manoDeObraCost,
+      oldEquipoCost: li.equipoCost,
+    }));
+    const newUpdate: BudgetUpdate = {
+      id: genId(),
+      name,
+      description,
+      sourceBudgetId,
+      sourceBudgetName: sourceBudget.name,
+      newDatabaseId,
+      newDatabaseName: newDb?.name ?? '',
+      ivaRate: sourceBudget.ivaRate,
+      createdAt: now,
+      updatedAt: now,
+      lineItems,
+    };
+    set((s) => {
+      const budgetUpdates = [...s.budgetUpdates, newUpdate];
+      save({ ...s, budgetUpdates, currentBudgetUpdateId: newUpdate.id });
+      return { budgetUpdates, currentBudgetUpdateId: newUpdate.id };
+    });
+    return newUpdate.id;
+  },
+
+  updateBudgetUpdate: (id, name, description) => {
+    set((s) => {
+      const budgetUpdates = s.budgetUpdates.map((u) =>
+        u.id === id ? { ...u, name, description, updatedAt: new Date().toISOString() } : u
+      );
+      save({ ...s, budgetUpdates });
+      return { budgetUpdates };
+    });
+  },
+
+  deleteBudgetUpdate: (id) => {
+    set((s) => {
+      const budgetUpdates = s.budgetUpdates.filter((u) => u.id !== id);
+      const currentBudgetUpdateId = s.currentBudgetUpdateId === id ? null : s.currentBudgetUpdateId;
+      save({ ...s, budgetUpdates, currentBudgetUpdateId });
+      return { budgetUpdates, currentBudgetUpdateId };
+    });
+  },
+
+  openBudgetUpdate: (id) => {
+    set((s) => {
+      save({ ...s, currentBudgetUpdateId: id });
+      return { currentBudgetUpdateId: id };
+    });
+  },
+
+  closeBudgetUpdate: () => {
+    set((s) => {
+      save({ ...s, currentBudgetUpdateId: null });
+      return { currentBudgetUpdateId: null };
+    });
+  },
+
+  changeBudgetUpdateDatabase: (id, newDatabaseId) => {
+    set((s) => {
+      const db = s.databases.find((d) => d.id === newDatabaseId);
+      const budgetUpdates = s.budgetUpdates.map((u) =>
+        u.id === id
+          ? { ...u, newDatabaseId, newDatabaseName: db?.name ?? '', updatedAt: new Date().toISOString() }
+          : u
+      );
+      save({ ...s, budgetUpdates });
+      return { budgetUpdates };
+    });
+  },
+
+  updateBudgetUpdateProgress: (updateId, lineItemId, progress) => {
+    set((s) => {
+      const budgetUpdates = s.budgetUpdates.map((u) =>
+        u.id === updateId
+          ? {
+              ...u,
+              lineItems: u.lineItems.map((li) => (li.id === lineItemId ? { ...li, progress } : li)),
+              updatedAt: new Date().toISOString(),
+            }
+          : u
+      );
+      save({ ...s, budgetUpdates });
+      return { budgetUpdates };
     });
   },
 }));
