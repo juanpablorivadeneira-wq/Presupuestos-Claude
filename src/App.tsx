@@ -18,12 +18,10 @@ export default function App() {
   const [view, setView] = useState<AppView>('home');
   const [dbTab, setDbTab] = useState<DbTab>('items');
   const [dbSwitcherOpen, setDbSwitcherOpen] = useState(false);
-  const [proyectoOpen, setProyectoOpen] = useState(false);
   const [createDbModal, setCreateDbModal] = useState(false);
   const [newDbName, setNewDbName] = useState('');
   const [newDbDesc, setNewDbDesc] = useState('');
   const dbSwitcherRef = useRef<HTMLDivElement>(null);
-  const proyectoRef = useRef<HTMLDivElement>(null);
 
   const [activeSection, setActiveSection] = useState<HomeSection>(() => {
     const s = useStore.getState();
@@ -36,7 +34,7 @@ export default function App() {
   const budgets = useStore((s) => s.budgets);
   const currentBudgetId = useStore((s) => s.currentBudgetId);
   const budgetUpdates = useStore((s) => s.budgetUpdates);
-  const { closeDatabase, closeBudget, openDatabase, openBudget, createDatabase } = useStore();
+  const { closeDatabase, closeBudget, openDatabase, createDatabase } = useStore();
 
   const currentDb = databases.find((d) => d.id === currentDatabaseId) ?? null;
   const currentBudget = budgets.find((b) => b.id === currentBudgetId) ?? null;
@@ -51,9 +49,6 @@ export default function App() {
     function handleClick(e: MouseEvent) {
       if (dbSwitcherRef.current && !dbSwitcherRef.current.contains(e.target as Node)) {
         setDbSwitcherOpen(false);
-      }
-      if (proyectoRef.current && !proyectoRef.current.contains(e.target as Node)) {
-        setProyectoOpen(false);
       }
     }
     document.addEventListener('mousedown', handleClick);
@@ -80,12 +75,6 @@ export default function App() {
   function handleSwitchDb(id: string) {
     openDatabase(id);
     setDbSwitcherOpen(false);
-  }
-
-  function handleSelectProyecto(id: string) {
-    openBudget(id);
-    setProyectoOpen(false);
-    setView('budget');
   }
 
   function handleCreateDb() {
@@ -118,67 +107,15 @@ export default function App() {
             <div className="h-full w-px bg-white/20" />
           </div>
 
-          {/* CENTER: Proyecto/Obra selector — siempre visible */}
+          {/* CENTER: Proyecto selector — genérico, se conectará a sistema externo */}
           <div className="flex-1 flex items-center justify-center">
             <div className="flex items-center gap-2">
               <span className="text-gray-300 text-sm font-medium">Proyecto:</span>
-              <div className="relative" ref={proyectoRef}>
-                <button
-                  onClick={() => setProyectoOpen((o) => !o)}
-                  className="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/25 px-3 py-1.5 rounded text-sm font-semibold transition-colors min-w-[180px] justify-between"
-                >
-                  <span className="truncate max-w-[220px]">
-                    {currentBudget?.name ?? 'Seleccionar proyecto'}
-                  </span>
-                  <ChevronDown
-                    size={14}
-                    className={`shrink-0 ml-1 transition-transform ${proyectoOpen ? 'rotate-180' : ''}`}
-                  />
-                </button>
-
-                {proyectoOpen && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 z-50 bg-white border border-gray-200 rounded-lg shadow-2xl min-w-[280px]">
-                    <div className="px-3 py-2 border-b border-gray-100 flex items-center justify-between">
-                      <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide">Proyectos / Obras</p>
-                    </div>
-                    {budgets.length === 0 ? (
-                      <div className="px-4 py-5 text-center">
-                        <p className="text-sm text-gray-400">No hay presupuestos creados.</p>
-                        <button
-                          onClick={() => { setProyectoOpen(false); handleSidebarNav('budgets'); }}
-                          className="mt-2 text-xs text-green-600 hover:underline"
-                        >
-                          Ir a Presupuestos →
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="py-1 max-h-64 overflow-y-auto">
-                        {budgets.map((b) => (
-                          <button
-                            key={b.id}
-                            onClick={() => handleSelectProyecto(b.id)}
-                            className={`w-full text-left px-3 py-2.5 text-sm flex items-center gap-2.5 transition-colors ${
-                              b.id === currentBudgetId
-                                ? 'bg-green-50 text-green-800'
-                                : 'text-gray-700 hover:bg-gray-50'
-                            }`}
-                          >
-                            <Check
-                              size={13}
-                              className={b.id === currentBudgetId ? 'text-green-600 shrink-0' : 'invisible shrink-0'}
-                            />
-                            <div className="flex-1 min-w-0">
-                              <div className="font-medium truncate">{b.name}</div>
-                              <div className="text-xs text-gray-400 mt-0.5">
-                                {b.lineItems.length} rubros · {b.databaseName}
-                              </div>
-                            </div>
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )}
+              <div className="flex items-center gap-2 bg-white/10 border border-white/25 px-3 py-1.5 rounded text-sm font-semibold min-w-[180px] justify-between cursor-default">
+                <span className="truncate max-w-[220px] text-white/80">
+                  Sin proyecto seleccionado
+                </span>
+                <ChevronDown size={14} className="shrink-0 ml-1 text-white/50" />
               </div>
             </div>
           </div>
