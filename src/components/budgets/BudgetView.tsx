@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef } from 'react';
-import { Plus, Trash2, RefreshCw, FileDown, Search, X, ChevronDown, ChevronRight, CheckSquare } from 'lucide-react';
+import { Plus, Trash2, RefreshCw, FileDown, Search, X, ChevronDown, ChevronRight, CheckSquare, Check } from 'lucide-react';
 import { useStore, formatMoney, rubroTotal, getCategoryIds } from '../../store/useStore';
 import { AppView, BudgetLineItem, Rubro } from '../../types';
 import Modal from '../shared/Modal';
@@ -37,6 +37,7 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
   const [pickCategoryId, setPickCategoryId] = useState<string | null>(null);
   const [pickSearch, setPickSearch] = useState('');
   const [selectedRubros, setSelectedRubros] = useState<Map<string, number>>(new Map());
+  const [lastAdded, setLastAdded] = useState(0);
 
   // ── Totals ──────────────────────────────────────────────────────────────────
   const subtotal = budget ? budget.lineItems.reduce((s, li) => s + li.unitCost * li.quantity, 0) : 0;
@@ -122,16 +123,32 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
     });
   }
 
-  function handleAddSelected() {
-    if (!budget) return;
+  function commitSelected(): number {
+    if (!budget) return 0;
     const items = Array.from(selectedRubros.entries())
       .filter(([, qty]) => qty > 0)
       .map(([rubroId, quantity]) => ({ rubroId, quantity }));
     if (items.length > 0) addLineItemsBulk(budget.id, items);
     setSelectedRubros(new Map());
     setPickSearch('');
+    return items.length;
+  }
+
+  function handleAddAndContinue() {
+    const n = commitSelected();
+    if (n > 0) {
+      setLastAdded(n);
+      setTimeout(() => setLastAdded(0), 2500);
+    }
+    // stay in modal; pickCategoryId unchanged so user stays in same chapter
+  }
+
+  function handleAddSelected() {
+    commitSelected();
     setAddModal(false);
   }
+
+  const hasValidSelection = Array.from(selectedRubros.values()).some((q) => q > 0);
 
   function toggleChapter(key: string) {
     setCollapsedChapters((prev) => {
@@ -460,7 +477,7 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
                 )}
               </div>
 
-              {/* Rubro list */}
+              {/* Rubro list — cantidad inline cuando está seleccionado */}
               <div className="flex-1 overflow-y-auto">
                 {availableRubros.length === 0 ? (
                   <div className="p-6 text-center text-gray-400 text-sm">Sin resultados</div>
@@ -472,21 +489,21 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
                         <th className="px-3 py-2 text-left font-medium w-28">Código</th>
                         <th className="px-3 py-2 text-left font-medium">Nombre</th>
                         <th className="px-3 py-2 text-left font-medium w-20">Unidad</th>
-                        <th className="px-3 py-2 text-right font-medium w-28">Precio</th>
+                        <th className="px-3 py-2 text-right font-medium w-28">Precio Unit.</th>
+                        <th className="px-3 py-2 text-right font-medium w-32">Cantidad</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-100">
                       {availableRubros.map((r) => {
                         const unitCost = rubroTotal(r, sourceDb.items);
                         const isSelected = selectedRubros.has(r.id);
+                        const qty = selectedRubros.get(r.id) ?? 0;
                         return (
                           <tr
                             key={r.id}
                             onClick={() => toggleRubroSelect(r)}
                             className={`cursor-pointer transition-colors ${
-                              isSelected
-                                ? 'bg-green-50 hover:bg-green-100'
-                                : 'hover:bg-gray-50'
+                              isSelected ? 'bg-green-50 hover:bg-green-100' : 'hover:bg-gray-50'
                             }`}
                           >
                             <td className="px-2 py-2 text-center">
@@ -500,8 +517,22 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
                             <td className="px-3 py-2 font-mono text-xs text-gray-500">{r.code}</td>
                             <td className="px-3 py-2 text-gray-800">{r.name}</td>
                             <td className="px-3 py-2 text-gray-500">{r.unit}</td>
-                            <td className="px-3 py-2 text-right text-gray-700 font-medium">
-                              {formatMoney(unitCost)}
+                            <td className="px-3 py-2 text-right text-gray-700 font-medium">{formatMoney(unitCost)}</td>
+                            <td className="px-3 py-1.5 text-right" onClick={(e) => e.stopPropagation()}>
+                              {isSelected ? (
+                                <input
+                                  type="number"
+                                  value={qty || ''}
+                                  onChange={(e) => updatePickQty(r.id, e.target.value)}
+                                  min="0.001"
+                                  step="any"
+                                  placeholder="1"
+                                  className="w-24 px-2 py-1 text-sm text-right border border-green-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 bg-white"
+                                  autoFocus={selectedRubros.size === 1}
+                                />
+                              ) : (
+                                <span className="text-gray-300 text-xs">—</span>
+                              )}
                             </td>
                           </tr>
                         );
@@ -511,67 +542,40 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
                 )}
               </div>
 
-              {/* Selected rubros panel */}
-              {selectedRubros.size > 0 && (
-                <div className="border-t-2 border-green-200 bg-green-50 shrink-0 max-h-44 overflow-y-auto">
-                  <div className="px-3 pt-2 pb-1">
-                    <span className="text-xs font-semibold text-green-800">
-                      {selectedRubros.size} rubro{selectedRubros.size !== 1 ? 's' : ''} seleccionado{selectedRubros.size !== 1 ? 's' : ''} — ingresa las cantidades:
-                    </span>
-                  </div>
-                  <div className="px-3 pb-2 space-y-1.5">
-                    {Array.from(selectedRubros.entries()).map(([rubroId, qty]) => {
-                      const rubro = sourceDb.rubros.find((r) => r.id === rubroId);
-                      if (!rubro) return null;
-                      return (
-                        <div key={rubroId} className="flex items-center gap-2">
-                          <span className="flex-1 text-xs text-gray-700 truncate">{rubro.name}</span>
-                          <span className="text-xs text-gray-400 shrink-0">{rubro.unit}</span>
-                          <label className="text-xs text-gray-500 shrink-0">Cant.:</label>
-                          <input
-                            type="number"
-                            value={qty || ''}
-                            onChange={(e) => updatePickQty(rubroId, e.target.value)}
-                            onClick={(e) => e.stopPropagation()}
-                            min="0.001"
-                            step="any"
-                            placeholder="1"
-                            className="w-20 px-2 py-0.5 text-xs text-right border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-green-500"
-                          />
-                          <button
-                            onClick={(e) => { e.stopPropagation(); toggleRubroSelect(rubro); }}
-                            className="p-0.5 rounded text-gray-400 hover:text-red-500 shrink-0"
-                            title="Quitar"
-                          >
-                            <X size={12} />
-                          </button>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-
               {/* Footer */}
-              <div className="p-3 border-t border-gray-200 flex items-center justify-between bg-white shrink-0">
-                <span className="text-xs text-gray-500">
-                  {selectedRubros.size === 0
-                    ? 'Selecciona rubros marcando los checkboxes'
-                    : `${selectedRubros.size} rubro${selectedRubros.size !== 1 ? 's' : ''} listo${selectedRubros.size !== 1 ? 's' : ''} para agregar`}
-                </span>
-                <div className="flex gap-2">
+              <div className="px-3 py-2.5 border-t border-gray-200 flex items-center justify-between bg-white shrink-0">
+                <div className="text-xs text-gray-500 flex items-center gap-2 min-w-0">
+                  {lastAdded > 0 ? (
+                    <span className="flex items-center gap-1.5 text-green-700 font-medium">
+                      <Check size={13} />
+                      {lastAdded} rubro{lastAdded !== 1 ? 's' : ''} agregado{lastAdded !== 1 ? 's' : ''} al presupuesto
+                    </span>
+                  ) : selectedRubros.size > 0 ? (
+                    <span>{selectedRubros.size} rubro{selectedRubros.size !== 1 ? 's' : ''} seleccionado{selectedRubros.size !== 1 ? 's' : ''} — ingresa la cantidad en cada fila</span>
+                  ) : (
+                    <span>Selecciona rubros marcando los checkboxes</span>
+                  )}
+                </div>
+                <div className="flex gap-2 shrink-0 ml-3">
                   <button
                     onClick={() => setAddModal(false)}
                     className="px-3 py-1.5 text-sm border border-gray-300 rounded-md hover:bg-gray-50"
                   >
-                    Cancelar
+                    Cerrar
+                  </button>
+                  <button
+                    onClick={handleAddAndContinue}
+                    disabled={!hasValidSelection}
+                    className="px-3 py-1.5 text-sm border border-green-400 text-green-700 bg-green-50 rounded-md hover:bg-green-100 disabled:opacity-40 disabled:cursor-not-allowed font-medium"
+                  >
+                    Agregar y continuar
                   </button>
                   <button
                     onClick={handleAddSelected}
-                    disabled={selectedRubros.size === 0}
-                    className="px-4 py-1.5 text-sm bg-gray-800 text-white rounded-md hover:bg-gray-700 disabled:opacity-50"
+                    disabled={!hasValidSelection}
+                    className="px-4 py-1.5 text-sm bg-gray-800 text-white rounded-md hover:bg-gray-700 disabled:opacity-40 disabled:cursor-not-allowed font-medium"
                   >
-                    Agregar{selectedRubros.size > 0 ? ` (${selectedRubros.size})` : ''}
+                    Agregar y cerrar{selectedRubros.size > 0 ? ` (${selectedRubros.size})` : ''}
                   </button>
                 </div>
               </div>
