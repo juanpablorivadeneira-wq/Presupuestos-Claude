@@ -171,46 +171,132 @@ export default function HomeView({ onNavigate, activeSection, onSectionChange }:
                 </div>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {databases.map((db) => (
-                  <div
-                    key={db.id}
-                    className="bg-white rounded-xl border border-gray-200 border-t-[3px] border-t-indigo-500 shadow-sm hover:shadow-md transition-shadow flex flex-col"
-                  >
-                    <div className="p-4 flex-1 flex flex-col gap-3">
-                      <div className="flex items-start justify-between gap-2">
-                        <div className="flex-1 min-w-0">
-                          <p className="font-semibold text-gray-900 truncate">{db.name}</p>
-                          {db.description && (
-                            <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{db.description}</p>
-                          )}
+              <>
+                {/* ── KPI cards ── */}
+                {(() => {
+                  const totalItems = databases.reduce((s, d) => s + d.items.length, 0);
+                  const totalRubros = databases.reduce((s, d) => s + d.rubros.length, 0);
+                  const lastDb = [...databases].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())[0];
+                  const topByItems = [...databases].sort((a, b) => b.items.length - a.items.length).slice(0, 3);
+                  const topByRubros = [...databases].sort((a, b) => b.rubros.length - a.rubros.length).slice(0, 3);
+                  const maxItems = topByItems[0]?.items.length ?? 1;
+                  const maxRubros = topByRubros[0]?.rubros.length ?? 1;
+
+                  return (
+                    <>
+                      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                        <div className="bg-white rounded-xl border border-gray-200 p-4">
+                          <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Total BDs</p>
+                          <p className="text-3xl font-bold text-indigo-600">{databases.length}</p>
                         </div>
-                        <div className="flex items-center gap-0.5 shrink-0">
-                          <button onClick={() => openDuplicateDb(db.id)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors" title="Duplicar"><Copy size={13} /></button>
-                          <button onClick={() => openEditDb(db.id)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors" title="Editar"><Pencil size={13} /></button>
-                          <button onClick={() => openDeleteDb(db.id)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-red-500 transition-colors" title="Eliminar"><Trash2 size={13} /></button>
+                        <div className="bg-white rounded-xl border border-gray-200 p-4">
+                          <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Total Items</p>
+                          <p className="text-3xl font-bold text-indigo-600">{totalItems.toLocaleString()}</p>
+                          <p className="text-xs text-gray-400 mt-1">prom. {databases.length ? Math.round(totalItems / databases.length) : 0} por BD</p>
+                        </div>
+                        <div className="bg-white rounded-xl border border-gray-200 p-4">
+                          <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Total Rubros</p>
+                          <p className="text-3xl font-bold text-indigo-600">{totalRubros.toLocaleString()}</p>
+                          <p className="text-xs text-gray-400 mt-1">prom. {databases.length ? Math.round(totalRubros / databases.length) : 0} por BD</p>
+                        </div>
+                        <div className="bg-white rounded-xl border border-gray-200 p-4">
+                          <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Última creada</p>
+                          <p className="text-sm font-bold text-gray-800 mt-1 truncate">{lastDb?.name ?? '—'}</p>
+                          <p className="text-xs text-gray-400 mt-0.5">
+                            {lastDb ? new Date(lastDb.createdAt).toLocaleDateString('es-EC', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'}
+                          </p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className="px-2 py-0.5 bg-indigo-50 text-indigo-700 rounded-full text-xs font-medium">{db.items.length} items</span>
-                        <span className="px-2 py-0.5 bg-indigo-50 text-indigo-700 rounded-full text-xs font-medium">{db.rubros.length} rubros</span>
-                        <span className="ml-auto text-xs text-gray-400">
-                          {new Date(db.createdAt).toLocaleDateString('es-EC', { day: '2-digit', month: 'short', year: 'numeric' })}
-                        </span>
+
+                      {/* ── Rankings ── */}
+                      {databases.length >= 2 && (
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+                          <div className="bg-white rounded-xl border border-gray-200 p-4">
+                            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Top por Items</p>
+                            <div className="space-y-3">
+                              {topByItems.map((db, i) => (
+                                <div key={db.id}>
+                                  <div className="flex items-center justify-between mb-1">
+                                    <div className="flex items-center gap-2 min-w-0">
+                                      <span className="text-xs font-bold text-indigo-400 w-4 shrink-0">#{i + 1}</span>
+                                      <span className="text-sm text-gray-700 truncate">{db.name}</span>
+                                    </div>
+                                    <span className="text-sm font-semibold text-indigo-600 shrink-0 ml-2">{db.items.length}</span>
+                                  </div>
+                                  <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                                    <div className="h-full bg-indigo-400 rounded-full" style={{ width: `${(db.items.length / maxItems) * 100}%` }} />
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                          <div className="bg-white rounded-xl border border-gray-200 p-4">
+                            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Top por Rubros</p>
+                            <div className="space-y-3">
+                              {topByRubros.map((db, i) => (
+                                <div key={db.id}>
+                                  <div className="flex items-center justify-between mb-1">
+                                    <div className="flex items-center gap-2 min-w-0">
+                                      <span className="text-xs font-bold text-indigo-400 w-4 shrink-0">#{i + 1}</span>
+                                      <span className="text-sm text-gray-700 truncate">{db.name}</span>
+                                    </div>
+                                    <span className="text-sm font-semibold text-indigo-600 shrink-0 ml-2">{db.rubros.length}</span>
+                                  </div>
+                                  <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                                    <div className="h-full bg-indigo-400 rounded-full" style={{ width: `${(db.rubros.length / maxRubros) * 100}%` }} />
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  );
+                })()}
+
+                {/* ── Card grid ── */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {databases.map((db) => (
+                    <div
+                      key={db.id}
+                      className="bg-white rounded-xl border border-gray-200 border-t-[3px] border-t-indigo-500 shadow-sm hover:shadow-md transition-shadow flex flex-col"
+                    >
+                      <div className="p-4 flex-1 flex flex-col gap-3">
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="flex-1 min-w-0">
+                            <p className="font-semibold text-gray-900 truncate">{db.name}</p>
+                            {db.description && (
+                              <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{db.description}</p>
+                            )}
+                          </div>
+                          <div className="flex items-center gap-0.5 shrink-0">
+                            <button onClick={() => openDuplicateDb(db.id)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors" title="Duplicar"><Copy size={13} /></button>
+                            <button onClick={() => openEditDb(db.id)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors" title="Editar"><Pencil size={13} /></button>
+                            <button onClick={() => openDeleteDb(db.id)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-red-500 transition-colors" title="Eliminar"><Trash2 size={13} /></button>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="px-2 py-0.5 bg-indigo-50 text-indigo-700 rounded-full text-xs font-medium">{db.items.length} items</span>
+                          <span className="px-2 py-0.5 bg-indigo-50 text-indigo-700 rounded-full text-xs font-medium">{db.rubros.length} rubros</span>
+                          <span className="ml-auto text-xs text-gray-400">
+                            {new Date(db.createdAt).toLocaleDateString('es-EC', { day: '2-digit', month: 'short', year: 'numeric' })}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="px-4 pb-4">
+                        <button
+                          onClick={() => handleOpenDb(db.id)}
+                          className="w-full flex items-center justify-center gap-2 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors"
+                        >
+                          <FolderOpen size={14} />
+                          Abrir
+                        </button>
                       </div>
                     </div>
-                    <div className="px-4 pb-4">
-                      <button
-                        onClick={() => handleOpenDb(db.id)}
-                        className="w-full flex items-center justify-center gap-2 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors"
-                      >
-                        <FolderOpen size={14} />
-                        Abrir
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              </>
             )}
           </div>
         )}
