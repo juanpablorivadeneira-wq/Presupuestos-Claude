@@ -1,48 +1,30 @@
 import { useState } from 'react';
 import {
-  Plus,
-  Pencil,
-  Trash2,
-  Copy,
-  FolderOpen,
-  BarChart2,
-  Database,
-  FileText,
-  TrendingUp,
+  Plus, Pencil, Trash2, Copy, FolderOpen, BarChart2,
+  Database, FileText, TrendingUp,
 } from 'lucide-react';
 import { useStore, formatMoney } from '../../store/useStore';
 import { AppView, Budget, BudgetUpdate } from '../../types';
 import Modal from '../shared/Modal';
 import { prueba01Database } from '../../data/prueba01';
 
+type HomeSection = 'databases' | 'budgets' | 'actualizacion';
+
 interface HomeViewProps {
   onNavigate: (view: AppView) => void;
 }
 
 export default function HomeView({ onNavigate }: HomeViewProps) {
+  const [activeSection, setActiveSection] = useState<HomeSection>('databases');
+
   const {
-    databases,
-    budgets,
-    budgetUpdates,
-    createDatabase,
-    updateDatabase,
-    deleteDatabase,
-    duplicateDatabase,
-    openDatabase,
-    importDatabase,
-    createBudget,
-    updateBudget,
-    deleteBudget,
-    openBudget,
-    createBudgetUpdate,
-    updateBudgetUpdate,
-    deleteBudgetUpdate,
-    openBudgetUpdate,
+    databases, budgets, budgetUpdates,
+    createDatabase, updateDatabase, deleteDatabase, duplicateDatabase, openDatabase, importDatabase,
+    createBudget, updateBudget, deleteBudget, openBudget,
+    createBudgetUpdate, updateBudgetUpdate, deleteBudgetUpdate, openBudgetUpdate,
   } = useStore();
 
   function handleLoadPrueba01() {
-    // Always replace existing Prueba 01 with fresh data from the seed file
-    // so that stale localStorage versions don't block loading the latest data
     const existing = databases.find((d) => d.name === 'Prueba 01');
     if (existing) deleteDatabase(existing.id);
     importDatabase(prueba01Database);
@@ -72,384 +54,451 @@ export default function HomeView({ onNavigate }: HomeViewProps) {
   const [buNewDbId, setBuNewDbId] = useState('');
 
   // ── DB handlers ─────────────────────────────────────────────────────────
-  function openCreateDb() {
-    setDbName('');
-    setDbDesc('');
-    setDbTarget(null);
-    setDbModal('create');
-  }
-
+  function openCreateDb() { setDbName(''); setDbDesc(''); setDbTarget(null); setDbModal('create'); }
   function openEditDb(id: string) {
     const db = databases.find((d) => d.id === id);
     if (!db) return;
-    setDbName(db.name);
-    setDbDesc(db.description);
-    setDbTarget(id);
-    setDbModal('edit');
+    setDbName(db.name); setDbDesc(db.description); setDbTarget(id); setDbModal('edit');
   }
-
-  function openDeleteDb(id: string) {
-    setDbTarget(id);
-    setDbModal('delete');
-  }
-
+  function openDeleteDb(id: string) { setDbTarget(id); setDbModal('delete'); }
   function openDuplicateDb(id: string) {
     const db = databases.find((d) => d.id === id);
     if (!db) return;
-    setDbDupName(db.name + ' (Copia)');
-    setDbTarget(id);
-    setDbModal('duplicate');
+    setDbDupName(db.name + ' (Copia)'); setDbTarget(id); setDbModal('duplicate');
   }
-
   function handleSaveDb() {
     if (!dbName.trim()) return;
-    if (dbModal === 'create') {
-      createDatabase(dbName.trim(), dbDesc.trim());
-    } else if (dbModal === 'edit' && dbTarget) {
-      updateDatabase(dbTarget, dbName.trim(), dbDesc.trim());
-    }
+    if (dbModal === 'create') createDatabase(dbName.trim(), dbDesc.trim());
+    else if (dbModal === 'edit' && dbTarget) updateDatabase(dbTarget, dbName.trim(), dbDesc.trim());
     setDbModal(null);
   }
-
-  function handleDeleteDb() {
-    if (dbTarget) deleteDatabase(dbTarget);
-    setDbModal(null);
-  }
-
+  function handleDeleteDb() { if (dbTarget) deleteDatabase(dbTarget); setDbModal(null); }
   function handleDuplicateDb() {
-    if (dbTarget && dbDupName.trim()) {
-      duplicateDatabase(dbTarget, dbDupName.trim());
-    }
+    if (dbTarget && dbDupName.trim()) duplicateDatabase(dbTarget, dbDupName.trim());
     setDbModal(null);
   }
-
-  function handleOpenDb(id: string) {
-    openDatabase(id);
-    onNavigate('database');
-  }
+  function handleOpenDb(id: string) { openDatabase(id); onNavigate('database'); }
 
   // ── Budget handlers ──────────────────────────────────────────────────────
   function openCreateBudget() {
-    setBudgetName('');
-    setBudgetDesc('');
-    setBudgetDbId(databases[0]?.id ?? '');
-    setBudgetTarget(null);
-    setBudgetModal('create');
+    setBudgetName(''); setBudgetDesc(''); setBudgetDbId(databases[0]?.id ?? '');
+    setBudgetTarget(null); setBudgetModal('create');
   }
-
   function openEditBudget(b: Budget) {
-    setBudgetName(b.name);
-    setBudgetDesc(b.description);
-    setBudgetDbId(b.databaseId);
-    setBudgetTarget(b);
-    setBudgetModal('edit');
+    setBudgetName(b.name); setBudgetDesc(b.description); setBudgetDbId(b.databaseId);
+    setBudgetTarget(b); setBudgetModal('edit');
   }
-
-  function openDeleteBudget(b: Budget) {
-    setBudgetTarget(b);
-    setBudgetModal('delete');
-  }
-
+  function openDeleteBudget(b: Budget) { setBudgetTarget(b); setBudgetModal('delete'); }
   function handleSaveBudget() {
     if (!budgetName.trim()) return;
-    if (budgetModal === 'create') {
-      createBudget(budgetName.trim(), budgetDesc.trim(), budgetDbId);
-    } else if (budgetModal === 'edit' && budgetTarget) {
-      updateBudget(budgetTarget.id, budgetName.trim(), budgetDesc.trim());
-    }
+    if (budgetModal === 'create') createBudget(budgetName.trim(), budgetDesc.trim(), budgetDbId);
+    else if (budgetModal === 'edit' && budgetTarget) updateBudget(budgetTarget.id, budgetName.trim(), budgetDesc.trim());
     setBudgetModal(null);
   }
-
-  function handleDeleteBudget() {
-    if (budgetTarget) deleteBudget(budgetTarget.id);
-    setBudgetModal(null);
-  }
-
-  function handleOpenBudget(b: Budget) {
-    openBudget(b.id);
-    onNavigate('budget');
-  }
-
-  function budgetTotal(b: Budget): number {
-    return b.lineItems.reduce((sum, li) => sum + li.unitCost * li.quantity, 0);
-  }
+  function handleDeleteBudget() { if (budgetTarget) deleteBudget(budgetTarget.id); setBudgetModal(null); }
+  function handleOpenBudget(b: Budget) { openBudget(b.id); onNavigate('budget'); }
+  function budgetTotal(b: Budget) { return b.lineItems.reduce((sum, li) => sum + li.unitCost * li.quantity, 0); }
 
   // ── BudgetUpdate handlers ────────────────────────────────────────────────
   function openCreateBu() {
-    setBuName('');
-    setBuDesc('');
-    setBuSourceBudgetId(budgets[0]?.id ?? '');
-    setBuNewDbId(databases[0]?.id ?? '');
-    setBuTarget(null);
-    setBuModal('create');
+    setBuName(''); setBuDesc(''); setBuSourceBudgetId(budgets[0]?.id ?? '');
+    setBuNewDbId(databases[0]?.id ?? ''); setBuTarget(null); setBuModal('create');
   }
-
-  function openEditBu(u: BudgetUpdate) {
-    setBuName(u.name);
-    setBuDesc(u.description);
-    setBuTarget(u);
-    setBuModal('edit');
-  }
-
-  function openDeleteBu(u: BudgetUpdate) {
-    setBuTarget(u);
-    setBuModal('delete');
-  }
-
+  function openEditBu(u: BudgetUpdate) { setBuName(u.name); setBuDesc(u.description); setBuTarget(u); setBuModal('edit'); }
+  function openDeleteBu(u: BudgetUpdate) { setBuTarget(u); setBuModal('delete'); }
   function handleSaveBu() {
     if (!buName.trim()) return;
-    if (buModal === 'create') {
-      createBudgetUpdate(buName.trim(), buDesc.trim(), buSourceBudgetId, buNewDbId);
-    } else if (buModal === 'edit' && buTarget) {
-      updateBudgetUpdate(buTarget.id, buName.trim(), buDesc.trim());
-    }
+    if (buModal === 'create') createBudgetUpdate(buName.trim(), buDesc.trim(), buSourceBudgetId, buNewDbId);
+    else if (buModal === 'edit' && buTarget) updateBudgetUpdate(buTarget.id, buName.trim(), buDesc.trim());
     setBuModal(null);
   }
-
-  function handleDeleteBu() {
-    if (buTarget) deleteBudgetUpdate(buTarget.id);
-    setBuModal(null);
-  }
-
-  function handleOpenBu(u: BudgetUpdate) {
-    openBudgetUpdate(u.id);
-    onNavigate('actualizacion');
-  }
+  function handleDeleteBu() { if (buTarget) deleteBudgetUpdate(buTarget.id); setBuModal(null); }
+  function handleOpenBu(u: BudgetUpdate) { openBudgetUpdate(u.id); onNavigate('actualizacion'); }
 
   return (
-    <div className="flex-1 overflow-auto p-6 space-y-10">
-      {/* ── Databases section ───────────────────────────────────────────── */}
-      <section>
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <Database size={20} className="text-gray-600" />
-            <h2 className="text-lg font-semibold text-gray-800">Bases de Datos</h2>
-          </div>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={handleLoadPrueba01}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-500 transition-colors"
-              title="Carga 329 ítems y 93 rubros desde Excel APUS"
-            >
-              <Database size={16} />
-              Cargar Prueba 01
-            </button>
-            <button
-              onClick={openCreateDb}
-              className="flex items-center gap-2 px-4 py-2 bg-gray-800 text-white rounded-md text-sm font-medium hover:bg-gray-700 transition-colors"
-            >
-              <Plus size={16} />
-              Nueva Base de Datos
-            </button>
-          </div>
-        </div>
+    <div className="flex-1 flex overflow-hidden">
 
-        {databases.length === 0 ? (
-          <div className="border border-dashed border-gray-300 rounded-lg p-10 text-center text-gray-400 text-sm">
-            No hay bases de datos. Crea una para comenzar.
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {databases.map((db) => (
-              <div
-                key={db.id}
-                className="shadow-sm border border-gray-200 rounded-lg bg-white p-4 flex flex-col gap-3"
-              >
-                <div className="flex items-start justify-between gap-2">
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-gray-800 truncate">{db.name}</p>
-                    <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{db.description}</p>
-                  </div>
-                  <div className="flex items-center gap-1 shrink-0">
-                    <button
-                      onClick={() => openDuplicateDb(db.id)}
-                      className="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600"
-                      title="Duplicar"
-                    >
-                      <Copy size={14} />
-                    </button>
-                    <button
-                      onClick={() => openEditDb(db.id)}
-                      className="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600"
-                      title="Editar"
-                    >
-                      <Pencil size={14} />
-                    </button>
-                    <button
-                      onClick={() => openDeleteDb(db.id)}
-                      className="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-red-500"
-                      title="Eliminar"
-                    >
-                      <Trash2 size={14} />
-                    </button>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4 text-xs text-gray-500">
-                  <span>{db.items.length} items</span>
-                  <span>{db.rubros.length} rubros</span>
-                  <span>
-                    {new Date(db.createdAt).toLocaleDateString('es-EC', {
-                      day: '2-digit',
-                      month: 'short',
-                      year: 'numeric',
-                    })}
-                  </span>
-                </div>
-                <button
-                  onClick={() => handleOpenDb(db.id)}
-                  className="flex items-center justify-center gap-2 px-3 py-2 bg-gray-800 text-white rounded-md text-sm font-medium hover:bg-gray-700 transition-colors w-full"
-                >
-                  <FolderOpen size={14} />
-                  Abrir
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
-      </section>
+      {/* ── Sidebar ──────────────────────────────────────────────────────── */}
+      <aside className="w-56 shrink-0 bg-white border-r border-gray-200 flex flex-col py-5">
+        <p className="px-4 mb-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Módulos</p>
+        <nav className="flex-1 px-2 space-y-0.5">
 
-      {/* ── Budgets section ──────────────────────────────────────────────── */}
-      <section>
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <FileText size={20} className="text-gray-600" />
-            <h2 className="text-lg font-semibold text-gray-800">Presupuestos</h2>
-          </div>
-          <div className="flex items-center gap-2">
-            {budgets.length >= 2 && (
-              <button
-                onClick={() => onNavigate('compare')}
-                className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md text-sm font-medium hover:bg-gray-50 transition-colors"
-              >
-                <BarChart2 size={16} />
-                Comparar Presupuestos
-              </button>
-            )}
-            <button
-              onClick={openCreateBudget}
-              disabled={databases.length === 0}
-              className="flex items-center gap-2 px-4 py-2 bg-gray-800 text-white rounded-md text-sm font-medium hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <Plus size={16} />
-              Nuevo Presupuesto
-            </button>
-          </div>
-        </div>
-
-        {budgets.length === 0 ? (
-          <div className="border border-dashed border-gray-300 rounded-lg p-10 text-center text-gray-400 text-sm">
-            No hay presupuestos.
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {budgets.map((b) => (
-              <div
-                key={b.id}
-                className="shadow-sm border border-gray-200 rounded-lg bg-white p-4 flex flex-col gap-3"
-              >
-                <div className="flex items-start justify-between gap-2">
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-gray-800 truncate">{b.name}</p>
-                    <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{b.description}</p>
-                  </div>
-                  <div className="flex items-center gap-1 shrink-0">
-                    <button
-                      onClick={() => openEditBudget(b)}
-                      className="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600"
-                      title="Editar"
-                    >
-                      <Pencil size={14} />
-                    </button>
-                    <button
-                      onClick={() => openDeleteBudget(b)}
-                      className="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-red-500"
-                      title="Eliminar"
-                    >
-                      <Trash2 size={14} />
-                    </button>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3 text-xs text-gray-500 flex-wrap">
-                  <span className="truncate">Base: {b.databaseName}</span>
-                  <span>
-                    {new Date(b.createdAt).toLocaleDateString('es-EC', {
-                      day: '2-digit',
-                      month: 'short',
-                      year: 'numeric',
-                    })}
-                  </span>
-                </div>
-                <div className="text-sm font-semibold text-green-600">
-                  Total: {formatMoney(budgetTotal(b))}
-                </div>
-                <button
-                  onClick={() => handleOpenBudget(b)}
-                  className="flex items-center justify-center gap-2 px-3 py-2 bg-gray-800 text-white rounded-md text-sm font-medium hover:bg-gray-700 transition-colors w-full"
-                >
-                  <FolderOpen size={14} />
-                  Abrir
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
-      </section>
-
-      {/* ── Actualización de Presupuestos section ───────────────────────── */}
-      <section>
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <TrendingUp size={20} className="text-amber-600" />
-            <h2 className="text-lg font-semibold text-gray-800">Actualización de Presupuestos</h2>
-          </div>
           <button
-            onClick={openCreateBu}
-            disabled={budgets.length === 0 || databases.length === 0}
-            className="flex items-center gap-2 px-4 py-2 bg-amber-600 text-white rounded-md text-sm font-medium hover:bg-amber-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            onClick={() => setActiveSection('databases')}
+            className={`relative w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
+              activeSection === 'databases'
+                ? 'bg-indigo-50 text-indigo-700'
+                : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+            }`}
           >
-            <Plus size={16} />
-            Nueva Actualización
+            {activeSection === 'databases' && (
+              <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-indigo-600 rounded-r" />
+            )}
+            <Database size={16} className="shrink-0" />
+            <span className="flex-1 text-left">Bases de Datos</span>
+            <span className={`text-xs px-1.5 py-0.5 rounded-full font-semibold ${
+              activeSection === 'databases' ? 'bg-indigo-100 text-indigo-700' : 'bg-gray-100 text-gray-500'
+            }`}>
+              {databases.length}
+            </span>
           </button>
-        </div>
-        <p className="text-xs text-gray-400 mb-4">
-          Permite registrar el % de avance por rubro y calcular el costo restante con precios de una base de datos actualizada, sin modificar el presupuesto original.
-        </p>
 
-        {budgetUpdates.length === 0 ? (
-          <div className="border border-dashed border-gray-300 rounded-lg p-10 text-center text-gray-400 text-sm">
-            No hay actualizaciones. Crea una para analizar el impacto de precios actualizados.
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {budgetUpdates.map((u) => (
-              <div key={u.id} className="shadow-sm border border-amber-100 rounded-lg bg-white p-4 flex flex-col gap-3">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-gray-800 truncate">{u.name}</p>
-                    {u.description && <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{u.description}</p>}
-                  </div>
-                  <div className="flex items-center gap-1 shrink-0">
-                    <button onClick={() => openEditBu(u)} className="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600" title="Editar"><Pencil size={14} /></button>
-                    <button onClick={() => openDeleteBu(u)} className="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-red-500" title="Eliminar"><Trash2 size={14} /></button>
-                  </div>
+          <button
+            onClick={() => setActiveSection('budgets')}
+            className={`relative w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
+              activeSection === 'budgets'
+                ? 'bg-green-50 text-green-700'
+                : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+            }`}
+          >
+            {activeSection === 'budgets' && (
+              <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-green-600 rounded-r" />
+            )}
+            <FileText size={16} className="shrink-0" />
+            <span className="flex-1 text-left">Presupuestos</span>
+            <span className={`text-xs px-1.5 py-0.5 rounded-full font-semibold ${
+              activeSection === 'budgets' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'
+            }`}>
+              {budgets.length}
+            </span>
+          </button>
+
+          <button
+            onClick={() => setActiveSection('actualizacion')}
+            className={`relative w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
+              activeSection === 'actualizacion'
+                ? 'bg-amber-50 text-amber-700'
+                : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+            }`}
+          >
+            {activeSection === 'actualizacion' && (
+              <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-amber-600 rounded-r" />
+            )}
+            <TrendingUp size={16} className="shrink-0" />
+            <span className="flex-1 text-left leading-tight">Actualización</span>
+            <span className={`text-xs px-1.5 py-0.5 rounded-full font-semibold ${
+              activeSection === 'actualizacion' ? 'bg-amber-100 text-amber-700' : 'bg-gray-100 text-gray-500'
+            }`}>
+              {budgetUpdates.length}
+            </span>
+          </button>
+
+        </nav>
+      </aside>
+
+      {/* ── Main content ─────────────────────────────────────────────────── */}
+      <div className="flex-1 overflow-auto p-6">
+
+        {/* ── Databases section ───────────────────────────────────────────── */}
+        {activeSection === 'databases' && (
+          <div>
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center shrink-0">
+                  <Database size={20} className="text-indigo-600" />
                 </div>
-                <div className="text-xs text-gray-500 space-y-0.5">
-                  <p>Presupuesto: <span className="text-gray-700 font-medium">{u.sourceBudgetName}</span></p>
-                  <p>Base nueva: <span className="text-gray-700 font-medium">{u.newDatabaseName}</span></p>
-                  <p>{u.lineItems.length} rubros · {new Date(u.createdAt).toLocaleDateString('es-EC', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
+                <div>
+                  <h2 className="text-lg font-bold text-gray-900">Bases de Datos</h2>
+                  <p className="text-xs text-gray-500">Precios y rubros APU para tus proyectos</p>
                 </div>
+              </div>
+              <div className="flex items-center gap-2">
                 <button
-                  onClick={() => handleOpenBu(u)}
-                  className="flex items-center justify-center gap-2 px-3 py-2 bg-amber-600 text-white rounded-md text-sm font-medium hover:bg-amber-500 transition-colors w-full"
+                  onClick={handleLoadPrueba01}
+                  className="flex items-center gap-2 px-3 py-2 text-sm border border-gray-300 rounded-lg font-medium text-gray-600 hover:bg-gray-50 transition-colors"
+                  title="Carga 329 ítems y 93 rubros desde Excel APUS"
                 >
-                  <FolderOpen size={14} />
-                  Abrir
+                  Cargar Prueba 01
+                </button>
+                <button
+                  onClick={openCreateDb}
+                  className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors"
+                >
+                  <Plus size={15} />
+                  Nueva Base de Datos
                 </button>
               </div>
-            ))}
+            </div>
+
+            {databases.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-20 text-center">
+                <div className="w-16 h-16 rounded-2xl bg-indigo-50 flex items-center justify-center mb-4">
+                  <Database size={28} className="text-indigo-300" />
+                </div>
+                <h3 className="text-base font-semibold text-gray-700 mb-1">Sin bases de datos</h3>
+                <p className="text-sm text-gray-400 mb-5 max-w-xs">Crea tu primera base de datos APU o carga la de prueba para comenzar.</p>
+                <div className="flex gap-2">
+                  <button onClick={handleLoadPrueba01} className="px-4 py-2 text-sm border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors">
+                    Cargar Prueba 01
+                  </button>
+                  <button onClick={openCreateDb} className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors">
+                    <Plus size={14} /> Nueva Base de Datos
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {databases.map((db) => (
+                  <div
+                    key={db.id}
+                    className="bg-white rounded-xl border border-gray-200 border-t-[3px] border-t-indigo-500 shadow-sm hover:shadow-md transition-shadow flex flex-col"
+                  >
+                    <div className="p-4 flex-1 flex flex-col gap-3">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex-1 min-w-0">
+                          <p className="font-semibold text-gray-900 truncate">{db.name}</p>
+                          {db.description && (
+                            <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{db.description}</p>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-0.5 shrink-0">
+                          <button onClick={() => openDuplicateDb(db.id)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors" title="Duplicar"><Copy size={13} /></button>
+                          <button onClick={() => openEditDb(db.id)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors" title="Editar"><Pencil size={13} /></button>
+                          <button onClick={() => openDeleteDb(db.id)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-red-500 transition-colors" title="Eliminar"><Trash2 size={13} /></button>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="px-2 py-0.5 bg-indigo-50 text-indigo-700 rounded-full text-xs font-medium">{db.items.length} items</span>
+                        <span className="px-2 py-0.5 bg-indigo-50 text-indigo-700 rounded-full text-xs font-medium">{db.rubros.length} rubros</span>
+                        <span className="ml-auto text-xs text-gray-400">
+                          {new Date(db.createdAt).toLocaleDateString('es-EC', { day: '2-digit', month: 'short', year: 'numeric' })}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="px-4 pb-4">
+                      <button
+                        onClick={() => handleOpenDb(db.id)}
+                        className="w-full flex items-center justify-center gap-2 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors"
+                      >
+                        <FolderOpen size={14} />
+                        Abrir
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
-      </section>
+
+        {/* ── Budgets section ──────────────────────────────────────────────── */}
+        {activeSection === 'budgets' && (
+          <div>
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center shrink-0">
+                  <FileText size={20} className="text-green-600" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-bold text-gray-900">Presupuestos</h2>
+                  <p className="text-xs text-gray-500">Presupuestos APU de tus proyectos</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                {budgets.length >= 2 && (
+                  <button
+                    onClick={() => onNavigate('compare')}
+                    className="flex items-center gap-2 px-3 py-2 text-sm border border-gray-300 rounded-lg font-medium text-gray-600 hover:bg-gray-50 transition-colors"
+                  >
+                    <BarChart2 size={15} />
+                    Comparar
+                  </button>
+                )}
+                <button
+                  onClick={openCreateBudget}
+                  disabled={databases.length === 0}
+                  className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <Plus size={15} />
+                  Nuevo Presupuesto
+                </button>
+              </div>
+            </div>
+
+            {databases.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-20 text-center">
+                <div className="w-16 h-16 rounded-2xl bg-green-50 flex items-center justify-center mb-4">
+                  <FileText size={28} className="text-green-300" />
+                </div>
+                <h3 className="text-base font-semibold text-gray-700 mb-1">Primero crea una base de datos</h3>
+                <p className="text-sm text-gray-400 mb-5 max-w-xs">Los presupuestos necesitan una base de datos APU para calcular precios.</p>
+                <button onClick={() => setActiveSection('databases')} className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors">
+                  Ir a Bases de Datos
+                </button>
+              </div>
+            ) : budgets.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-20 text-center">
+                <div className="w-16 h-16 rounded-2xl bg-green-50 flex items-center justify-center mb-4">
+                  <FileText size={28} className="text-green-300" />
+                </div>
+                <h3 className="text-base font-semibold text-gray-700 mb-1">Sin presupuestos</h3>
+                <p className="text-sm text-gray-400 mb-5 max-w-xs">Crea tu primer presupuesto seleccionando rubros de la base de datos.</p>
+                <button onClick={openCreateBudget} className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition-colors">
+                  <Plus size={14} /> Nuevo Presupuesto
+                </button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {budgets.map((b) => (
+                  <div
+                    key={b.id}
+                    className="bg-white rounded-xl border border-gray-200 border-t-[3px] border-t-green-500 shadow-sm hover:shadow-md transition-shadow flex flex-col"
+                  >
+                    <div className="p-4 flex-1 flex flex-col gap-3">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex-1 min-w-0">
+                          <p className="font-semibold text-gray-900 truncate">{b.name}</p>
+                          {b.description && (
+                            <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{b.description}</p>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-0.5 shrink-0">
+                          <button onClick={() => openEditBudget(b)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors" title="Editar"><Pencil size={13} /></button>
+                          <button onClick={() => openDeleteBudget(b)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-red-500 transition-colors" title="Eliminar"><Trash2 size={13} /></button>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                        <Database size={11} className="shrink-0" />
+                        <span className="truncate">{b.databaseName}</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="px-2 py-0.5 bg-green-50 text-green-700 rounded-full text-xs font-medium">{b.lineItems.length} rubros</span>
+                        <span className="text-xs text-gray-400">
+                          {new Date(b.createdAt).toLocaleDateString('es-EC', { day: '2-digit', month: 'short', year: 'numeric' })}
+                        </span>
+                      </div>
+                      <div className="pt-2 border-t border-gray-100">
+                        <p className="text-xs text-gray-400 mb-0.5">Total</p>
+                        <p className="text-xl font-bold text-green-600">{formatMoney(budgetTotal(b))}</p>
+                      </div>
+                    </div>
+                    <div className="px-4 pb-4">
+                      <button
+                        onClick={() => handleOpenBudget(b)}
+                        className="w-full flex items-center justify-center gap-2 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition-colors"
+                      >
+                        <FolderOpen size={14} />
+                        Abrir
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ── Actualización section ─────────────────────────────────────────── */}
+        {activeSection === 'actualizacion' && (
+          <div>
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center shrink-0">
+                  <TrendingUp size={20} className="text-amber-600" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-bold text-gray-900">Actualización de Presupuestos</h2>
+                  <p className="text-xs text-gray-500">Impacto de nuevos precios en el trabajo restante</p>
+                </div>
+              </div>
+              <button
+                onClick={openCreateBu}
+                disabled={budgets.length === 0 || databases.length === 0}
+                className="flex items-center gap-2 px-4 py-2 bg-amber-600 text-white rounded-lg text-sm font-medium hover:bg-amber-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <Plus size={15} />
+                Nueva Actualización
+              </button>
+            </div>
+
+            {(budgets.length === 0 || databases.length === 0) && budgetUpdates.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-20 text-center">
+                <div className="w-16 h-16 rounded-2xl bg-amber-50 flex items-center justify-center mb-4">
+                  <TrendingUp size={28} className="text-amber-300" />
+                </div>
+                <h3 className="text-base font-semibold text-gray-700 mb-1">Requisitos previos faltantes</h3>
+                <p className="text-sm text-gray-400 max-w-xs">Necesitas al menos una base de datos y un presupuesto para crear una actualización.</p>
+              </div>
+            ) : budgetUpdates.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-20 text-center">
+                <div className="w-16 h-16 rounded-2xl bg-amber-50 flex items-center justify-center mb-4">
+                  <TrendingUp size={28} className="text-amber-300" />
+                </div>
+                <h3 className="text-base font-semibold text-gray-700 mb-1">Sin actualizaciones</h3>
+                <p className="text-sm text-gray-400 mb-5 max-w-xs">Registra el avance por rubro y calcula el impacto de precios actualizados en el trabajo restante.</p>
+                <button onClick={openCreateBu} className="flex items-center gap-2 px-4 py-2 bg-amber-600 text-white rounded-lg text-sm font-medium hover:bg-amber-700 transition-colors">
+                  <Plus size={14} /> Nueva Actualización
+                </button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {budgetUpdates.map((u) => {
+                  const avgProgress = u.lineItems.length > 0
+                    ? u.lineItems.reduce((sum, li) => sum + (li.progress ?? 0), 0) / u.lineItems.length
+                    : 0;
+                  return (
+                    <div
+                      key={u.id}
+                      className="bg-white rounded-xl border border-gray-200 border-t-[3px] border-t-amber-500 shadow-sm hover:shadow-md transition-shadow flex flex-col"
+                    >
+                      <div className="p-4 flex-1 flex flex-col gap-3">
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="flex-1 min-w-0">
+                            <p className="font-semibold text-gray-900 truncate">{u.name}</p>
+                            {u.description && <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{u.description}</p>}
+                          </div>
+                          <div className="flex items-center gap-0.5 shrink-0">
+                            <button onClick={() => openEditBu(u)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors" title="Editar"><Pencil size={13} /></button>
+                            <button onClick={() => openDeleteBu(u)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-red-500 transition-colors" title="Eliminar"><Trash2 size={13} /></button>
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                            <FileText size={11} className="shrink-0" />
+                            <span className="truncate">{u.sourceBudgetName}</span>
+                          </div>
+                          <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                            <Database size={11} className="shrink-0" />
+                            <span className="truncate">{u.newDatabaseName}</span>
+                          </div>
+                        </div>
+                        <div>
+                          <div className="flex items-center justify-between mb-1.5">
+                            <span className="text-xs text-gray-500">Avance promedio</span>
+                            <span className="text-xs font-semibold text-amber-700">{avgProgress.toFixed(0)}%</span>
+                          </div>
+                          <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                            <div
+                              className="h-full bg-amber-400 rounded-full transition-all"
+                              style={{ width: `${avgProgress}%` }}
+                            />
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="px-2 py-0.5 bg-amber-50 text-amber-700 rounded-full text-xs font-medium">{u.lineItems.length} rubros</span>
+                          <span className="text-xs text-gray-400">
+                            {new Date(u.createdAt).toLocaleDateString('es-EC', { day: '2-digit', month: 'short', year: 'numeric' })}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="px-4 pb-4">
+                        <button
+                          onClick={() => handleOpenBu(u)}
+                          className="w-full flex items-center justify-center gap-2 py-2 bg-amber-600 text-white rounded-lg text-sm font-medium hover:bg-amber-700 transition-colors"
+                        >
+                          <FolderOpen size={14} />
+                          Abrir
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
+
+      </div>
 
       {/* ── BudgetUpdate Modals ──────────────────────────────────────────── */}
       {(buModal === 'create' || buModal === 'edit') && (
@@ -461,49 +510,24 @@ export default function HomeView({ onNavigate }: HomeViewProps) {
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Nombre <span className="text-red-500">*</span></label>
-              <input
-                type="text"
-                value={buName}
-                onChange={(e) => setBuName(e.target.value)}
-                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-amber-400"
-                placeholder="Actualización Julio 2025"
-                autoFocus
-              />
+              <input type="text" value={buName} onChange={(e) => setBuName(e.target.value)} className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-amber-400" placeholder="Actualización Julio 2025" autoFocus />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
-              <textarea
-                value={buDesc}
-                onChange={(e) => setBuDesc(e.target.value)}
-                rows={2}
-                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-amber-400 resize-none"
-                placeholder="Descripción opcional..."
-              />
+              <textarea value={buDesc} onChange={(e) => setBuDesc(e.target.value)} rows={2} className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-amber-400 resize-none" placeholder="Descripción opcional..." />
             </div>
             {buModal === 'create' && (
               <>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Presupuesto origen <span className="text-red-500">*</span></label>
-                  <select
-                    value={buSourceBudgetId}
-                    onChange={(e) => setBuSourceBudgetId(e.target.value)}
-                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-amber-400"
-                  >
-                    {budgets.map((b) => (
-                      <option key={b.id} value={b.id}>{b.name} ({b.lineItems.length} rubros)</option>
-                    ))}
+                  <select value={buSourceBudgetId} onChange={(e) => setBuSourceBudgetId(e.target.value)} className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-amber-400">
+                    {budgets.map((b) => <option key={b.id} value={b.id}>{b.name} ({b.lineItems.length} rubros)</option>)}
                   </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Base de precios actualizada <span className="text-red-500">*</span></label>
-                  <select
-                    value={buNewDbId}
-                    onChange={(e) => setBuNewDbId(e.target.value)}
-                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-amber-400"
-                  >
-                    {databases.map((db) => (
-                      <option key={db.id} value={db.id}>{db.name}</option>
-                    ))}
+                  <select value={buNewDbId} onChange={(e) => setBuNewDbId(e.target.value)} className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-amber-400">
+                    {databases.map((db) => <option key={db.id} value={db.id}>{db.name}</option>)}
                   </select>
                   <p className="text-xs text-gray-400 mt-1">Puedes cambiarla más tarde dentro de la actualización.</p>
                 </div>
@@ -511,11 +535,7 @@ export default function HomeView({ onNavigate }: HomeViewProps) {
             )}
             <div className="flex justify-end gap-2 pt-2">
               <button onClick={() => setBuModal(null)} className="px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50">Cancelar</button>
-              <button
-                onClick={handleSaveBu}
-                disabled={!buName.trim() || (buModal === 'create' && (!buSourceBudgetId || !buNewDbId))}
-                className="px-4 py-2 text-sm bg-amber-600 text-white rounded-md hover:bg-amber-500 disabled:opacity-50"
-              >
+              <button onClick={handleSaveBu} disabled={!buName.trim() || (buModal === 'create' && (!buSourceBudgetId || !buNewDbId))} className="px-4 py-2 text-sm bg-amber-600 text-white rounded-md hover:bg-amber-500 disabled:opacity-50">
                 {buModal === 'create' ? 'Crear' : 'Guardar'}
               </button>
             </div>
@@ -526,9 +546,7 @@ export default function HomeView({ onNavigate }: HomeViewProps) {
       {buModal === 'delete' && buTarget && (
         <Modal title="Eliminar Actualización" onClose={() => setBuModal(null)} size="sm">
           <div className="space-y-4">
-            <p className="text-sm text-gray-600">
-              ¿Está seguro que desea eliminar <strong>{buTarget.name}</strong>? Esta acción no se puede deshacer.
-            </p>
+            <p className="text-sm text-gray-600">¿Está seguro que desea eliminar <strong>{buTarget.name}</strong>? Esta acción no se puede deshacer.</p>
             <div className="flex justify-end gap-2">
               <button onClick={() => setBuModal(null)} className="px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50">Cancelar</button>
               <button onClick={handleDeleteBu} className="px-4 py-2 text-sm bg-red-600 text-white rounded-md hover:bg-red-700">Eliminar</button>
@@ -539,47 +557,19 @@ export default function HomeView({ onNavigate }: HomeViewProps) {
 
       {/* ── DB Modals ────────────────────────────────────────────────────── */}
       {(dbModal === 'create' || dbModal === 'edit') && (
-        <Modal
-          title={dbModal === 'create' ? 'Nueva Base de Datos' : 'Editar Base de Datos'}
-          onClose={() => setDbModal(null)}
-          size="md"
-        >
+        <Modal title={dbModal === 'create' ? 'Nueva Base de Datos' : 'Editar Base de Datos'} onClose={() => setDbModal(null)} size="md">
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Nombre <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                value={dbName}
-                onChange={(e) => setDbName(e.target.value)}
-                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
-                placeholder="Base General 2025"
-                autoFocus
-              />
+              <label className="block text-sm font-medium text-gray-700 mb-1">Nombre <span className="text-red-500">*</span></label>
+              <input type="text" value={dbName} onChange={(e) => setDbName(e.target.value)} className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500" placeholder="Base General 2025" autoFocus />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
-              <textarea
-                value={dbDesc}
-                onChange={(e) => setDbDesc(e.target.value)}
-                rows={3}
-                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 resize-none"
-                placeholder="Descripción opcional..."
-              />
+              <textarea value={dbDesc} onChange={(e) => setDbDesc(e.target.value)} rows={3} className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 resize-none" placeholder="Descripción opcional..." />
             </div>
             <div className="flex justify-end gap-2 pt-2">
-              <button
-                onClick={() => setDbModal(null)}
-                className="px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50"
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={handleSaveDb}
-                disabled={!dbName.trim()}
-                className="px-4 py-2 text-sm bg-gray-800 text-white rounded-md hover:bg-gray-700 disabled:opacity-50"
-              >
+              <button onClick={() => setDbModal(null)} className="px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50">Cancelar</button>
+              <button onClick={handleSaveDb} disabled={!dbName.trim()} className="px-4 py-2 text-sm bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:opacity-50">
                 {dbModal === 'create' ? 'Crear' : 'Guardar'}
               </button>
             </div>
@@ -590,25 +580,11 @@ export default function HomeView({ onNavigate }: HomeViewProps) {
       {dbModal === 'delete' && (
         <Modal title="Eliminar Base de Datos" onClose={() => setDbModal(null)} size="sm">
           <div className="space-y-4">
-            <p className="text-sm text-gray-600">
-              ¿Está seguro que desea eliminar esta base de datos? Esta acción no se puede deshacer.
-            </p>
-            <p className="text-xs text-amber-600">
-              Los presupuestos que usen esta base de datos no serán eliminados, pero no podrán ser recalculados.
-            </p>
+            <p className="text-sm text-gray-600">¿Está seguro que desea eliminar esta base de datos? Esta acción no se puede deshacer.</p>
+            <p className="text-xs text-amber-600">Los presupuestos que usen esta base de datos no serán eliminados, pero no podrán ser recalculados.</p>
             <div className="flex justify-end gap-2">
-              <button
-                onClick={() => setDbModal(null)}
-                className="px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50"
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={handleDeleteDb}
-                className="px-4 py-2 text-sm bg-red-600 text-white rounded-md hover:bg-red-700"
-              >
-                Eliminar
-              </button>
+              <button onClick={() => setDbModal(null)} className="px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50">Cancelar</button>
+              <button onClick={handleDeleteDb} className="px-4 py-2 text-sm bg-red-600 text-white rounded-md hover:bg-red-700">Eliminar</button>
             </div>
           </div>
         </Modal>
@@ -618,31 +594,12 @@ export default function HomeView({ onNavigate }: HomeViewProps) {
         <Modal title="Duplicar Base de Datos" onClose={() => setDbModal(null)} size="sm">
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Nombre de la copia <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                value={dbDupName}
-                onChange={(e) => setDbDupName(e.target.value)}
-                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
-                autoFocus
-              />
+              <label className="block text-sm font-medium text-gray-700 mb-1">Nombre de la copia <span className="text-red-500">*</span></label>
+              <input type="text" value={dbDupName} onChange={(e) => setDbDupName(e.target.value)} className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500" autoFocus />
             </div>
             <div className="flex justify-end gap-2">
-              <button
-                onClick={() => setDbModal(null)}
-                className="px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50"
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={handleDuplicateDb}
-                disabled={!dbDupName.trim()}
-                className="px-4 py-2 text-sm bg-gray-800 text-white rounded-md hover:bg-gray-700 disabled:opacity-50"
-              >
-                Duplicar
-              </button>
+              <button onClick={() => setDbModal(null)} className="px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50">Cancelar</button>
+              <button onClick={handleDuplicateDb} disabled={!dbDupName.trim()} className="px-4 py-2 text-sm bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:opacity-50">Duplicar</button>
             </div>
           </div>
         </Modal>
@@ -650,65 +607,27 @@ export default function HomeView({ onNavigate }: HomeViewProps) {
 
       {/* ── Budget Modals ────────────────────────────────────────────────── */}
       {(budgetModal === 'create' || budgetModal === 'edit') && (
-        <Modal
-          title={budgetModal === 'create' ? 'Nuevo Presupuesto' : 'Editar Presupuesto'}
-          onClose={() => setBudgetModal(null)}
-          size="md"
-        >
+        <Modal title={budgetModal === 'create' ? 'Nuevo Presupuesto' : 'Editar Presupuesto'} onClose={() => setBudgetModal(null)} size="md">
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Nombre <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                value={budgetName}
-                onChange={(e) => setBudgetName(e.target.value)}
-                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
-                placeholder="Presupuesto Edificio A"
-                autoFocus
-              />
+              <label className="block text-sm font-medium text-gray-700 mb-1">Nombre <span className="text-red-500">*</span></label>
+              <input type="text" value={budgetName} onChange={(e) => setBudgetName(e.target.value)} className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500" placeholder="Presupuesto Edificio A" autoFocus />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
-              <textarea
-                value={budgetDesc}
-                onChange={(e) => setBudgetDesc(e.target.value)}
-                rows={2}
-                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 resize-none"
-                placeholder="Descripción opcional..."
-              />
+              <textarea value={budgetDesc} onChange={(e) => setBudgetDesc(e.target.value)} rows={2} className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 resize-none" placeholder="Descripción opcional..." />
             </div>
             {budgetModal === 'create' && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Base de Datos <span className="text-red-500">*</span>
-                </label>
-                <select
-                  value={budgetDbId}
-                  onChange={(e) => setBudgetDbId(e.target.value)}
-                  className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
-                >
-                  {databases.map((db) => (
-                    <option key={db.id} value={db.id}>
-                      {db.name}
-                    </option>
-                  ))}
+                <label className="block text-sm font-medium text-gray-700 mb-1">Base de Datos <span className="text-red-500">*</span></label>
+                <select value={budgetDbId} onChange={(e) => setBudgetDbId(e.target.value)} className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500">
+                  {databases.map((db) => <option key={db.id} value={db.id}>{db.name}</option>)}
                 </select>
               </div>
             )}
             <div className="flex justify-end gap-2 pt-2">
-              <button
-                onClick={() => setBudgetModal(null)}
-                className="px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50"
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={handleSaveBudget}
-                disabled={!budgetName.trim() || (budgetModal === 'create' && !budgetDbId)}
-                className="px-4 py-2 text-sm bg-gray-800 text-white rounded-md hover:bg-gray-700 disabled:opacity-50"
-              >
+              <button onClick={() => setBudgetModal(null)} className="px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50">Cancelar</button>
+              <button onClick={handleSaveBudget} disabled={!budgetName.trim() || (budgetModal === 'create' && !budgetDbId)} className="px-4 py-2 text-sm bg-green-600 text-white rounded-md hover:bg-green-700 disabled:opacity-50">
                 {budgetModal === 'create' ? 'Crear' : 'Guardar'}
               </button>
             </div>
@@ -719,27 +638,15 @@ export default function HomeView({ onNavigate }: HomeViewProps) {
       {budgetModal === 'delete' && budgetTarget && (
         <Modal title="Eliminar Presupuesto" onClose={() => setBudgetModal(null)} size="sm">
           <div className="space-y-4">
-            <p className="text-sm text-gray-600">
-              ¿Está seguro que desea eliminar el presupuesto{' '}
-              <strong className="text-gray-900">{budgetTarget.name}</strong>?
-            </p>
+            <p className="text-sm text-gray-600">¿Está seguro que desea eliminar el presupuesto <strong className="text-gray-900">{budgetTarget.name}</strong>?</p>
             <div className="flex justify-end gap-2">
-              <button
-                onClick={() => setBudgetModal(null)}
-                className="px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50"
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={handleDeleteBudget}
-                className="px-4 py-2 text-sm bg-red-600 text-white rounded-md hover:bg-red-700"
-              >
-                Eliminar
-              </button>
+              <button onClick={() => setBudgetModal(null)} className="px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50">Cancelar</button>
+              <button onClick={handleDeleteBudget} className="px-4 py-2 text-sm bg-red-600 text-white rounded-md hover:bg-red-700">Eliminar</button>
             </div>
           </div>
         </Modal>
       )}
+
     </div>
   );
 }

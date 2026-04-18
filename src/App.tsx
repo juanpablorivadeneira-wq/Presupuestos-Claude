@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { ChevronLeft, BarChart2, Database, ChevronDown, Check, Plus } from 'lucide-react';
+import { ChevronLeft, Database, ChevronDown, Check, Plus } from 'lucide-react';
 import { useStore } from './store/useStore';
 import { AppView } from './types';
 import HomeView from './components/home/HomeView';
@@ -72,20 +72,9 @@ export default function App() {
       {/* Header */}
       <header className="bg-white border-b border-gray-200 px-5 py-3 flex items-center gap-3 shadow-sm shrink-0">
         {view === 'home' ? (
-          <>
-            <h1 className="text-xl font-bold text-gray-800 mr-2">
-              Presupuestos <span className="text-green-600">APU</span>
-            </h1>
-            {budgets.length >= 2 && (
-              <button
-                onClick={() => setView('compare')}
-                className="ml-auto flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md text-sm font-medium hover:bg-gray-50"
-              >
-                <BarChart2 size={16} />
-                Comparar Presupuestos
-              </button>
-            )}
-          </>
+          <h1 className="text-xl font-bold text-gray-800 mr-2">
+            Presupuestos <span className="text-green-600">APU</span>
+          </h1>
         ) : view === 'database' ? (
           <>
             <button
