@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Database, FileText, TrendingUp, ChevronDown, Check, Plus, User } from 'lucide-react';
+import { Database, FileText, TrendingUp, ChevronDown, Check, Plus, User, Menu } from 'lucide-react';
 import { useStore } from './store/useStore';
 import { AppView } from './types';
 import HomeView from './components/home/HomeView';
@@ -9,6 +9,7 @@ import BudgetView from './components/budgets/BudgetView';
 import ActualizacionView from './components/actualizacion/ActualizacionView';
 import CompareView from './components/compare/CompareView';
 import Modal from './components/shared/Modal';
+import BuildKontrolLogo from './components/shared/BuildKontrolLogo';
 
 type DbTab = 'items' | 'rubros';
 type HomeSection = 'databases' | 'budgets' | 'actualizacion';
@@ -17,12 +18,12 @@ export default function App() {
   const [view, setView] = useState<AppView>('home');
   const [dbTab, setDbTab] = useState<DbTab>('items');
   const [dbSwitcherOpen, setDbSwitcherOpen] = useState(false);
-  const [budgetSwitcherOpen, setBudgetSwitcherOpen] = useState(false);
+  const [proyectoOpen, setProyectoOpen] = useState(false);
   const [createDbModal, setCreateDbModal] = useState(false);
   const [newDbName, setNewDbName] = useState('');
   const [newDbDesc, setNewDbDesc] = useState('');
   const dbSwitcherRef = useRef<HTMLDivElement>(null);
-  const budgetSwitcherRef = useRef<HTMLDivElement>(null);
+  const proyectoRef = useRef<HTMLDivElement>(null);
 
   const [activeSection, setActiveSection] = useState<HomeSection>(() => {
     const s = useStore.getState();
@@ -51,8 +52,8 @@ export default function App() {
       if (dbSwitcherRef.current && !dbSwitcherRef.current.contains(e.target as Node)) {
         setDbSwitcherOpen(false);
       }
-      if (budgetSwitcherRef.current && !budgetSwitcherRef.current.contains(e.target as Node)) {
-        setBudgetSwitcherOpen(false);
+      if (proyectoRef.current && !proyectoRef.current.contains(e.target as Node)) {
+        setProyectoOpen(false);
       }
     }
     document.addEventListener('mousedown', handleClick);
@@ -81,9 +82,10 @@ export default function App() {
     setDbSwitcherOpen(false);
   }
 
-  function handleSwitchBudget(id: string) {
+  function handleSelectProyecto(id: string) {
     openBudget(id);
-    setBudgetSwitcherOpen(false);
+    setProyectoOpen(false);
+    setView('budget');
   }
 
   function handleCreateDb() {
@@ -100,130 +102,172 @@ export default function App() {
     <div className="h-screen flex flex-col bg-gray-50 overflow-hidden">
 
       {/* ── Top header ─────────────────────────────────────────────────────── */}
-      <header className="bg-[#5a5a5a] text-white h-12 px-4 flex items-center gap-4 shrink-0 z-20 shadow-lg">
+      <header className="bg-[#6b6b6b] text-white shrink-0 z-20 shadow-md">
+        <div className="h-12 px-4 flex items-center gap-3">
 
-        {/* LEFT: Logo placeholder */}
-        <div className="flex items-center gap-3 w-56 shrink-0">
-          <div className="flex items-center gap-2 select-none cursor-pointer" onClick={() => handleBackToHome()}>
-            {/* Logo — será reemplazado con imagen real */}
-            <div className="w-7 h-7 rounded bg-green-500 flex items-center justify-center shrink-0">
-              <span className="text-white font-black text-xs leading-none">P</span>
-            </div>
-            <span className="font-bold text-sm tracking-widest leading-none whitespace-nowrap">
-              PRESUPUESTOS <span className="text-green-400">APU</span>
-            </span>
+          {/* LEFT: Logo + hamburger */}
+          <div className="flex items-center gap-3 shrink-0">
+            <button className="text-gray-300 hover:text-white transition-colors">
+              <Menu size={20} />
+            </button>
+            <button onClick={handleBackToHome} className="focus:outline-none">
+              <BuildKontrolLogo />
+            </button>
           </div>
-        </div>
 
-        {/* CENTER: Context-aware selector */}
-        <div className="flex-1 flex items-center justify-center">
-          {view === 'budget' && currentBudget ? (
-            <div className="flex items-center gap-2.5">
-              <span className="text-gray-300 text-sm">Presupuesto:</span>
-              <div className="relative" ref={budgetSwitcherRef}>
+          {/* Separator */}
+          <div className="h-6 w-px bg-white/25 mx-1 shrink-0" />
+
+          {/* CENTER: Proyecto/Obra selector — siempre visible */}
+          <div className="flex-1 flex items-center justify-center">
+            <div className="flex items-center gap-2">
+              <span className="text-gray-300 text-sm font-medium">Proyecto:</span>
+              <div className="relative" ref={proyectoRef}>
                 <button
-                  onClick={() => setBudgetSwitcherOpen((o) => !o)}
-                  className="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 px-3 py-1.5 rounded-md text-sm font-medium transition-colors"
+                  onClick={() => setProyectoOpen((o) => !o)}
+                  className="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/25 px-3 py-1.5 rounded text-sm font-semibold transition-colors min-w-[180px] justify-between"
                 >
-                  <span className="max-w-[240px] truncate">{currentBudget.name}</span>
-                  <ChevronDown size={13} className={`shrink-0 transition-transform ${budgetSwitcherOpen ? 'rotate-180' : ''}`} />
+                  <span className="truncate max-w-[220px]">
+                    {currentBudget?.name ?? 'Seleccionar proyecto'}
+                  </span>
+                  <ChevronDown
+                    size={14}
+                    className={`shrink-0 ml-1 transition-transform ${proyectoOpen ? 'rotate-180' : ''}`}
+                  />
                 </button>
-                {budgetSwitcherOpen && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 z-50 bg-white border border-gray-200 rounded-lg shadow-xl min-w-[260px]">
-                    <div className="px-3 py-2 border-b border-gray-100">
-                      <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide">Presupuestos</p>
+
+                {proyectoOpen && (
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 z-50 bg-white border border-gray-200 rounded-lg shadow-2xl min-w-[280px]">
+                    <div className="px-3 py-2 border-b border-gray-100 flex items-center justify-between">
+                      <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide">Proyectos / Obras</p>
                     </div>
-                    <div className="py-1 max-h-64 overflow-y-auto">
-                      {budgets.map((b) => (
+                    {budgets.length === 0 ? (
+                      <div className="px-4 py-5 text-center">
+                        <p className="text-sm text-gray-400">No hay presupuestos creados.</p>
                         <button
-                          key={b.id}
-                          onClick={() => handleSwitchBudget(b.id)}
-                          className={`w-full text-left px-3 py-2 text-sm flex items-center gap-2 transition-colors ${
-                            b.id === currentBudgetId
-                              ? 'bg-green-50 text-green-800 font-semibold'
-                              : 'text-gray-700 hover:bg-gray-50'
-                          }`}
+                          onClick={() => { setProyectoOpen(false); handleSidebarNav('budgets'); }}
+                          className="mt-2 text-xs text-green-600 hover:underline"
                         >
-                          <Check size={13} className={b.id === currentBudgetId ? 'text-green-600 shrink-0' : 'invisible shrink-0'} />
-                          <div className="flex-1 min-w-0">
-                            <div className="truncate">{b.name}</div>
-                            <div className="text-xs text-gray-400 font-normal">{b.lineItems.length} rubros</div>
-                          </div>
+                          Ir a Presupuestos →
                         </button>
-                      ))}
-                    </div>
+                      </div>
+                    ) : (
+                      <div className="py-1 max-h-64 overflow-y-auto">
+                        {budgets.map((b) => (
+                          <button
+                            key={b.id}
+                            onClick={() => handleSelectProyecto(b.id)}
+                            className={`w-full text-left px-3 py-2.5 text-sm flex items-center gap-2.5 transition-colors ${
+                              b.id === currentBudgetId
+                                ? 'bg-green-50 text-green-800'
+                                : 'text-gray-700 hover:bg-gray-50'
+                            }`}
+                          >
+                            <Check
+                              size={13}
+                              className={b.id === currentBudgetId ? 'text-green-600 shrink-0' : 'invisible shrink-0'}
+                            />
+                            <div className="flex-1 min-w-0">
+                              <div className="font-medium truncate">{b.name}</div>
+                              <div className="text-xs text-gray-400 mt-0.5">
+                                {b.lineItems.length} rubros · {b.databaseName}
+                              </div>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
             </div>
-
-          ) : view === 'database' ? (
-            <div className="flex items-center gap-2.5">
-              <span className="text-gray-300 text-sm">Base de datos:</span>
-              <div className="relative" ref={dbSwitcherRef}>
-                <button
-                  onClick={() => setDbSwitcherOpen((o) => !o)}
-                  className="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 px-3 py-1.5 rounded-md text-sm font-medium transition-colors"
-                >
-                  <span className="max-w-[200px] truncate">{currentDb?.name ?? 'Sin base de datos'}</span>
-                  <ChevronDown size={13} className={`shrink-0 transition-transform ${dbSwitcherOpen ? 'rotate-180' : ''}`} />
-                </button>
-                {dbSwitcherOpen && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 z-50 bg-white border border-gray-200 rounded-lg shadow-xl min-w-[260px]">
-                    <div className="px-3 py-2 border-b border-gray-100">
-                      <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide">Bases de Datos</p>
-                    </div>
-                    <div className="py-1 max-h-64 overflow-y-auto">
-                      {databases.map((db) => (
-                        <button
-                          key={db.id}
-                          onClick={() => handleSwitchDb(db.id)}
-                          className={`w-full text-left px-3 py-2 text-sm flex items-center gap-2 transition-colors ${
-                            db.id === currentDatabaseId
-                              ? 'bg-indigo-50 text-indigo-800 font-semibold'
-                              : 'text-gray-700 hover:bg-gray-50'
-                          }`}
-                        >
-                          <Check size={13} className={db.id === currentDatabaseId ? 'text-indigo-600 shrink-0' : 'invisible shrink-0'} />
-                          <div className="flex-1 min-w-0">
-                            <div className="truncate">{db.name}</div>
-                            <div className="text-xs text-gray-400 font-normal">{db.items.length} items · {db.rubros.length} rubros</div>
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-                    <div className="border-t border-gray-100 py-1">
-                      <button
-                        onClick={() => { setDbSwitcherOpen(false); setNewDbName(''); setNewDbDesc(''); setCreateDbModal(true); }}
-                        className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2 transition-colors"
-                      >
-                        <Plus size={14} className="text-gray-500 shrink-0" />
-                        Nueva Base de Datos
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-              <span className="text-gray-400 text-xs">/ {dbTab === 'items' ? 'Items' : 'Assemblies'}</span>
-            </div>
-
-          ) : view === 'actualizacion' ? (
-            <span className="text-sm font-medium text-gray-200">Actualización de Presupuestos</span>
-          ) : view === 'compare' ? (
-            <span className="text-sm font-medium text-gray-200">Comparar Presupuestos</span>
-          ) : null}
-        </div>
-
-        {/* RIGHT: User */}
-        <div className="flex items-center w-56 shrink-0 justify-end">
-          <div className="flex items-center gap-2.5 bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-md cursor-pointer transition-colors select-none">
-            <div className="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center shrink-0">
-              <User size={13} className="text-white" />
-            </div>
-            <span className="text-sm text-gray-100 hidden sm:block">Usuario</span>
           </div>
+
+          {/* Separator */}
+          <div className="h-6 w-px bg-white/20 mx-1 shrink-0" />
+
+          {/* RIGHT: User */}
+          <div className="flex items-center gap-2.5 shrink-0">
+            <div className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded cursor-pointer transition-colors">
+              <div className="w-6 h-6 rounded-full bg-white/30 flex items-center justify-center shrink-0">
+                <User size={13} className="text-white" />
+              </div>
+              <span className="text-sm text-gray-100 hidden sm:block font-medium">Usuario</span>
+            </div>
+          </div>
+
         </div>
 
+        {/* Sub-bar: breadcrumb contextual cuando estás en un módulo */}
+        {view !== 'home' && (
+          <div className="bg-[#f5f5f5] border-b border-gray-200 px-4 h-8 flex items-center gap-2 text-xs text-gray-500">
+            <button onClick={handleBackToHome} className="hover:text-gray-800 transition-colors">
+              Inicio
+            </button>
+            <span className="text-gray-300">/</span>
+
+            {view === 'database' ? (
+              <>
+                {/* DB switcher inline */}
+                <div className="relative" ref={dbSwitcherRef}>
+                  <button
+                    onClick={() => setDbSwitcherOpen((o) => !o)}
+                    className="flex items-center gap-1 hover:text-gray-800 transition-colors font-medium text-gray-700"
+                  >
+                    <Database size={11} className="shrink-0" />
+                    {currentDb?.name ?? 'Base de Datos'}
+                    <ChevronDown size={11} className={`shrink-0 transition-transform ${dbSwitcherOpen ? 'rotate-180' : ''}`} />
+                  </button>
+                  {dbSwitcherOpen && (
+                    <div className="absolute top-full left-0 mt-1 z-50 bg-white border border-gray-200 rounded-lg shadow-xl min-w-[240px]">
+                      <div className="px-3 py-1.5 border-b border-gray-100">
+                        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide">Bases de Datos</p>
+                      </div>
+                      <div className="py-1 max-h-56 overflow-y-auto">
+                        {databases.map((db) => (
+                          <button
+                            key={db.id}
+                            onClick={() => handleSwitchDb(db.id)}
+                            className={`w-full text-left px-3 py-2 text-sm flex items-center gap-2 transition-colors ${
+                              db.id === currentDatabaseId
+                                ? 'bg-indigo-50 text-indigo-800 font-semibold'
+                                : 'text-gray-700 hover:bg-gray-50'
+                            }`}
+                          >
+                            <Check size={12} className={db.id === currentDatabaseId ? 'text-indigo-600 shrink-0' : 'invisible shrink-0'} />
+                            <div className="flex-1 min-w-0">
+                              <div className="truncate">{db.name}</div>
+                              <div className="text-xs text-gray-400 font-normal">{db.items.length} items · {db.rubros.length} rubros</div>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                      <div className="border-t border-gray-100 py-1">
+                        <button
+                          onClick={() => { setDbSwitcherOpen(false); setNewDbName(''); setNewDbDesc(''); setCreateDbModal(true); }}
+                          className="w-full text-left px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2 transition-colors"
+                        >
+                          <Plus size={13} className="text-gray-500 shrink-0" />
+                          Nueva Base de Datos
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <span className="text-gray-300">/</span>
+                <span className="text-gray-600 font-medium">{dbTab === 'items' ? 'Items' : 'Assemblies'}</span>
+              </>
+            ) : view === 'budget' ? (
+              <span className="text-gray-700 font-medium truncate max-w-xs">
+                {currentBudget?.name ?? 'Presupuesto'}
+              </span>
+            ) : view === 'actualizacion' ? (
+              <span className="text-amber-700 font-medium">Actualización de Presupuestos</span>
+            ) : view === 'compare' ? (
+              <span className="text-gray-700 font-medium">Comparar Presupuestos</span>
+            ) : null}
+          </div>
+        )}
       </header>
 
       {/* Create DB Modal */}
