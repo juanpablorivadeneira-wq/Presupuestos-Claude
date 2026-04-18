@@ -38,6 +38,8 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
   const [pickSearch, setPickSearch] = useState('');
   const [selectedRubros, setSelectedRubros] = useState<Map<string, number>>(new Map());
   const [lastAdded, setLastAdded] = useState(0);
+  // duplicates alert: map of categoryName → count of duplicate rubros
+  const [duplicateAlert, setDuplicateAlert] = useState<Map<string, number>>(new Map());
 
   // ── Totals ──────────────────────────────────────────────────────────────────
   const subtotal = budget ? budget.lineItems.reduce((s, li) => s + li.unitCost * li.quantity, 0) : 0;
@@ -123,15 +125,37 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
     });
   }
 
+  // Set of rubroIds already in the budget
+  const existingRubroIds = useMemo(
+    () => new Set(budget?.lineItems.map((li) => li.rubroId) ?? []),
+    [budget]
+  );
+
   function commitSelected(): number {
-    if (!budget) return 0;
-    const items = Array.from(selectedRubros.entries())
-      .filter(([, qty]) => qty > 0)
-      .map(([rubroId, quantity]) => ({ rubroId, quantity }));
-    if (items.length > 0) addLineItemsBulk(budget.id, items);
+    if (!budget || !sourceDb) return 0;
+    // Separate new from duplicate
+    const dupes = new Map<string, number>(); // categoryName → count
+    const newItems: Array<{ rubroId: string; quantity: number }> = [];
+    for (const [rubroId, qty] of selectedRubros.entries()) {
+      if (qty <= 0) continue;
+      if (existingRubroIds.has(rubroId)) {
+        const rubro = sourceDb.rubros.find((r) => r.id === rubroId);
+        const cat = rubro?.categoryId
+          ? sourceDb.rubroCategories.find((c) => c.id === rubro.categoryId)?.name ?? 'Sin Categoría'
+          : 'Sin Categoría';
+        dupes.set(cat, (dupes.get(cat) ?? 0) + 1);
+      } else {
+        newItems.push({ rubroId, quantity: qty });
+      }
+    }
+    if (newItems.length > 0) addLineItemsBulk(budget.id, newItems);
     setSelectedRubros(new Map());
     setPickSearch('');
-    return items.length;
+    if (dupes.size > 0) {
+      setDuplicateAlert(dupes);
+      setTimeout(() => setDuplicateAlert(new Map()), 5000);
+    }
+    return newItems.length;
   }
 
   function handleAddAndContinue() {
@@ -140,7 +164,6 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
       setLastAdded(n);
       setTimeout(() => setLastAdded(0), 2500);
     }
-    // stay in modal; pickCategoryId unchanged so user stays in same chapter
   }
 
   function handleAddSelected() {
@@ -148,7 +171,9 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
     setAddModal(false);
   }
 
-  const hasValidSelection = Array.from(selectedRubros.values()).some((q) => q > 0);
+  const hasValidSelection = Array.from(selectedRubros.entries()).some(
+    ([rubroId, q]) => q > 0 && !existingRubroIds.has(rubroId)
+  );
 
   function toggleChapter(key: string) {
     setCollapsedChapters((prev) => {
@@ -498,28 +523,43 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
                         const unitCost = rubroTotal(r, sourceDb.items);
                         const isSelected = selectedRubros.has(r.id);
                         const qty = selectedRubros.get(r.id) ?? 0;
+                        const alreadyAdded = existingRubroIds.has(r.id);
                         return (
                           <tr
                             key={r.id}
-                            onClick={() => toggleRubroSelect(r)}
-                            className={`cursor-pointer transition-colors ${
-                              isSelected ? 'bg-green-50 hover:bg-green-100' : 'hover:bg-gray-50'
+                            onClick={() => !alreadyAdded && toggleRubroSelect(r)}
+                            className={`transition-colors ${
+                              alreadyAdded
+                                ? 'bg-gray-50 opacity-60 cursor-not-allowed'
+                                : isSelected
+                                  ? 'bg-green-50 hover:bg-green-100 cursor-pointer'
+                                  : 'hover:bg-gray-50 cursor-pointer'
                             }`}
                           >
                             <td className="px-2 py-2 text-center">
-                              <input
-                                type="checkbox"
-                                checked={isSelected}
-                                onChange={() => {}}
-                                className="accent-green-600 cursor-pointer"
-                              />
+                              {alreadyAdded ? (
+                                <Check size={13} className="text-gray-400 mx-auto" />
+                              ) : (
+                                <input
+                                  type="checkbox"
+                                  checked={isSelected}
+                                  onChange={() => {}}
+                                  className="accent-green-600 cursor-pointer"
+                                  disabled={alreadyAdded}
+                                />
+                              )}
                             </td>
                             <td className="px-3 py-2 font-mono text-xs text-gray-500">{r.code}</td>
-                            <td className="px-3 py-2 text-gray-800">{r.name}</td>
+                            <td className="px-3 py-2 text-gray-800">
+                              {r.name}
+                              {alreadyAdded && (
+                                <span className="ml-2 text-xs text-gray-400 font-normal">(ya agregado)</span>
+                              )}
+                            </td>
                             <td className="px-3 py-2 text-gray-500">{r.unit}</td>
                             <td className="px-3 py-2 text-right text-gray-700 font-medium">{formatMoney(unitCost)}</td>
                             <td className="px-3 py-1.5 text-right" onClick={(e) => e.stopPropagation()}>
-                              {isSelected ? (
+                              {isSelected && !alreadyAdded ? (
                                 <input
                                   type="number"
                                   value={qty || ''}
@@ -541,6 +581,18 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
                   </table>
                 )}
               </div>
+
+              {/* Duplicate alert banner */}
+              {duplicateAlert.size > 0 && (
+                <div className="px-3 py-2 bg-amber-50 border-t border-amber-200 shrink-0">
+                  <p className="text-xs font-semibold text-amber-800 mb-0.5">Rubros ya existentes — no se agregaron:</p>
+                  {Array.from(duplicateAlert.entries()).map(([cat, count]) => (
+                    <p key={cat} className="text-xs text-amber-700">
+                      · {count} rubro{count !== 1 ? 's' : ''} del capítulo <strong>{cat}</strong>
+                    </p>
+                  ))}
+                </div>
+              )}
 
               {/* Footer */}
               <div className="px-3 py-2.5 border-t border-gray-200 flex items-center justify-between bg-white shrink-0">
