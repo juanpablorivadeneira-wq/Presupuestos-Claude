@@ -1,5 +1,5 @@
-import { useState, useMemo } from 'react';
-import { Plus, Settings2, Filter } from 'lucide-react';
+import { useState, useMemo, useRef } from 'react';
+import { Plus, Search, X } from 'lucide-react';
 import { Item, SortConfig } from '../../types';
 import { useStore, getCategoryIds, itemTotal } from '../../store/useStore';
 import CategoryTree from '../shared/CategoryTree';
@@ -29,7 +29,8 @@ export default function ItemsView({ onTabChange }: ItemsViewProps) {
   } = useStore();
 
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
-  const [search, _setSearch] = useState('');
+  const [search, setSearch] = useState('');
+  const searchRef = useRef<HTMLInputElement>(null);
   const [sortConfig, setSortConfig] = useState<SortConfig>({ key: '', direction: null });
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(50);
@@ -171,28 +172,37 @@ export default function ItemsView({ onTabChange }: ItemsViewProps) {
       {/* Main content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Toolbar */}
-        <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-gray-200 gap-3">
-          <div className="flex items-center gap-3">
-            <button
-              onClick={openCreate}
-              className="flex items-center gap-2 px-4 py-2 bg-gray-800 text-white rounded-md text-sm font-medium hover:bg-gray-700 transition-colors"
-            >
-              <Plus size={16} />
-              Nuevo Item
-            </button>
+        <div className="flex items-center gap-3 px-4 py-3 bg-white border-b border-gray-200">
+          <button
+            onClick={openCreate}
+            className="flex items-center gap-2 px-4 py-2 bg-gray-800 text-white rounded-md text-sm font-medium hover:bg-gray-700 transition-colors shrink-0"
+          >
+            <Plus size={16} />
+            Nuevo Item
+          </button>
+
+          {/* Search */}
+          <div className="relative flex-1 max-w-sm">
+            <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+            <input
+              ref={searchRef}
+              type="text"
+              value={search}
+              onChange={(e) => { setSearch(e.target.value); setPage(1); }}
+              placeholder="Buscar ítem..."
+              className="w-full pl-9 pr-8 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400"
+            />
+            {search && (
+              <button
+                onClick={() => { setSearch(''); searchRef.current?.focus(); }}
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+              >
+                <X size={14} />
+              </button>
+            )}
           </div>
 
-          <div className="flex items-center gap-3">
-            <Filter size={14} className="text-gray-400" />
-            <span className="text-sm text-gray-500">
-              {selectedCategoryId
-                ? `Filtrado (${totalItems})`
-                : `Todos los Items (${totalItems})`}
-            </span>
-            <button className="p-2 rounded-md hover:bg-gray-100 text-gray-400" title="Configuración">
-              <Settings2 size={16} />
-            </button>
-          </div>
+          <span className="text-sm text-gray-400 shrink-0">{totalItems} registros</span>
         </div>
 
         {/* Table */}
@@ -200,6 +210,7 @@ export default function ItemsView({ onTabChange }: ItemsViewProps) {
           <ItemTable
             items={paginatedItems}
             categories={itemCategories}
+            selectedCategoryId={selectedCategoryId}
             onEdit={openEdit}
             onDelete={openDelete}
             sortConfig={sortConfig}
