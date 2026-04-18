@@ -32,7 +32,7 @@ export default function ItemsView({ onTabChange }: ItemsViewProps) {
   const [search, _setSearch] = useState('');
   const [sortConfig, setSortConfig] = useState<SortConfig>({ key: '', direction: null });
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(50);
 
   // Modal state
   const [modalMode, setModalMode] = useState<'create' | 'edit' | 'delete' | null>(null);
@@ -94,7 +94,7 @@ export default function ItemsView({ onTabChange }: ItemsViewProps) {
 
   // Paginate
   const totalItems = sortedItems.length;
-  const paginatedItems = sortedItems.slice((page - 1) * pageSize, page * pageSize);
+  const paginatedItems = pageSize === 0 ? sortedItems : sortedItems.slice((page - 1) * pageSize, page * pageSize);
 
   function openCreate() {
     setSelectedItem(null);

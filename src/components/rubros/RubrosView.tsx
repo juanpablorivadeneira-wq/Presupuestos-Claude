@@ -34,7 +34,7 @@ export default function RubrosView({ onTabChange }: RubrosViewProps) {
   const [search, _setSearch] = useState('');
   const [sortConfig, setSortConfig] = useState<SortConfig>({ key: '', direction: null });
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(50);
 
   // Modal state
   const [modalMode, setModalMode] = useState<'create' | 'edit' | 'delete' | null>(null);
@@ -96,7 +96,7 @@ export default function RubrosView({ onTabChange }: RubrosViewProps) {
 
   // Paginate
   const totalRubros = sortedRubros.length;
-  const paginatedRubros = sortedRubros.slice((page - 1) * pageSize, page * pageSize);
+  const paginatedRubros = pageSize === 0 ? sortedRubros : sortedRubros.slice((page - 1) * pageSize, page * pageSize);
 
   function openCreate() {
     setSelectedRubro(null);

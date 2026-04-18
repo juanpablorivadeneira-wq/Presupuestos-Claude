@@ -8,7 +8,7 @@ interface PaginationProps {
   onPageSizeChange: (size: number) => void;
 }
 
-const PAGE_SIZES = [10, 25, 50, 100];
+const PAGE_SIZES = [25, 50, 100, 250, 0]; // 0 = Todos
 
 export default function Pagination({
   total,
@@ -35,7 +35,7 @@ export default function Pagination({
         >
           {PAGE_SIZES.map((s) => (
             <option key={s} value={s}>
-              {s}
+              {s === 0 ? 'Todos' : s}
             </option>
           ))}
         </select>
