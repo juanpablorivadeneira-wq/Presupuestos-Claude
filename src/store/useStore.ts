@@ -110,6 +110,7 @@ interface AppState {
   // Backup / Restore
   exportBackup: () => void;
   importBackup: (json: string) => { ok: boolean; error?: string };
+  mergeBackup: (data: { databases?: Database[]; budgets?: Budget[]; budgetUpdates?: BudgetUpdate[] }) => void;
 }
 
 const saved = loadFromStorage();
@@ -736,6 +737,22 @@ export const useStore = create<AppState>((set, get) => ({
     } catch {
       return { ok: false, error: 'No se pudo leer el archivo. Asegúrate de que sea un backup válido.' };
     }
+  },
+
+  mergeBackup: ({ databases: dbs = [], budgets: bgs = [], budgetUpdates: bus = [] }) => {
+    set((s) => {
+      // Upsert by id: replace if exists, append if new
+      const upsert = <T extends { id: string }>(current: T[], incoming: T[]) => {
+        const map = new Map(current.map((x) => [x.id, x]));
+        incoming.forEach((x) => map.set(x.id, x));
+        return Array.from(map.values());
+      };
+      return {
+        databases: upsert(s.databases, dbs),
+        budgets: upsert(s.budgets, bgs),
+        budgetUpdates: upsert(s.budgetUpdates, bus),
+      };
+    });
   },
 }));
 
