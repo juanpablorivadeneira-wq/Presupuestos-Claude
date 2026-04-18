@@ -91,7 +91,7 @@ export default function App() {
     <div className="h-screen flex flex-col bg-gray-50 overflow-hidden">
 
       {/* ── Top header ─────────────────────────────────────────────────────── */}
-      <header className="bg-[#6b6b6b] text-white shrink-0 z-20 shadow-md">
+      <header className="bg-[#1e2d45] text-white shrink-0 z-20 shadow-md">
         <div className="h-12 flex items-center">
 
           {/* LEFT: Logo + hamburger sobre el gris del header */}
