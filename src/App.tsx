@@ -276,7 +276,7 @@ export default function App() {
 
         {/* ── Persistent sidebar ──────────────────────────────────────── */}
         <aside className="w-56 shrink-0 bg-white border-r border-gray-200 flex flex-col py-5">
-          <p className="px-4 mb-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Módulos</p>
+          <p className="px-4 mb-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Gestión de Presupuestos</p>
           <nav className="flex-1 px-2 space-y-0.5">
 
             <button
