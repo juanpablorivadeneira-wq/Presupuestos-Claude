@@ -66,6 +66,8 @@ export interface BudgetLineItem {
   rubroName: string;
   rubroDescription: string;
   rubroUnit: string;
+  categoryId: string | null;
+  categoryName: string;
   quantity: number;
   unitCost: number;
 }
@@ -79,6 +81,7 @@ export interface Budget {
   createdAt: string;
   updatedAt: string;
   lineItems: BudgetLineItem[];
+  ivaRate: number;
 }
 
 export type AppView = 'home' | 'database' | 'budget' | 'compare';

@@ -86,6 +86,7 @@ interface AppState {
   openBudget: (id: string) => void;
   closeBudget: () => void;
   addLineItem: (budgetId: string, rubroId: string, quantity: number) => void;
+  addLineItemsBulk: (budgetId: string, items: Array<{ rubroId: string; quantity: number }>) => void;
   updateLineItem: (budgetId: string, lineItemId: string, quantity: number) => void;
   removeLineItem: (budgetId: string, lineItemId: string) => void;
   recalculateBudget: (budgetId: string) => void;
@@ -416,6 +417,7 @@ export const useStore = create<AppState>((set, get) => ({
       createdAt: now,
       updatedAt: now,
       lineItems: [],
+      ivaRate: 0.12,
     };
     set((state) => {
       const budgets = [...state.budgets, newBudget];
@@ -466,6 +468,7 @@ export const useStore = create<AppState>((set, get) => ({
       const rubro = db.rubros.find((r) => r.id === rubroId);
       if (!rubro) return {};
       const unitCost = rubroTotal(rubro, db.items);
+      const category = rubro.categoryId ? db.rubroCategories.find((c) => c.id === rubro.categoryId) : null;
       const lineItem: BudgetLineItem = {
         id: genId(),
         rubroId,
@@ -473,12 +476,50 @@ export const useStore = create<AppState>((set, get) => ({
         rubroName: rubro.name,
         rubroDescription: rubro.description,
         rubroUnit: rubro.unit,
+        categoryId: rubro.categoryId,
+        categoryName: category?.name ?? '',
         quantity,
         unitCost,
       };
       const budgets = state.budgets.map((b) =>
         b.id === budgetId
           ? { ...b, lineItems: [...b.lineItems, lineItem], updatedAt: new Date().toISOString() }
+          : b
+      );
+      saveToStorage({ databases: state.databases, currentDatabaseId: state.currentDatabaseId, budgets, currentBudgetId: state.currentBudgetId });
+      return { budgets };
+    });
+  },
+
+  addLineItemsBulk: (budgetId, items) => {
+    set((state) => {
+      const budget = state.budgets.find((b) => b.id === budgetId);
+      if (!budget) return {};
+      const db = state.databases.find((d) => d.id === budget.databaseId);
+      if (!db) return {};
+      const newLineItems: BudgetLineItem[] = [];
+      for (const { rubroId, quantity } of items) {
+        const rubro = db.rubros.find((r) => r.id === rubroId);
+        if (!rubro || quantity <= 0) continue;
+        const unitCost = rubroTotal(rubro, db.items);
+        const category = rubro.categoryId ? db.rubroCategories.find((c) => c.id === rubro.categoryId) : null;
+        newLineItems.push({
+          id: genId(),
+          rubroId,
+          rubroCode: rubro.code,
+          rubroName: rubro.name,
+          rubroDescription: rubro.description,
+          rubroUnit: rubro.unit,
+          categoryId: rubro.categoryId,
+          categoryName: category?.name ?? '',
+          quantity,
+          unitCost,
+        });
+      }
+      if (newLineItems.length === 0) return {};
+      const budgets = state.budgets.map((b) =>
+        b.id === budgetId
+          ? { ...b, lineItems: [...b.lineItems, ...newLineItems], updatedAt: new Date().toISOString() }
           : b
       );
       saveToStorage({ databases: state.databases, currentDatabaseId: state.currentDatabaseId, budgets, currentBudgetId: state.currentBudgetId });
