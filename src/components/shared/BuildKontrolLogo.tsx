@@ -1,4 +1,4 @@
-import logoUrl from '../../assets/buildkontrol-logo.png';
+import logoUrl from '../../assets/BK GRIS.png';
 
 interface BuildKontrolLogoProps {
   className?: string;
@@ -9,7 +9,7 @@ export default function BuildKontrolLogo({ className = '' }: BuildKontrolLogoPro
     <img
       src={logoUrl}
       alt="BuildKontrol"
-      className={`h-7 w-auto select-none ${className}`}
+      className={`h-8 w-auto select-none ${className}`}
       draggable={false}
     />
   );
