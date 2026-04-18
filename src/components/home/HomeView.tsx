@@ -35,13 +35,11 @@ export default function HomeView({ onNavigate }: HomeViewProps) {
   } = useStore();
 
   function handleLoadPrueba01() {
-    const exists = databases.find((d) => d.name === 'Prueba 01');
-    if (exists) {
-      openDatabase(exists.id);
-    } else {
-      const id = importDatabase(prueba01Database);
-      openDatabase(id);
-    }
+    // Always replace existing Prueba 01 with fresh data from the seed file
+    // so that stale localStorage versions don't block loading the latest data
+    const existing = databases.find((d) => d.name === 'Prueba 01');
+    if (existing) deleteDatabase(existing.id);
+    importDatabase(prueba01Database);
     onNavigate('database');
   }
 
