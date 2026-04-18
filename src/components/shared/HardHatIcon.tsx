@@ -5,53 +5,61 @@ interface HardHatIconProps {
 
 export default function HardHatIcon({ size = 32, className = '' }: HardHatIconProps) {
   const h = size;
-  const w = size * 1.55;
+  const w = size * 1.5;
   return (
     <svg
       width={w}
       height={h}
-      viewBox="0 0 155 100"
+      viewBox="0 0 150 100"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
     >
       {/* Brim */}
       <path
-        d="M 18 72 C 10 75 8 84 20 86 L 128 86 C 140 86 142 80 135 77 L 118 73"
-        fill="#F08B7A"
-        stroke="#F08B7A"
-        strokeWidth="1"
+        d="M 12 70 C 5 73 4 84 18 86 L 130 86 C 142 86 143 78 134 75 L 116 71"
+        fill="#CC1111"
       />
       {/* Dome */}
       <path
-        d="M 28 74 C 24 74 20 72 18 68
-           C 14 58 18 38 34 26
-           C 50 14 82 12 102 24
-           C 120 34 124 54 118 68
-           L 118 73
-           C 90 80 50 80 28 74 Z"
-        fill="#F08B7A"
+        d="M 26 72
+           C 22 72 17 70 14 65
+           C 8 54 13 32 32 20
+           C 51 8 88 8 108 22
+           C 126 34 128 56 120 70
+           L 116 72
+           C 88 80 52 80 26 72 Z"
+        fill="#CC1111"
+      />
+      {/* Highlight on dome top */}
+      <path
+        d="M 48 18 C 68 10 100 14 112 30"
+        stroke="#E84040"
+        strokeWidth="3"
+        strokeLinecap="round"
+        fill="none"
+        opacity="0.5"
       />
       {/* Inner band line 1 */}
       <path
-        d="M 30 72 C 65 82 100 78 116 72"
-        stroke="#E07060"
+        d="M 28 70 C 68 82 104 76 114 70"
+        stroke="#991010"
         strokeWidth="2.5"
         strokeLinecap="round"
         fill="none"
       />
       {/* Inner band line 2 */}
       <path
-        d="M 32 66 C 66 75 100 72 114 66"
-        stroke="#E07060"
+        d="M 30 63 C 68 74 102 68 112 63"
+        stroke="#991010"
         strokeWidth="1.8"
         strokeLinecap="round"
         fill="none"
       />
       {/* Brim underline */}
       <path
-        d="M 20 82 C 65 90 115 88 134 82"
-        stroke="#E07060"
+        d="M 18 82 C 68 90 118 87 133 81"
+        stroke="#991010"
         strokeWidth="2"
         strokeLinecap="round"
         fill="none"

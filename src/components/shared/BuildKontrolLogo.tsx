@@ -6,17 +6,29 @@ interface BuildKontrolLogoProps {
 
 export default function BuildKontrolLogo({ className = '' }: BuildKontrolLogoProps) {
   return (
-    <div className={`flex items-center gap-0 select-none ${className}`}>
+    <div className={`flex items-center select-none ${className}`}>
       <span
-        style={{ fontFamily: 'Arial Black, Arial, sans-serif', letterSpacing: '0.03em' }}
-        className="font-black text-[14px] text-[#5a5a5a] uppercase leading-none tracking-wider"
+        style={{
+          fontFamily: '"Arial Black", "Impact", sans-serif',
+          letterSpacing: '0.06em',
+          fontSize: '17px',
+          color: 'white',
+          fontWeight: 900,
+          lineHeight: 1,
+        }}
       >
         BUILDK
       </span>
-      <HardHatIcon size={22} className="-mx-0.5 -mt-1" />
+      <HardHatIcon size={24} className="mx-0.5 -mt-0.5" />
       <span
-        style={{ fontFamily: 'Arial Black, Arial, sans-serif', letterSpacing: '0.03em' }}
-        className="font-black text-[14px] text-[#5a5a5a] uppercase leading-none tracking-wider"
+        style={{
+          fontFamily: '"Arial Black", "Impact", sans-serif',
+          letterSpacing: '0.06em',
+          fontSize: '17px',
+          color: 'white',
+          fontWeight: 900,
+          lineHeight: 1,
+        }}
       >
         NTROL
       </span>
