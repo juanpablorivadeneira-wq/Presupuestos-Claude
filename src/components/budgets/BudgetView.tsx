@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef } from 'react';
-import { Plus, Trash2, RefreshCw, FileDown, Search, X, ChevronDown, ChevronRight, CheckSquare } from 'lucide-react';
+import { Plus, Trash2, RefreshCw, FileDown, Search, X, ChevronDown, ChevronRight, CheckSquare, TrendingUp } from 'lucide-react';
 import { useStore, formatMoney, rubroTotal, getCategoryIds } from '../../store/useStore';
 import { AppView, BudgetLineItem, Rubro } from '../../types';
 import Modal from '../shared/Modal';
@@ -11,7 +11,7 @@ interface BudgetViewProps {
   onNavigate: (view: AppView) => void;
 }
 
-export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps) {
+export default function BudgetView({ onNavigate }: BudgetViewProps) {
   const budgets = useStore((s) => s.budgets);
   const currentBudgetId = useStore((s) => s.currentBudgetId);
   const databases = useStore((s) => s.databases);
@@ -218,6 +218,13 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
           >
             <RefreshCw size={14} />
             Recalcular Precios
+          </button>
+          <button
+            onClick={() => onNavigate('budget-update')}
+            className="flex items-center gap-1.5 px-3 py-1.5 border border-amber-300 bg-amber-50 text-amber-800 rounded-md text-sm font-medium hover:bg-amber-100 transition-colors"
+          >
+            <TrendingUp size={14} />
+            Actualizar Precios
           </button>
         </div>
         <div className="flex items-center gap-2">

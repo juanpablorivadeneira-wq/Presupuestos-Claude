@@ -88,6 +88,7 @@ interface AppState {
   addLineItem: (budgetId: string, rubroId: string, quantity: number) => void;
   addLineItemsBulk: (budgetId: string, items: Array<{ rubroId: string; quantity: number }>) => void;
   updateLineItem: (budgetId: string, lineItemId: string, quantity: number) => void;
+  updateLineItemProgress: (budgetId: string, lineItemId: string, progress: number) => void;
   removeLineItem: (budgetId: string, lineItemId: string) => void;
   recalculateBudget: (budgetId: string) => void;
 }
@@ -480,6 +481,7 @@ export const useStore = create<AppState>((set, get) => ({
         categoryId: rubro.categoryId,
         categoryName: category?.name ?? '',
         quantity,
+        progress: 0,
         unitCost,
         materialCost: bd.material,
         manoDeObraCost: bd.manoDeObra,
@@ -518,6 +520,7 @@ export const useStore = create<AppState>((set, get) => ({
           categoryId: rubro.categoryId,
           categoryName: category?.name ?? '',
           quantity,
+          progress: 0,
           unitCost,
           materialCost: bd.material,
           manoDeObraCost: bd.manoDeObra,
@@ -542,6 +545,22 @@ export const useStore = create<AppState>((set, get) => ({
           ? {
               ...b,
               lineItems: b.lineItems.map((li) => (li.id === lineItemId ? { ...li, quantity } : li)),
+              updatedAt: new Date().toISOString(),
+            }
+          : b
+      );
+      saveToStorage({ databases: state.databases, currentDatabaseId: state.currentDatabaseId, budgets, currentBudgetId: state.currentBudgetId });
+      return { budgets };
+    });
+  },
+
+  updateLineItemProgress: (budgetId, lineItemId, progress) => {
+    set((state) => {
+      const budgets = state.budgets.map((b) =>
+        b.id === budgetId
+          ? {
+              ...b,
+              lineItems: b.lineItems.map((li) => (li.id === lineItemId ? { ...li, progress } : li)),
               updatedAt: new Date().toISOString(),
             }
           : b

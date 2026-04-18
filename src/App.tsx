@@ -6,6 +6,7 @@ import HomeView from './components/home/HomeView';
 import ItemsView from './components/items/ItemsView';
 import RubrosView from './components/rubros/RubrosView';
 import BudgetView from './components/budgets/BudgetView';
+import BudgetUpdateView from './components/budgets/BudgetUpdateView';
 import CompareView from './components/compare/CompareView';
 import Modal from './components/shared/Modal';
 
@@ -46,7 +47,7 @@ export default function App() {
 
   function handleBackToHome() {
     if (view === 'database') closeDatabase();
-    if (view === 'budget') closeBudget();
+    if (view === 'budget' || view === 'budget-update') closeBudget();
     setView('home');
   }
 
@@ -163,6 +164,25 @@ export default function App() {
               {currentBudget?.name ?? 'Presupuesto'}
             </span>
           </>
+        ) : view === 'budget-update' ? (
+          <>
+            <button
+              onClick={handleBackToHome}
+              className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-800 transition-colors"
+            >
+              <ChevronLeft size={16} />
+              Inicio
+            </button>
+            <span className="text-gray-300">/</span>
+            <button
+              onClick={() => setView('budget')}
+              className="text-sm text-gray-500 hover:text-gray-800 transition-colors truncate max-w-xs"
+            >
+              {currentBudget?.name ?? 'Presupuesto'}
+            </button>
+            <span className="text-gray-300">/</span>
+            <span className="text-sm font-semibold text-amber-700">Actualización de Precios</span>
+          </>
         ) : view === 'compare' ? (
           <>
             <button
@@ -234,6 +254,7 @@ export default function App() {
             : <RubrosView activeTab="rubros" onTabChange={setDbTab} />
         )}
         {view === 'budget' && <BudgetView onNavigate={handleNavigate} />}
+        {view === 'budget-update' && <BudgetUpdateView onNavigate={handleNavigate} />}
         {view === 'compare' && <CompareView onNavigate={handleNavigate} />}
       </main>
     </div>

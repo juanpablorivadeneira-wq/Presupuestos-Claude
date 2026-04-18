@@ -69,6 +69,7 @@ export interface BudgetLineItem {
   categoryId: string | null;
   categoryName: string;
   quantity: number;
+  progress: number;
   unitCost: number;
   materialCost: number;
   manoDeObraCost: number;
@@ -87,4 +88,4 @@ export interface Budget {
   ivaRate: number;
 }
 
-export type AppView = 'home' | 'database' | 'budget' | 'compare';
+export type AppView = 'home' | 'database' | 'budget' | 'budget-update' | 'compare';
