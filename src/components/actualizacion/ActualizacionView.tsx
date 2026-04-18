@@ -161,20 +161,20 @@ export default function ActualizacionView({ onNavigate: _onNavigate }: Actualiza
             No hay rubros en esta actualización.
           </div>
         ) : (
-          <table className="w-full text-sm">
-            <thead className="bg-gray-50 text-xs text-gray-500 uppercase sticky top-0 z-10 border-b border-gray-200">
+          <table className="w-full text-sm border-separate border-spacing-0">
+            <thead className="bg-gray-50 text-xs text-gray-500 uppercase sticky top-0 z-10">
               <tr>
-                <th className="px-3 py-3 text-left w-28">Código</th>
-                <th className="px-3 py-3 text-left">Nombre</th>
-                <th className="px-3 py-3 text-left w-16">Unidad</th>
-                <th className="px-3 py-3 text-right w-24">Cant. Total</th>
-                <th className="px-3 py-3 text-right w-32 text-amber-600">% Avance</th>
-                <th className="px-3 py-3 text-right w-24">Cant. Rest.</th>
-                <th className="px-3 py-3 text-right w-28">P.Unit Original</th>
-                <th className="px-3 py-3 text-right w-28 text-blue-600">P.Unit Nuevo</th>
-                <th className="px-3 py-3 text-right w-32">Costo Rest. Orig.</th>
-                <th className="px-3 py-3 text-right w-32 text-blue-600">Costo Rest. Nuevo</th>
-                <th className="px-3 py-3 text-right w-28">Impacto</th>
+                <th className="px-3 py-3 text-left w-28 border-b border-gray-200">Código</th>
+                <th className="px-3 py-3 text-left border-b border-gray-200">Nombre</th>
+                <th className="px-3 py-3 text-left w-16 border-b border-gray-200">Unidad</th>
+                <th className="px-3 py-3 text-right w-24 border-b border-gray-200">Cant. Total</th>
+                <th className="px-3 py-3 text-right w-32 text-amber-600 border-b border-gray-200">% Avance</th>
+                <th className="px-3 py-3 text-right w-24 border-b border-gray-200">Cant. Rest.</th>
+                <th className="px-3 py-3 text-right w-28 border-b border-gray-200">P.Unit Original</th>
+                <th className="px-3 py-3 text-right w-28 text-blue-600 border-b border-gray-200">P.Unit Nuevo</th>
+                <th className="px-3 py-3 text-right w-32 border-b border-gray-200">Costo Rest. Orig.</th>
+                <th className="px-3 py-3 text-right w-32 text-blue-600 border-b border-gray-200">Costo Rest. Nuevo</th>
+                <th className="px-3 py-3 text-right w-28 border-b border-gray-200">Impacto</th>
               </tr>
             </thead>
             <tbody>

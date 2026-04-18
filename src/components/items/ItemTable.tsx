@@ -25,7 +25,7 @@ function ColumnHeader({ label, colKey, sortConfig, onSort, className = '' }: Col
   const isActive = sortConfig.key === colKey;
   return (
     <th
-      className={`px-3 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider cursor-pointer select-none hover:bg-gray-100 whitespace-nowrap ${className}`}
+      className={`px-3 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider cursor-pointer select-none hover:bg-gray-100 whitespace-nowrap border-b border-gray-200 ${className}`}
       onClick={() => onSort(colKey)}
     >
       <div className="flex items-center gap-1">
@@ -94,11 +94,10 @@ export default function ItemTable({
   }
 
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full min-w-[600px]">
-        <thead className="bg-gray-50 border-b border-gray-200">
+    <table className="w-full min-w-[600px] border-separate border-spacing-0">
+        <thead className="bg-gray-50 sticky top-0 z-10">
           <tr>
-            <th className="w-8 px-2"></th>
+            <th className="w-8 px-2 border-b border-gray-200"></th>
             <ColumnHeader label="Código" colKey="code" sortConfig={sortConfig} onSort={onSort} className="w-32" />
             <ColumnHeader label="Nombre" colKey="name" sortConfig={sortConfig} onSort={onSort} />
             <ColumnHeader label="Unidad" colKey="unit" sortConfig={sortConfig} onSort={onSort} className="w-20" />
@@ -106,7 +105,7 @@ export default function ItemTable({
             {showMO  && <ColumnHeader label="Mano de Obra" colKey="manoDeObra" sortConfig={sortConfig} onSort={onSort} className="w-28 text-right" />}
             {showEq  && <ColumnHeader label="Equipo" colKey="equipo" sortConfig={sortConfig} onSort={onSort} className="w-24 text-right" />}
             <ColumnHeader label="Precio Unit." colKey="total" sortConfig={sortConfig} onSort={onSort} className="w-28 text-right" />
-            <th className="w-20 px-3 py-3 text-right text-xs font-semibold text-gray-500 uppercase">Acciones</th>
+            <th className="w-20 px-3 py-3 text-right text-xs font-semibold text-gray-500 uppercase border-b border-gray-200">Acciones</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-100">
@@ -162,6 +161,5 @@ export default function ItemTable({
           })}
         </tbody>
       </table>
-    </div>
   );
 }

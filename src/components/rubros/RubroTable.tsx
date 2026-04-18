@@ -26,7 +26,7 @@ function ColumnHeader({ label, colKey, sortConfig, onSort, className = '', align
   const isActive = sortConfig.key === colKey;
   return (
     <th
-      className={`px-3 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider cursor-pointer select-none hover:bg-gray-100 whitespace-nowrap ${align === 'right' ? 'text-right' : 'text-left'} ${className}`}
+      className={`px-3 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider cursor-pointer select-none hover:bg-gray-100 whitespace-nowrap border-b border-gray-200 ${align === 'right' ? 'text-right' : 'text-left'} ${className}`}
       onClick={() => onSort(colKey)}
     >
       <div className={`flex items-center gap-1 ${align === 'right' ? 'justify-end' : ''}`}>
@@ -87,25 +87,24 @@ export default function RubroTable({
   }
 
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full min-w-[820px]">
-        <thead className="bg-gray-50 border-b border-gray-200 sticky top-0 z-10">
+    <table className="w-full min-w-[820px] border-separate border-spacing-0">
+        <thead className="bg-gray-50 sticky top-0 z-10">
           <tr>
-            <th className="w-8 px-2"></th>
+            <th className="w-8 px-2 border-b border-gray-200"></th>
             <ColumnHeader label="Código" colKey="code" sortConfig={sortConfig} onSort={onSort} className="w-28" />
             <ColumnHeader label="Nombre" colKey="name" sortConfig={sortConfig} onSort={onSort} />
             <ColumnHeader label="Unidad" colKey="unit" sortConfig={sortConfig} onSort={onSort} className="w-20" />
-            <th className="px-3 py-3 text-right text-xs font-semibold text-blue-500 uppercase tracking-wider w-28">
+            <th className="px-3 py-3 text-right text-xs font-semibold text-blue-500 uppercase tracking-wider w-28 border-b border-gray-200">
               Material
             </th>
-            <th className="px-3 py-3 text-right text-xs font-semibold text-orange-500 uppercase tracking-wider w-28">
+            <th className="px-3 py-3 text-right text-xs font-semibold text-orange-500 uppercase tracking-wider w-28 border-b border-gray-200">
               M. Obra
             </th>
-            <th className="px-3 py-3 text-right text-xs font-semibold text-purple-500 uppercase tracking-wider w-28">
+            <th className="px-3 py-3 text-right text-xs font-semibold text-purple-500 uppercase tracking-wider w-28 border-b border-gray-200">
               Equipo
             </th>
             <ColumnHeader label="Total" colKey="total" sortConfig={sortConfig} onSort={onSort} className="w-28" align="right" />
-            <th className="w-20 px-3 py-3 text-right text-xs font-semibold text-gray-500 uppercase">
+            <th className="w-20 px-3 py-3 text-right text-xs font-semibold text-gray-500 uppercase border-b border-gray-200">
               Acciones
             </th>
           </tr>
@@ -267,6 +266,5 @@ export default function RubroTable({
           })}
         </tbody>
       </table>
-    </div>
   );
 }
