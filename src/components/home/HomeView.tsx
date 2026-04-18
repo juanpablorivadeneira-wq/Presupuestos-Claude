@@ -12,16 +12,11 @@ type HomeSection = 'databases' | 'budgets' | 'actualizacion';
 
 interface HomeViewProps {
   onNavigate: (view: AppView) => void;
+  activeSection: HomeSection;
+  onSectionChange: (section: HomeSection) => void;
 }
 
-export default function HomeView({ onNavigate }: HomeViewProps) {
-  const [activeSection, setActiveSection] = useState<HomeSection>(() => {
-    // Start on the section that already has data so users see their work immediately
-    const s = useStore.getState();
-    if (s.budgets.length > 0) return 'budgets';
-    if (s.databases.length > 0) return 'databases';
-    return 'databases';
-  });
+export default function HomeView({ onNavigate, activeSection, onSectionChange }: HomeViewProps) {
 
   const {
     databases, budgets, budgetUpdates,
@@ -122,78 +117,7 @@ export default function HomeView({ onNavigate }: HomeViewProps) {
   function handleOpenBu(u: BudgetUpdate) { openBudgetUpdate(u.id); onNavigate('actualizacion'); }
 
   return (
-    <div className="flex-1 flex overflow-hidden">
-
-      {/* ── Sidebar ──────────────────────────────────────────────────────── */}
-      <aside className="w-56 shrink-0 bg-white border-r border-gray-200 flex flex-col py-5">
-        <p className="px-4 mb-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Módulos</p>
-        <nav className="flex-1 px-2 space-y-0.5">
-
-          <button
-            onClick={() => setActiveSection('databases')}
-            className={`relative w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
-              activeSection === 'databases'
-                ? 'bg-indigo-50 text-indigo-700'
-                : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-            }`}
-          >
-            {activeSection === 'databases' && (
-              <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-indigo-600 rounded-r" />
-            )}
-            <Database size={16} className="shrink-0" />
-            <span className="flex-1 text-left">Bases de Datos</span>
-            <span className={`text-xs px-1.5 py-0.5 rounded-full font-semibold ${
-              activeSection === 'databases' ? 'bg-indigo-100 text-indigo-700' : 'bg-gray-100 text-gray-500'
-            }`}>
-              {databases.length}
-            </span>
-          </button>
-
-          <button
-            onClick={() => setActiveSection('budgets')}
-            className={`relative w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
-              activeSection === 'budgets'
-                ? 'bg-green-50 text-green-700'
-                : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-            }`}
-          >
-            {activeSection === 'budgets' && (
-              <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-green-600 rounded-r" />
-            )}
-            <FileText size={16} className="shrink-0" />
-            <span className="flex-1 text-left">Presupuestos</span>
-            <span className={`text-xs px-1.5 py-0.5 rounded-full font-semibold ${
-              activeSection === 'budgets' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'
-            }`}>
-              {budgets.length}
-            </span>
-          </button>
-
-          <button
-            onClick={() => setActiveSection('actualizacion')}
-            className={`relative w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
-              activeSection === 'actualizacion'
-                ? 'bg-amber-50 text-amber-700'
-                : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-            }`}
-          >
-            {activeSection === 'actualizacion' && (
-              <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-amber-600 rounded-r" />
-            )}
-            <TrendingUp size={16} className="shrink-0" />
-            <span className="flex-1 text-left leading-tight">Actualización</span>
-            <span className={`text-xs px-1.5 py-0.5 rounded-full font-semibold ${
-              activeSection === 'actualizacion' ? 'bg-amber-100 text-amber-700' : 'bg-gray-100 text-gray-500'
-            }`}>
-              {budgetUpdates.length}
-            </span>
-          </button>
-
-        </nav>
-      </aside>
-
-      {/* ── Main content ─────────────────────────────────────────────────── */}
-      <div className="flex-1 overflow-auto p-6">
+    <div className="flex-1 overflow-auto p-6">
 
         {/* ── Databases section ───────────────────────────────────────────── */}
         {activeSection === 'databases' && (
@@ -328,7 +252,7 @@ export default function HomeView({ onNavigate }: HomeViewProps) {
                 </div>
                 <h3 className="text-base font-semibold text-gray-700 mb-1">Primero crea una base de datos</h3>
                 <p className="text-sm text-gray-400 mb-5 max-w-xs">Los presupuestos necesitan una base de datos APU para calcular precios.</p>
-                <button onClick={() => setActiveSection('databases')} className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors">
+                <button onClick={() => onSectionChange('databases')} className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors">
                   Ir a Bases de Datos
                 </button>
               </div>
@@ -503,8 +427,6 @@ export default function HomeView({ onNavigate }: HomeViewProps) {
             )}
           </div>
         )}
-
-      </div>
 
       {/* ── BudgetUpdate Modals ──────────────────────────────────────────── */}
       {(buModal === 'create' || buModal === 'edit') && (
