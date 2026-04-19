@@ -402,8 +402,10 @@ export default function HomeView({ onNavigate, activeSection, onSectionChange }:
                           return (
                             <tr key={b.id} className="hover:bg-gray-50 transition-colors group border-b border-gray-100 last:border-b-0">
                               <td className="px-4 py-3">
-                                <p className="font-semibold text-gray-900 truncate max-w-[200px]">{b.name}</p>
-                                {b.description && <p className="text-xs text-gray-400 truncate max-w-[200px] mt-0.5">{b.description}</p>}
+                                <button onClick={() => handleOpenBudget(b)} className="text-left group/name">
+                                  <p className="font-semibold text-gray-900 truncate max-w-[200px] group-hover/name:text-green-700 transition-colors">{b.name}</p>
+                                  {b.description && <p className="text-xs text-gray-400 truncate max-w-[200px] mt-0.5">{b.description}</p>}
+                                </button>
                               </td>
                               <td className="px-4 py-3 hidden md:table-cell">
                                 <div className="flex items-center gap-1.5 text-xs text-gray-500">
