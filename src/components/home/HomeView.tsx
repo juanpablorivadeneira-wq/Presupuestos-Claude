@@ -174,11 +174,22 @@ export default function HomeView({ onNavigate, activeSection, onSectionChange }:
               <>
                 {/* ── KPI cards ── */}
                 {(() => {
-                  const lastDb =[...databases].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())[0];
+                  const lastCreated = [...databases].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())[0];
+                  const lastModified = [...databases].sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())[0];
                   const topByItems = [...databases].sort((a, b) => b.items.length - a.items.length).slice(0, 3);
                   const topByRubros = [...databases].sort((a, b) => b.rubros.length - a.rubros.length).slice(0, 3);
                   const maxItems = topByItems[0]?.items.length ?? 1;
                   const maxRubros = topByRubros[0]?.rubros.length ?? 1;
+                  const budgetCountByDb = databases.map((db) => ({
+                    db,
+                    count: budgets.filter((b) => b.databaseId === db.id).length,
+                  })).sort((a, b) => b.count - a.count);
+                  const mostUsedDb = budgetCountByDb[0];
+                  function fmtDateTime(iso: string) {
+                    const d = new Date(iso);
+                    return d.toLocaleDateString('es-EC', { day: '2-digit', month: 'short', year: 'numeric' })
+                      + ' ' + d.toLocaleTimeString('es-EC', { hour: '2-digit', minute: '2-digit' });
+                  }
 
                   return (
                     <>
@@ -188,21 +199,19 @@ export default function HomeView({ onNavigate, activeSection, onSectionChange }:
                           <p className="text-3xl font-bold text-indigo-600">{databases.length}</p>
                         </div>
                         <div className="bg-white rounded-xl border border-gray-200 p-4">
-                          <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Más Items</p>
-                          <p className="text-2xl font-bold text-indigo-600">{topByItems[0]?.items.length.toLocaleString() ?? '—'}</p>
-                          <p className="text-xs text-gray-500 mt-1 truncate font-medium">{topByItems[0]?.name ?? '—'}</p>
+                          <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Más usada</p>
+                          <p className="text-2xl font-bold text-indigo-600">{mostUsedDb?.count ?? 0} <span className="text-sm font-normal text-gray-400">presup.</span></p>
+                          <p className="text-xs text-gray-500 mt-1 truncate font-medium">{mostUsedDb?.db.name ?? '—'}</p>
                         </div>
                         <div className="bg-white rounded-xl border border-gray-200 p-4">
-                          <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Más Rubros</p>
-                          <p className="text-2xl font-bold text-indigo-600">{topByRubros[0]?.rubros.length.toLocaleString() ?? '—'}</p>
-                          <p className="text-xs text-gray-500 mt-1 truncate font-medium">{topByRubros[0]?.name ?? '—'}</p>
+                          <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Últ. modificada</p>
+                          <p className="text-xs font-bold text-gray-800 mt-1 truncate">{lastModified?.name ?? '—'}</p>
+                          <p className="text-xs text-gray-400 mt-0.5">{lastModified ? fmtDateTime(lastModified.updatedAt) : '—'}</p>
                         </div>
                         <div className="bg-white rounded-xl border border-gray-200 p-4">
-                          <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Última creada</p>
-                          <p className="text-sm font-bold text-gray-800 mt-1 truncate">{lastDb?.name ?? '—'}</p>
-                          <p className="text-xs text-gray-400 mt-0.5">
-                            {lastDb ? new Date(lastDb.createdAt).toLocaleDateString('es-EC', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'}
-                          </p>
+                          <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Últ. creada</p>
+                          <p className="text-xs font-bold text-gray-800 mt-1 truncate">{lastCreated?.name ?? '—'}</p>
+                          <p className="text-xs text-gray-400 mt-0.5">{lastCreated ? fmtDateTime(lastCreated.createdAt) : '—'}</p>
                         </div>
                       </div>
 
