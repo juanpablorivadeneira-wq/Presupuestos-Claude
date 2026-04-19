@@ -3,7 +3,7 @@ import {
   Plus, Pencil, Trash2, Copy, FolderOpen, BarChart2,
   Database, FileText, TrendingUp,
 } from 'lucide-react';
-import { useStore, formatMoney } from '../../store/useStore';
+import { useStore, formatMoney, rubroTotal } from '../../store/useStore';
 import { AppView, Budget, BudgetUpdate } from '../../types';
 import Modal from '../shared/Modal';
 import { prueba01Database } from '../../data/prueba01';
@@ -103,6 +103,21 @@ export default function HomeView({ onNavigate, activeSection, onSectionChange }:
   function handleDeleteBudget() { if (budgetTarget) deleteBudget(budgetTarget.id); setBudgetModal(null); }
   function handleOpenBudget(b: Budget) { openBudget(b.id); onNavigate('budget'); }
   function budgetTotal(b: Budget) { return b.lineItems.reduce((sum, li) => sum + li.unitCost * li.quantity, 0); }
+
+  function calcImpact(u: BudgetUpdate): number {
+    const newDb = databases.find((d) => d.id === u.newDatabaseId) ?? null;
+    let impact = 0;
+    for (const li of u.lineItems) {
+      const remaining = li.quantity * (1 - (li.progress ?? 0) / 100);
+      let newUnitCost = li.oldUnitCost;
+      if (newDb) {
+        const r = newDb.rubros.find((r) => r.code === li.rubroCode);
+        if (r) newUnitCost = rubroTotal(r, newDb.items);
+      }
+      impact += (newUnitCost - li.oldUnitCost) * remaining;
+    }
+    return impact * (1 + u.ivaRate);
+  }
 
   // ── BudgetUpdate handlers ────────────────────────────────────────────────
   function openCreateBu() {
@@ -494,16 +509,18 @@ export default function HomeView({ onNavigate, activeSection, onSectionChange }:
                 </button>
               </div>
             ) : (() => {
-              const lastCreatedU = [...budgetUpdates].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())[0];
               const lastModifiedU = [...budgetUpdates].sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())[0];
               const globalAvg = budgetUpdates.length > 0
                 ? budgetUpdates.reduce((s, u) => s + (u.lineItems.length > 0 ? u.lineItems.reduce((ss, li) => ss + (li.progress ?? 0), 0) / u.lineItems.length : 0), 0) / budgetUpdates.length
                 : 0;
+              const lastImpact = lastModifiedU ? calcImpact(lastModifiedU) : 0;
               function fmtDTu(iso: string) {
                 const d = new Date(iso);
                 return d.toLocaleDateString('es-EC', { day: '2-digit', month: 'short', year: 'numeric' })
                   + ' ' + d.toLocaleTimeString('es-EC', { hour: '2-digit', minute: '2-digit' });
               }
+              function impactColor(v: number) { return v > 0.005 ? 'text-red-600' : v < -0.005 ? 'text-green-600' : 'text-gray-500'; }
+              function impactSign(v: number) { return v > 0.005 ? '+' : ''; }
               return (
                 <>
                   {/* KPIs */}
@@ -520,9 +537,9 @@ export default function HomeView({ onNavigate, activeSection, onSectionChange }:
                       </div>
                     </div>
                     <div className="bg-white rounded-xl border border-gray-200 p-4">
-                      <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Últ. creada</p>
-                      <p className="text-xs font-bold text-gray-800 truncate">{lastCreatedU?.name ?? '—'}</p>
-                      <p className="text-xs text-gray-400 mt-0.5">{lastCreatedU ? fmtDTu(lastCreatedU.createdAt) : '—'}</p>
+                      <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Desfase (últ. análisis)</p>
+                      <p className={`text-xl font-bold ${impactColor(lastImpact)}`}>{impactSign(lastImpact)}{formatMoney(lastImpact)}</p>
+                      <p className="text-xs text-gray-500 mt-1 truncate font-medium">{lastModifiedU?.name ?? '—'}</p>
                     </div>
                     <div className="bg-white rounded-xl border border-gray-200 p-4">
                       <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Últ. modificada</p>
@@ -541,6 +558,7 @@ export default function HomeView({ onNavigate, activeSection, onSectionChange }:
                           <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-200 hidden lg:table-cell">Base de datos</th>
                           <th className="text-center px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-200 hidden lg:table-cell">Rubros</th>
                           <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-200">Avance</th>
+                          <th className="text-right px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-200">Desfase (c/IVA)</th>
                           <th className="px-4 py-3 border-b border-gray-200 w-24"></th>
                         </tr>
                       </thead>
@@ -549,6 +567,7 @@ export default function HomeView({ onNavigate, activeSection, onSectionChange }:
                           const avg = u.lineItems.length > 0
                             ? u.lineItems.reduce((s, li) => s + (li.progress ?? 0), 0) / u.lineItems.length
                             : 0;
+                          const impact = calcImpact(u);
                           return (
                             <tr key={u.id} className="hover:bg-gray-50 transition-colors group border-b border-gray-100 last:border-b-0">
                               <td className="px-4 py-3">
@@ -579,6 +598,11 @@ export default function HomeView({ onNavigate, activeSection, onSectionChange }:
                                   </div>
                                   <span className="text-xs font-semibold text-amber-700 whitespace-nowrap">{avg.toFixed(0)}%</span>
                                 </div>
+                              </td>
+                              <td className="px-4 py-3 text-right">
+                                <span className={`font-bold whitespace-nowrap text-sm ${impactColor(impact)}`}>
+                                  {impactSign(impact)}{formatMoney(impact)}
+                                </span>
                               </td>
                               <td className="px-4 py-3">
                                 <div className="flex items-center justify-end gap-1">
