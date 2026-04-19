@@ -30,6 +30,8 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          VITE_BASE: /Presupuestos-Claude/
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4

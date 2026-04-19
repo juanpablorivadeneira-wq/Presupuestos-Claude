@@ -3,7 +3,8 @@ import react from "@vitejs/plugin-react"
 
 export default defineConfig({
   plugins: [react()],
-  // In dev, proxy /api to the local Express server on port 3000
+  // Docker: base = '/' (default). GitHub Pages: set VITE_BASE=/Presupuestos-Claude/ in CI.
+  base: process.env.VITE_BASE ?? '/',
   server: {
     proxy: {
       '/api': {
