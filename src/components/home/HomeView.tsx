@@ -353,6 +353,7 @@ export default function HomeView({ onNavigate, activeSection, onSectionChange }:
               const maxTotal = Math.max(...totals);
               const maxBudget = budgets[totals.indexOf(maxTotal)];
               const lastCreatedB = [...budgets].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())[0];
+              const lastModifiedB = [...budgets].sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())[0];
               function fmtDT(iso: string) {
                 const d = new Date(iso);
                 return d.toLocaleDateString('es-EC', { day: '2-digit', month: 'short', year: 'numeric' })
@@ -376,10 +377,17 @@ export default function HomeView({ onNavigate, activeSection, onSectionChange }:
                       <p className="text-xl font-bold text-green-600">{formatMoney(maxTotal)}</p>
                       <p className="text-xs text-gray-500 mt-1 truncate font-medium">{maxBudget?.name ?? '—'}</p>
                     </div>
-                    <div className="bg-white rounded-xl border border-gray-200 p-4">
-                      <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Últ. creado</p>
-                      <p className="text-xs font-bold text-gray-800 mt-1 truncate">{lastCreatedB?.name ?? '—'}</p>
-                      <p className="text-xs text-gray-400 mt-0.5">{lastCreatedB ? fmtDT(lastCreatedB.createdAt) : '—'}</p>
+                    <div className="bg-white rounded-xl border border-gray-200 p-4 space-y-2.5">
+                      <div>
+                        <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Últ. creado</p>
+                        <p className="text-xs font-bold text-gray-800 truncate">{lastCreatedB?.name ?? '—'}</p>
+                        <p className="text-xs text-gray-400 mt-0.5">{lastCreatedB ? fmtDT(lastCreatedB.createdAt) : '—'}</p>
+                      </div>
+                      <div className="border-t border-gray-100 pt-2.5">
+                        <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Últ. modificado</p>
+                        <p className="text-xs font-bold text-gray-800 truncate">{lastModifiedB?.name ?? '—'}</p>
+                        <p className="text-xs text-gray-400 mt-0.5">{lastModifiedB ? fmtDT(lastModifiedB.updatedAt) : '—'}</p>
+                      </div>
                     </div>
                   </div>
 
