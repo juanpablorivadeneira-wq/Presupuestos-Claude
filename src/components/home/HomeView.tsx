@@ -421,10 +421,14 @@ export default function HomeView({ onNavigate, activeSection, onSectionChange }:
                                 <span className="font-bold text-green-600 whitespace-nowrap">{formatMoney(total)}</span>
                               </td>
                               <td className="px-4 py-3">
-                                <div className="flex items-center justify-end gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                                  <button onClick={() => openEditBudget(b)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600" title="Editar"><Pencil size={13} /></button>
-                                  <button onClick={() => openDeleteBudget(b)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-red-500" title="Eliminar"><Trash2 size={13} /></button>
-                                  <button onClick={() => handleOpenBudget(b)} className="p-1.5 rounded-lg hover:bg-green-50 text-gray-400 hover:text-green-600" title="Abrir"><FolderOpen size={13} /></button>
+                                <div className="flex items-center justify-end gap-1">
+                                  <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <button onClick={() => openEditBudget(b)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600" title="Editar"><Pencil size={13} /></button>
+                                    <button onClick={() => openDeleteBudget(b)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-red-500" title="Eliminar"><Trash2 size={13} /></button>
+                                  </div>
+                                  <button onClick={() => handleOpenBudget(b)} className="flex items-center gap-1.5 px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white rounded-lg text-xs font-medium transition-colors">
+                                    <FolderOpen size={13} /> Abrir
+                                  </button>
                                 </div>
                               </td>
                             </tr>
