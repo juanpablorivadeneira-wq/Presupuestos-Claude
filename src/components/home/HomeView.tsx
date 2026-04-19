@@ -174,9 +174,7 @@ export default function HomeView({ onNavigate, activeSection, onSectionChange }:
               <>
                 {/* ── KPI cards ── */}
                 {(() => {
-                  const totalItems = databases.reduce((s, d) => s + d.items.length, 0);
-                  const totalRubros = databases.reduce((s, d) => s + d.rubros.length, 0);
-                  const lastDb = [...databases].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())[0];
+                  const lastDb =[...databases].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())[0];
                   const topByItems = [...databases].sort((a, b) => b.items.length - a.items.length).slice(0, 3);
                   const topByRubros = [...databases].sort((a, b) => b.rubros.length - a.rubros.length).slice(0, 3);
                   const maxItems = topByItems[0]?.items.length ?? 1;
@@ -190,14 +188,14 @@ export default function HomeView({ onNavigate, activeSection, onSectionChange }:
                           <p className="text-3xl font-bold text-indigo-600">{databases.length}</p>
                         </div>
                         <div className="bg-white rounded-xl border border-gray-200 p-4">
-                          <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Total Items</p>
-                          <p className="text-3xl font-bold text-indigo-600">{totalItems.toLocaleString()}</p>
-                          <p className="text-xs text-gray-400 mt-1">prom. {databases.length ? Math.round(totalItems / databases.length) : 0} por BD</p>
+                          <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Más Items</p>
+                          <p className="text-2xl font-bold text-indigo-600">{topByItems[0]?.items.length.toLocaleString() ?? '—'}</p>
+                          <p className="text-xs text-gray-500 mt-1 truncate font-medium">{topByItems[0]?.name ?? '—'}</p>
                         </div>
                         <div className="bg-white rounded-xl border border-gray-200 p-4">
-                          <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Total Rubros</p>
-                          <p className="text-3xl font-bold text-indigo-600">{totalRubros.toLocaleString()}</p>
-                          <p className="text-xs text-gray-400 mt-1">prom. {databases.length ? Math.round(totalRubros / databases.length) : 0} por BD</p>
+                          <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Más Rubros</p>
+                          <p className="text-2xl font-bold text-indigo-600">{topByRubros[0]?.rubros.length.toLocaleString() ?? '—'}</p>
+                          <p className="text-xs text-gray-500 mt-1 truncate font-medium">{topByRubros[0]?.name ?? '—'}</p>
                         </div>
                         <div className="bg-white rounded-xl border border-gray-200 p-4">
                           <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Última creada</p>
