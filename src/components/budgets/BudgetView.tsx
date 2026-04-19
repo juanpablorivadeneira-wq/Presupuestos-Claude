@@ -41,6 +41,22 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
   // duplicates alert: map of categoryName → count of duplicate rubros
   const [duplicateAlert, setDuplicateAlert] = useState<Map<string, number>>(new Map());
 
+  // ── Resizable columns ───────────────────────────────────────────────────────
+  const [colWidths, setColWidths] = useState({ codigo: 112, nombre: 260, unidad: 72, material: 110, manoObra: 110, equipo: 96, precioUnit: 110, cantidad: 88, total: 120 });
+  const resizing = useRef<{ col: keyof typeof colWidths; startX: number; startW: number } | null>(null);
+  function startResize(col: keyof typeof colWidths, e: React.MouseEvent) {
+    e.preventDefault();
+    resizing.current = { col, startX: e.clientX, startW: colWidths[col] };
+    const onMove = (ev: MouseEvent) => {
+      if (!resizing.current) return;
+      const w = Math.max(48, resizing.current.startW + ev.clientX - resizing.current.startX);
+      setColWidths((p) => ({ ...p, [resizing.current!.col]: w }));
+    };
+    const onUp = () => { resizing.current = null; document.removeEventListener('mousemove', onMove); document.removeEventListener('mouseup', onUp); };
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  }
+
   // ── Totals ──────────────────────────────────────────────────────────────────
   const subtotal = budget ? budget.lineItems.reduce((s, li) => s + li.unitCost * li.quantity, 0) : 0;
   const subtotalMat = budget ? budget.lineItems.reduce((s, li) => s + (li.materialCost ?? 0) * li.quantity, 0) : 0;
@@ -342,19 +358,16 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
             )}
           </div>
         ) : (
-          <table className="w-full text-sm border-separate border-spacing-0">
+          <table className="text-sm border-separate border-spacing-0" style={{ tableLayout: 'fixed', width: '100%', minWidth: Object.values(colWidths).reduce((a, b) => a + b, 0) + 40 }}>
             <thead className="bg-gray-50 text-xs text-gray-500 uppercase tracking-wide sticky top-0 z-10">
               <tr>
-                <th className="px-4 py-3 text-left font-medium w-28 border-b border-gray-200">Código</th>
-                <th className="px-4 py-3 text-left font-medium border-b border-gray-200">Nombre</th>
-                <th className="px-4 py-3 text-left font-medium w-16 border-b border-gray-200">Unidad</th>
-                <th className="px-3 py-3 text-right font-medium w-28 text-blue-600 border-b border-gray-200">Material</th>
-                <th className="px-3 py-3 text-right font-medium w-28 text-orange-600 border-b border-gray-200">Mano Obra</th>
-                <th className="px-3 py-3 text-right font-medium w-24 text-purple-600 border-b border-gray-200">Equipo</th>
-                <th className="px-3 py-3 text-right font-medium w-28 border-b border-gray-200">Precio Unit.</th>
-                <th className="px-3 py-3 text-right font-medium w-24 border-b border-gray-200">Cantidad</th>
-                <th className="px-3 py-3 text-right font-medium w-32 border-b border-gray-200">Total</th>
-                <th className="px-3 py-3 w-10 border-b border-gray-200"></th>
+                {([ ['codigo','Código','left','px-4',null], ['nombre','Nombre','left','px-4',null], ['unidad','Unidad','left','px-4',null], ['material','Material','right','px-3','text-blue-600'], ['manoObra','Mano Obra','right','px-3','text-orange-600'], ['equipo','Equipo','right','px-3','text-purple-600'], ['precioUnit','Precio Unit.','right','px-3',null], ['cantidad','Cantidad','right','px-3',null], ['total','Total','right','px-3',null] ] as const).map(([col, label, align, px, color]) => (
+                  <th key={col} style={{ width: colWidths[col as keyof typeof colWidths] }} className={`relative ${px} py-3 text-${align} font-medium border-b border-gray-200 ${color ?? ''} select-none`}>
+                    <span className="truncate block">{label}</span>
+                    <div onMouseDown={(e) => startResize(col as keyof typeof colWidths, e)} className="absolute right-0 top-0 h-full w-1.5 cursor-col-resize hover:bg-blue-400/60 transition-colors" />
+                  </th>
+                ))}
+                <th style={{ width: 40 }} className="px-3 py-3 border-b border-gray-200" />
               </tr>
             </thead>
             <tbody>
