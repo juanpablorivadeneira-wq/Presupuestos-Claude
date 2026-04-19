@@ -16,7 +16,27 @@ import {
 import { createDefaultDatabase, initialItemCategories } from '../data/initialData';
 
 const STORAGE_KEY = 'presupuestos-v2';
+const AUTH_TOKEN_KEY = 'bk-auth-token';
 const API_BASE = '/api';
+
+// ── Auth token helpers ────────────────────────────────────────────────────────
+
+export function getAuthToken(): string | null {
+  try { return localStorage.getItem(AUTH_TOKEN_KEY); } catch { return null; }
+}
+
+export function setAuthToken(token: string) {
+  try { localStorage.setItem(AUTH_TOKEN_KEY, token); } catch {}
+}
+
+export function clearAuthToken() {
+  try { localStorage.removeItem(AUTH_TOKEN_KEY); } catch {}
+}
+
+function authHeaders(): Record<string, string> {
+  const token = getAuthToken();
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
 
 export interface StorageData {
   databases: Database[];
@@ -54,21 +74,46 @@ export function saveToServer(data: StorageData) {
   _saveTimer = setTimeout(() => {
     fetch(`${API_BASE}/data`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...authHeaders() },
       body: JSON.stringify(data),
     }).catch(() => { /* server unreachable — localStorage already saved */ });
   }, 500);
 }
 
-export async function loadFromServer(): Promise<StorageData | null> {
+export type ServerLoadResult =
+  | { status: 'ok'; data: StorageData | null }
+  | { status: 'needs_auth' }
+  | { status: 'offline'; data: StorageData | null };
+
+export async function loadFromServer(): Promise<ServerLoadResult> {
   try {
-    const res = await fetch(`${API_BASE}/data`);
+    const res = await fetch(`${API_BASE}/data`, { headers: authHeaders() });
+    if (res.status === 401) return { status: 'needs_auth' };
     if (!res.ok) throw new Error('server error');
     const data = await res.json();
-    return data as StorageData | null;
+    return { status: 'ok', data: data as StorageData | null };
   } catch {
     // Server unreachable — fall back to localStorage
-    return loadFromLocalStorage();
+    return { status: 'offline', data: loadFromLocalStorage() };
+  }
+}
+
+export async function loginToServer(
+  username: string,
+  password: string
+): Promise<{ ok: boolean; error?: string }> {
+  try {
+    const res = await fetch(`${API_BASE}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password }),
+    });
+    const json = await res.json();
+    if (!res.ok) return { ok: false, error: json.error ?? 'Error de servidor' };
+    setAuthToken(json.token);
+    return { ok: true };
+  } catch {
+    return { ok: false, error: 'No se pudo conectar al servidor' };
   }
 }
 

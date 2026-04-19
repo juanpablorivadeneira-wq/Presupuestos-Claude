@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Database, FileText, TrendingUp, Ruler, ChevronDown, Check, Plus, User, Menu, HardDrive, Search, Bell, Bookmark, HelpCircle } from 'lucide-react';
-import { useStore, loadFromServer } from './store/useStore';
+import { useStore, loadFromServer, loginToServer, clearAuthToken, getAuthToken } from './store/useStore';
+import LoginView from './components/auth/LoginView';
 import { AppView } from './types';
 import HomeView from './components/home/HomeView';
 import ItemsView from './components/items/ItemsView';
@@ -16,8 +17,11 @@ import BackupModal from './components/shared/BackupModal';
 type DbTab = 'items' | 'rubros';
 type HomeSection = 'databases' | 'budgets' | 'actualizacion' | 'medicion';
 
+type AuthState = 'loading' | 'authenticated' | 'needs_login';
+
 export default function App() {
   const [ready, setReady] = useState(false);
+  const [authState, setAuthState] = useState<AuthState>('loading');
   const [view, setView] = useState<AppView>('home');
   const [dbTab, setDbTab] = useState<DbTab>('items');
   const [dbSwitcherOpen, setDbSwitcherOpen] = useState(false);
@@ -53,11 +57,33 @@ export default function App() {
 
   // ── Initialize from server on mount ──────────────────────────────────────
   useEffect(() => {
-    loadFromServer().then((data) => {
-      if (data) useStore.getState().hydrate(data);
-      setReady(true);
+    loadFromServer().then((result) => {
+      if (result.status === 'needs_auth') {
+        setAuthState('needs_login');
+        setReady(true);
+      } else {
+        const data = result.data;
+        if (data) useStore.getState().hydrate(data);
+        setAuthState('authenticated');
+        setReady(true);
+      }
     });
   }, []);
+
+  async function handleLogin(username: string, password: string) {
+    const loginResult = await loginToServer(username, password);
+    if (!loginResult.ok) return loginResult;
+    const result = await loadFromServer();
+    if (result.status === 'needs_auth') return { ok: false, error: 'Token inválido' };
+    if (result.data) useStore.getState().hydrate(result.data);
+    setAuthState('authenticated');
+    return { ok: true };
+  }
+
+  function handleLogout() {
+    clearAuthToken();
+    setAuthState('needs_login');
+  }
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
@@ -114,6 +140,10 @@ export default function App() {
     );
   }
 
+  if (authState === 'needs_login') {
+    return <LoginView onLogin={handleLogin} />;
+  }
+
   return (
     <div className="h-screen flex flex-col bg-gray-50 overflow-hidden">
 
@@ -168,11 +198,17 @@ export default function App() {
               <HelpCircle size={16} />
             </button>
             <div className="w-px h-5 bg-white/20 mx-1 shrink-0" />
-            <button className="flex items-center gap-2 hover:bg-white/15 px-2 py-1 rounded transition-colors">
+            <button
+              onClick={getAuthToken() ? handleLogout : undefined}
+              title={getAuthToken() ? 'Cerrar sesión' : undefined}
+              className="flex items-center gap-2 hover:bg-white/15 px-2 py-1 rounded transition-colors"
+            >
               <div className="w-7 h-7 rounded-full bg-white/25 flex items-center justify-center shrink-0">
                 <User size={14} className="text-white" />
               </div>
-              <span className="text-sm text-white/80 hidden sm:block font-medium">Usuario</span>
+              <span className="text-sm text-white/80 hidden sm:block font-medium">
+                {getAuthToken() ? 'Salir' : 'Usuario'}
+              </span>
             </button>
           </div>
 

@@ -11,6 +11,10 @@ services:
       - PORT=3000
       - DATA_DIR=/app/data
       - FRONTEND_DIR=/app/dist
+      # Set these to enable login (leave empty to disable auth)
+      - APP_USERNAME=
+      - APP_PASSWORD=
+      - AUTH_SECRET=change-me-to-a-random-secret
 
 volumes:
   buildkontrol-data:
