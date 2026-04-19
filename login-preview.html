@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BuildKontrol — Login Preview</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background:
+        radial-gradient(ellipse at 65% 45%, rgba(194, 128, 48, 0.55) 0%, transparent 55%),
+        radial-gradient(ellipse at 20% 80%, rgba(80, 45, 10, 0.4) 0%, transparent 50%),
+        linear-gradient(155deg, #0e0904 0%, #251408 20%, #4a2b0d 45%, #6b3e14 60%, #3a2008 80%, #150b03 100%);
+    }
+
+    /* subtle grid texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0, rgba(255,255,255,0.03) 1px, transparent 0, transparent 48px),
+        repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0, rgba(255,255,255,0.03) 1px, transparent 0, transparent 48px);
+    }
+
+    .card {
+      position: relative;
+      z-index: 10;
+      margin: 40px 56px 40px 40px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.5), 0 8px 20px rgba(0,0,0,0.3);
+      padding: 32px;
+      width: 288px;
+      flex-shrink: 0;
+    }
+
+    .logo-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 28px;
+    }
+
+    /* Fallback logo text if image not found */
+    .logo-img {
+      height: 32px;
+      width: auto;
+    }
+
+    .logo-fallback {
+      font-size: 18px;
+      font-weight: 800;
+      color: #1e2d45;
+      letter-spacing: -0.5px;
+    }
+
+    .field { margin-bottom: 16px; }
+
+    label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 14px;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      background: #f9fafb;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+    }
+
+    input:focus {
+      border-color: #9ca3af;
+      box-shadow: 0 0 0 3px rgba(156,163,175,0.2);
+      background: #fff;
+    }
+
+    .password-wrap { position: relative; }
+    .eye-btn {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #9ca3af;
+      display: flex;
+      align-items: center;
+      padding: 2px;
+    }
+    .eye-btn:hover { color: #4b5563; }
+
+    .btn-submit {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #1e2d45;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.15s, transform 0.1s;
+    }
+
+    .btn-submit:hover { background: #14203a; }
+    .btn-submit:active { transform: scale(0.98); }
+
+    .forgot {
+      display: block;
+      width: 100%;
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: #9ca3af;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: color 0.15s;
+    }
+    .forgot:hover { color: #6b7280; }
+
+    svg { display: block; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo-wrap">
+      <img class="logo-img" src="src/assets/buildkontrol-logo.png" alt="BuildKontrol"
+           onerror="this.style.display='none'; document.getElementById('logo-fb').style.display='block'" />
+      <span class="logo-fallback" id="logo-fb" style="display:none">BuildKontrol</span>
+    </div>
+
+    <div class="field">
+      <label>Usuario</label>
+      <input type="text" placeholder="" autocomplete="username" />
+    </div>
+
+    <div class="field">
+      <label>Contraseña</label>
+      <div class="password-wrap">
+        <input type="password" id="pwd" autocomplete="current-password" style="padding-right:36px" />
+        <button class="eye-btn" onclick="togglePwd()" title="Mostrar/ocultar">
+          <svg id="eye-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <button class="btn-submit">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/>
+      </svg>
+      Entrar
+    </button>
+
+    <button class="forgot">Olvidaste tu contraseña?</button>
+  </div>
+
+  <script>
+    function togglePwd() {
+      const input = document.getElementById('pwd');
+      const icon = document.getElementById('eye-icon');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
+      } else {
+        input.type = 'password';
+        icon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+      }
+    }
+  </script>
+</body>
+</html>
