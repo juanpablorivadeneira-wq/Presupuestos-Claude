@@ -16,8 +16,9 @@ import {
 import { createDefaultDatabase, initialItemCategories } from '../data/initialData';
 
 const STORAGE_KEY = 'presupuestos-v2';
+const API_BASE = '/api';
 
-interface StorageData {
+export interface StorageData {
   databases: Database[];
   currentDatabaseId: string | null;
   budgets: Budget[];
@@ -28,24 +29,52 @@ interface StorageData {
   currentMedicionId: string | null;
 }
 
-function loadFromStorage(): StorageData | null {
+// ── localStorage helpers (fallback / dev) ─────────────────────────────────────
+
+function loadFromLocalStorage(): StorageData | null {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      return JSON.parse(saved) as StorageData;
-    }
-  } catch {
-    // ignore parse errors
-  }
-  return null;
+    return saved ? (JSON.parse(saved) as StorageData) : null;
+  } catch { return null; }
 }
 
-function saveToStorage(data: StorageData) {
+function saveToLocalStorage(data: StorageData) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch {}
+}
+
+// ── Server API helpers ────────────────────────────────────────────────────────
+
+let _saveTimer: ReturnType<typeof setTimeout> | null = null;
+
+export function saveToServer(data: StorageData) {
+  // Always mirror to localStorage for offline resilience
+  saveToLocalStorage(data);
+  // Debounce server writes (500 ms) to avoid hammering on rapid changes
+  if (_saveTimer) clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(() => {
+    fetch(`${API_BASE}/data`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    }).catch(() => { /* server unreachable — localStorage already saved */ });
+  }, 500);
+}
+
+export async function loadFromServer(): Promise<StorageData | null> {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    const res = await fetch(`${API_BASE}/data`);
+    if (!res.ok) throw new Error('server error');
+    const data = await res.json();
+    return data as StorageData | null;
   } catch {
-    // ignore storage errors
+    // Server unreachable — fall back to localStorage
+    return loadFromLocalStorage();
   }
+}
+
+// ── Synchronous bootstrap (localStorage only, used for initial Zustand state) ─
+function loadFromStorage(): StorageData | null {
+  return loadFromLocalStorage();
 }
 
 interface AppState {
@@ -124,6 +153,9 @@ interface AppState {
   updateMedicionQuantityRevit: (projectId: string, itemId: string, qty: number) => void;
   updateMedicionNotes: (projectId: string, itemId: string, notes: string) => void;
   importRevitCsv: (projectId: string, matches: { code: string; quantity: number }[]) => number;
+
+  // Hydrate store from server (called on app init)
+  hydrate: (data: StorageData) => void;
 
   // Backup / Restore
   exportBackup: () => void;
@@ -819,6 +851,19 @@ export const useStore = create<AppState>((set, get) => ({
     return count;
   },
 
+  hydrate: (data) => {
+    set({
+      databases: data.databases ?? [],
+      currentDatabaseId: data.currentDatabaseId ?? null,
+      budgets: data.budgets ?? [],
+      currentBudgetId: data.currentBudgetId ?? null,
+      budgetUpdates: data.budgetUpdates ?? [],
+      currentBudgetUpdateId: data.currentBudgetUpdateId ?? null,
+      medicionProjects: data.medicionProjects ?? [],
+      currentMedicionId: data.currentMedicionId ?? null,
+    });
+  },
+
   exportBackup: () => {
     const s = useStore.getState();
     const data: StorageData = {
@@ -881,7 +926,7 @@ export const useStore = create<AppState>((set, get) => ({
 // ── Auto-persist on every state change ───────────────────────────────────────
 // Single subscription saves ALL fields — no action needs its own saveToStorage call.
 useStore.subscribe((state) => {
-  saveToStorage({
+  saveToServer({
     databases: state.databases,
     currentDatabaseId: state.currentDatabaseId,
     budgets: state.budgets,

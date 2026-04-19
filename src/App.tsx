@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Database, FileText, TrendingUp, Ruler, ChevronDown, Check, Plus, User, Menu, HardDrive, Search, Bell, Bookmark, HelpCircle } from 'lucide-react';
-import { useStore } from './store/useStore';
+import { useStore, loadFromServer } from './store/useStore';
 import { AppView } from './types';
 import HomeView from './components/home/HomeView';
 import ItemsView from './components/items/ItemsView';
@@ -17,6 +17,7 @@ type DbTab = 'items' | 'rubros';
 type HomeSection = 'databases' | 'budgets' | 'actualizacion' | 'medicion';
 
 export default function App() {
+  const [ready, setReady] = useState(false);
   const [view, setView] = useState<AppView>('home');
   const [dbTab, setDbTab] = useState<DbTab>('items');
   const [dbSwitcherOpen, setDbSwitcherOpen] = useState(false);
@@ -49,6 +50,14 @@ export default function App() {
     : view === 'actualizacion' ? 'actualizacion'
     : view === 'medicion' ? 'medicion'
     : activeSection;
+
+  // ── Initialize from server on mount ──────────────────────────────────────
+  useEffect(() => {
+    loadFromServer().then((data) => {
+      if (data) useStore.getState().hydrate(data);
+      setReady(true);
+    });
+  }, []);
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
@@ -92,6 +101,17 @@ export default function App() {
     setNewDbDesc('');
     setView('database');
     setDbTab('items');
+  }
+
+  if (!ready) {
+    return (
+      <div className="h-screen flex items-center justify-center bg-[#1e2d45]">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-10 h-10 border-4 border-white/20 border-t-white rounded-full animate-spin" />
+          <p className="text-white/60 text-sm">Cargando BuildKontrol...</p>
+        </div>
+      </div>
+    );
   }
 
   return (

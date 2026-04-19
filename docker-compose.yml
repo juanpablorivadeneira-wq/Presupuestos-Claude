@@ -1,0 +1,17 @@
+services:
+  buildkontrol:
+    build: .
+    container_name: buildkontrol
+    ports:
+      - "8080:3000"       # acceso: http://IP-NAS:8080
+    volumes:
+      - buildkontrol-data:/app/data   # SQLite persiste aquí
+    restart: unless-stopped
+    environment:
+      - PORT=3000
+      - DATA_DIR=/app/data
+      - FRONTEND_DIR=/app/dist
+
+volumes:
+  buildkontrol-data:
+    driver: local
