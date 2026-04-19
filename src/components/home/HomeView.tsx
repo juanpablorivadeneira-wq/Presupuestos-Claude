@@ -323,95 +323,126 @@ export default function HomeView({ onNavigate, activeSection, onSectionChange }:
               </div>
               <div className="flex items-center gap-2">
                 {budgets.length >= 2 && (
-                  <button
-                    onClick={() => onNavigate('compare')}
-                    className="flex items-center gap-2 px-3 py-2 text-sm border border-gray-300 rounded-lg font-medium text-gray-600 hover:bg-gray-50 transition-colors"
-                  >
-                    <BarChart2 size={15} />
-                    Comparar
+                  <button onClick={() => onNavigate('compare')} className="flex items-center gap-2 px-3 py-2 text-sm border border-gray-300 rounded-lg font-medium text-gray-600 hover:bg-gray-50 transition-colors">
+                    <BarChart2 size={15} /> Comparar
                   </button>
                 )}
-                <button
-                  onClick={openCreateBudget}
-                  disabled={databases.length === 0}
-                  className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <Plus size={15} />
-                  Nuevo Presupuesto
+                <button onClick={openCreateBudget} disabled={databases.length === 0} className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                  <Plus size={15} /> Nuevo Presupuesto
                 </button>
               </div>
             </div>
 
             {databases.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-20 text-center">
-                <div className="w-16 h-16 rounded-2xl bg-green-50 flex items-center justify-center mb-4">
-                  <FileText size={28} className="text-green-300" />
-                </div>
+                <div className="w-16 h-16 rounded-2xl bg-green-50 flex items-center justify-center mb-4"><FileText size={28} className="text-green-300" /></div>
                 <h3 className="text-base font-semibold text-gray-700 mb-1">Primero crea una base de datos</h3>
                 <p className="text-sm text-gray-400 mb-5 max-w-xs">Los presupuestos necesitan una base de datos APU para calcular precios.</p>
-                <button onClick={() => onSectionChange('databases')} className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors">
-                  Ir a Bases de Datos
-                </button>
+                <button onClick={() => onSectionChange('databases')} className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors">Ir a Bases de Datos</button>
               </div>
             ) : budgets.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-20 text-center">
-                <div className="w-16 h-16 rounded-2xl bg-green-50 flex items-center justify-center mb-4">
-                  <FileText size={28} className="text-green-300" />
-                </div>
+                <div className="w-16 h-16 rounded-2xl bg-green-50 flex items-center justify-center mb-4"><FileText size={28} className="text-green-300" /></div>
                 <h3 className="text-base font-semibold text-gray-700 mb-1">Sin presupuestos</h3>
                 <p className="text-sm text-gray-400 mb-5 max-w-xs">Crea tu primer presupuesto seleccionando rubros de la base de datos.</p>
-                <button onClick={openCreateBudget} className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition-colors">
-                  <Plus size={14} /> Nuevo Presupuesto
-                </button>
+                <button onClick={openCreateBudget} className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition-colors"><Plus size={14} /> Nuevo Presupuesto</button>
               </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {budgets.map((b) => (
-                  <div
-                    key={b.id}
-                    className="bg-white rounded-xl border border-gray-200 border-t-[3px] border-t-green-500 shadow-sm hover:shadow-md transition-shadow flex flex-col"
-                  >
-                    <div className="p-4 flex-1 flex flex-col gap-3">
-                      <div className="flex items-start justify-between gap-2">
-                        <div className="flex-1 min-w-0">
-                          <p className="font-semibold text-gray-900 truncate">{b.name}</p>
-                          {b.description && (
-                            <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{b.description}</p>
-                          )}
-                        </div>
-                        <div className="flex items-center gap-0.5 shrink-0">
-                          <button onClick={() => openEditBudget(b)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors" title="Editar"><Pencil size={13} /></button>
-                          <button onClick={() => openDeleteBudget(b)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-red-500 transition-colors" title="Eliminar"><Trash2 size={13} /></button>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                        <Database size={11} className="shrink-0" />
-                        <span className="truncate">{b.databaseName}</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="px-2 py-0.5 bg-green-50 text-green-700 rounded-full text-xs font-medium">{b.lineItems.length} rubros</span>
-                        <span className="text-xs text-gray-400">
-                          {new Date(b.createdAt).toLocaleDateString('es-EC', { day: '2-digit', month: 'short', year: 'numeric' })}
-                        </span>
-                      </div>
-                      <div className="pt-2 border-t border-gray-100">
-                        <p className="text-xs text-gray-400 mb-0.5">Total</p>
-                        <p className="text-xl font-bold text-green-600">{formatMoney(budgetTotal(b))}</p>
-                      </div>
+            ) : (() => {
+              const totals = budgets.map((b) => budgetTotal(b));
+              const grandTotal = totals.reduce((s, t) => s + t, 0);
+              const maxTotal = Math.max(...totals);
+              const maxBudget = budgets[totals.indexOf(maxTotal)];
+              const lastCreatedB = [...budgets].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())[0];
+              function fmtDT(iso: string) {
+                const d = new Date(iso);
+                return d.toLocaleDateString('es-EC', { day: '2-digit', month: 'short', year: 'numeric' })
+                  + ' ' + d.toLocaleTimeString('es-EC', { hour: '2-digit', minute: '2-digit' });
+              }
+              return (
+                <>
+                  {/* KPIs */}
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    <div className="bg-white rounded-xl border border-gray-200 p-4">
+                      <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Total presupuestos</p>
+                      <p className="text-3xl font-bold text-green-600">{budgets.length}</p>
                     </div>
-                    <div className="px-4 pb-4">
-                      <button
-                        onClick={() => handleOpenBudget(b)}
-                        className="w-full flex items-center justify-center gap-2 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition-colors"
-                      >
-                        <FolderOpen size={14} />
-                        Abrir
-                      </button>
+                    <div className="bg-white rounded-xl border border-gray-200 p-4">
+                      <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Valor acumulado</p>
+                      <p className="text-xl font-bold text-green-600">{formatMoney(grandTotal)}</p>
+                      <p className="text-xs text-gray-400 mt-1">suma de todos</p>
+                    </div>
+                    <div className="bg-white rounded-xl border border-gray-200 p-4">
+                      <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Mayor valor</p>
+                      <p className="text-xl font-bold text-green-600">{formatMoney(maxTotal)}</p>
+                      <p className="text-xs text-gray-500 mt-1 truncate font-medium">{maxBudget?.name ?? '—'}</p>
+                    </div>
+                    <div className="bg-white rounded-xl border border-gray-200 p-4">
+                      <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Últ. creado</p>
+                      <p className="text-xs font-bold text-gray-800 mt-1 truncate">{lastCreatedB?.name ?? '—'}</p>
+                      <p className="text-xs text-gray-400 mt-0.5">{lastCreatedB ? fmtDT(lastCreatedB.createdAt) : '—'}</p>
                     </div>
                   </div>
-                ))}
-              </div>
-            )}
+
+                  {/* Lista de presupuestos */}
+                  <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                    <table className="w-full text-sm border-separate border-spacing-0">
+                      <thead>
+                        <tr className="bg-gray-50">
+                          <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-200">Presupuesto</th>
+                          <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-200 hidden md:table-cell">Base de Datos</th>
+                          <th className="text-center px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-200 hidden lg:table-cell">Rubros</th>
+                          <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-200 hidden lg:table-cell">Creado</th>
+                          <th className="text-right px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-200">Total</th>
+                          <th className="px-4 py-3 border-b border-gray-200 w-24"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {budgets.map((b, i) => {
+                          const total = totals[i];
+                          return (
+                            <tr key={b.id} className="hover:bg-gray-50 transition-colors group border-b border-gray-100 last:border-b-0">
+                              <td className="px-4 py-3">
+                                <p className="font-semibold text-gray-900 truncate max-w-[200px]">{b.name}</p>
+                                {b.description && <p className="text-xs text-gray-400 truncate max-w-[200px] mt-0.5">{b.description}</p>}
+                              </td>
+                              <td className="px-4 py-3 hidden md:table-cell">
+                                <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                                  <Database size={11} className="shrink-0 text-gray-400" />
+                                  <span className="truncate max-w-[140px]">{b.databaseName}</span>
+                                </div>
+                              </td>
+                              <td className="px-4 py-3 text-center hidden lg:table-cell">
+                                <span className="px-2 py-0.5 bg-green-50 text-green-700 rounded-full text-xs font-medium">{b.lineItems.length}</span>
+                              </td>
+                              <td className="px-4 py-3 text-xs text-gray-400 hidden lg:table-cell whitespace-nowrap">
+                                {new Date(b.createdAt).toLocaleDateString('es-EC', { day: '2-digit', month: 'short', year: 'numeric' })}
+                              </td>
+                              <td className="px-4 py-3 text-right">
+                                <span className="font-bold text-green-600 whitespace-nowrap">{formatMoney(total)}</span>
+                              </td>
+                              <td className="px-4 py-3">
+                                <div className="flex items-center justify-end gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                  <button onClick={() => openEditBudget(b)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600" title="Editar"><Pencil size={13} /></button>
+                                  <button onClick={() => openDeleteBudget(b)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-red-500" title="Eliminar"><Trash2 size={13} /></button>
+                                  <button onClick={() => handleOpenBudget(b)} className="p-1.5 rounded-lg hover:bg-green-50 text-gray-400 hover:text-green-600" title="Abrir"><FolderOpen size={13} /></button>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                      <tfoot>
+                        <tr className="bg-green-50 border-t-2 border-green-200">
+                          <td colSpan={4} className="px-4 py-3 text-sm font-semibold text-green-800">Total presupuestado en el sistema</td>
+                          <td className="px-4 py-3 text-right text-base font-bold text-green-700 whitespace-nowrap">{formatMoney(grandTotal)}</td>
+                          <td className="px-4 py-3" />
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                </>
+              );
+            })()}
           </div>
         )}
 
