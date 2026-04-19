@@ -9,6 +9,9 @@ import {
   BudgetLineItem,
   BudgetUpdate,
   BudgetUpdateLineItem,
+  MedicionProject,
+  MedicionLineItem,
+  MedicionStatus,
 } from '../types';
 import { createDefaultDatabase, initialItemCategories } from '../data/initialData';
 
@@ -21,6 +24,8 @@ interface StorageData {
   currentBudgetId: string | null;
   budgetUpdates: BudgetUpdate[];
   currentBudgetUpdateId: string | null;
+  medicionProjects: MedicionProject[];
+  currentMedicionId: string | null;
 }
 
 function loadFromStorage(): StorageData | null {
@@ -50,6 +55,8 @@ interface AppState {
   currentBudgetId: string | null;
   budgetUpdates: BudgetUpdate[];
   currentBudgetUpdateId: string | null;
+  medicionProjects: MedicionProject[];
+  currentMedicionId: string | null;
 
   // Computed selectors
   getCurrentDatabase: () => Database | null;
@@ -107,6 +114,17 @@ interface AppState {
   changeBudgetUpdateDatabase: (id: string, newDatabaseId: string) => void;
   updateBudgetUpdateProgress: (updateId: string, lineItemId: string, progress: number) => void;
 
+  // Medicion actions
+  createMedicionProject: (name: string, description: string, budgetId: string) => string;
+  updateMedicionProject: (id: string, name: string, description: string) => void;
+  deleteMedicionProject: (id: string) => void;
+  openMedicionProject: (id: string) => void;
+  closeMedicionProject: () => void;
+  updateMedicionStatus: (projectId: string, itemId: string, status: MedicionStatus) => void;
+  updateMedicionQuantityRevit: (projectId: string, itemId: string, qty: number) => void;
+  updateMedicionNotes: (projectId: string, itemId: string, notes: string) => void;
+  importRevitCsv: (projectId: string, matches: { code: string; quantity: number }[]) => number;
+
   // Backup / Restore
   exportBackup: () => void;
   importBackup: (json: string) => { ok: boolean; error?: string };
@@ -122,6 +140,8 @@ const initialBudgets: Budget[] = saved?.budgets ?? [];
 const initialCurrentBudgetId: string | null = saved?.currentBudgetId ?? null;
 const initialBudgetUpdates: BudgetUpdate[] = saved?.budgetUpdates ?? [];
 const initialCurrentBudgetUpdateId: string | null = saved?.currentBudgetUpdateId ?? null;
+const initialMedicionProjects: MedicionProject[] = saved?.medicionProjects ?? [];
+const initialCurrentMedicionId: string | null = saved?.currentMedicionId ?? null;
 
 function updateDbInList(databases: Database[], dbId: string | null, updater: (db: Database) => Database): Database[] {
   if (!dbId) return databases;
@@ -135,6 +155,8 @@ export const useStore = create<AppState>((set, get) => ({
   currentBudgetId: initialCurrentBudgetId,
   budgetUpdates: initialBudgetUpdates,
   currentBudgetUpdateId: initialCurrentBudgetUpdateId,
+  medicionProjects: initialMedicionProjects,
+  currentMedicionId: initialCurrentMedicionId,
 
   getCurrentDatabase: () => {
     const state = get();
@@ -699,6 +721,104 @@ export const useStore = create<AppState>((set, get) => ({
     });
   },
 
+  // ── Medicion actions ────────────────────────────────────────────────────────
+
+  createMedicionProject: (name, description, budgetId) => {
+    const now = new Date().toISOString();
+    const state = get();
+    const budget = state.budgets.find((b) => b.id === budgetId);
+    if (!budget) return '';
+    const lineItems: MedicionLineItem[] = budget.lineItems.map((li) => ({
+      id: genId(),
+      rubroId: li.rubroId,
+      rubroCode: li.rubroCode,
+      rubroName: li.rubroName,
+      rubroUnit: li.rubroUnit,
+      categoryId: li.categoryId,
+      categoryName: li.categoryName,
+      quantityBudget: li.quantity,
+      quantityRevit: 0,
+      unitCost: li.unitCost,
+      status: 'pendiente' as MedicionStatus,
+      notes: '',
+    }));
+    const project: MedicionProject = {
+      id: genId(), name, description, budgetId, budgetName: budget.name,
+      createdAt: now, updatedAt: now, lineItems,
+    };
+    set((s) => ({ medicionProjects: [...s.medicionProjects, project], currentMedicionId: project.id }));
+    return project.id;
+  },
+
+  updateMedicionProject: (id, name, description) => {
+    set((s) => ({
+      medicionProjects: s.medicionProjects.map((p) =>
+        p.id === id ? { ...p, name, description, updatedAt: new Date().toISOString() } : p
+      ),
+    }));
+  },
+
+  deleteMedicionProject: (id) => {
+    set((s) => ({
+      medicionProjects: s.medicionProjects.filter((p) => p.id !== id),
+      currentMedicionId: s.currentMedicionId === id ? null : s.currentMedicionId,
+    }));
+  },
+
+  openMedicionProject: (id) => { set(() => ({ currentMedicionId: id })); },
+  closeMedicionProject: () => { set(() => ({ currentMedicionId: null })); },
+
+  updateMedicionStatus: (projectId, itemId, status) => {
+    set((s) => ({
+      medicionProjects: s.medicionProjects.map((p) =>
+        p.id !== projectId ? p : {
+          ...p, updatedAt: new Date().toISOString(),
+          lineItems: p.lineItems.map((li) => li.id === itemId ? { ...li, status } : li),
+        }
+      ),
+    }));
+  },
+
+  updateMedicionQuantityRevit: (projectId, itemId, qty) => {
+    set((s) => ({
+      medicionProjects: s.medicionProjects.map((p) =>
+        p.id !== projectId ? p : {
+          ...p, updatedAt: new Date().toISOString(),
+          lineItems: p.lineItems.map((li) => li.id === itemId ? { ...li, quantityRevit: qty } : li),
+        }
+      ),
+    }));
+  },
+
+  updateMedicionNotes: (projectId, itemId, notes) => {
+    set((s) => ({
+      medicionProjects: s.medicionProjects.map((p) =>
+        p.id !== projectId ? p : {
+          ...p, updatedAt: new Date().toISOString(),
+          lineItems: p.lineItems.map((li) => li.id === itemId ? { ...li, notes } : li),
+        }
+      ),
+    }));
+  },
+
+  importRevitCsv: (projectId, matches) => {
+    const codeMap = new Map(matches.map((m) => [m.code.trim().toLowerCase(), m.quantity]));
+    let count = 0;
+    set((s) => ({
+      medicionProjects: s.medicionProjects.map((p) => {
+        if (p.id !== projectId) return p;
+        const lineItems = p.lineItems.map((li) => {
+          const qty = codeMap.get(li.rubroCode.trim().toLowerCase());
+          if (qty === undefined) return li;
+          count++;
+          return { ...li, quantityRevit: qty };
+        });
+        return { ...p, lineItems, updatedAt: new Date().toISOString() };
+      }),
+    }));
+    return count;
+  },
+
   exportBackup: () => {
     const s = useStore.getState();
     const data: StorageData = {
@@ -708,6 +828,8 @@ export const useStore = create<AppState>((set, get) => ({
       currentBudgetId: s.currentBudgetId,
       budgetUpdates: s.budgetUpdates,
       currentBudgetUpdateId: s.currentBudgetUpdateId,
+      medicionProjects: s.medicionProjects,
+      currentMedicionId: s.currentMedicionId,
     };
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -766,6 +888,8 @@ useStore.subscribe((state) => {
     currentBudgetId: state.currentBudgetId,
     budgetUpdates: state.budgetUpdates,
     currentBudgetUpdateId: state.currentBudgetUpdateId,
+    medicionProjects: state.medicionProjects,
+    currentMedicionId: state.currentMedicionId,
   });
 });
 

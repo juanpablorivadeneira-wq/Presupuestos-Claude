@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import {
   Plus, Pencil, Trash2, Copy, FolderOpen, BarChart2,
-  Database, FileText, TrendingUp,
+  Database, FileText, TrendingUp, Ruler,
 } from 'lucide-react';
 import { useStore, formatMoney, rubroTotal } from '../../store/useStore';
-import { AppView, Budget, BudgetUpdate } from '../../types';
+import { AppView, Budget, BudgetUpdate, MedicionProject } from '../../types';
 import Modal from '../shared/Modal';
 import { prueba01Database } from '../../data/prueba01';
 
-type HomeSection = 'databases' | 'budgets' | 'actualizacion';
+type HomeSection = 'databases' | 'budgets' | 'actualizacion' | 'medicion';
 
 interface HomeViewProps {
   onNavigate: (view: AppView) => void;
@@ -19,10 +19,11 @@ interface HomeViewProps {
 export default function HomeView({ onNavigate, activeSection, onSectionChange }: HomeViewProps) {
 
   const {
-    databases, budgets, budgetUpdates,
+    databases, budgets, budgetUpdates, medicionProjects,
     createDatabase, updateDatabase, deleteDatabase, duplicateDatabase, openDatabase, importDatabase, updateDatabaseContents,
     createBudget, updateBudget, deleteBudget, openBudget,
     createBudgetUpdate, updateBudgetUpdate, deleteBudgetUpdate, openBudgetUpdate,
+    createMedicionProject, updateMedicionProject, deleteMedicionProject, openMedicionProject,
   } = useStore();
 
   function handleLoadPrueba01() {
@@ -57,6 +58,13 @@ export default function HomeView({ onNavigate, activeSection, onSectionChange }:
   const [buDesc, setBuDesc] = useState('');
   const [buSourceBudgetId, setBuSourceBudgetId] = useState('');
   const [buNewDbId, setBuNewDbId] = useState('');
+
+  // ── Medicion modal state ────────────────────────────────────────────────
+  const [medModal, setMedModal] = useState<'create' | 'edit' | 'delete' | null>(null);
+  const [medTarget, setMedTarget] = useState<MedicionProject | null>(null);
+  const [medName, setMedName] = useState('');
+  const [medDesc, setMedDesc] = useState('');
+  const [medBudgetId, setMedBudgetId] = useState('');
 
   // ── DB handlers ─────────────────────────────────────────────────────────
   function openCreateDb() { setDbName(''); setDbDesc(''); setDbTarget(null); setDbModal('create'); }
@@ -134,6 +142,19 @@ export default function HomeView({ onNavigate, activeSection, onSectionChange }:
   }
   function handleDeleteBu() { if (buTarget) deleteBudgetUpdate(buTarget.id); setBuModal(null); }
   function handleOpenBu(u: BudgetUpdate) { openBudgetUpdate(u.id); onNavigate('actualizacion'); }
+
+  // ── Medicion handlers ────────────────────────────────────────────────────
+  function openCreateMed() { setMedName(''); setMedDesc(''); setMedBudgetId(budgets[0]?.id ?? ''); setMedTarget(null); setMedModal('create'); }
+  function openEditMed(p: MedicionProject) { setMedName(p.name); setMedDesc(p.description); setMedTarget(p); setMedModal('edit'); }
+  function openDeleteMed(p: MedicionProject) { setMedTarget(p); setMedModal('delete'); }
+  function handleSaveMed() {
+    if (!medName.trim()) return;
+    if (medModal === 'create') createMedicionProject(medName.trim(), medDesc.trim(), medBudgetId);
+    else if (medModal === 'edit' && medTarget) updateMedicionProject(medTarget.id, medName.trim(), medDesc.trim());
+    setMedModal(null);
+  }
+  function handleDeleteMed() { if (medTarget) deleteMedicionProject(medTarget.id); setMedModal(null); }
+  function handleOpenMed(p: MedicionProject) { openMedicionProject(p.id); onNavigate('medicion'); }
 
   return (
     <div className="flex-1 overflow-auto p-6">
@@ -626,6 +647,181 @@ export default function HomeView({ onNavigate, activeSection, onSectionChange }:
             })()}
           </div>
         )}
+
+      {/* ── Medición section ──────────────────────────────────────────────── */}
+        {activeSection === 'medicion' && (
+          <div>
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center">
+                  <Ruler size={20} className="text-teal-600" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-bold text-gray-900">Medición</h2>
+                  <p className="text-xs text-gray-400">{medicionProjects.length} proyecto{medicionProjects.length !== 1 ? 's' : ''}</p>
+                </div>
+              </div>
+              <button onClick={openCreateMed} className="flex items-center gap-2 px-4 py-2 bg-teal-600 text-white rounded-lg text-sm font-medium hover:bg-teal-700 transition-colors">
+                <Plus size={14} /> Nuevo Proyecto
+              </button>
+            </div>
+
+            {budgets.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-20 text-center">
+                <div className="w-16 h-16 rounded-2xl bg-teal-50 flex items-center justify-center mb-4"><Ruler size={28} className="text-teal-300" /></div>
+                <h3 className="text-base font-semibold text-gray-700 mb-1">Se necesita un presupuesto</h3>
+                <p className="text-sm text-gray-400 mb-5 max-w-xs">Crea un presupuesto primero para poder medir sus rubros contra cantidades de Revit.</p>
+                <button onClick={() => onSectionChange('budgets')} className="px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition-colors">Ir a Presupuestos</button>
+              </div>
+            ) : medicionProjects.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-20 text-center">
+                <div className="w-16 h-16 rounded-2xl bg-teal-50 flex items-center justify-center mb-4"><Ruler size={28} className="text-teal-300" /></div>
+                <h3 className="text-base font-semibold text-gray-700 mb-1">Sin proyectos de medición</h3>
+                <p className="text-sm text-gray-400 mb-5 max-w-xs">Crea un proyecto de medición vinculado a un presupuesto e importa las cantidades desde Revit.</p>
+                <button onClick={openCreateMed} className="flex items-center gap-2 px-4 py-2 bg-teal-600 text-white rounded-lg text-sm font-medium hover:bg-teal-700 transition-colors"><Plus size={14} /> Nuevo Proyecto</button>
+              </div>
+            ) : (() => {
+              const lastModifiedM = [...medicionProjects].sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())[0];
+              const allItems = medicionProjects.flatMap((p) => p.lineItems);
+              const totalMedidos = allItems.filter((li) => li.status === 'medido' || li.status === 'verificado').length;
+              const medidosPct = allItems.length > 0 ? (totalMedidos / allItems.length) * 100 : 0;
+              const pendientes = allItems.filter((li) => li.status === 'pendiente').length;
+              function fmtDTm(iso: string) {
+                const d = new Date(iso);
+                return d.toLocaleDateString('es-EC', { day: '2-digit', month: 'short', year: 'numeric' })
+                  + ' ' + d.toLocaleTimeString('es-EC', { hour: '2-digit', minute: '2-digit' });
+              }
+              return (
+                <>
+                  {/* KPIs */}
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    <div className="bg-white rounded-xl border border-gray-200 p-4">
+                      <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Total proyectos</p>
+                      <p className="text-3xl font-bold text-teal-600">{medicionProjects.length}</p>
+                    </div>
+                    <div className="bg-white rounded-xl border border-gray-200 p-4">
+                      <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Rubros medidos</p>
+                      <p className="text-3xl font-bold text-teal-600">{medidosPct.toFixed(0)}%</p>
+                      <div className="mt-2 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                        <div className="h-full bg-teal-500 rounded-full" style={{ width: `${medidosPct}%` }} />
+                      </div>
+                      <p className="text-xs text-gray-400 mt-1">{totalMedidos} de {allItems.length} rubros</p>
+                    </div>
+                    <div className="bg-white rounded-xl border border-gray-200 p-4">
+                      <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Pendientes</p>
+                      <p className="text-3xl font-bold text-gray-500">{pendientes}</p>
+                      <p className="text-xs text-gray-400 mt-1">rubros sin medir</p>
+                    </div>
+                    <div className="bg-white rounded-xl border border-gray-200 p-4">
+                      <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Últ. modificado</p>
+                      <p className="text-xs font-bold text-gray-800 truncate">{lastModifiedM?.name ?? '—'}</p>
+                      <p className="text-xs text-gray-400 mt-0.5">{lastModifiedM ? fmtDTm(lastModifiedM.updatedAt) : '—'}</p>
+                    </div>
+                  </div>
+
+                  {/* Lista */}
+                  <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                    <table className="w-full text-sm border-separate border-spacing-0">
+                      <thead>
+                        <tr className="bg-gray-50">
+                          <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-200">Proyecto</th>
+                          <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-200 hidden md:table-cell">Presupuesto</th>
+                          <th className="text-center px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-200 hidden lg:table-cell">Rubros</th>
+                          <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-200">Progreso</th>
+                          <th className="px-4 py-3 border-b border-gray-200 w-24"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {medicionProjects.map((p) => {
+                          const medidos = p.lineItems.filter((li) => li.status === 'medido' || li.status === 'verificado').length;
+                          const pct = p.lineItems.length > 0 ? (medidos / p.lineItems.length) * 100 : 0;
+                          return (
+                            <tr key={p.id} className="hover:bg-gray-50 transition-colors group border-b border-gray-100 last:border-b-0">
+                              <td className="px-4 py-3">
+                                <button onClick={() => handleOpenMed(p)} className="text-left group/name">
+                                  <p className="font-semibold text-gray-900 truncate max-w-[200px] group-hover/name:text-teal-700 transition-colors">{p.name}</p>
+                                  {p.description && <p className="text-xs text-gray-400 truncate max-w-[200px] mt-0.5">{p.description}</p>}
+                                </button>
+                              </td>
+                              <td className="px-4 py-3 hidden md:table-cell">
+                                <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                                  <FileText size={11} className="shrink-0 text-gray-400" />
+                                  <span className="truncate max-w-[140px]">{p.budgetName}</span>
+                                </div>
+                              </td>
+                              <td className="px-4 py-3 text-center hidden lg:table-cell">
+                                <span className="px-2 py-0.5 bg-teal-50 text-teal-700 rounded-full text-xs font-medium">{p.lineItems.length}</span>
+                              </td>
+                              <td className="px-4 py-3">
+                                <div className="flex items-center gap-2 min-w-[100px]">
+                                  <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                                    <div className="h-full bg-teal-500 rounded-full" style={{ width: `${pct}%` }} />
+                                  </div>
+                                  <span className="text-xs font-semibold text-teal-700 whitespace-nowrap">{pct.toFixed(0)}%</span>
+                                </div>
+                              </td>
+                              <td className="px-4 py-3">
+                                <div className="flex items-center justify-end gap-1">
+                                  <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <button onClick={() => openEditMed(p)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600" title="Editar"><Pencil size={13} /></button>
+                                    <button onClick={() => openDeleteMed(p)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-red-500" title="Eliminar"><Trash2 size={13} /></button>
+                                  </div>
+                                  <button onClick={() => handleOpenMed(p)} className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-600 hover:bg-teal-700 text-white rounded-lg text-xs font-medium transition-colors">
+                                    <FolderOpen size={12} /> Abrir
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </>
+              );
+            })()}
+          </div>
+        )}
+
+      {/* ── Medicion Modals ───────────────────────────────────────────────── */}
+      {(medModal === 'create' || medModal === 'edit') && (
+        <Modal title={medModal === 'create' ? 'Nuevo Proyecto de Medición' : 'Editar Proyecto'} onClose={() => setMedModal(null)} size="md">
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Nombre <span className="text-red-500">*</span></label>
+              <input type="text" value={medName} onChange={(e) => setMedName(e.target.value)} className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-teal-400" placeholder="Medición Julio 2025" autoFocus />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
+              <textarea value={medDesc} onChange={(e) => setMedDesc(e.target.value)} rows={2} className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-teal-400 resize-none" placeholder="Descripción opcional..." />
+            </div>
+            {medModal === 'create' && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Presupuesto base <span className="text-red-500">*</span></label>
+                <select value={medBudgetId} onChange={(e) => setMedBudgetId(e.target.value)} className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-teal-400">
+                  {budgets.map((b) => <option key={b.id} value={b.id}>{b.name}</option>)}
+                </select>
+                <p className="text-xs text-gray-400 mt-1">Se copiarán todos los rubros del presupuesto como ítems de medición.</p>
+              </div>
+            )}
+            <div className="flex justify-end gap-2 pt-2">
+              <button onClick={() => setMedModal(null)} className="px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50">Cancelar</button>
+              <button onClick={handleSaveMed} disabled={!medName.trim() || (medModal === 'create' && !medBudgetId)} className="px-4 py-2 text-sm bg-teal-600 text-white rounded-md hover:bg-teal-700 disabled:opacity-50">
+                {medModal === 'create' ? 'Crear' : 'Guardar'}
+              </button>
+            </div>
+          </div>
+        </Modal>
+      )}
+      {medModal === 'delete' && medTarget && (
+        <Modal title="Eliminar proyecto de medición" onClose={() => setMedModal(null)} size="sm">
+          <p className="text-sm text-gray-600 mb-4">¿Eliminar <b>{medTarget.name}</b>? Esta acción no se puede deshacer.</p>
+          <div className="flex justify-end gap-2">
+            <button onClick={() => setMedModal(null)} className="px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50">Cancelar</button>
+            <button onClick={handleDeleteMed} className="px-4 py-2 text-sm bg-red-600 text-white rounded-md hover:bg-red-700">Eliminar</button>
+          </div>
+        </Modal>
+      )}
 
       {/* ── BudgetUpdate Modals ──────────────────────────────────────────── */}
       {(buModal === 'create' || buModal === 'edit') && (

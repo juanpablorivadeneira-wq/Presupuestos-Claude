@@ -119,4 +119,34 @@ export interface BudgetUpdate {
   lineItems: BudgetUpdateLineItem[];
 }
 
-export type AppView = 'home' | 'database' | 'budget' | 'actualizacion' | 'compare';
+export type AppView = 'home' | 'database' | 'budget' | 'actualizacion' | 'compare' | 'medicion';
+
+// ── Medición ──────────────────────────────────────────────────────────────────
+
+export type MedicionStatus = 'pendiente' | 'en_proceso' | 'medido' | 'verificado';
+
+export interface MedicionLineItem {
+  id: string;
+  rubroId: string;
+  rubroCode: string;
+  rubroName: string;
+  rubroUnit: string;
+  categoryId: string | null;
+  categoryName: string;
+  quantityBudget: number;
+  quantityRevit: number;
+  unitCost: number;
+  status: MedicionStatus;
+  notes: string;
+}
+
+export interface MedicionProject {
+  id: string;
+  name: string;
+  description: string;
+  budgetId: string;
+  budgetName: string;
+  createdAt: string;
+  updatedAt: string;
+  lineItems: MedicionLineItem[];
+}

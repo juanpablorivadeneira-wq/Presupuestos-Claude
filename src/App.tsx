@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Database, FileText, TrendingUp, ChevronDown, Check, Plus, User, Menu, HardDrive, Search, Bell, Bookmark, HelpCircle } from 'lucide-react';
+import { Database, FileText, TrendingUp, Ruler, ChevronDown, Check, Plus, User, Menu, HardDrive, Search, Bell, Bookmark, HelpCircle } from 'lucide-react';
 import { useStore } from './store/useStore';
 import { AppView } from './types';
 import HomeView from './components/home/HomeView';
@@ -7,13 +7,14 @@ import ItemsView from './components/items/ItemsView';
 import RubrosView from './components/rubros/RubrosView';
 import BudgetView from './components/budgets/BudgetView';
 import ActualizacionView from './components/actualizacion/ActualizacionView';
+import MedicionView from './components/medicion/MedicionView';
 import CompareView from './components/compare/CompareView';
 import Modal from './components/shared/Modal';
 import BuildKontrolLogo from './components/shared/BuildKontrolLogo';
 import BackupModal from './components/shared/BackupModal';
 
 type DbTab = 'items' | 'rubros';
-type HomeSection = 'databases' | 'budgets' | 'actualizacion';
+type HomeSection = 'databases' | 'budgets' | 'actualizacion' | 'medicion';
 
 export default function App() {
   const [view, setView] = useState<AppView>('home');
@@ -36,7 +37,8 @@ export default function App() {
   const budgets = useStore((s) => s.budgets);
   const currentBudgetId = useStore((s) => s.currentBudgetId);
   const budgetUpdates = useStore((s) => s.budgetUpdates);
-  const { closeDatabase, closeBudget, openDatabase, createDatabase } = useStore();
+  const medicionProjects = useStore((s) => s.medicionProjects);
+  const { closeDatabase, closeBudget, closeMedicionProject, openDatabase, createDatabase } = useStore();
 
   const currentDb = databases.find((d) => d.id === currentDatabaseId) ?? null;
   const currentBudget = budgets.find((b) => b.id === currentBudgetId) ?? null;
@@ -45,6 +47,7 @@ export default function App() {
     view === 'database' ? 'databases'
     : view === 'budget' || view === 'compare' ? 'budgets'
     : view === 'actualizacion' ? 'actualizacion'
+    : view === 'medicion' ? 'medicion'
     : activeSection;
 
   useEffect(() => {
@@ -62,6 +65,7 @@ export default function App() {
   function handleBackToHome() {
     if (view === 'database') closeDatabase();
     if (view === 'budget') closeBudget();
+    if (view === 'medicion') closeMedicionProject();
     setView('home');
   }
 
@@ -70,6 +74,7 @@ export default function App() {
     if (view !== 'home') {
       if (view === 'database') closeDatabase();
       else if (view === 'budget') closeBudget();
+      else if (view === 'medicion') closeMedicionProject();
       setView('home');
     }
   }
@@ -220,6 +225,8 @@ export default function App() {
               <span className="text-amber-700 font-medium">Actualización de Presupuestos</span>
             ) : view === 'compare' ? (
               <span className="text-gray-700 font-medium">Comparar Presupuestos</span>
+            ) : view === 'medicion' ? (
+              <span className="text-teal-700 font-medium">Medición</span>
             ) : null}
           </div>
         )}
@@ -339,6 +346,26 @@ export default function App() {
               </span>
             </button>
 
+            <button
+              onClick={() => handleSidebarNav('medicion')}
+              className={`relative w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
+                activeSidebarSection === 'medicion'
+                  ? 'bg-teal-50 text-teal-700'
+                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+              }`}
+            >
+              {activeSidebarSection === 'medicion' && (
+                <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-teal-600 rounded-r" />
+              )}
+              <Ruler size={16} className="shrink-0" />
+              <span className="flex-1 text-left leading-tight">Medición</span>
+              <span className={`text-xs px-1.5 py-0.5 rounded-full font-semibold ${
+                activeSidebarSection === 'medicion' ? 'bg-teal-100 text-teal-700' : 'bg-gray-100 text-gray-500'
+              }`}>
+                {medicionProjects.length}
+              </span>
+            </button>
+
           </nav>
         </aside>
 
@@ -358,6 +385,7 @@ export default function App() {
           )}
           {view === 'budget' && <BudgetView onNavigate={handleNavigate} />}
           {view === 'actualizacion' && <ActualizacionView onNavigate={handleNavigate} />}
+          {view === 'medicion' && <MedicionView />}
           {view === 'compare' && <CompareView onNavigate={handleNavigate} />}
         </main>
 
