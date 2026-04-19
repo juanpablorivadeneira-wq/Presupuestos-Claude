@@ -163,7 +163,7 @@ export default function ActualizacionView({ onNavigate: _onNavigate }: Actualiza
             No hay rubros en esta actualización.
           </div>
         ) : (
-          <table className="text-sm border-separate border-spacing-0" style={{ tableLayout: 'fixed', width: '100%', minWidth: 900 }}>
+          <table className="text-sm border-separate border-spacing-0" style={{ tableLayout: 'fixed', width: (Object.values(widths) as number[]).reduce((a, b) => a + b, 0) }}>
             <thead className="bg-gray-50 text-xs text-gray-500 uppercase sticky top-0 z-10">
               <tr>
                 {([

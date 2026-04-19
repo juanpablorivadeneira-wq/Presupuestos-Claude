@@ -97,13 +97,17 @@ export default function ItemTable({
     );
   }
 
+  const totalTableWidth = 32 + widths.codigo + widths.nombre + widths.unidad +
+    (showMat ? widths.material : 0) + (showMO ? widths.manoObra : 0) + (showEq ? widths.equipo : 0) +
+    widths.precioUnit + 80;
+
   return (
-    <table className="border-separate border-spacing-0" style={{ tableLayout: 'fixed', width: '100%', minWidth: 600 }}>
+    <table className="border-separate border-spacing-0" style={{ tableLayout: 'fixed', width: Math.max(totalTableWidth, 600) }}>
         <thead className="bg-gray-50 sticky top-0 z-10">
           <tr>
             <th className="px-2 border-b border-gray-200" style={{ width: 32 }}></th>
             <ColumnHeader label="Código" colKey="code" sortConfig={sortConfig} onSort={onSort} width={widths.codigo} resizer={resizer('codigo')} />
-            <ColumnHeader label="Nombre" colKey="name" sortConfig={sortConfig} onSort={onSort} resizer={resizer('nombre')} />
+            <ColumnHeader label="Nombre" colKey="name" sortConfig={sortConfig} onSort={onSort} width={widths.nombre} resizer={resizer('nombre')} />
             <ColumnHeader label="Unidad" colKey="unit" sortConfig={sortConfig} onSort={onSort} width={widths.unidad} resizer={resizer('unidad')} />
             {showMat && <ColumnHeader label="Material" colKey="material" sortConfig={sortConfig} onSort={onSort} width={widths.material} resizer={resizer('material')} align="right" />}
             {showMO  && <ColumnHeader label="Mano de Obra" colKey="manoDeObra" sortConfig={sortConfig} onSort={onSort} width={widths.manoObra} resizer={resizer('manoObra')} align="right" />}

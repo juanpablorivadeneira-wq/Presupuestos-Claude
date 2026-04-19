@@ -346,7 +346,7 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
             )}
           </div>
         ) : (
-          <table className="text-sm border-separate border-spacing-0" style={{ tableLayout: 'fixed', width: '100%', minWidth: Object.values(colWidths).reduce((a, b) => a + b, 0) + 40 }}>
+          <table className="text-sm border-separate border-spacing-0" style={{ tableLayout: 'fixed', width: Object.values(colWidths).reduce((a, b) => a + b, 0) + 40 }}>
             <thead className="bg-gray-50 text-xs text-gray-500 uppercase tracking-wide sticky top-0 z-10">
               <tr>
                 {([ ['codigo','Código','left','px-4',null], ['nombre','Nombre','left','px-4',null], ['unidad','Unidad','left','px-4',null], ['material','Material','right','px-3','text-blue-600'], ['manoObra','Mano Obra','right','px-3','text-orange-600'], ['equipo','Equipo','right','px-3','text-purple-600'], ['precioUnit','Precio Unit.','right','px-3',null], ['cantidad','Cantidad','right','px-3',null], ['total','Total','right','px-3',null] ] as const).map(([col, label, align, px, color]) => (

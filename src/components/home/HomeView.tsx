@@ -493,71 +493,113 @@ export default function HomeView({ onNavigate, activeSection, onSectionChange }:
                   <Plus size={14} /> Nueva Actualización
                 </button>
               </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {budgetUpdates.map((u) => {
-                  const avgProgress = u.lineItems.length > 0
-                    ? u.lineItems.reduce((sum, li) => sum + (li.progress ?? 0), 0) / u.lineItems.length
-                    : 0;
-                  return (
-                    <div
-                      key={u.id}
-                      className="bg-white rounded-xl border border-gray-200 border-t-[3px] border-t-amber-500 shadow-sm hover:shadow-md transition-shadow flex flex-col"
-                    >
-                      <div className="p-4 flex-1 flex flex-col gap-3">
-                        <div className="flex items-start justify-between gap-2">
-                          <div className="flex-1 min-w-0">
-                            <p className="font-semibold text-gray-900 truncate">{u.name}</p>
-                            {u.description && <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{u.description}</p>}
-                          </div>
-                          <div className="flex items-center gap-0.5 shrink-0">
-                            <button onClick={() => openEditBu(u)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors" title="Editar"><Pencil size={13} /></button>
-                            <button onClick={() => openDeleteBu(u)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-red-500 transition-colors" title="Eliminar"><Trash2 size={13} /></button>
-                          </div>
-                        </div>
-                        <div className="space-y-1">
-                          <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                            <FileText size={11} className="shrink-0" />
-                            <span className="truncate">{u.sourceBudgetName}</span>
-                          </div>
-                          <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                            <Database size={11} className="shrink-0" />
-                            <span className="truncate">{u.newDatabaseName}</span>
-                          </div>
-                        </div>
-                        <div>
-                          <div className="flex items-center justify-between mb-1.5">
-                            <span className="text-xs text-gray-500">Avance promedio</span>
-                            <span className="text-xs font-semibold text-amber-700">{avgProgress.toFixed(0)}%</span>
-                          </div>
-                          <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                            <div
-                              className="h-full bg-amber-400 rounded-full transition-all"
-                              style={{ width: `${avgProgress}%` }}
-                            />
-                          </div>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="px-2 py-0.5 bg-amber-50 text-amber-700 rounded-full text-xs font-medium">{u.lineItems.length} rubros</span>
-                          <span className="text-xs text-gray-400">
-                            {new Date(u.createdAt).toLocaleDateString('es-EC', { day: '2-digit', month: 'short', year: 'numeric' })}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="px-4 pb-4">
-                        <button
-                          onClick={() => handleOpenBu(u)}
-                          className="w-full flex items-center justify-center gap-2 py-2 bg-amber-600 text-white rounded-lg text-sm font-medium hover:bg-amber-700 transition-colors"
-                        >
-                          <FolderOpen size={14} />
-                          Abrir
-                        </button>
+            ) : (() => {
+              const lastCreatedU = [...budgetUpdates].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())[0];
+              const lastModifiedU = [...budgetUpdates].sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())[0];
+              const globalAvg = budgetUpdates.length > 0
+                ? budgetUpdates.reduce((s, u) => s + (u.lineItems.length > 0 ? u.lineItems.reduce((ss, li) => ss + (li.progress ?? 0), 0) / u.lineItems.length : 0), 0) / budgetUpdates.length
+                : 0;
+              function fmtDTu(iso: string) {
+                const d = new Date(iso);
+                return d.toLocaleDateString('es-EC', { day: '2-digit', month: 'short', year: 'numeric' })
+                  + ' ' + d.toLocaleTimeString('es-EC', { hour: '2-digit', minute: '2-digit' });
+              }
+              return (
+                <>
+                  {/* KPIs */}
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    <div className="bg-white rounded-xl border border-gray-200 p-4">
+                      <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Total actualizaciones</p>
+                      <p className="text-3xl font-bold text-amber-600">{budgetUpdates.length}</p>
+                    </div>
+                    <div className="bg-white rounded-xl border border-gray-200 p-4">
+                      <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Avance promedio</p>
+                      <p className="text-3xl font-bold text-amber-600">{globalAvg.toFixed(0)}%</p>
+                      <div className="mt-2 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                        <div className="h-full bg-amber-400 rounded-full" style={{ width: `${globalAvg}%` }} />
                       </div>
                     </div>
-                  );
-                })}
-              </div>
-            )}
+                    <div className="bg-white rounded-xl border border-gray-200 p-4">
+                      <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Últ. creada</p>
+                      <p className="text-xs font-bold text-gray-800 truncate">{lastCreatedU?.name ?? '—'}</p>
+                      <p className="text-xs text-gray-400 mt-0.5">{lastCreatedU ? fmtDTu(lastCreatedU.createdAt) : '—'}</p>
+                    </div>
+                    <div className="bg-white rounded-xl border border-gray-200 p-4">
+                      <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Últ. modificada</p>
+                      <p className="text-xs font-bold text-gray-800 truncate">{lastModifiedU?.name ?? '—'}</p>
+                      <p className="text-xs text-gray-400 mt-0.5">{lastModifiedU ? fmtDTu(lastModifiedU.updatedAt) : '—'}</p>
+                    </div>
+                  </div>
+
+                  {/* Lista de actualizaciones */}
+                  <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                    <table className="w-full text-sm border-separate border-spacing-0">
+                      <thead>
+                        <tr className="bg-gray-50">
+                          <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-200">Actualización</th>
+                          <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-200 hidden md:table-cell">Presupuesto</th>
+                          <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-200 hidden lg:table-cell">Base de datos</th>
+                          <th className="text-center px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-200 hidden lg:table-cell">Rubros</th>
+                          <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-200">Avance</th>
+                          <th className="px-4 py-3 border-b border-gray-200 w-24"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {budgetUpdates.map((u) => {
+                          const avg = u.lineItems.length > 0
+                            ? u.lineItems.reduce((s, li) => s + (li.progress ?? 0), 0) / u.lineItems.length
+                            : 0;
+                          return (
+                            <tr key={u.id} className="hover:bg-gray-50 transition-colors group border-b border-gray-100 last:border-b-0">
+                              <td className="px-4 py-3">
+                                <button onClick={() => handleOpenBu(u)} className="text-left group/name">
+                                  <p className="font-semibold text-gray-900 truncate max-w-[200px] group-hover/name:text-amber-700 transition-colors">{u.name}</p>
+                                  {u.description && <p className="text-xs text-gray-400 truncate max-w-[200px] mt-0.5">{u.description}</p>}
+                                </button>
+                              </td>
+                              <td className="px-4 py-3 hidden md:table-cell">
+                                <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                                  <FileText size={11} className="shrink-0 text-gray-400" />
+                                  <span className="truncate max-w-[140px]">{u.sourceBudgetName}</span>
+                                </div>
+                              </td>
+                              <td className="px-4 py-3 hidden lg:table-cell">
+                                <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                                  <Database size={11} className="shrink-0 text-gray-400" />
+                                  <span className="truncate max-w-[140px]">{u.newDatabaseName}</span>
+                                </div>
+                              </td>
+                              <td className="px-4 py-3 text-center hidden lg:table-cell">
+                                <span className="px-2 py-0.5 bg-amber-50 text-amber-700 rounded-full text-xs font-medium">{u.lineItems.length}</span>
+                              </td>
+                              <td className="px-4 py-3">
+                                <div className="flex items-center gap-2 min-w-[100px]">
+                                  <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                                    <div className="h-full bg-amber-400 rounded-full" style={{ width: `${avg}%` }} />
+                                  </div>
+                                  <span className="text-xs font-semibold text-amber-700 whitespace-nowrap">{avg.toFixed(0)}%</span>
+                                </div>
+                              </td>
+                              <td className="px-4 py-3">
+                                <div className="flex items-center justify-end gap-1">
+                                  <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <button onClick={() => openEditBu(u)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600" title="Editar"><Pencil size={13} /></button>
+                                    <button onClick={() => openDeleteBu(u)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-red-500" title="Eliminar"><Trash2 size={13} /></button>
+                                  </div>
+                                  <button onClick={() => handleOpenBu(u)} className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-xs font-medium transition-colors">
+                                    <FolderOpen size={12} /> Abrir
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </>
+              );
+            })()}
           </div>
         )}
 

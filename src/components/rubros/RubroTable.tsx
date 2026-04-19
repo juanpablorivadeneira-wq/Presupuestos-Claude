@@ -89,13 +89,16 @@ export default function RubroTable({
     );
   }
 
+  const totalTableWidth = 32 + widths.codigo + widths.nombre + widths.unidad +
+    widths.material + widths.manoObra + widths.equipo + widths.total + 80;
+
   return (
-    <table className="border-separate border-spacing-0" style={{ tableLayout: 'fixed', width: '100%', minWidth: 820 }}>
+    <table className="border-separate border-spacing-0" style={{ tableLayout: 'fixed', width: Math.max(totalTableWidth, 820) }}>
         <thead className="bg-gray-50 sticky top-0 z-10">
           <tr>
             <th className="px-2 border-b border-gray-200" style={{ width: 32 }}></th>
             <ColumnHeader label="Código" colKey="code" sortConfig={sortConfig} onSort={onSort} width={widths.codigo} resizer={resizer('codigo')} />
-            <ColumnHeader label="Nombre" colKey="name" sortConfig={sortConfig} onSort={onSort} resizer={resizer('nombre')} />
+            <ColumnHeader label="Nombre" colKey="name" sortConfig={sortConfig} onSort={onSort} width={widths.nombre} resizer={resizer('nombre')} />
             <ColumnHeader label="Unidad" colKey="unit" sortConfig={sortConfig} onSort={onSort} width={widths.unidad} resizer={resizer('unidad')} />
             <th style={{ width: widths.material }} className="relative px-3 py-3 text-right text-xs font-semibold text-blue-500 uppercase tracking-wider border-b border-gray-200">Material{resizer('material')}</th>
             <th style={{ width: widths.manoObra }} className="relative px-3 py-3 text-right text-xs font-semibold text-orange-500 uppercase tracking-wider border-b border-gray-200">M. Obra{resizer('manoObra')}</th>
