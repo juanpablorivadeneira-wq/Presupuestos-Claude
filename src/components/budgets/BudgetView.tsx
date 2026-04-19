@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useRef } from 'react';
+import { useResizableColumns } from '../shared/useResizableColumns.tsx';
 import { Plus, Trash2, RefreshCw, FileDown, Search, X, ChevronDown, ChevronRight, CheckSquare, Check, AlertTriangle } from 'lucide-react';
 import { useStore, formatMoney, rubroTotal, getCategoryIds } from '../../store/useStore';
 import { AppView, BudgetLineItem, Rubro } from '../../types';
@@ -42,20 +43,7 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
   const [duplicateAlert, setDuplicateAlert] = useState<Map<string, number>>(new Map());
 
   // ── Resizable columns ───────────────────────────────────────────────────────
-  const [colWidths, setColWidths] = useState({ codigo: 112, nombre: 260, unidad: 72, material: 110, manoObra: 110, equipo: 96, precioUnit: 110, cantidad: 88, total: 120 });
-  const resizing = useRef<{ col: keyof typeof colWidths; startX: number; startW: number } | null>(null);
-  function startResize(col: keyof typeof colWidths, e: React.MouseEvent) {
-    e.preventDefault();
-    resizing.current = { col, startX: e.clientX, startW: colWidths[col] };
-    const onMove = (ev: MouseEvent) => {
-      if (!resizing.current) return;
-      const w = Math.max(48, resizing.current.startW + ev.clientX - resizing.current.startX);
-      setColWidths((p) => ({ ...p, [resizing.current!.col]: w }));
-    };
-    const onUp = () => { resizing.current = null; document.removeEventListener('mousemove', onMove); document.removeEventListener('mouseup', onUp); };
-    document.addEventListener('mousemove', onMove);
-    document.addEventListener('mouseup', onUp);
-  }
+  const { widths: colWidths, resizer: colResizer } = useResizableColumns({ codigo: 112, nombre: 260, unidad: 72, material: 110, manoObra: 110, equipo: 96, precioUnit: 110, cantidad: 88, total: 120 });
 
   // ── Totals ──────────────────────────────────────────────────────────────────
   const subtotal = budget ? budget.lineItems.reduce((s, li) => s + li.unitCost * li.quantity, 0) : 0;
@@ -364,7 +352,7 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
                 {([ ['codigo','Código','left','px-4',null], ['nombre','Nombre','left','px-4',null], ['unidad','Unidad','left','px-4',null], ['material','Material','right','px-3','text-blue-600'], ['manoObra','Mano Obra','right','px-3','text-orange-600'], ['equipo','Equipo','right','px-3','text-purple-600'], ['precioUnit','Precio Unit.','right','px-3',null], ['cantidad','Cantidad','right','px-3',null], ['total','Total','right','px-3',null] ] as const).map(([col, label, align, px, color]) => (
                   <th key={col} style={{ width: colWidths[col as keyof typeof colWidths] }} className={`relative ${px} py-3 text-${align} font-medium border-b border-gray-200 ${color ?? ''} select-none`}>
                     <span className="truncate block">{label}</span>
-                    <div onMouseDown={(e) => startResize(col as keyof typeof colWidths, e)} className="absolute right-0 top-0 h-full w-1.5 cursor-col-resize hover:bg-blue-400/60 transition-colors" />
+                    {colResizer(col as keyof typeof colWidths)}
                   </th>
                 ))}
                 <th style={{ width: 40 }} className="px-3 py-3 border-b border-gray-200" />

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ArrowUpDown, Pencil, Trash2, Plus, Minus } from 'lucide-react';
 import { Item, ItemCategory, SortConfig } from '../../types';
 import { itemTotal, formatMoney, getCategoryIds } from '../../store/useStore';
+import { useResizableColumns } from '../shared/useResizableColumns.tsx';
 
 interface ItemTableProps {
   items: Item[];
@@ -19,22 +20,24 @@ interface ColumnHeaderProps {
   sortConfig: SortConfig;
   onSort: (key: string) => void;
   className?: string;
+  width?: number;
+  resizer?: React.ReactNode;
+  align?: 'left' | 'right';
 }
 
-function ColumnHeader({ label, colKey, sortConfig, onSort, className = '' }: ColumnHeaderProps) {
+function ColumnHeader({ label, colKey, sortConfig, onSort, className = '', width, resizer, align = 'left' }: ColumnHeaderProps) {
   const isActive = sortConfig.key === colKey;
   return (
     <th
-      className={`px-3 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider cursor-pointer select-none hover:bg-gray-100 whitespace-nowrap border-b border-gray-200 ${className}`}
+      style={width ? { width } : undefined}
+      className={`relative px-3 py-3 text-${align} text-xs font-semibold text-gray-500 uppercase tracking-wider cursor-pointer select-none hover:bg-gray-100 whitespace-nowrap border-b border-gray-200 ${className}`}
       onClick={() => onSort(colKey)}
     >
-      <div className="flex items-center gap-1">
+      <div className={`flex items-center gap-1 ${align === 'right' ? 'justify-end' : ''}`}>
         {label}
-        <ArrowUpDown
-          size={12}
-          className={isActive && sortConfig.direction ? 'text-green-600' : 'text-gray-300'}
-        />
+        <ArrowUpDown size={12} className={isActive && sortConfig.direction ? 'text-green-600' : 'text-gray-300'} />
       </div>
+      {resizer}
     </th>
   );
 }
@@ -68,6 +71,7 @@ export default function ItemTable({
   onSort,
 }: ItemTableProps) {
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
+  const { widths, resizer } = useResizableColumns({ codigo: 128, nombre: 280, unidad: 80, material: 110, manoObra: 110, equipo: 96, precioUnit: 112 });
 
   function toggleExpand(id: string) {
     setExpandedIds((prev) => {
@@ -94,18 +98,18 @@ export default function ItemTable({
   }
 
   return (
-    <table className="w-full min-w-[600px] border-separate border-spacing-0">
+    <table className="border-separate border-spacing-0" style={{ tableLayout: 'fixed', width: '100%', minWidth: 600 }}>
         <thead className="bg-gray-50 sticky top-0 z-10">
           <tr>
-            <th className="w-8 px-2 border-b border-gray-200"></th>
-            <ColumnHeader label="Código" colKey="code" sortConfig={sortConfig} onSort={onSort} className="w-32" />
-            <ColumnHeader label="Nombre" colKey="name" sortConfig={sortConfig} onSort={onSort} />
-            <ColumnHeader label="Unidad" colKey="unit" sortConfig={sortConfig} onSort={onSort} className="w-20" />
-            {showMat && <ColumnHeader label="Material" colKey="material" sortConfig={sortConfig} onSort={onSort} className="w-28 text-right" />}
-            {showMO  && <ColumnHeader label="Mano de Obra" colKey="manoDeObra" sortConfig={sortConfig} onSort={onSort} className="w-28 text-right" />}
-            {showEq  && <ColumnHeader label="Equipo" colKey="equipo" sortConfig={sortConfig} onSort={onSort} className="w-24 text-right" />}
-            <ColumnHeader label="Precio Unit." colKey="total" sortConfig={sortConfig} onSort={onSort} className="w-28 text-right" />
-            <th className="w-20 px-3 py-3 text-right text-xs font-semibold text-gray-500 uppercase border-b border-gray-200">Acciones</th>
+            <th className="px-2 border-b border-gray-200" style={{ width: 32 }}></th>
+            <ColumnHeader label="Código" colKey="code" sortConfig={sortConfig} onSort={onSort} width={widths.codigo} resizer={resizer('codigo')} />
+            <ColumnHeader label="Nombre" colKey="name" sortConfig={sortConfig} onSort={onSort} resizer={resizer('nombre')} />
+            <ColumnHeader label="Unidad" colKey="unit" sortConfig={sortConfig} onSort={onSort} width={widths.unidad} resizer={resizer('unidad')} />
+            {showMat && <ColumnHeader label="Material" colKey="material" sortConfig={sortConfig} onSort={onSort} width={widths.material} resizer={resizer('material')} align="right" />}
+            {showMO  && <ColumnHeader label="Mano de Obra" colKey="manoDeObra" sortConfig={sortConfig} onSort={onSort} width={widths.manoObra} resizer={resizer('manoObra')} align="right" />}
+            {showEq  && <ColumnHeader label="Equipo" colKey="equipo" sortConfig={sortConfig} onSort={onSort} width={widths.equipo} resizer={resizer('equipo')} align="right" />}
+            <ColumnHeader label="Precio Unit." colKey="total" sortConfig={sortConfig} onSort={onSort} width={widths.precioUnit} resizer={resizer('precioUnit')} align="right" />
+            <th className="px-3 py-3 text-right text-xs font-semibold text-gray-500 uppercase border-b border-gray-200" style={{ width: 80 }}>Acciones</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-100">

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ArrowUpDown, Pencil, Trash2, Plus, Minus } from 'lucide-react';
 import { Item, Rubro, RubroCategory, SortConfig } from '../../types';
 import { itemTotal, rubroTotal, formatMoney } from '../../store/useStore';
+import { useResizableColumns } from '../shared/useResizableColumns.tsx';
 
 interface RubroTableProps {
   rubros: Rubro[];
@@ -20,22 +21,23 @@ interface ColumnHeaderProps {
   onSort: (key: string) => void;
   className?: string;
   align?: 'left' | 'right';
+  width?: number;
+  resizer?: React.ReactNode;
 }
 
-function ColumnHeader({ label, colKey, sortConfig, onSort, className = '', align = 'left' }: ColumnHeaderProps) {
+function ColumnHeader({ label, colKey, sortConfig, onSort, className = '', align = 'left', width, resizer }: ColumnHeaderProps) {
   const isActive = sortConfig.key === colKey;
   return (
     <th
-      className={`px-3 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider cursor-pointer select-none hover:bg-gray-100 whitespace-nowrap border-b border-gray-200 ${align === 'right' ? 'text-right' : 'text-left'} ${className}`}
+      style={width ? { width } : undefined}
+      className={`relative px-3 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider cursor-pointer select-none hover:bg-gray-100 whitespace-nowrap border-b border-gray-200 ${align === 'right' ? 'text-right' : 'text-left'} ${className}`}
       onClick={() => onSort(colKey)}
     >
       <div className={`flex items-center gap-1 ${align === 'right' ? 'justify-end' : ''}`}>
         {label}
-        <ArrowUpDown
-          size={12}
-          className={isActive && sortConfig.direction ? 'text-green-600' : 'text-gray-300'}
-        />
+        <ArrowUpDown size={12} className={isActive && sortConfig.direction ? 'text-green-600' : 'text-gray-300'} />
       </div>
+      {resizer}
     </th>
   );
 }
@@ -68,6 +70,7 @@ export default function RubroTable({
   onSort,
 }: RubroTableProps) {
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
+  const { widths, resizer } = useResizableColumns({ codigo: 112, nombre: 280, unidad: 80, material: 112, manoObra: 112, equipo: 112, total: 112 });
 
   function toggleExpand(id: string) {
     setExpandedIds((prev) => {
@@ -87,26 +90,18 @@ export default function RubroTable({
   }
 
   return (
-    <table className="w-full min-w-[820px] border-separate border-spacing-0">
+    <table className="border-separate border-spacing-0" style={{ tableLayout: 'fixed', width: '100%', minWidth: 820 }}>
         <thead className="bg-gray-50 sticky top-0 z-10">
           <tr>
-            <th className="w-8 px-2 border-b border-gray-200"></th>
-            <ColumnHeader label="Código" colKey="code" sortConfig={sortConfig} onSort={onSort} className="w-28" />
-            <ColumnHeader label="Nombre" colKey="name" sortConfig={sortConfig} onSort={onSort} />
-            <ColumnHeader label="Unidad" colKey="unit" sortConfig={sortConfig} onSort={onSort} className="w-20" />
-            <th className="px-3 py-3 text-right text-xs font-semibold text-blue-500 uppercase tracking-wider w-28 border-b border-gray-200">
-              Material
-            </th>
-            <th className="px-3 py-3 text-right text-xs font-semibold text-orange-500 uppercase tracking-wider w-28 border-b border-gray-200">
-              M. Obra
-            </th>
-            <th className="px-3 py-3 text-right text-xs font-semibold text-purple-500 uppercase tracking-wider w-28 border-b border-gray-200">
-              Equipo
-            </th>
-            <ColumnHeader label="Total" colKey="total" sortConfig={sortConfig} onSort={onSort} className="w-28" align="right" />
-            <th className="w-20 px-3 py-3 text-right text-xs font-semibold text-gray-500 uppercase border-b border-gray-200">
-              Acciones
-            </th>
+            <th className="px-2 border-b border-gray-200" style={{ width: 32 }}></th>
+            <ColumnHeader label="Código" colKey="code" sortConfig={sortConfig} onSort={onSort} width={widths.codigo} resizer={resizer('codigo')} />
+            <ColumnHeader label="Nombre" colKey="name" sortConfig={sortConfig} onSort={onSort} resizer={resizer('nombre')} />
+            <ColumnHeader label="Unidad" colKey="unit" sortConfig={sortConfig} onSort={onSort} width={widths.unidad} resizer={resizer('unidad')} />
+            <th style={{ width: widths.material }} className="relative px-3 py-3 text-right text-xs font-semibold text-blue-500 uppercase tracking-wider border-b border-gray-200">Material{resizer('material')}</th>
+            <th style={{ width: widths.manoObra }} className="relative px-3 py-3 text-right text-xs font-semibold text-orange-500 uppercase tracking-wider border-b border-gray-200">M. Obra{resizer('manoObra')}</th>
+            <th style={{ width: widths.equipo }} className="relative px-3 py-3 text-right text-xs font-semibold text-purple-500 uppercase tracking-wider border-b border-gray-200">Equipo{resizer('equipo')}</th>
+            <ColumnHeader label="Total" colKey="total" sortConfig={sortConfig} onSort={onSort} width={widths.total} resizer={resizer('total')} align="right" />
+            <th className="px-3 py-3 text-right text-xs font-semibold text-gray-500 uppercase border-b border-gray-200" style={{ width: 80 }}>Acciones</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-100">

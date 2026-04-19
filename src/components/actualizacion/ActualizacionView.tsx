@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 import { useStore, formatMoney, rubroTotal } from '../../store/useStore';
 import { AppView } from '../../types';
+import { useResizableColumns } from '../shared/useResizableColumns.tsx';
 
 interface ActualizacionViewProps {
   onNavigate: (view: AppView) => void;
@@ -20,6 +21,7 @@ export default function ActualizacionView({ onNavigate: _onNavigate }: Actualiza
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingVal, setEditingVal] = useState('');
   const [collapsedChapters, setCollapsedChapters] = useState<Set<string>>(new Set());
+  const { widths, resizer } = useResizableColumns({ codigo: 112, nombre: 240, unidad: 64, cantTotal: 88, avance: 120, cantRest: 88, pUnitOrig: 110, pUnitNuevo: 110, costoOrig: 120, costoNuevo: 120, impacto: 110 });
 
   // Compute enriched line items (new prices computed on-the-fly from new DB)
   const enriched = useMemo(() => {
@@ -161,20 +163,21 @@ export default function ActualizacionView({ onNavigate: _onNavigate }: Actualiza
             No hay rubros en esta actualización.
           </div>
         ) : (
-          <table className="w-full text-sm border-separate border-spacing-0">
+          <table className="text-sm border-separate border-spacing-0" style={{ tableLayout: 'fixed', width: '100%', minWidth: 900 }}>
             <thead className="bg-gray-50 text-xs text-gray-500 uppercase sticky top-0 z-10">
               <tr>
-                <th className="px-3 py-3 text-left w-28 border-b border-gray-200">Código</th>
-                <th className="px-3 py-3 text-left border-b border-gray-200">Nombre</th>
-                <th className="px-3 py-3 text-left w-16 border-b border-gray-200">Unidad</th>
-                <th className="px-3 py-3 text-right w-24 border-b border-gray-200">Cant. Total</th>
-                <th className="px-3 py-3 text-right w-32 text-amber-600 border-b border-gray-200">% Avance</th>
-                <th className="px-3 py-3 text-right w-24 border-b border-gray-200">Cant. Rest.</th>
-                <th className="px-3 py-3 text-right w-28 border-b border-gray-200">P.Unit Original</th>
-                <th className="px-3 py-3 text-right w-28 text-blue-600 border-b border-gray-200">P.Unit Nuevo</th>
-                <th className="px-3 py-3 text-right w-32 border-b border-gray-200">Costo Rest. Orig.</th>
-                <th className="px-3 py-3 text-right w-32 text-blue-600 border-b border-gray-200">Costo Rest. Nuevo</th>
-                <th className="px-3 py-3 text-right w-28 border-b border-gray-200">Impacto</th>
+                {([
+                  ['codigo','Código','left',null],['nombre','Nombre','left',null],['unidad','Unidad','left',null],
+                  ['cantTotal','Cant. Total','right',null],['avance','% Avance','right','text-amber-600'],
+                  ['cantRest','Cant. Rest.','right',null],['pUnitOrig','P.Unit Orig.','right',null],
+                  ['pUnitNuevo','P.Unit Nuevo','right','text-blue-600'],['costoOrig','Costo Rest. Orig.','right',null],
+                  ['costoNuevo','Costo Rest. Nuevo','right','text-blue-600'],['impacto','Impacto','right',null],
+                ] as const).map(([col, label, align, color]) => (
+                  <th key={col} style={{ width: widths[col as keyof typeof widths] }} className={`relative px-3 py-3 text-${align} font-medium border-b border-gray-200 ${color ?? ''} select-none`}>
+                    <span className="truncate block">{label}</span>
+                    {resizer(col as keyof typeof widths)}
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody>
