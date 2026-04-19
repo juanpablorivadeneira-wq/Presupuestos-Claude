@@ -805,7 +805,7 @@ export function getCategoryIds(
 }
 
 export function formatMoney(value: number): string {
-  return '$' + value.toFixed(2);
+  return '$' + value.toLocaleString('es-EC', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
 export function genId(): string {
