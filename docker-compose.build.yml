@@ -1,0 +1,6 @@
+# Override para construir la imagen localmente en lugar de descargar desde ghcr.io
+# Uso: docker compose -f docker-compose.yml -f docker-compose.build.yml up -d --build
+services:
+  buildkontrol:
+    build: .
+    image: ghcr.io/juanpablorivadeneira-wq/presupuestos-claude:latest

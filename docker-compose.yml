@@ -1,0 +1,29 @@
+services:
+  buildkontrol:
+    image: ghcr.io/juanpablorivadeneira-wq/presupuestos-claude:latest
+    container_name: buildkontrol
+    ports:
+      - "8080:3000"
+    volumes:
+      - buildkontrol-data:/app/data
+    restart: unless-stopped
+    environment:
+      - PORT=3000
+      - DATA_DIR=/app/data
+      - FRONTEND_DIR=/app/dist
+      # Set these to enable login (leave empty to disable auth)
+      - APP_USERNAME=
+      - APP_PASSWORD=
+      - AUTH_SECRET=change-me-to-a-random-secret
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower-buildkontrol
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 300 buildkontrol
+    restart: unless-stopped
+
+volumes:
+  buildkontrol-data:
+    driver: local
