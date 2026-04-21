@@ -4,3 +4,6 @@ dist/
 .env.local
 .vite/
 .netlify/
+__pycache__
+*.pyc
+.coverage
