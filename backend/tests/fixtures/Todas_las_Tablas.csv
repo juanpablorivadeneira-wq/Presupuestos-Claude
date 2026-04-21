@@ -1,0 +1,3304 @@
+﻿01.01.01	Replanteo Topografico Ejes Estructurales
+Tipo	Nombre	Cantidad
+6.5mm Bubble	B	1
+6.5mm Bubble	C	1
+6.5mm Bubble	D	1
+6.5mm Bubble	E	1
+6.5mm Bubble	G	1
+6.5mm Bubble	1	1
+6.5mm Bubble	2	1
+6.5mm Bubble	4	1
+6.5mm Bubble	6	1
+6.5mm Bubble	8	1
+6.5mm Bubble	11	1
+6.5mm Bubble	A	1
+6.5mm Bubble	9	1
+6.5mm Bubble	H	1
+6.5mm Bubble	5	1
+6.5mm Bubble	3	1
+6.5mm Bubble	7	1
+
+02.00.03	Corte y relleno compactado
+Mark	Cut	Fill	Net cut/fill
+
+03.02.02	Contrapiso de Hormigón Planta Baja F'c=210 Kg/Cm²
+Familia y tipo	Name	Model	Mark	Area	Unidad	Volume	Unidad
+Suelo: ARK_EX_200mm_E_CONTRAPISO							
+Suelo: ARK_EX_200mm_E_CONTRAPISO	ARK_03.02.02_Contrapiso Hormigón Planta Baja F'c=210 Kg/Cm²	03.02	03.02.02	214	m2	40.58	m3
+Suelo: ARK_EX_200mm_E_CONTRAPISO	ARK_03.02.02_Contrapiso Hormigón Planta Baja F'c=210 Kg/Cm²	03.02	03.02.02	31	m2	5.9	m3
+Suelo: ARK_EX_200mm_E_CONTRAPISO: 2				245	m2	46.47	m3
+Grand total: 2				245	m2	46.47	m3
+
+03.02.03	Contrapiso de Hormigón Subsuelo F'c=210 Kg/Cm²
+Material: Mark	Material: Name	Material: Area	Material: Model	Material: Volume
+
+03.02.04	Contrapiso Hormigon simple F'c=210 Kg/Cm²=15cm con doble malla
+Material: Mark	Material: Name	Material: Area	Material: Model	Material: Volume
+
+03.03.01.a Hormigón En Replantillo F'c=140kg/Cm²
+Material: Mark	Material: Name	Material: Area	Material: Model	Material: Volume
+
+03.03.01.b Hormigón En Replantillo F'c=210kg/Cm²
+Material: Mark	Material: Name	Material: Area	Material: Model	Material: Volume
+
+03.03.02.a Hormigón simple f'c=180 kg /cm2
+Material: Mark	Material: Name	Material: Area	Material: Model	Material: Volume
+
+03.03.02.b Hormigón simple f'c=210 kg /cm2 para zapatas aisladas
+Material: Mark	Material: Name	Material: Area	Material: Model	Material: Volume
+
+03.03.03	Hormigón En Plintos F'c=210kg/Cm²
+Material: Mark	Material: Name	Material: Area	Material: Model	Material: Volume
+
+03.03.04	Hormigón En Cadenas F'c=210kg/Cm²
+Material: Mark	Material: Name	Material: Area	Material: Model	Material: Volume
+
+03.03.05.a Hormigón Premezclado En Columnas F'c=210kg/Cm² CABEZALES
+Material: Mark	Material: Name	Material: Area	Material: Model	Material: Volume
+
+03.03.05.b Hormigón Premezclado En Columnas F'c=240kg/Cm² CABEZALES
+Material: Mark	Material: Name	Material: Area	Material: Model	Material: Volume
+
+03.03.06.a Hormigón Premezclado En Columnas F'c=210kg/Cm² COLUMNAS
+Material: Mark	Material: Name	Material: Area	Material: Model	Material: Volume
+
+03.03.06.b Hormigón Premezclado En Columnas F'c=240kg/Cm² COLUMNAS
+Material: Mark	Material: Name	Material: Area	Material: Model	Material: Volume
+
+03.03.07.a Hormigón Premezclado En Vigas F'c=210kg/Cm²
+Material: Mark	Material: Name	Material: Area	Material: Model	Material: Volume
+
+03.03.07.b Hormigón Premezclado En Vigas F'c=240kg/Cm²
+Material: Mark	Material: Name	Material: Area	Material: Model	Material: Volume
+
+03.03.08.a Hormigón en Losa De Entrepiso F'c=210kg/Cm²
+Material: Mark	Material: Name	Material: Area	Material: Model	Material: Volume
+
+03.03.08.b Hormigón en Losa De Entrepiso F'c=240kg/Cm²
+Familia y tipo	Mark	Name	Area	Unidad	Model	Volume	Unidad
+Suelo: ARK_EX_120mm_E_ENTREPISO							
+Suelo: ARK_EX_120mm_E_ENTREPISO	03.03.08.b	ARK_03.03.08.b_Hormigón en Losa de Entrepiso F'c=240kg/Cm²	4	m2	03.03	0.51	m3
+Suelo: ARK_EX_120mm_E_ENTREPISO	03.03.08.b	ARK_03.03.08.b_Hormigón en Losa de Entrepiso F'c=240kg/Cm²	42	m2	03.03	5.06	m3
+Suelo: ARK_EX_120mm_E_ENTREPISO	03.03.08.b	ARK_03.03.08.b_Hormigón en Losa de Entrepiso F'c=240kg/Cm²	178	m2	03.03	21.36	m3
+Suelo: ARK_EX_120mm_E_ENTREPISO	03.03.08.b	ARK_03.03.08.b_Hormigón en Losa de Entrepiso F'c=240kg/Cm²	8	m2	03.03	0.94	m3
+Suelo: ARK_EX_120mm_E_ENTREPISO	03.03.08.b	ARK_03.03.08.b_Hormigón en Losa de Entrepiso F'c=240kg/Cm²	2	m2	03.03	0.29	m3
+Suelo: ARK_EX_120mm_E_ENTREPISO	03.03.08.b	ARK_03.03.08.b_Hormigón en Losa de Entrepiso F'c=240kg/Cm²	1	m2	03.03	0.15	m3
+Suelo: ARK_EX_120mm_E_ENTREPISO: 6			236	m2			
+Suelo: ARK_EX_120mm_E_ENTREPISO CUBIERTA							
+Suelo: ARK_EX_120mm_E_ENTREPISO CUBIERTA	03.03.08.b	ARK_03.03.08.b_Hormigón en Losa de Entrepiso F'c=240kg/Cm²	114	m2	03.03	12.52	m3
+Suelo: ARK_EX_120mm_E_ENTREPISO CUBIERTA	03.03.08.b	ARK_03.03.08.b_Hormigón en Losa de Entrepiso F'c=240kg/Cm²	24	m2	03.03	2.62	m3
+Suelo: ARK_EX_120mm_E_ENTREPISO CUBIERTA: 2			138	m2			
+Grand total: 8			374	m2			
+
+03.03.09	Hormigón en Losa Planta Baja F'c=240kg/Cm²
+Material: Mark	Material: Name	Material: Area	Material: Model	Material: Volume
+
+03.03.10	Hormigón en losa mezón F'c=210kg/Cm²
+Material: Mark	Material: Name	Material: Area	Material: Model	Material: Volume
+
+03.03.11.a Hormigón En Cubierta Plana F'c=210kg/Cm²
+Material: Mark	Material: Name	Material: Area	Material: Model	Material: Volume
+
+03.03.11.b Hormigón en Cubierta Plana F'c=240kg/Cm²
+Material: Mark	Material: Name	Material: Area	Material: Model	Material: Volume
+
+03.03.11.c Hormigón en Cubierta Plana F'c=240kg/Cm² Tapa grada
+Material: Mark	Material: Name	Material: Area	Material: Model	Material: Volume
+
+03.03.12.a Hormigón en Muro F'c=240kg/Cm²
+Material: Mark	Material: Name	Material: Area	Material: Model	Material: Volume
+
+03.03.12.b Hormigón en Muro F'c=210kg/Cm²
+Material: Mark	Material: Name	Material: Area	Material: Model	Material: Volume
+
+03.03.13	Hormigón en Escaleras F'c=210kg/Cm²
+Material: Mark	Material: Name	Material: Area	Material: Model	Material: Volume
+
+03.03.14	Hormigón en detalle perimetro 10x10
+Material: Mark	Material: Name	Material: Area	Material: Model	Material: Volume
+
+03.03.15	Timbrado y Colocación De Bloques Para Losas
+Material: Mark	Material: Name	Material: Area	Material: Model	Material: Volume
+
+03.03.17	Dintel del Hormigon armado
+Material: Mark	Material: Name	Material: Area	Material: Model	Material: Volume
+
+05.01.01	Mampostería De Bloque E=20cm
+Familia y tipo	Name	Model	Mark	Area	Unidad	As Paint	Volume	Unidad	Nivel
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB									
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_05.01.01_Mampostería de Bloque E=20 cm	05		7	m2	No	0.79	m3	
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_05.01.01_Mampostería de Bloque E=20 cm	05		6	m2	No	0.71	m3	
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_05.01.01_Mampostería de Bloque E=20 cm	05		5	m2	No	0.52	m3	
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_05.01.01_Mampostería de Bloque E=20 cm	05		16	m2	No	1.77	m3	
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_05.01.01_Mampostería de Bloque E=20 cm	05		5	m2	No	0.53	m3	
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_05.01.01_Mampostería de Bloque E=20 cm	05		1	m2	No	0.15	m3	
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_05.01.01_Mampostería de Bloque E=20 cm	05		0	m2	No	0	m3	
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB: 7				40	m2				
+Muro básico: ARK_FC_200mm_E_PF_EF_I_EV_EP									
+Muro básico: ARK_FC_200mm_E_PF_EF_I_EV_EP	ARK_05.01.01_Mampostería de Bloque E=20 cm	05		16	m2	No	2.81	m3	
+Muro básico: ARK_FC_200mm_E_PF_EF_I_EV_EP	ARK_05.01.01_Mampostería de Bloque E=20 cm	05		8	m2	No	1.36	m3	
+Muro básico: ARK_FC_200mm_E_PF_EF_I_EV_EP: 2				23	m2				
+Muro básico: ARK_FC_200mm_E_PF_EF_I_GYP BLOQUE EMPLANCHADO									
+Muro básico: ARK_FC_200mm_E_PF_EF_I_GYP BLOQUE EMPLANCHADO	ARK_05.01.01_Mampostería de Bloque E=20 cm	05		5	m2	No	0.92	m3	
+Muro básico: ARK_FC_200mm_E_PF_EF_I_GYP BLOQUE EMPLANCHADO	ARK_05.01.01_Mampostería de Bloque E=20 cm	05		10	m2	No	1.74	m3	
+Muro básico: ARK_FC_200mm_E_PF_EF_I_GYP BLOQUE EMPLANCHADO	ARK_05.01.01_Mampostería de Bloque E=20 cm	05		2	m2	No	0.33	m3	
+Muro básico: ARK_FC_200mm_E_PF_EF_I_GYP BLOQUE EMPLANCHADO	ARK_05.01.01_Mampostería de Bloque E=20 cm	05		1	m2	No	0.14	m3	
+Muro básico: ARK_FC_200mm_E_PF_EF_I_GYP BLOQUE EMPLANCHADO	ARK_05.01.01_Mampostería de Bloque E=20 cm	05		24	m2	No	4.13	m3	
+Muro básico: ARK_FC_200mm_E_PF_EF_I_GYP BLOQUE EMPLANCHADO: 5				43	m2				
+Muro básico: ARK_FC_200mm_E_PF_EF_I_N/A									
+Muro básico: ARK_FC_200mm_E_PF_EF_I_N/A	ARK_05.01.01_Mampostería de Bloque E=20 cm	05		2	m2	No	0.29	m3	
+Muro básico: ARK_FC_200mm_E_PF_EF_I_N/A: 1				2	m2				
+Muro básico: ARK_IN_200mm_E_EP_EV_I_N/A									
+Muro básico: ARK_IN_200mm_E_EP_EV_I_N/A	ARK_05.01.01_Mampostería de Bloque E=20 cm	05		1	m2	No	0.26	m3	
+Muro básico: ARK_IN_200mm_E_EP_EV_I_N/A: 1				1	m2				
+Muro básico: ARK_IN_200mm_E_GYP_I_NA BLOQUE EMPLANCHADO INTERIOR									
+Muro básico: ARK_IN_200mm_E_GYP_I_NA BLOQUE EMPLANCHADO INTERIOR	ARK_05.01.01_Mampostería de Bloque E=20 cm	05		9	m2	No	1.7	m3	
+Muro básico: ARK_IN_200mm_E_GYP_I_NA BLOQUE EMPLANCHADO INTERIOR	ARK_05.01.01_Mampostería de Bloque E=20 cm	05		11	m2	No	2.15	m3	
+Muro básico: ARK_IN_200mm_E_GYP_I_NA BLOQUE EMPLANCHADO INTERIOR	ARK_05.01.01_Mampostería de Bloque E=20 cm	05		13	m2	No	2.38	m3	
+Muro básico: ARK_IN_200mm_E_GYP_I_NA BLOQUE EMPLANCHADO INTERIOR	ARK_05.01.01_Mampostería de Bloque E=20 cm	05		5	m2	No	0.9	m3	
+Muro básico: ARK_IN_200mm_E_GYP_I_NA BLOQUE EMPLANCHADO INTERIOR	ARK_05.01.01_Mampostería de Bloque E=20 cm	05		12	m2	No	2.31	m3	
+Muro básico: ARK_IN_200mm_E_GYP_I_NA BLOQUE EMPLANCHADO INTERIOR: 5				50	m2				
+Grand total: 21				159	m2				
+
+05.01.02	Mampostería De Bloque E=15cm
+Familia y tipo	Name	Model	Mark	Area	Unidad	As Paint	Volume	Unidad
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_EP								
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_EP	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		2	m2	No	0.24	m3
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_EP	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		8	m2	No	0.87	m3
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_EP	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		1	m2	No	0.16	m3
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_EP	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		2	m2	No	0.19	m3
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_EP	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		1	m2	No	0.07	m3
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_EP	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		5	m2	No	0.56	m3
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_EP: 6				19	m2			
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR								
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		18	m2	No	2.16	m3
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		11	m2	No	1.35	m3
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		14	m2	No	1.62	m3
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		7	m2	No	0.9	m3
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		3	m2	No	0.37	m3
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		2	m2	No	0.19	m3
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		2	m2	No	0.19	m3
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		16	m2	No	1.89	m3
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		13	m2	No	1.58	m3
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		2	m2	No	0.24	m3
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		9	m2	No	1.1	m3
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		9	m2	No	1.05	m3
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		1	m2	No	0.11	m3
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR: 13				106	m2			
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A								
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		6	m2	No	0.72	m3
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		10	m2	No	1.24	m3
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		4	m2	No	0.51	m3
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		14	m2	No	1.82	m3
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		5	m2	No	0.69	m3
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		15	m2	No	1.91	m3
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		5	m2	No	0.6	m3
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		2	m2	No	0.21	m3
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		26	m2	No	3.35	m3
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		11	m2	No	1.48	m3
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		12	m2	No	1.6	m3
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		2	m2	No	0.22	m3
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A: 12				110	m2			
+Muro básico: ARK_FC_150mm_Fachada_TBD								
+Muro básico: ARK_FC_150mm_Fachada_TBD	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		4	m2	No	0.59	m3
+Muro básico: ARK_FC_150mm_Fachada_TBD	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		3	m2	No	0.38	m3
+Muro básico: ARK_FC_150mm_Fachada_TBD: 2				6	m2			
+Muro básico: ARK_IN_100mm_E_BP_EV_I_NA								
+Muro básico: ARK_IN_100mm_E_BP_EV_I_NA	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		14	m2	No	1.14	m3
+Muro básico: ARK_IN_100mm_E_BP_EV_I_NA	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		5	m2	No	0.44	m3
+Muro básico: ARK_IN_100mm_E_BP_EV_I_NA: 2				20	m2			
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM								
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		1	m2	No	0.1	m3
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		6	m2	No	0.63	m3
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		4	m2	No	0.43	m3
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		7	m2	No	0.68	m3
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		3	m2	No	0.34	m3
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		3	m2	No	0.32	m3
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		4	m2	No	0.38	m3
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		4	m2	No	0.41	m3
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		4	m2	No	0.38	m3
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		1	m2	No	0.09	m3
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		1	m2	No	0.09	m3
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		1	m2	No	0.1	m3
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		2	m2	No	0.24	m3
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		3	m2	No	0.35	m3
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		6	m2	No	0.64	m3
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		1	m2	No	0.14	m3
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		3	m2	No	0.33	m3
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		9	m2	No	0.86	m3
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM: 18				65	m2			
+Muro básico: ARK_IN_150mm_E_EP_EV_I_N/A								
+Muro básico: ARK_IN_150mm_E_EP_EV_I_N/A	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		5	m2	No	0.68	m3
+Muro básico: ARK_IN_150mm_E_EP_EV_I_N/A	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		1	m2	No	0.16	m3
+Muro básico: ARK_IN_150mm_E_EP_EV_I_N/A: 2				6	m2			
+Muro básico: ARK_IN_150mm_E_GYP__I_NA_ BLOQUE EMPLANCHADO 3								
+Muro básico: ARK_IN_150mm_E_GYP__I_NA_ BLOQUE EMPLANCHADO 3	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		9	m2	No	1.32	m3
+Muro básico: ARK_IN_150mm_E_GYP__I_NA_ BLOQUE EMPLANCHADO 3	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		18	m2	No	2.35	m3
+Muro básico: ARK_IN_150mm_E_GYP__I_NA_ BLOQUE EMPLANCHADO 3: 2				27	m2			
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO								
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		8	m2	No	0.9	m3
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		4	m2	No	0.45	m3
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		4	m2	No	0.53	m3
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		4	m2	No	0.52	m3
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		6	m2	No	0.78	m3
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		5	m2	No	0.65	m3
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		8	m2	No	0.93	m3
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		8	m2	No	0.93	m3
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		6	m2	No	0.76	m3
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		8	m2	No	0.91	m3
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		5	m2	No	0.59	m3
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		1	m2	No	0.08	m3
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		4	m2	No	0.5	m3
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		6	m2	No	0.71	m3
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		6	m2	No	0.76	m3
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO: 15				84	m2			
+Muro básico: ARK_IN_150mm_Interior_TBD								
+Muro básico: ARK_IN_150mm_Interior_TBD	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		2	m2	No	0.25	m3
+Muro básico: ARK_IN_150mm_Interior_TBD	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		2	m2	No	0.23	m3
+Muro básico: ARK_IN_150mm_Interior_TBD	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		0	m2	No	0.02	m3
+Muro básico: ARK_IN_150mm_Interior_TBD	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		1	m2	No	0.22	m3
+Muro básico: ARK_IN_150mm_Interior_TBD	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		2	m2	No	0.26	m3
+Muro básico: ARK_IN_150mm_Interior_TBD	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		1	m2	No	0.13	m3
+Muro básico: ARK_IN_150mm_Interior_TBD	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		1	m2	No	0.22	m3
+Muro básico: ARK_IN_150mm_Interior_TBD	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		1	m2	No	0.15	m3
+Muro básico: ARK_IN_150mm_Interior_TBD	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		1	m2	No	0.22	m3
+Muro básico: ARK_IN_150mm_Interior_TBD	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		2	m2	No	0.25	m3
+Muro básico: ARK_IN_150mm_Interior_TBD	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		2	m2	No	0.24	m3
+Muro básico: ARK_IN_150mm_Interior_TBD	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		2	m2	No	0.27	m3
+Muro básico: ARK_IN_150mm_Interior_TBD	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		1	m2	No	0.22	m3
+Muro básico: ARK_IN_150mm_Interior_TBD	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		1	m2	No	0.2	m3
+Muro básico: ARK_IN_150mm_Interior_TBD	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		1	m2	No	0.2	m3
+Muro básico: ARK_IN_150mm_Interior_TBD	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		2	m2	No	0.23	m3
+Muro básico: ARK_IN_150mm_Interior_TBD: 16				22	m2			
+Muro básico: ARK_IN_200mm_E_EP_EV_I_EV_ GYPSUM								
+Muro básico: ARK_IN_200mm_E_EP_EV_I_EV_ GYPSUM	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		4	m2	No	0.75	m3
+Muro básico: ARK_IN_200mm_E_EP_EV_I_EV_ GYPSUM: 1				4	m2			
+Muro básico: ARK_IN_250mm_E_EP_EF_I_EV_EP GYPSUM								
+Muro básico: ARK_IN_250mm_E_EP_EF_I_EV_EP GYPSUM	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		14	m2	No	3.2	m3
+Muro básico: ARK_IN_250mm_E_EP_EF_I_EV_EP GYPSUM	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		5	m2	No	1.2	m3
+Muro básico: ARK_IN_250mm_E_EP_EF_I_EV_EP GYPSUM	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		7	m2	No	1.55	m3
+Muro básico: ARK_IN_250mm_E_EP_EF_I_EV_EP GYPSUM: 3				26	m2			
+Muro básico: ARK_IN_250mm_E_EP_EV_I_EV_EP GYPSUM								
+Muro básico: ARK_IN_250mm_E_EP_EV_I_EV_EP GYPSUM	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		18	m2	No	4.07	m3
+Muro básico: ARK_IN_250mm_E_EP_EV_I_EV_EP GYPSUM	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		14	m2	No	3.14	m3
+Muro básico: ARK_IN_250mm_E_EP_EV_I_EV_EP GYPSUM	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		10	m2	No	2.14	m3
+Muro básico: ARK_IN_250mm_E_EP_EV_I_EV_EP GYPSUM	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		3	m2	No	0.6	m3
+Muro básico: ARK_IN_250mm_E_EP_EV_I_EV_EP GYPSUM	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		12	m2	No	2.69	m3
+Muro básico: ARK_IN_250mm_E_EP_EV_I_EV_EP GYPSUM	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		8	m2	No	1.81	m3
+Muro básico: ARK_IN_250mm_E_EP_EV_I_EV_EP GYPSUM	ARK_05.01.02_Mampostería de Bloque E=15 cm	05		5	m2	No	1.08	m3
+Muro básico: ARK_IN_250mm_E_EP_EV_I_EV_EP GYPSUM: 7				69	m2			
+Grand total: 99				564	m2			
+
+05.01.03	Mampostería De Bloque E=10cm
+Familia y tipo	Name	Model	Mark	Area	Unidad	As Paint	Volume	Unidad
+Muro básico: ARK_EX_100mm_ ANTEPECHO DE TERRAZA	ARK_05.01.03_Mampostería de Bloque E=10 cm	05		5	m2	No	0.39	m3
+Muro básico: ARK_EX_100mm_ ANTEPECHO DE TERRAZA	ARK_05.01.03_Mampostería de Bloque E=10 cm	05		11	m2	No	0.88	m3
+Muro básico: ARK_EX_100mm_ ANTEPECHO DE TERRAZA	ARK_05.01.03_Mampostería de Bloque E=10 cm	05		11	m2	No	0.88	m3
+Muro básico: ARK_EX_100mm_ ANTEPECHO DE TERRAZA	ARK_05.01.03_Mampostería de Bloque E=10 cm	05		5	m2	No	0.37	m3
+Muro básico: ARK_EX_100mm_ ANTEPECHO DE TERRAZA	ARK_05.01.03_Mampostería de Bloque E=10 cm	05		7	m2	No	0.52	m3
+Muro básico: ARK_EX_100mm_ ANTEPECHO DE TERRAZA	ARK_05.01.03_Mampostería de Bloque E=10 cm	05		1	m2	No	0.12	m3
+Muro básico: ARK_EX_100mm_ ANTEPECHO DE TERRAZA	ARK_05.01.03_Mampostería de Bloque E=10 cm	05		2	m2	No	0.12	m3
+Muro básico: ARK_EX_100mm_ ANTEPECHO DE TERRAZA	ARK_05.01.03_Mampostería de Bloque E=10 cm	05		6	m2	No	0.51	m3
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_05.01.03_Mampostería de Bloque E=10 cm	05		6	m2	No	0.57	m3
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_05.01.03_Mampostería de Bloque E=10 cm	05		3	m2	No	0.23	m3
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_05.01.03_Mampostería de Bloque E=10 cm	05		2	m2	No	0.15	m3
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_05.01.03_Mampostería de Bloque E=10 cm	05		2	m2	No	0.15	m3
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_05.01.03_Mampostería de Bloque E=10 cm	05		11	m2	No	0.96	m3
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_05.01.03_Mampostería de Bloque E=10 cm	05		4	m2	No	0.34	m3
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_05.01.03_Mampostería de Bloque E=10 cm	05		1	m2	No	0.08	m3
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_05.01.03_Mampostería de Bloque E=10 cm	05		3	m2	No	0.26	m3
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_05.01.03_Mampostería de Bloque E=10 cm	05		6	m2	No	0.5	m3
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_05.01.03_Mampostería de Bloque E=10 cm	05		8	m2	No	0.72	m3
+Muro básico: ARK_IN_100mm_E_EP_EV_I_N/A	ARK_05.01.03_Mampostería de Bloque E=10 cm	05		7	m2	No	0.53	m3
+Muro básico: ARK_IN_100mm_Interior_TBD	ARK_05.01.03_Mampostería de Bloque E=10 cm	05		2	m2	No	0.15	m3
+Muro básico: ARK_IN_100mm_Interior_TBD	ARK_05.01.03_Mampostería de Bloque E=10 cm	05		1	m2	No	0.14	m3
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_05.01.03_Mampostería de Bloque E=10 cm	05		0	m2	No	0.02	m3
+Muro básico: ARK_IN_100mm_Interior_TBD	ARK_05.01.03_Mampostería de Bloque E=10 cm	05		4	m2	No	0.38	m3
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_05.01.03_Mampostería de Bloque E=10 cm	05		1	m2	No	0.08	m3
+Grand total: 24				106	m2			
+
+05.01.04	Mampostería De Bloque Relleno
+Name	Model	Manufacturer	Mark	Area	Unidad	As Paint	Volume	Unidad
+ARK_06.01.10_Masillado de Piso a Maquina con Endurecedor	06			214	m2	No	2.14	m3
+ARK_03.02.02_Contrapiso Hormigón Planta Baja F'c=210 Kg/Cm²	03.02			214	m2	No	40.58	m3
+Metal - Acero - 345 MPa				14	m2	No	0.07	m3
+Metal - Acero - 345 MPa				14	m2	No	0.07	m3
+Metal - Acero - 345 MPa				14	m2	No	0.07	m3
+Metal - Acero - 345 MPa				14	m2	No	0.07	m3
+Metal - Acero - 345 MPa				14	m2	No	0.07	m3
+Metal - Acero - 345 MPa				14	m2	No	0.07	m3
+Metal - Acero - 345 MPa				14	m2	No	0.07	m3
+Metal - Acero - 345 MPa				14	m2	No	0.07	m3
+Metal - Acero - 345 MPa				14	m2	No	0.07	m3
+Metal - Acero - 345 MPa				14	m2	No	0.07	m3
+Metal - Acero - 345 MPa				14	m2	No	0.07	m3
+Metal - Acero - 345 MPa				7	m2	No	0.04	m3
+Metal - Acero - 345 MPa				7	m2	No	0.04	m3
+Metal - Acero - 345 MPa				7	m2	No	0.04	m3
+Metal - Acero - 345 MPa				7	m2	No	0.03	m3
+Metal - Acero - 345 MPa				6	m2	No	0.03	m3
+Metal - Acero - 345 MPa				7	m2	No	0.03	m3
+Metal - Acero - 345 MPa				14	m2	No	0.07	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			8	m2	No	0.08	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			8	m2	No	0.08	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			8	m2	No	0.9	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			7	m2	No	0.07	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			4	m2	No	0.04	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			4	m2	No	0.04	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			4	m2	No	0.45	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			4	m2	No	0.04	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			4	m2	No	0.04	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			4	m2	No	0.04	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			4	m2	No	0.53	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			4	m2	No	0.04	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			4	m2	No	0.04	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			4	m2	No	0.04	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			4	m2	No	0.52	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			4	m2	No	0.04	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			6	m2	No	0.06	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			6	m2	No	0.06	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			6	m2	No	0.78	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			6	m2	No	0.06	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			18	m2	No	4.07	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			35	m2	No	0.35	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			5	m2	No	0.05	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			5	m2	No	0.05	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			5	m2	No	0.65	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			5	m2	No	0.05	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			8	m2	No	0.08	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			8	m2	No	0.08	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			8	m2	No	0.93	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			8	m2	No	0.08	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			8	m2	No	0.08	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			8	m2	No	0.08	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			8	m2	No	0.93	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			8	m2	No	0.08	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			6	m2	No	0.06	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			6	m2	No	0.06	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			6	m2	No	0.76	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			6	m2	No	0.06	m3
+Door - Frame			37	4	m2	No	0.08	m3
+Door - Panel			37	4	m2	No	0.04	m3
+Door - Frame			38	4	m2	No	0.07	m3
+Door - Panel			38	4	m2	No	0.04	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			14	m2	No	3.14	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			27	m2	No	0.27	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			10	m2	No	2.14	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			20	m2	No	0.19	m3
+ARK_06.01.01_Enlucido de Fachada	06			18	m2	No	0.18	m3
+ARK_08.01.02_Pintura en Fachadas	08			18	m2	No	0.18	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			18	m2	No	2.16	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			18	m2	No	0.18	m3
+Glass				4	m2	No	0.11	m3
+Glass				4	m2	No	0.11	m3
+Glass				4	m2	No	0.11	m3
+Glass				4	m2	No	0.11	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Door - Frame			41	5	m2	No	0.13	m3
+Door - Panel			41	4	m2	No	0.04	m3
+ARK_06.01.01_Enlucido de Fachada	06			11	m2	No	0.11	m3
+ARK_08.01.02_Pintura en Fachadas	08			11	m2	No	0.11	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			11	m2	No	1.35	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			11	m2	No	0.11	m3
+ARK_06.01.01_Enlucido de Fachada	06			6	m2	No	0.06	m3
+ARK_08.01.02_Pintura en Fachadas	08			6	m2	No	0.06	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			6	m2	No	0.72	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			5	m2	No	0.92	m3
+ARK_06.01.01_Enlucido de Fachada	06			5	m2	No	0.05	m3
+ARK_08.01.02_Pintura en Fachadas	08			5	m2	No	0.05	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			5	m2	No	0.05	m3
+Concrete, Cast-in-Place gray				21	m2	No	1.61	m3
+Concrete, Cast-in-Place gray				21	m2	No	1.61	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.1	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			2	m2	No	0.02	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			4	m2	No	0.75	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			8	m2	No	0.08	m3
+ARK_06.01.01_Enlucido de Fachada	06			14	m2	No	0.14	m3
+ARK_08.01.02_Pintura en Fachadas	08			14	m2	No	0.14	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			14	m2	No	1.62	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			14	m2	No	0.14	m3
+ARK_06.01.01_Enlucido de Fachada	06			10	m2	No	0.1	m3
+ARK_08.01.02_Pintura en Fachadas	08			10	m2	No	0.1	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			10	m2	No	1.24	m3
+ARK_06.01.01_Enlucido de Fachada	06			4	m2	No	0.04	m3
+ARK_08.01.02_Pintura en Fachadas	08			4	m2	No	0.04	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			4	m2	No	0.51	m3
+ARK_06.01.01_Enlucido de Fachada	06			14	m2	No	0.14	m3
+ARK_08.01.02_Pintura en Fachadas	08			14	m2	No	0.14	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			14	m2	No	1.82	m3
+ARK_06.01.01_Enlucido de Fachada	06			7	m2	No	0.07	m3
+ARK_08.01.02_Pintura en Fachadas	08			7	m2	No	0.07	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			7	m2	No	0.9	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			7	m2	No	0.07	m3
+ARK_06.01.01_Enlucido de Fachada	06			3	m2	No	0.03	m3
+ARK_08.01.02_Pintura en Fachadas	08			3	m2	No	0.03	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			3	m2	No	0.37	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			3	m2	No	0.03	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			10	m2	No	1.74	m3
+ARK_06.01.01_Enlucido de Fachada	06			10	m2	No	0.1	m3
+ARK_08.01.02_Pintura en Fachadas	08			10	m2	No	0.1	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			10	m2	No	0.1	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			3	m2	No	0.6	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			5	m2	No	0.05	m3
+ARK_06.01.01_Enlucido de Fachada	06			5	m2	No	0.05	m3
+ARK_08.01.02_Pintura en Fachadas	08			5	m2	No	0.05	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			5	m2	No	0.69	m3
+ARK_06.01.01_Enlucido de Fachada	06			2	m2	No	0.02	m3
+ARK_08.01.02_Pintura en Fachadas	08			2	m2	No	0.02	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			2	m2	No	0.19	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			2	m2	No	0.02	m3
+ARK_06.01.01_Enlucido de Fachada	06			2	m2	No	0.02	m3
+ARK_08.01.02_Pintura en Fachadas	08			2	m2	No	0.02	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			2	m2	No	0.19	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			2	m2	No	0.02	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			6	m2	No	0.63	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			13	m2	No	0.13	m3
+Door - Frame			45	4	m2	No	0.08	m3
+Door - Panel			45	5	m2	No	0.04	m3
+Door - Frame			46	5	m2	No	0.13	m3
+Door - Panel			46	4	m2	No	0.04	m3
+Glass				4	m2	No	0.11	m3
+Glass				4	m2	No	0.11	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Glass				5	m2	No	0.12	m3
+Glass				5	m2	No	0.12	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Glass				4	m2	No	0.1	m3
+Glass				4	m2	No	0.1	m3
+Glass				4	m2	No	0.1	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+ARK_06.01.01_Enlucido de Fachada	06			15	m2	No	0.15	m3
+ARK_08.01.02_Pintura en Fachadas	08			15	m2	No	0.15	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			15	m2	No	1.91	m3
+Glass				4	m2	No	0.11	m3
+Glass				5	m2	No	0.11	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Glass				5	m2	No	0.11	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Glass				5	m2	No	0.11	m3
+Glass				5	m2	No	0.11	m3
+Glass				4	m2	No	0.11	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			12	m2	No	2.69	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			24	m2	No	0.23	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			7	m2	No	0.79	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			7	m2	No	0.07	m3
+ARK_06.01.01_Enlucido de Fachada	06			7	m2	No	0.07	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			7	m2	No	0.07	m3
+ARK_08.01.02_Pintura en Fachadas	08			7	m2	No	0.07	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			8	m2	No	1.81	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			16	m2	No	0.16	m3
+ARK_06.01.01_Enlucido de Fachada	06			16	m2	No	0.16	m3
+ARK_08.01.02_Pintura en Fachadas	08			16	m2	No	0.16	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			16	m2	No	1.89	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			16	m2	No	0.16	m3
+Glass				4	m2	No	0.11	m3
+Glass				4	m2	No	0.11	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Glass				2	m2	No	0.06	m3
+Glass				2	m2	No	0.06	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+ARK_03.03.08.b_Hormigón en Losa de Entrepiso F'c=240kg/Cm²	03.03			114	m2	No	12.52	m3
+ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07			114	m2	No	1.14	m3
+Concrete, Cast-in-Place gray				25	m2	No	2.12	m3
+Concrete, Cast-in-Place gray				25	m2	No	2.12	m3
+219709 Floor-mounted-toilet-for-combination - white-tulip-floor-mounted-toilet-for-combination-219709 - White Alpin			44	2	m2	No	0.03	m3
+ARK_06.01.01_Enlucido de Fachada	06			13	m2	No	0.13	m3
+ARK_08.01.02_Pintura en Fachadas	08			13	m2	No	0.13	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			13	m2	No	1.58	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			13	m2	No	0.13	m3
+ARK_06.01.01_Enlucido de Fachada	06			5	m2	No	0.02	m3
+ARK_08.01.02_Pintura en Fachadas	08			5	m2	No	0.02	m3
+ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07			5	m2	No	0.05	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			5	m2	No	0.39	m3
+ARK_06.01.01_Enlucido de Fachada	06			11	m2	No	0.06	m3
+ARK_08.01.02_Pintura en Fachadas	08			11	m2	No	0.06	m3
+ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07			11	m2	No	0.11	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			11	m2	No	0.88	m3
+ARK_06.01.01_Enlucido de Fachada	06			11	m2	No	0.06	m3
+ARK_08.01.02_Pintura en Fachadas	08			11	m2	No	0.06	m3
+ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07			11	m2	No	0.11	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			11	m2	No	0.88	m3
+ARK_06.01.01_Enlucido de Fachada	06			5	m2	No	0.02	m3
+ARK_08.01.02_Pintura en Fachadas	08			5	m2	No	0.02	m3
+ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07			5	m2	No	0.05	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			5	m2	No	0.37	m3
+ARK_06.01.01_Enlucido de Fachada	06			7	m2	No	0.03	m3
+ARK_08.01.02_Pintura en Fachadas	08			7	m2	No	0.03	m3
+ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07			7	m2	No	0.07	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			7	m2	No	0.52	m3
+ARK_06.01.01_Enlucido de Fachada	06			1	m2	No	0.01	m3
+ARK_08.01.02_Pintura en Fachadas	08			1	m2	No	0.01	m3
+ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07			1	m2	No	0.01	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			1	m2	No	0.12	m3
+ARK_06.01.01_Enlucido de Fachada	06			2	m2	No	0.01	m3
+ARK_08.01.02_Pintura en Fachadas	08			2	m2	No	0.01	m3
+ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07			2	m2	No	0.02	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			2	m2	No	0.12	m3
+ARK_06.01.01_Enlucido de Fachada	06			6	m2	No	0.03	m3
+ARK_08.01.02_Pintura en Fachadas	08			6	m2	No	0.03	m3
+ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07			6	m2	No	0.06	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			6	m2	No	0.51	m3
+ARK_06.01.01_Enlucido de Fachada	06			6	m2	No	0.03	m3
+ARK_08.01.02_Pintura en Fachadas	08			6	m2	No	0.03	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			6	m2	No	0.57	m3
+ARK_06.01.01_Enlucido de Fachada	06			4	m2	No	0.02	m3
+ARK_08.01.02_Pintura en Fachadas	08			4	m2	No	0.02	m3
+ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07			4	m2	No	0.04	m3
+ARK_05.01.10_Bordillo de terrazas	05			4	m2	No	0.29	m3
+ARK_06.01.01_Enlucido de Fachada	06			2	m2	No	0.01	m3
+ARK_08.01.02_Pintura en Fachadas	08			2	m2	No	0.01	m3
+ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07			2	m2	No	0.02	m3
+ARK_05.01.10_Bordillo de terrazas	05			2	m2	No	0.12	m3
+Glass				1	m2	No	0.02	m3
+Glass				1	m2	No	0.02	m3
+Glass				1	m2	No	0.02	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Puerta Madera			25	10	m2	No	0.17	m3
+ARK_06.01.01_Enlucido de Fachada	06			3	m2	No	0.01	m3
+ARK_08.01.02_Pintura en Fachadas	08			3	m2	No	0.01	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			3	m2	No	0.23	m3
+ARK_06.01.01_Enlucido de Fachada	06			2	m2	No	0.01	m3
+ARK_08.01.02_Pintura en Fachadas	08			2	m2	No	0.01	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			2	m2	No	0.15	m3
+Glass				2	m2	No	0.04	m3
+Glass				2	m2	No	0.05	m3
+Glass				2	m2	No	0.04	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+ARK_06.01.01_Enlucido de Fachada	06			2	m2	No	0.01	m3
+ARK_08.01.02_Pintura en Fachadas	08			2	m2	No	0.01	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			2	m2	No	0.15	m3
+ARK_08.01.01_Empaste y Pintura	08			2	m2	No	0.02	m3
+ARK_06.01.01_Enlucido de Fachada	06			2	m2	No	0.02	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			2	m2	No	0.02	m3
+ARK_08.01.02_Pintura en Fachadas	08			2	m2	No	0.02	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			2	m2	No	0.24	m3
+Madera - Nogal Natural			46	2	m2	No	0.07	m3
+Porcelana			46	0	m2	No	0	m3
+Metal - Cromo pulido			46	0	m2	No	0	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			5	m2	No	1.08	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			9	m2	No	0.09	m3
+Birch	00			4	m2	No	0.05	m3
+Linen, White				8	m2	No	0.62	m3
+Birch	00			5	m2	No	0.05	m3
+Linen, White				11	m2	No	0.81	m3
+Birch	00			4	m2	No	0.05	m3
+Linen, White				8	m2	No	0.62	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			4	m2	No	0.43	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			9	m2	No	0.09	m3
+Door - Frame			52	4	m2	No	0.07	m3
+Door - Panel			52	4	m2	No	0.04	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			8	m2	No	0.08	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			8	m2	No	0.08	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			8	m2	No	0.91	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			8	m2	No	0.08	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			5	m2	No	0.05	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			5	m2	No	0.05	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			5	m2	No	0.59	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			5	m2	No	0.05	m3
+Door - Frame			54	4	m2	No	0.08	m3
+Door - Panel			54	4	m2	No	0.04	m3
+Door - Frame			55	4	m2	No	0.08	m3
+Door - Panel			55	4	m2	No	0.04	m3
+219709 Floor-mounted-toilet-for-combination - white-tulip-floor-mounted-toilet-for-combination-219709 - White Alpin			60	2	m2	No	0.03	m3
+Madera - Nogal Natural			61	3	m2	No	0.1	m3
+Porcelana			61	0	m2	No	0	m3
+Metal - Cromo pulido			61	0	m2	No	0	m3
+219709 Floor-mounted-toilet-for-combination - white-tulip-floor-mounted-toilet-for-combination-219709 - White Alpin			63	2	m2	No	0.03	m3
+219709 Floor-mounted-toilet-for-combination - white-tulip-floor-mounted-toilet-for-combination-219709 - White Alpin			65	2	m2	No	0.03	m3
+Madera - Nogal Natural			66	3	m2	No	0.1	m3
+Porcelana			66	0	m2	No	0	m3
+Metal - Cromo pulido			66	0	m2	No	0	m3
+Appliance - Stainless Steel				3	m2	No	0.06	m3
+Appliance - Gasket				0	m2	No	0	m3
+Appliance - Steel - Black				7	m2	No	1.19	m3
+Appliance - Lens				0	m2	No	0	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			7	m2	No	0.68	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			14	m2	No	0.14	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			3	m2	No	0.34	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			7	m2	No	0.07	m3
+Door - Frame			61	4	m2	No	0.07	m3
+Door - Panel			61	4	m2	No	0.04	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			1	m2	No	0.01	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			1	m2	No	0.01	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.08	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			1	m2	No	0.01	m3
+Cherry				0	m2	No	0	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Cherry				0	m2	No	0	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Cherry				0	m2	No	0	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Metal - Acero - 345 MPa				4	m2	No	0.02	m3
+Metal - Acero - 345 MPa				4	m2	No	0.02	m3
+Metal - Acero - 345 MPa				4	m2	No	0.02	m3
+Metal - Acero - 345 MPa				10	m2	No	0.05	m3
+Metal - Acero - 345 MPa				10	m2	No	0.05	m3
+Metal - Acero - 345 MPa				10	m2	No	0.05	m3
+ARK_08.01.01_Empaste y Pintura	08			8	m2	No	0.08	m3
+ARK_06.01.01_Enlucido de Fachada	06			8	m2	No	0.08	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			8	m2	No	0.08	m3
+ARK_08.01.02_Pintura en Fachadas	08			8	m2	No	0.08	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			8	m2	No	0.87	m3
+Steel, 45-345				3	m2	No	0.01	m3
+Steel, 45-345				3	m2	No	0.01	m3
+Steel, 45-345				3	m2	No	0.01	m3
+Steel, 45-345				6	m2	No	0.02	m3
+Steel, 45-345				4	m2	No	0.02	m3
+Steel, 45-345				4	m2	No	0.02	m3
+Steel, 45-345				4	m2	No	0.02	m3
+Steel, 45-345				5	m2	No	0.02	m3
+Steel, 45-345				6	m2	No	0.02	m3
+Steel, 45-345				5	m2	No	0.02	m3
+Steel, 45-345				1	m2	No	0.02	m3
+Steel, 45-345				1	m2	No	0.02	m3
+Steel, 45-345				1	m2	No	0.02	m3
+Steel, 45-345				1	m2	No	0.02	m3
+Steel, 45-345				1	m2	No	0.02	m3
+Steel, 45-345				1	m2	No	0.02	m3
+Steel, 45-345				1	m2	No	0.02	m3
+Steel, 45-345				1	m2	No	0.02	m3
+Steel, 45-345				1	m2	No	0.02	m3
+Steel, 45-345				1	m2	No	0.02	m3
+Steel, 45-345				1	m2	No	0.02	m3
+Steel, 45-345				1	m2	No	0.02	m3
+Steel, 45-345				1	m2	No	0.01	m3
+Steel, 45-345				1	m2	No	0.01	m3
+Steel, 45-345				1	m2	No	0.01	m3
+Steel, 45-345				1	m2	No	0.01	m3
+Steel, 45-345				1	m2	No	0.01	m3
+Steel, 45-345				2	m2	No	0.03	m3
+Steel, 45-345				2	m2	No	0.03	m3
+Steel, 45-345				2	m2	No	0.03	m3
+Steel, 45-345				2	m2	No	0.03	m3
+Steel, 45-345				2	m2	No	0.03	m3
+Steel, 45-345				2	m2	No	0.03	m3
+Steel, 45-345				1	m2	No	0.02	m3
+Madera blanda, madera				1	m2	No	0.01	m3
+Madera blanda, madera				1	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				1	m2	No	0.01	m3
+Madera blanda, madera				1	m2	No	0	m3
+Madera blanda, madera				1	m2	No	0	m3
+Madera blanda, madera				1	m2	No	0	m3
+Madera blanda, madera				1	m2	No	0	m3
+Madera blanda, madera				1	m2	No	0	m3
+Madera blanda, madera				1	m2	No	0	m3
+Madera blanda, madera				1	m2	No	0	m3
+Madera blanda, madera				1	m2	No	0	m3
+Madera blanda, madera				1	m2	No	0	m3
+Madera blanda, madera				1	m2	No	0	m3
+Madera blanda, madera				1	m2	No	0	m3
+Madera blanda, madera				1	m2	No	0	m3
+Madera blanda, madera				1	m2	No	0	m3
+Madera blanda, madera				1	m2	No	0	m3
+Madera blanda, madera				1	m2	No	0	m3
+Madera blanda, madera				1	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Default Glass				64	m2	No	3.2	m3
+Steel, 45-345				1	m2	No	0.01	m3
+Steel, 45-345				1	m2	No	0.02	m3
+Steel, 45-345				1	m2	No	0.02	m3
+Madera blanda, madera				1	m2	No	0.01	m3
+Madera blanda, madera				1	m2	No	0.01	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			3	m2	No	0.32	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			6	m2	No	0.06	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			4	m2	No	0.38	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			8	m2	No	0.08	m3
+Metal - Acero - 345 MPa				7	m2	No	0.03	m3
+Steel, 45-345				0	m2	No	0.01	m3
+Glass				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Steel, 45-345				0	m2	No	0.01	m3
+Steel, 45-345				0	m2	No	0.01	m3
+Steel, 45-345				2	m2	No	0.03	m3
+ARK_08.01.01_Empaste y Pintura	08			5	m2	No	0.02	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			5	m2	No	0.02	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			5	m2	No	0.68	m3
+ARK_08.01.01_Empaste y Pintura	08			1	m2	No	0.01	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			1	m2	No	0.01	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.16	m3
+ARK_03.03.08.b_Hormigón en Losa de Entrepiso F'c=240kg/Cm²	03.03			4	m2	No	0.51	m3
+Concrete, Cast-in-Place gray				19	m2	No	1.65	m3
+Concrete, Cast-in-Place gray				19	m2	No	1.65	m3
+Concrete, Cast-in-Place gray				6	m2	No	0.45	m3
+Concrete, Cast-in-Place gray				6	m2	No	0.45	m3
+ARK_03.03.08.b_Hormigón en Losa de Entrepiso F'c=240kg/Cm²	03.03			42	m2	No	5.06	m3
+ARK_03.03.08.b_Hormigón en Losa de Entrepiso F'c=240kg/Cm²	03.03			178	m2	No	21.36	m3
+ARK_06.01.10_Masillado de Piso a Maquina con Endurecedor	06			31	m2	No	0.31	m3
+ARK_03.02.02_Contrapiso Hormigón Planta Baja F'c=210 Kg/Cm²	03.02			31	m2	No	5.9	m3
+ARK_06.01.01_Enlucido de Fachada	06			11	m2	No	0.05	m3
+ARK_08.01.02_Pintura en Fachadas	08			11	m2	No	0.05	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			11	m2	No	0.96	m3
+ARK_06.01.01_Enlucido de Fachada	06			4	m2	No	0.02	m3
+ARK_08.01.02_Pintura en Fachadas	08			4	m2	No	0.02	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			4	m2	No	0.34	m3
+ARK_06.01.01_Enlucido de Fachada	06			1	m2	No	0	m3
+ARK_08.01.02_Pintura en Fachadas	08			1	m2	No	0	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			1	m2	No	0.08	m3
+ARK_06.01.01_Enlucido de Fachada	06			3	m2	No	0.01	m3
+ARK_08.01.02_Pintura en Fachadas	08			3	m2	No	0.01	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			3	m2	No	0.26	m3
+ARK_06.01.01_Enlucido de Fachada	06			5	m2	No	0.05	m3
+ARK_08.01.02_Pintura en Fachadas	08			5	m2	No	0.05	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			5	m2	No	0.6	m3
+ARK_06.01.01_Enlucido de Fachada	06			6	m2	No	0.03	m3
+ARK_08.01.02_Pintura en Fachadas	08			6	m2	No	0.03	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			6	m2	No	0.5	m3
+ARK_06.01.01_Enlucido de Fachada	06			8	m2	No	0.04	m3
+ARK_08.01.02_Pintura en Fachadas	08			8	m2	No	0.04	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			8	m2	No	0.72	m3
+ARK_06.01.01_Enlucido de Fachada	06			6	m2	No	0.03	m3
+ARK_08.01.02_Pintura en Fachadas	08			6	m2	No	0.03	m3
+ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07			6	m2	No	0.06	m3
+ARK_05.01.10_Bordillo de terrazas	05			6	m2	No	0.75	m3
+ARK_03.03.08.b_Hormigón en Losa de Entrepiso F'c=240kg/Cm²	03.03			8	m2	No	0.94	m3
+ARK_06.01.01_Enlucido de Fachada	06			2	m2	No	0.02	m3
+ARK_08.01.02_Pintura en Fachadas	08			2	m2	No	0.02	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			2	m2	No	0.24	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			2	m2	No	0.02	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			16	m2	No	2.81	m3
+ARK_08.01.01_Empaste y Pintura	08			16	m2	No	0.08	m3
+ARK_06.01.01_Enlucido de Fachada	06			16	m2	No	0.08	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			16	m2	No	0.08	m3
+ARK_08.01.02_Pintura en Fachadas	08			16	m2	No	0.08	m3
+ARK_06.01.01_Enlucido de Fachada	06			2	m2	No	0.01	m3
+ARK_08.01.02_Pintura en Fachadas	08			2	m2	No	0.01	m3
+ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07			2	m2	No	0.02	m3
+ARK_05.01.10_Bordillo de terrazas	05			2	m2	No	0.13	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			14	m2	No	3.2	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			28	m2	No	0.28	m3
+ARK_06.01.01_Enlucido de Fachada	06			9	m2	No	0.09	m3
+ARK_08.01.02_Pintura en Fachadas	08			9	m2	No	0.09	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			9	m2	No	1.1	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			9	m2	No	0.09	m3
+ARK_03.03.08.b_Hormigón en Losa de Entrepiso F'c=240kg/Cm²	03.03			2	m2	No	0.29	m3
+ARK_03.03.08.b_Hormigón en Losa de Entrepiso F'c=240kg/Cm²	03.03			1	m2	No	0.15	m3
+Glass				3	m2	No	0.06	m3
+Glass				3	m2	No	0.06	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Metal - Acero - 345 MPa				7	m2	No	0.03	m3
+Metal - Acero - 345 MPa				7	m2	No	0.03	m3
+Metal - Acero - 345 MPa				7	m2	No	0.03	m3
+Metal - Acero - 345 MPa				6	m2	No	0.03	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			4	m2	No	0.41	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			8	m2	No	0.08	m3
+Default				13	m2	No	0.48	m3
+ARK_08.01.03_Cielo Raso En Gypsum Estucado y Pintado	08			13	m2	No	0.22	m3
+Default				14	m2	No	0.49	m3
+ARK_08.01.03_Cielo Raso En Gypsum Estucado y Pintado	08			14	m2	No	0.22	m3
+Default				24	m2	No	0.86	m3
+ARK_08.01.03_Cielo Raso En Gypsum Estucado y Pintado	08			24	m2	No	0.38	m3
+Default				12	m2	No	0.43	m3
+ARK_08.01.03_Cielo Raso En Gypsum Estucado y Pintado	08			12	m2	No	0.19	m3
+Default				5	m2	No	0.17	m3
+ARK_08.01.04_Cielo Raso en Gypsum para Humedad Estucado y Pintado	08			5	m2	No	0.08	m3
+Default				5	m2	No	0.18	m3
+ARK_08.01.04_Cielo Raso en Gypsum para Humedad Estucado y Pintado	08			5	m2	No	0.08	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			4	m2	No	0.38	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			8	m2	No	0.08	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.09	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			2	m2	No	0.02	m3
+Default				16	m2	No	0.57	m3
+ARK_08.01.04_Cielo Raso en Gypsum para Humedad Estucado y Pintado	08			16	m2	No	0.25	m3
+Default				12	m2	No	0.45	m3
+ARK_08.01.03_Cielo Raso En Gypsum Estucado y Pintado	08			12	m2	No	0.2	m3
+Default				83	m2	No	2.98	m3
+ARK_08.01.03_Cielo Raso En Gypsum Estucado y Pintado	08			83	m2	No	1.33	m3
+Default				0	m2	No	0.01	m3
+ARK_08.01.04_Cielo Raso en Gypsum para Humedad Estucado y Pintado	08			0	m2	No	0.01	m3
+Default				3	m2	No	0.12	m3
+ARK_08.01.04_Cielo Raso en Gypsum para Humedad Estucado y Pintado	08			3	m2	No	0.05	m3
+Default				3	m2	No	0.09	m3
+ARK_08.01.03_Cielo Raso En Gypsum Estucado y Pintado	08			3	m2	No	0.04	m3
+Concrete, Precast Smooth, Light Grey				0	m2	No	0	m3
+Concrete, Precast Smooth, Light Grey				2	m2	No	0.02	m3
+Concrete, Precast Smooth, Light Grey				3	m2	No	0.02	m3
+Concrete, Precast Smooth, Light Grey				3	m2	No	0.02	m3
+Concrete, Precast Smooth, Light Grey				0	m2	No	0	m3
+Concrete, Precast Smooth, Light Grey				1	m2	No	0.01	m3
+Concrete, Precast Smooth, Light Grey				0	m2	No	0	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			98	m2	No	2.94	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			64	m2	No	1.92	m3
+Default				2	m2	No	0.06	m3
+ARK_08.01.04_Cielo Raso en Gypsum para Humedad Estucado y Pintado	08			2	m2	No	0.02	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			4	m2	No	0.11	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			110	m2	No	3.29	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			19	m2	No	0.57	m3
+Concrete, Precast Smooth, Light Grey				2	m2	No	0.01	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.09	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			2	m2	No	0.02	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.1	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			2	m2	No	0.02	m3
+Gypsum Wall Board				1	m2	No	0.01	m3
+Gypsum Wall Board				0	m2	No	0	m3
+Gypsum Wall Board				2	m2	No	0.01	m3
+Gypsum Wall Board				0	m2	No	0	m3
+Gypsum Wall Board				0	m2	No	0	m3
+Gypsum Wall Board				0	m2	No	0	m3
+Gypsum Wall Board				0	m2	No	0	m3
+Gypsum Wall Board				0	m2	No	0	m3
+Gypsum Wall Board				2	m2	No	0	m3
+Gypsum Wall Board				1	m2	No	0	m3
+Gypsum Wall Board				0	m2	No	0	m3
+Gypsum Wall Board				0	m2	No	0	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			6	m2	No	0.71	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			6	m2	No	0.06	m3
+ARK_06.01.01_Enlucido de Fachada	06			6	m2	No	0.06	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			6	m2	No	0.06	m3
+ARK_08.01.02_Pintura en Fachadas	08			6	m2	No	0.06	m3
+Default Glass				8	m2	No	0.4	m3
+Madera - Nogal Natural			70	3	m2	No	0.1	m3
+Porcelana			70	0	m2	No	0	m3
+Metal - Cromo pulido			70	0	m2	No	0	m3
+Metal - Chrome	00			4	m2	No	0.06	m3
+Leather - Black	00			8	m2	No	0.44	m3
+Metal - Chrome	00			2	m2	No	0.03	m3
+Leather - Black	00			4	m2	No	0.23	m3
+Metal - Chrome	00			2	m2	No	0.03	m3
+Leather - Black	00			4	m2	No	0.23	m3
+Cherry				0	m2	No	0	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Laminate, Ivory, Matte				6	m2	No	0.41	m3
+Cherry				3	m2	No	0.05	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Laminate, Ivory, Matte				1	m2	No	0.05	m3
+Birch	00			0	m2	No	0.01	m3
+Steel, Chrome Plated				1	m2	No	0.01	m3
+Glass - Clear, Grey				5	m2	No	0.03	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Textile - Bamboo Weave	00			1	m2	No	0.01	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Textile - Bamboo Weave	00			1	m2	No	0.01	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Textile - Bamboo Weave	00			1	m2	No	0.01	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Textile - Bamboo Weave	00			1	m2	No	0.01	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Textile - Bamboo Weave	00			1	m2	No	0.01	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Textile - Bamboo Weave	00			1	m2	No	0.01	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Textile - Bamboo Weave	00			1	m2	No	0.01	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Textile - Bamboo Weave	00			1	m2	No	0.01	m3
+Steel, Chrome Plated				1	m2	No	0.01	m3
+Glass - Clear, Grey				5	m2	No	0.03	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Textile - Bamboo Weave	00			1	m2	No	0.01	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Textile - Bamboo Weave	00			1	m2	No	0.01	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Textile - Bamboo Weave	00			1	m2	No	0.01	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Textile - Bamboo Weave	00			1	m2	No	0.01	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Textile - Bamboo Weave	00			1	m2	No	0.01	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Textile - Bamboo Weave	00			1	m2	No	0.01	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Textile - Bamboo Weave	00			1	m2	No	0.01	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Textile - Bamboo Weave	00			1	m2	No	0.01	m3
+ARK_06.01.01_Enlucido de Fachada	06			2	m2	No	0.02	m3
+ARK_08.01.02_Pintura en Fachadas	08			2	m2	No	0.02	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			2	m2	No	0.21	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			2	m2	No	0.25	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			2	m2	No	0.23	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			0	m2	No	0.02	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.22	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			2	m2	No	0.26	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.13	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.22	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.15	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.22	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			2	m2	No	0.25	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			2	m2	No	0.24	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			2	m2	No	0.27	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.22	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			2	m2	No	0.24	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			5	m2	No	0.05	m3
+Default				5	m2	No	0.17	m3
+ARK_08.01.04_Cielo Raso en Gypsum para Humedad Estucado y Pintado	08			5	m2	No	0.08	m3
+ARK_08.01.01_Empaste y Pintura	08			1	m2	No	0.01	m3
+ARK_06.01.01_Enlucido de Fachada	06			1	m2	No	0.01	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			1	m2	No	0.01	m3
+ARK_08.01.02_Pintura en Fachadas	08			1	m2	No	0.01	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.16	m3
+ARK_08.01.01_Empaste y Pintura	08			2	m2	No	0.02	m3
+ARK_06.01.01_Enlucido de Fachada	06			2	m2	No	0.02	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			2	m2	No	0.02	m3
+ARK_08.01.02_Pintura en Fachadas	08			2	m2	No	0.02	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			2	m2	No	0.19	m3
+ARK_08.01.01_Empaste y Pintura	08			1	m2	No	0.01	m3
+ARK_06.01.01_Enlucido de Fachada	06			1	m2	No	0.01	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			1	m2	No	0.01	m3
+ARK_08.01.02_Pintura en Fachadas	08			1	m2	No	0.01	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.07	m3
+Appliance - Stainless Steel				1	m2	No	0.03	m3
+Appliance - Black				1	m2	No	0	m3
+Appliance - Burner Ring				0	m2	No	0	m3
+Metal - Acero, Pulido			79	2	m2	No	0.02	m3
+Gypsum Wall Board				1	m2	No	0.01	m3
+ARK_08.01.01_Empaste y Pintura	08			5	m2	No	0.05	m3
+ARK_06.01.01_Enlucido de Fachada	06			5	m2	No	0.05	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			5	m2	No	0.05	m3
+ARK_08.01.02_Pintura en Fachadas	08			5	m2	No	0.05	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			5	m2	No	0.56	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			3	m2	No	0.35	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			7	m2	No	0.07	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			1	m2	No	0.26	m3
+ARK_08.01.01_Empaste y Pintura	08			1	m2	No	0.01	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			1	m2	No	0.01	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			9	m2	No	1.7	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			9	m2	No	0.09	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			11	m2	No	2.15	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			11	m2	No	0.11	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			2	m2	No	0.29	m3
+ARK_06.01.01_Enlucido de Fachada	06			2	m2	No	0.01	m3
+ARK_08.01.02_Pintura en Fachadas	08			2	m2	No	0.01	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			2	m2	No	0.33	m3
+ARK_06.01.01_Enlucido de Fachada	06			2	m2	No	0.02	m3
+ARK_08.01.02_Pintura en Fachadas	08			2	m2	No	0.02	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			2	m2	No	0.02	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			1	m2	No	0.14	m3
+ARK_06.01.01_Enlucido de Fachada	06			1	m2	No	0.01	m3
+ARK_08.01.02_Pintura en Fachadas	08			1	m2	No	0.01	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			1	m2	No	0.01	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			13	m2	No	2.38	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			13	m2	No	0.13	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			5	m2	No	0.9	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			5	m2	No	0.05	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			6	m2	No	0.64	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			13	m2	No	0.13	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			14	m2	No	0.14	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			14	m2	No	0.14	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			14	m2	No	1.14	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			32	m2	No	0.95	m3
+Default				35	m2	No	1.26	m3
+ARK_08.01.03_Cielo Raso En Gypsum Estucado y Pintado	08			35	m2	No	0.56	m3
+Concrete, Precast Smooth, Light Grey				2	m2	No	0.01	m3
+Concrete, Precast Smooth, Light Grey				3	m2	No	0.03	m3
+Gypsum Wall Board				2	m2	No	0.02	m3
+Gypsum Wall Board				13	m2	No	0.13	m3
+Concrete, Precast Smooth, Light Grey				0	m2	No	0	m3
+Concrete, Precast Smooth, Light Grey				0	m2	No	0	m3
+Concrete, Precast Smooth, Light Grey				0	m2	No	0	m3
+Concrete, Precast Smooth, Light Grey				0	m2	No	0	m3
+Concrete, Precast Smooth, Light Grey				1	m2	No	0.01	m3
+Concrete, Precast Smooth, Light Grey				0	m2	No	0	m3
+Concrete, Precast Smooth, Light Grey				1	m2	No	0	m3
+Concrete, Precast Smooth, Light Grey				1	m2	No	0.01	m3
+Gypsum Wall Board				6	m2	No	0.04	m3
+ARK_06.01.01_Enlucido de Fachada	06			9	m2	No	0.09	m3
+ARK_08.01.02_Pintura en Fachadas	08			9	m2	No	0.09	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			9	m2	No	1.05	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			9	m2	No	0.09	m3
+ARK_06.01.01_Enlucido de Fachada	06			26	m2	No	0.26	m3
+ARK_08.01.02_Pintura en Fachadas	08			26	m2	No	0.26	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			26	m2	No	3.35	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.14	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			3	m2	No	0.03	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			4	m2	No	0.04	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			4	m2	No	0.04	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			4	m2	No	0.5	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			4	m2	No	0.04	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			6	m2	No	0.06	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			6	m2	No	0.06	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			6	m2	No	0.71	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			6	m2	No	0.06	m3
+Birch	00			3	m2	No	0.04	m3
+Linen, White				5	m2	No	0.36	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			9	m2	No	1.32	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			9	m2	No	0.09	m3
+Door - Frame			71	4	m2	No	0.07	m3
+Door - Panel			71	4	m2	No	0.04	m3
+Madera - Nogal Natural			81	2	m2	No	0.09	m3
+Porcelana			81	0	m2	No	0	m3
+Metal - Cromo pulido			81	0	m2	No	0	m3
+Door - Frame			72	4	m2	No	0.08	m3
+Door - Panel			72	4	m2	No	0.04	m3
+219709 Floor-mounted-toilet-for-combination - white-tulip-floor-mounted-toilet-for-combination-219709 - White Alpin			82	2	m2	No	0.03	m3
+Glass				2	m2	No	0.04	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Glass				2	m2	No	0.04	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				1	m2	No	0.01	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			24	m2	No	4.13	m3
+ARK_06.01.01_Enlucido de Fachada	06			24	m2	No	0.24	m3
+ARK_08.01.02_Pintura en Fachadas	08			24	m2	No	0.24	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			24	m2	No	0.24	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			3	m2	No	0.33	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			7	m2	No	0.07	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			9	m2	No	0.86	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			17	m2	No	0.17	m3
+Door - Frame			73	4	m2	No	0.07	m3
+Door - Panel			73	4	m2	No	0.04	m3
+Appliance - Stainless Steel				5	m2	No	0.55	m3
+Appliance - Controls				0	m2	No	0	m3
+Appliance - Panel				0	m2	No	0	m3
+Appliance - Stainless Steel				5	m2	No	0.55	m3
+Appliance - Controls				0	m2	No	0	m3
+Appliance - Panel				0	m2	No	0	m3
+Door - Frame			74	4	m2	No	0.07	m3
+Door - Panel			74	4	m2	No	0.04	m3
+Metal - Acero - 345 MPa				6	m2	No	0.03	m3
+Metal - Acero - 345 MPa				6	m2	No	0.03	m3
+Glass				2	m2	No	0.05	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			5	m2	No	0.52	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			5	m2	No	0.05	m3
+ARK_06.01.01_Enlucido de Fachada	06			5	m2	No	0.05	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			5	m2	No	0.05	m3
+ARK_08.01.02_Pintura en Fachadas	08			5	m2	No	0.05	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			16	m2	No	1.77	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			16	m2	No	0.16	m3
+ARK_06.01.01_Enlucido de Fachada	06			16	m2	No	0.16	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			16	m2	No	0.16	m3
+ARK_08.01.02_Pintura en Fachadas	08			16	m2	No	0.16	m3
+Laminate, Ivory, Matte				1	m2	No	0.02	m3
+Birch	00			0	m2	No	0.01	m3
+Laminate, Ivory, Matte				1	m2	No	0.02	m3
+Birch	00			0	m2	No	0.01	m3
+ARK_06.01.01_Enlucido de Fachada	06			11	m2	No	0.11	m3
+ARK_08.01.02_Pintura en Fachadas	08			11	m2	No	0.11	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			11	m2	No	1.48	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			12	m2	No	2.31	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			12	m2	No	0.12	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			8	m2	No	1.36	m3
+ARK_08.01.01_Empaste y Pintura	08			8	m2	No	0.04	m3
+ARK_06.01.01_Enlucido de Fachada	06			8	m2	No	0.04	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			8	m2	No	0.04	m3
+ARK_08.01.02_Pintura en Fachadas	08			8	m2	No	0.04	m3
+ARK_08.01.01_Empaste y Pintura	08			7	m2	No	0.04	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			7	m2	No	0.04	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			7	m2	No	0.53	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			5	m2	No	1.2	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			10	m2	No	0.1	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			6	m2	No	0.06	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			6	m2	No	0.06	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			6	m2	No	0.76	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			6	m2	No	0.06	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			5	m2	No	0.05	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			5	m2	No	0.05	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			5	m2	No	0.44	m3
+ARK_06.01.01_Enlucido de Fachada	06			12	m2	No	0.12	m3
+ARK_08.01.02_Pintura en Fachadas	08			12	m2	No	0.12	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			12	m2	No	1.6	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			7	m2	No	1.55	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			13	m2	No	0.13	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			2	m2	No	0.15	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			1	m2	No	0.14	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.2	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.2	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			2	m2	No	0.23	m3
+Default				3	m2	No	0.12	m3
+ARK_08.01.04_Cielo Raso en Gypsum para Humedad Estucado y Pintado	08			3	m2	No	0.05	m3
+Default				6	m2	No	0.21	m3
+ARK_08.01.04_Cielo Raso en Gypsum para Humedad Estucado y Pintado	08			6	m2	No	0.09	m3
+Default				13	m2	No	0.46	m3
+ARK_08.01.03_Cielo Raso En Gypsum Estucado y Pintado	08			13	m2	No	0.21	m3
+Default				4	m2	No	0.15	m3
+ARK_08.01.03_Cielo Raso En Gypsum Estucado y Pintado	08			4	m2	No	0.07	m3
+Porcelana - Marfil			107	6	m2	No	0.05	m3
+Madera - Nogal Natural			110	2	m2	No	0.07	m3
+Porcelana			110	0	m2	No	0	m3
+Metal - Cromo pulido			110	0	m2	No	0	m3
+Madera - Nogal Natural			111	2	m2	No	0.07	m3
+Porcelana			111	0	m2	No	0	m3
+Metal - Cromo pulido			111	0	m2	No	0	m3
+Glass				4	m2	No	0.11	m3
+Glass				3	m2	No	0.07	m3
+Glass				3	m2	No	0.07	m3
+Glass				6	m2	No	0.15	m3
+Glass				3	m2	No	0.07	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			5	m2	No	0.53	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			5	m2	No	0.05	m3
+ARK_06.01.01_Enlucido de Fachada	06			5	m2	No	0.05	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			5	m2	No	0.05	m3
+ARK_08.01.02_Pintura en Fachadas	08			5	m2	No	0.05	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			1	m2	No	0.15	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			1	m2	No	0.01	m3
+ARK_06.01.01_Enlucido de Fachada	06			1	m2	No	0.01	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			1	m2	No	0.01	m3
+ARK_08.01.02_Pintura en Fachadas	08			1	m2	No	0.01	m3
+Glass				2	m2	No	0.05	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+ARK_03.03.08.b_Hormigón en Losa de Entrepiso F'c=240kg/Cm²	03.03			24	m2	No	2.62	m3
+ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07			24	m2	No	0.24	m3
+Glass				1	m2	No	0.02	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+ARK_06.01.01_Enlucido de Fachada	06			1	m2	No	0	m3
+ARK_08.01.02_Pintura en Fachadas	08			1	m2	No	0	m3
+ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07			1	m2	No	0.01	m3
+ARK_05.01.10_Bordillo de terrazas	05			1	m2	No	0.05	m3
+ARK_06.01.01_Enlucido de Fachada	06			0	m2	No	0	m3
+ARK_08.01.02_Pintura en Fachadas	08			0	m2	No	0	m3
+ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07			0	m2	No	0	m3
+ARK_05.01.10_Bordillo de terrazas	05			0	m2	No	0.03	m3
+Gypsum Wall Board				6	m2	No	0.06	m3
+ARK_06.01.01_Enlucido de Fachada	06			0	m2	No	0	m3
+ARK_08.01.02_Pintura en Fachadas	08			0	m2	No	0	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			0	m2	No	0.02	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			18	m2	No	2.35	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			18	m2	No	0.17	m3
+ARK_06.01.01_Enlucido de Fachada	06			1	m2	No	0.01	m3
+ARK_08.01.02_Pintura en Fachadas	08			1	m2	No	0.01	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.11	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			1	m2	No	0.01	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			0	m2	No	0	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			0	m2	No	0	m3
+ARK_06.01.01_Enlucido de Fachada	06			0	m2	No	0	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			0	m2	No	0	m3
+ARK_08.01.02_Pintura en Fachadas	08			0	m2	No	0	m3
+Glass				3	m2	No	0.07	m3
+Glass				3	m2	No	0.07	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Concrete, Precast Smooth, Light Grey				5	m2	No	0.04	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			4	m2	No	0.38	m3
+ARK_06.01.01_Enlucido de Fachada	06			2	m2	No	0.02	m3
+ARK_08.01.02_Pintura en Fachadas	08			2	m2	No	0.02	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			2	m2	No	0.22	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			4	m2	No	0.59	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			3	m2	No	0.38	m3
+Default				16	m2	No	0.58	m3
+ARK_08.01.04_Cielo Raso en Gypsum para Humedad Estucado y Pintado	08			16	m2	No	0.26	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			27	m2	No	0.8	m3
+Concrete, Precast Smooth, Light Grey				4	m2	No	0.03	m3
+Concrete, Precast Smooth, Light Grey				3	m2	No	0.03	m3
+Concrete, Precast Smooth, Light Grey				4	m2	No	0.03	m3
+Concrete, Precast Smooth, Light Grey				1	m2	No	0.01	m3
+Concrete, Precast Smooth, Light Grey				3	m2	No	0.03	m3
+Concrete, Precast Smooth, Light Grey				1	m2	No	0	m3
+Gypsum Wall Board				0	m2	No	0	m3
+Gypsum Wall Board				0	m2	No	0	m3
+Gypsum Wall Board				1	m2	No	0	m3
+Gypsum Wall Board				0	m2	No	0	m3
+ARK_06.01.01_Enlucido de Fachada	06			1	m2	No	0	m3
+ARK_08.01.02_Pintura en Fachadas	08			1	m2	No	0	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			1	m2	No	0.08	m3
+219709 Floor-mounted-toilet-for-combination - white-tulip-floor-mounted-toilet-for-combination-219709 - White Alpin			115	2	m2	No	0.03	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Metal - Acero - 345 MPa				6	m2	No	0.03	m3
+Metal - Acero - 345 MPa				1	m2	No	0.01	m3
+Metal - Acero - 345 MPa				1	m2	No	0.01	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			3	m2	No	0.05	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			3	m2	No	0.03	m3
+
+05.01.05	Mampostería de ladrillo visto (exterior)
+Name	Model	Manufacturer	Mark	Area	Unidad	As Paint	Volume	Unidad
+ARK_06.01.10_Masillado de Piso a Maquina con Endurecedor	06			214	m2	No	2.14	m3
+ARK_03.02.02_Contrapiso Hormigón Planta Baja F'c=210 Kg/Cm²	03.02			214	m2	No	40.58	m3
+Metal - Acero - 345 MPa				14	m2	No	0.07	m3
+Metal - Acero - 345 MPa				14	m2	No	0.07	m3
+Metal - Acero - 345 MPa				14	m2	No	0.07	m3
+Metal - Acero - 345 MPa				14	m2	No	0.07	m3
+Metal - Acero - 345 MPa				14	m2	No	0.07	m3
+Metal - Acero - 345 MPa				14	m2	No	0.07	m3
+Metal - Acero - 345 MPa				14	m2	No	0.07	m3
+Metal - Acero - 345 MPa				14	m2	No	0.07	m3
+Metal - Acero - 345 MPa				14	m2	No	0.07	m3
+Metal - Acero - 345 MPa				14	m2	No	0.07	m3
+Metal - Acero - 345 MPa				14	m2	No	0.07	m3
+Metal - Acero - 345 MPa				7	m2	No	0.04	m3
+Metal - Acero - 345 MPa				7	m2	No	0.04	m3
+Metal - Acero - 345 MPa				7	m2	No	0.04	m3
+Metal - Acero - 345 MPa				7	m2	No	0.03	m3
+Metal - Acero - 345 MPa				6	m2	No	0.03	m3
+Metal - Acero - 345 MPa				7	m2	No	0.03	m3
+Metal - Acero - 345 MPa				14	m2	No	0.07	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			8	m2	No	0.08	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			8	m2	No	0.08	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			8	m2	No	0.9	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			7	m2	No	0.07	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			4	m2	No	0.04	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			4	m2	No	0.04	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			4	m2	No	0.45	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			4	m2	No	0.04	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			4	m2	No	0.04	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			4	m2	No	0.04	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			4	m2	No	0.53	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			4	m2	No	0.04	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			4	m2	No	0.04	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			4	m2	No	0.04	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			4	m2	No	0.52	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			4	m2	No	0.04	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			6	m2	No	0.06	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			6	m2	No	0.06	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			6	m2	No	0.78	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			6	m2	No	0.06	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			18	m2	No	4.07	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			35	m2	No	0.35	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			5	m2	No	0.05	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			5	m2	No	0.05	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			5	m2	No	0.65	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			5	m2	No	0.05	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			8	m2	No	0.08	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			8	m2	No	0.08	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			8	m2	No	0.93	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			8	m2	No	0.08	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			8	m2	No	0.08	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			8	m2	No	0.08	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			8	m2	No	0.93	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			8	m2	No	0.08	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			6	m2	No	0.06	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			6	m2	No	0.06	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			6	m2	No	0.76	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			6	m2	No	0.06	m3
+Door - Frame			37	4	m2	No	0.08	m3
+Door - Panel			37	4	m2	No	0.04	m3
+Door - Frame			38	4	m2	No	0.07	m3
+Door - Panel			38	4	m2	No	0.04	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			14	m2	No	3.14	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			27	m2	No	0.27	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			10	m2	No	2.14	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			20	m2	No	0.19	m3
+ARK_06.01.01_Enlucido de Fachada	06			18	m2	No	0.18	m3
+ARK_08.01.02_Pintura en Fachadas	08			18	m2	No	0.18	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			18	m2	No	2.16	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			18	m2	No	0.18	m3
+Glass				4	m2	No	0.11	m3
+Glass				4	m2	No	0.11	m3
+Glass				4	m2	No	0.11	m3
+Glass				4	m2	No	0.11	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Door - Frame			41	5	m2	No	0.13	m3
+Door - Panel			41	4	m2	No	0.04	m3
+ARK_06.01.01_Enlucido de Fachada	06			11	m2	No	0.11	m3
+ARK_08.01.02_Pintura en Fachadas	08			11	m2	No	0.11	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			11	m2	No	1.35	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			11	m2	No	0.11	m3
+ARK_06.01.01_Enlucido de Fachada	06			6	m2	No	0.06	m3
+ARK_08.01.02_Pintura en Fachadas	08			6	m2	No	0.06	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			6	m2	No	0.72	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			5	m2	No	0.92	m3
+ARK_06.01.01_Enlucido de Fachada	06			5	m2	No	0.05	m3
+ARK_08.01.02_Pintura en Fachadas	08			5	m2	No	0.05	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			5	m2	No	0.05	m3
+Concrete, Cast-in-Place gray				21	m2	No	1.61	m3
+Concrete, Cast-in-Place gray				21	m2	No	1.61	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.1	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			2	m2	No	0.02	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			4	m2	No	0.75	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			8	m2	No	0.08	m3
+ARK_06.01.01_Enlucido de Fachada	06			14	m2	No	0.14	m3
+ARK_08.01.02_Pintura en Fachadas	08			14	m2	No	0.14	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			14	m2	No	1.62	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			14	m2	No	0.14	m3
+ARK_06.01.01_Enlucido de Fachada	06			10	m2	No	0.1	m3
+ARK_08.01.02_Pintura en Fachadas	08			10	m2	No	0.1	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			10	m2	No	1.24	m3
+ARK_06.01.01_Enlucido de Fachada	06			4	m2	No	0.04	m3
+ARK_08.01.02_Pintura en Fachadas	08			4	m2	No	0.04	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			4	m2	No	0.51	m3
+ARK_06.01.01_Enlucido de Fachada	06			14	m2	No	0.14	m3
+ARK_08.01.02_Pintura en Fachadas	08			14	m2	No	0.14	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			14	m2	No	1.82	m3
+ARK_06.01.01_Enlucido de Fachada	06			7	m2	No	0.07	m3
+ARK_08.01.02_Pintura en Fachadas	08			7	m2	No	0.07	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			7	m2	No	0.9	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			7	m2	No	0.07	m3
+ARK_06.01.01_Enlucido de Fachada	06			3	m2	No	0.03	m3
+ARK_08.01.02_Pintura en Fachadas	08			3	m2	No	0.03	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			3	m2	No	0.37	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			3	m2	No	0.03	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			10	m2	No	1.74	m3
+ARK_06.01.01_Enlucido de Fachada	06			10	m2	No	0.1	m3
+ARK_08.01.02_Pintura en Fachadas	08			10	m2	No	0.1	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			10	m2	No	0.1	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			3	m2	No	0.6	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			5	m2	No	0.05	m3
+ARK_06.01.01_Enlucido de Fachada	06			5	m2	No	0.05	m3
+ARK_08.01.02_Pintura en Fachadas	08			5	m2	No	0.05	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			5	m2	No	0.69	m3
+ARK_06.01.01_Enlucido de Fachada	06			2	m2	No	0.02	m3
+ARK_08.01.02_Pintura en Fachadas	08			2	m2	No	0.02	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			2	m2	No	0.19	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			2	m2	No	0.02	m3
+ARK_06.01.01_Enlucido de Fachada	06			2	m2	No	0.02	m3
+ARK_08.01.02_Pintura en Fachadas	08			2	m2	No	0.02	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			2	m2	No	0.19	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			2	m2	No	0.02	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			6	m2	No	0.63	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			13	m2	No	0.13	m3
+Door - Frame			45	4	m2	No	0.08	m3
+Door - Panel			45	5	m2	No	0.04	m3
+Door - Frame			46	5	m2	No	0.13	m3
+Door - Panel			46	4	m2	No	0.04	m3
+Glass				4	m2	No	0.11	m3
+Glass				4	m2	No	0.11	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Glass				5	m2	No	0.12	m3
+Glass				5	m2	No	0.12	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Glass				4	m2	No	0.1	m3
+Glass				4	m2	No	0.1	m3
+Glass				4	m2	No	0.1	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+ARK_06.01.01_Enlucido de Fachada	06			15	m2	No	0.15	m3
+ARK_08.01.02_Pintura en Fachadas	08			15	m2	No	0.15	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			15	m2	No	1.91	m3
+Glass				4	m2	No	0.11	m3
+Glass				5	m2	No	0.11	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Glass				5	m2	No	0.11	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Glass				5	m2	No	0.11	m3
+Glass				5	m2	No	0.11	m3
+Glass				4	m2	No	0.11	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			12	m2	No	2.69	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			24	m2	No	0.23	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			7	m2	No	0.79	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			7	m2	No	0.07	m3
+ARK_06.01.01_Enlucido de Fachada	06			7	m2	No	0.07	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			7	m2	No	0.07	m3
+ARK_08.01.02_Pintura en Fachadas	08			7	m2	No	0.07	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			8	m2	No	1.81	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			16	m2	No	0.16	m3
+ARK_06.01.01_Enlucido de Fachada	06			16	m2	No	0.16	m3
+ARK_08.01.02_Pintura en Fachadas	08			16	m2	No	0.16	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			16	m2	No	1.89	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			16	m2	No	0.16	m3
+Glass				4	m2	No	0.11	m3
+Glass				4	m2	No	0.11	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Glass				2	m2	No	0.06	m3
+Glass				2	m2	No	0.06	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+ARK_03.03.08.b_Hormigón en Losa de Entrepiso F'c=240kg/Cm²	03.03			114	m2	No	12.52	m3
+ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07			114	m2	No	1.14	m3
+Concrete, Cast-in-Place gray				25	m2	No	2.12	m3
+Concrete, Cast-in-Place gray				25	m2	No	2.12	m3
+219709 Floor-mounted-toilet-for-combination - white-tulip-floor-mounted-toilet-for-combination-219709 - White Alpin			44	2	m2	No	0.03	m3
+ARK_06.01.01_Enlucido de Fachada	06			13	m2	No	0.13	m3
+ARK_08.01.02_Pintura en Fachadas	08			13	m2	No	0.13	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			13	m2	No	1.58	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			13	m2	No	0.13	m3
+ARK_06.01.01_Enlucido de Fachada	06			5	m2	No	0.02	m3
+ARK_08.01.02_Pintura en Fachadas	08			5	m2	No	0.02	m3
+ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07			5	m2	No	0.05	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			5	m2	No	0.39	m3
+ARK_06.01.01_Enlucido de Fachada	06			11	m2	No	0.06	m3
+ARK_08.01.02_Pintura en Fachadas	08			11	m2	No	0.06	m3
+ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07			11	m2	No	0.11	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			11	m2	No	0.88	m3
+ARK_06.01.01_Enlucido de Fachada	06			11	m2	No	0.06	m3
+ARK_08.01.02_Pintura en Fachadas	08			11	m2	No	0.06	m3
+ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07			11	m2	No	0.11	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			11	m2	No	0.88	m3
+ARK_06.01.01_Enlucido de Fachada	06			5	m2	No	0.02	m3
+ARK_08.01.02_Pintura en Fachadas	08			5	m2	No	0.02	m3
+ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07			5	m2	No	0.05	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			5	m2	No	0.37	m3
+ARK_06.01.01_Enlucido de Fachada	06			7	m2	No	0.03	m3
+ARK_08.01.02_Pintura en Fachadas	08			7	m2	No	0.03	m3
+ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07			7	m2	No	0.07	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			7	m2	No	0.52	m3
+ARK_06.01.01_Enlucido de Fachada	06			1	m2	No	0.01	m3
+ARK_08.01.02_Pintura en Fachadas	08			1	m2	No	0.01	m3
+ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07			1	m2	No	0.01	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			1	m2	No	0.12	m3
+ARK_06.01.01_Enlucido de Fachada	06			2	m2	No	0.01	m3
+ARK_08.01.02_Pintura en Fachadas	08			2	m2	No	0.01	m3
+ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07			2	m2	No	0.02	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			2	m2	No	0.12	m3
+ARK_06.01.01_Enlucido de Fachada	06			6	m2	No	0.03	m3
+ARK_08.01.02_Pintura en Fachadas	08			6	m2	No	0.03	m3
+ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07			6	m2	No	0.06	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			6	m2	No	0.51	m3
+ARK_06.01.01_Enlucido de Fachada	06			6	m2	No	0.03	m3
+ARK_08.01.02_Pintura en Fachadas	08			6	m2	No	0.03	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			6	m2	No	0.57	m3
+ARK_06.01.01_Enlucido de Fachada	06			4	m2	No	0.02	m3
+ARK_08.01.02_Pintura en Fachadas	08			4	m2	No	0.02	m3
+ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07			4	m2	No	0.04	m3
+ARK_05.01.10_Bordillo de terrazas	05			4	m2	No	0.29	m3
+ARK_06.01.01_Enlucido de Fachada	06			2	m2	No	0.01	m3
+ARK_08.01.02_Pintura en Fachadas	08			2	m2	No	0.01	m3
+ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07			2	m2	No	0.02	m3
+ARK_05.01.10_Bordillo de terrazas	05			2	m2	No	0.12	m3
+Glass				1	m2	No	0.02	m3
+Glass				1	m2	No	0.02	m3
+Glass				1	m2	No	0.02	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Puerta Madera			25	10	m2	No	0.17	m3
+ARK_06.01.01_Enlucido de Fachada	06			3	m2	No	0.01	m3
+ARK_08.01.02_Pintura en Fachadas	08			3	m2	No	0.01	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			3	m2	No	0.23	m3
+ARK_06.01.01_Enlucido de Fachada	06			2	m2	No	0.01	m3
+ARK_08.01.02_Pintura en Fachadas	08			2	m2	No	0.01	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			2	m2	No	0.15	m3
+Glass				2	m2	No	0.04	m3
+Glass				2	m2	No	0.05	m3
+Glass				2	m2	No	0.04	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+ARK_06.01.01_Enlucido de Fachada	06			2	m2	No	0.01	m3
+ARK_08.01.02_Pintura en Fachadas	08			2	m2	No	0.01	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			2	m2	No	0.15	m3
+ARK_08.01.01_Empaste y Pintura	08			2	m2	No	0.02	m3
+ARK_06.01.01_Enlucido de Fachada	06			2	m2	No	0.02	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			2	m2	No	0.02	m3
+ARK_08.01.02_Pintura en Fachadas	08			2	m2	No	0.02	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			2	m2	No	0.24	m3
+Madera - Nogal Natural			46	2	m2	No	0.07	m3
+Porcelana			46	0	m2	No	0	m3
+Metal - Cromo pulido			46	0	m2	No	0	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			5	m2	No	1.08	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			9	m2	No	0.09	m3
+Birch	00			4	m2	No	0.05	m3
+Linen, White				8	m2	No	0.62	m3
+Birch	00			5	m2	No	0.05	m3
+Linen, White				11	m2	No	0.81	m3
+Birch	00			4	m2	No	0.05	m3
+Linen, White				8	m2	No	0.62	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			4	m2	No	0.43	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			9	m2	No	0.09	m3
+Door - Frame			52	4	m2	No	0.07	m3
+Door - Panel			52	4	m2	No	0.04	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			8	m2	No	0.08	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			8	m2	No	0.08	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			8	m2	No	0.91	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			8	m2	No	0.08	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			5	m2	No	0.05	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			5	m2	No	0.05	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			5	m2	No	0.59	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			5	m2	No	0.05	m3
+Door - Frame			54	4	m2	No	0.08	m3
+Door - Panel			54	4	m2	No	0.04	m3
+Door - Frame			55	4	m2	No	0.08	m3
+Door - Panel			55	4	m2	No	0.04	m3
+219709 Floor-mounted-toilet-for-combination - white-tulip-floor-mounted-toilet-for-combination-219709 - White Alpin			60	2	m2	No	0.03	m3
+Madera - Nogal Natural			61	3	m2	No	0.1	m3
+Porcelana			61	0	m2	No	0	m3
+Metal - Cromo pulido			61	0	m2	No	0	m3
+219709 Floor-mounted-toilet-for-combination - white-tulip-floor-mounted-toilet-for-combination-219709 - White Alpin			63	2	m2	No	0.03	m3
+219709 Floor-mounted-toilet-for-combination - white-tulip-floor-mounted-toilet-for-combination-219709 - White Alpin			65	2	m2	No	0.03	m3
+Madera - Nogal Natural			66	3	m2	No	0.1	m3
+Porcelana			66	0	m2	No	0	m3
+Metal - Cromo pulido			66	0	m2	No	0	m3
+Appliance - Stainless Steel				3	m2	No	0.06	m3
+Appliance - Gasket				0	m2	No	0	m3
+Appliance - Steel - Black				7	m2	No	1.19	m3
+Appliance - Lens				0	m2	No	0	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			7	m2	No	0.68	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			14	m2	No	0.14	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			3	m2	No	0.34	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			7	m2	No	0.07	m3
+Door - Frame			61	4	m2	No	0.07	m3
+Door - Panel			61	4	m2	No	0.04	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			1	m2	No	0.01	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			1	m2	No	0.01	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.08	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			1	m2	No	0.01	m3
+Cherry				0	m2	No	0	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Cherry				0	m2	No	0	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Cherry				0	m2	No	0	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Metal - Acero - 345 MPa				4	m2	No	0.02	m3
+Metal - Acero - 345 MPa				4	m2	No	0.02	m3
+Metal - Acero - 345 MPa				4	m2	No	0.02	m3
+Metal - Acero - 345 MPa				10	m2	No	0.05	m3
+Metal - Acero - 345 MPa				10	m2	No	0.05	m3
+Metal - Acero - 345 MPa				10	m2	No	0.05	m3
+ARK_08.01.01_Empaste y Pintura	08			8	m2	No	0.08	m3
+ARK_06.01.01_Enlucido de Fachada	06			8	m2	No	0.08	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			8	m2	No	0.08	m3
+ARK_08.01.02_Pintura en Fachadas	08			8	m2	No	0.08	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			8	m2	No	0.87	m3
+Steel, 45-345				3	m2	No	0.01	m3
+Steel, 45-345				3	m2	No	0.01	m3
+Steel, 45-345				3	m2	No	0.01	m3
+Steel, 45-345				6	m2	No	0.02	m3
+Steel, 45-345				4	m2	No	0.02	m3
+Steel, 45-345				4	m2	No	0.02	m3
+Steel, 45-345				4	m2	No	0.02	m3
+Steel, 45-345				5	m2	No	0.02	m3
+Steel, 45-345				6	m2	No	0.02	m3
+Steel, 45-345				5	m2	No	0.02	m3
+Steel, 45-345				1	m2	No	0.02	m3
+Steel, 45-345				1	m2	No	0.02	m3
+Steel, 45-345				1	m2	No	0.02	m3
+Steel, 45-345				1	m2	No	0.02	m3
+Steel, 45-345				1	m2	No	0.02	m3
+Steel, 45-345				1	m2	No	0.02	m3
+Steel, 45-345				1	m2	No	0.02	m3
+Steel, 45-345				1	m2	No	0.02	m3
+Steel, 45-345				1	m2	No	0.02	m3
+Steel, 45-345				1	m2	No	0.02	m3
+Steel, 45-345				1	m2	No	0.02	m3
+Steel, 45-345				1	m2	No	0.02	m3
+Steel, 45-345				1	m2	No	0.01	m3
+Steel, 45-345				1	m2	No	0.01	m3
+Steel, 45-345				1	m2	No	0.01	m3
+Steel, 45-345				1	m2	No	0.01	m3
+Steel, 45-345				1	m2	No	0.01	m3
+Steel, 45-345				2	m2	No	0.03	m3
+Steel, 45-345				2	m2	No	0.03	m3
+Steel, 45-345				2	m2	No	0.03	m3
+Steel, 45-345				2	m2	No	0.03	m3
+Steel, 45-345				2	m2	No	0.03	m3
+Steel, 45-345				2	m2	No	0.03	m3
+Steel, 45-345				1	m2	No	0.02	m3
+Madera blanda, madera				1	m2	No	0.01	m3
+Madera blanda, madera				1	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				2	m2	No	0.01	m3
+Madera blanda, madera				1	m2	No	0.01	m3
+Madera blanda, madera				1	m2	No	0	m3
+Madera blanda, madera				1	m2	No	0	m3
+Madera blanda, madera				1	m2	No	0	m3
+Madera blanda, madera				1	m2	No	0	m3
+Madera blanda, madera				1	m2	No	0	m3
+Madera blanda, madera				1	m2	No	0	m3
+Madera blanda, madera				1	m2	No	0	m3
+Madera blanda, madera				1	m2	No	0	m3
+Madera blanda, madera				1	m2	No	0	m3
+Madera blanda, madera				1	m2	No	0	m3
+Madera blanda, madera				1	m2	No	0	m3
+Madera blanda, madera				1	m2	No	0	m3
+Madera blanda, madera				1	m2	No	0	m3
+Madera blanda, madera				1	m2	No	0	m3
+Madera blanda, madera				1	m2	No	0	m3
+Madera blanda, madera				1	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Madera blanda, madera				0	m2	No	0	m3
+Default Glass				64	m2	No	3.2	m3
+Steel, 45-345				1	m2	No	0.01	m3
+Steel, 45-345				1	m2	No	0.02	m3
+Steel, 45-345				1	m2	No	0.02	m3
+Madera blanda, madera				1	m2	No	0.01	m3
+Madera blanda, madera				1	m2	No	0.01	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			3	m2	No	0.32	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			6	m2	No	0.06	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			4	m2	No	0.38	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			8	m2	No	0.08	m3
+Metal - Acero - 345 MPa				7	m2	No	0.03	m3
+Steel, 45-345				0	m2	No	0.01	m3
+Glass				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Steel, 45-345				0	m2	No	0.01	m3
+Steel, 45-345				0	m2	No	0.01	m3
+Steel, 45-345				2	m2	No	0.03	m3
+ARK_08.01.01_Empaste y Pintura	08			5	m2	No	0.02	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			5	m2	No	0.02	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			5	m2	No	0.68	m3
+ARK_08.01.01_Empaste y Pintura	08			1	m2	No	0.01	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			1	m2	No	0.01	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.16	m3
+ARK_03.03.08.b_Hormigón en Losa de Entrepiso F'c=240kg/Cm²	03.03			4	m2	No	0.51	m3
+Concrete, Cast-in-Place gray				19	m2	No	1.65	m3
+Concrete, Cast-in-Place gray				19	m2	No	1.65	m3
+Concrete, Cast-in-Place gray				6	m2	No	0.45	m3
+Concrete, Cast-in-Place gray				6	m2	No	0.45	m3
+ARK_03.03.08.b_Hormigón en Losa de Entrepiso F'c=240kg/Cm²	03.03			42	m2	No	5.06	m3
+ARK_03.03.08.b_Hormigón en Losa de Entrepiso F'c=240kg/Cm²	03.03			178	m2	No	21.36	m3
+ARK_06.01.10_Masillado de Piso a Maquina con Endurecedor	06			31	m2	No	0.31	m3
+ARK_03.02.02_Contrapiso Hormigón Planta Baja F'c=210 Kg/Cm²	03.02			31	m2	No	5.9	m3
+ARK_06.01.01_Enlucido de Fachada	06			11	m2	No	0.05	m3
+ARK_08.01.02_Pintura en Fachadas	08			11	m2	No	0.05	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			11	m2	No	0.96	m3
+ARK_06.01.01_Enlucido de Fachada	06			4	m2	No	0.02	m3
+ARK_08.01.02_Pintura en Fachadas	08			4	m2	No	0.02	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			4	m2	No	0.34	m3
+ARK_06.01.01_Enlucido de Fachada	06			1	m2	No	0	m3
+ARK_08.01.02_Pintura en Fachadas	08			1	m2	No	0	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			1	m2	No	0.08	m3
+ARK_06.01.01_Enlucido de Fachada	06			3	m2	No	0.01	m3
+ARK_08.01.02_Pintura en Fachadas	08			3	m2	No	0.01	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			3	m2	No	0.26	m3
+ARK_06.01.01_Enlucido de Fachada	06			5	m2	No	0.05	m3
+ARK_08.01.02_Pintura en Fachadas	08			5	m2	No	0.05	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			5	m2	No	0.6	m3
+ARK_06.01.01_Enlucido de Fachada	06			6	m2	No	0.03	m3
+ARK_08.01.02_Pintura en Fachadas	08			6	m2	No	0.03	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			6	m2	No	0.5	m3
+ARK_06.01.01_Enlucido de Fachada	06			8	m2	No	0.04	m3
+ARK_08.01.02_Pintura en Fachadas	08			8	m2	No	0.04	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			8	m2	No	0.72	m3
+ARK_06.01.01_Enlucido de Fachada	06			6	m2	No	0.03	m3
+ARK_08.01.02_Pintura en Fachadas	08			6	m2	No	0.03	m3
+ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07			6	m2	No	0.06	m3
+ARK_05.01.10_Bordillo de terrazas	05			6	m2	No	0.75	m3
+ARK_03.03.08.b_Hormigón en Losa de Entrepiso F'c=240kg/Cm²	03.03			8	m2	No	0.94	m3
+ARK_06.01.01_Enlucido de Fachada	06			2	m2	No	0.02	m3
+ARK_08.01.02_Pintura en Fachadas	08			2	m2	No	0.02	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			2	m2	No	0.24	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			2	m2	No	0.02	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			16	m2	No	2.81	m3
+ARK_08.01.01_Empaste y Pintura	08			16	m2	No	0.08	m3
+ARK_06.01.01_Enlucido de Fachada	06			16	m2	No	0.08	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			16	m2	No	0.08	m3
+ARK_08.01.02_Pintura en Fachadas	08			16	m2	No	0.08	m3
+ARK_06.01.01_Enlucido de Fachada	06			2	m2	No	0.01	m3
+ARK_08.01.02_Pintura en Fachadas	08			2	m2	No	0.01	m3
+ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07			2	m2	No	0.02	m3
+ARK_05.01.10_Bordillo de terrazas	05			2	m2	No	0.13	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			14	m2	No	3.2	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			28	m2	No	0.28	m3
+ARK_06.01.01_Enlucido de Fachada	06			9	m2	No	0.09	m3
+ARK_08.01.02_Pintura en Fachadas	08			9	m2	No	0.09	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			9	m2	No	1.1	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			9	m2	No	0.09	m3
+ARK_03.03.08.b_Hormigón en Losa de Entrepiso F'c=240kg/Cm²	03.03			2	m2	No	0.29	m3
+ARK_03.03.08.b_Hormigón en Losa de Entrepiso F'c=240kg/Cm²	03.03			1	m2	No	0.15	m3
+Glass				3	m2	No	0.06	m3
+Glass				3	m2	No	0.06	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Metal - Acero - 345 MPa				7	m2	No	0.03	m3
+Metal - Acero - 345 MPa				7	m2	No	0.03	m3
+Metal - Acero - 345 MPa				7	m2	No	0.03	m3
+Metal - Acero - 345 MPa				6	m2	No	0.03	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			4	m2	No	0.41	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			8	m2	No	0.08	m3
+Default				13	m2	No	0.48	m3
+ARK_08.01.03_Cielo Raso En Gypsum Estucado y Pintado	08			13	m2	No	0.22	m3
+Default				14	m2	No	0.49	m3
+ARK_08.01.03_Cielo Raso En Gypsum Estucado y Pintado	08			14	m2	No	0.22	m3
+Default				24	m2	No	0.86	m3
+ARK_08.01.03_Cielo Raso En Gypsum Estucado y Pintado	08			24	m2	No	0.38	m3
+Default				12	m2	No	0.43	m3
+ARK_08.01.03_Cielo Raso En Gypsum Estucado y Pintado	08			12	m2	No	0.19	m3
+Default				5	m2	No	0.17	m3
+ARK_08.01.04_Cielo Raso en Gypsum para Humedad Estucado y Pintado	08			5	m2	No	0.08	m3
+Default				5	m2	No	0.18	m3
+ARK_08.01.04_Cielo Raso en Gypsum para Humedad Estucado y Pintado	08			5	m2	No	0.08	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			4	m2	No	0.38	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			8	m2	No	0.08	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.09	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			2	m2	No	0.02	m3
+Default				16	m2	No	0.57	m3
+ARK_08.01.04_Cielo Raso en Gypsum para Humedad Estucado y Pintado	08			16	m2	No	0.25	m3
+Default				12	m2	No	0.45	m3
+ARK_08.01.03_Cielo Raso En Gypsum Estucado y Pintado	08			12	m2	No	0.2	m3
+Default				83	m2	No	2.98	m3
+ARK_08.01.03_Cielo Raso En Gypsum Estucado y Pintado	08			83	m2	No	1.33	m3
+Default				0	m2	No	0.01	m3
+ARK_08.01.04_Cielo Raso en Gypsum para Humedad Estucado y Pintado	08			0	m2	No	0.01	m3
+Default				3	m2	No	0.12	m3
+ARK_08.01.04_Cielo Raso en Gypsum para Humedad Estucado y Pintado	08			3	m2	No	0.05	m3
+Default				3	m2	No	0.09	m3
+ARK_08.01.03_Cielo Raso En Gypsum Estucado y Pintado	08			3	m2	No	0.04	m3
+Concrete, Precast Smooth, Light Grey				0	m2	No	0	m3
+Concrete, Precast Smooth, Light Grey				2	m2	No	0.02	m3
+Concrete, Precast Smooth, Light Grey				3	m2	No	0.02	m3
+Concrete, Precast Smooth, Light Grey				3	m2	No	0.02	m3
+Concrete, Precast Smooth, Light Grey				0	m2	No	0	m3
+Concrete, Precast Smooth, Light Grey				1	m2	No	0.01	m3
+Concrete, Precast Smooth, Light Grey				0	m2	No	0	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			98	m2	No	2.94	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			64	m2	No	1.92	m3
+Default				2	m2	No	0.06	m3
+ARK_08.01.04_Cielo Raso en Gypsum para Humedad Estucado y Pintado	08			2	m2	No	0.02	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			4	m2	No	0.11	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			110	m2	No	3.29	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			19	m2	No	0.57	m3
+Concrete, Precast Smooth, Light Grey				2	m2	No	0.01	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.09	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			2	m2	No	0.02	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.1	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			2	m2	No	0.02	m3
+Gypsum Wall Board				1	m2	No	0.01	m3
+Gypsum Wall Board				0	m2	No	0	m3
+Gypsum Wall Board				2	m2	No	0.01	m3
+Gypsum Wall Board				0	m2	No	0	m3
+Gypsum Wall Board				0	m2	No	0	m3
+Gypsum Wall Board				0	m2	No	0	m3
+Gypsum Wall Board				0	m2	No	0	m3
+Gypsum Wall Board				0	m2	No	0	m3
+Gypsum Wall Board				2	m2	No	0	m3
+Gypsum Wall Board				1	m2	No	0	m3
+Gypsum Wall Board				0	m2	No	0	m3
+Gypsum Wall Board				0	m2	No	0	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			6	m2	No	0.71	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			6	m2	No	0.06	m3
+ARK_06.01.01_Enlucido de Fachada	06			6	m2	No	0.06	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			6	m2	No	0.06	m3
+ARK_08.01.02_Pintura en Fachadas	08			6	m2	No	0.06	m3
+Default Glass				8	m2	No	0.4	m3
+Madera - Nogal Natural			70	3	m2	No	0.1	m3
+Porcelana			70	0	m2	No	0	m3
+Metal - Cromo pulido			70	0	m2	No	0	m3
+Metal - Chrome	00			4	m2	No	0.06	m3
+Leather - Black	00			8	m2	No	0.44	m3
+Metal - Chrome	00			2	m2	No	0.03	m3
+Leather - Black	00			4	m2	No	0.23	m3
+Metal - Chrome	00			2	m2	No	0.03	m3
+Leather - Black	00			4	m2	No	0.23	m3
+Cherry				0	m2	No	0	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Laminate, Ivory, Matte				6	m2	No	0.41	m3
+Cherry				3	m2	No	0.05	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Laminate, Ivory, Matte				1	m2	No	0.05	m3
+Birch	00			0	m2	No	0.01	m3
+Steel, Chrome Plated				1	m2	No	0.01	m3
+Glass - Clear, Grey				5	m2	No	0.03	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Textile - Bamboo Weave	00			1	m2	No	0.01	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Textile - Bamboo Weave	00			1	m2	No	0.01	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Textile - Bamboo Weave	00			1	m2	No	0.01	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Textile - Bamboo Weave	00			1	m2	No	0.01	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Textile - Bamboo Weave	00			1	m2	No	0.01	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Textile - Bamboo Weave	00			1	m2	No	0.01	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Textile - Bamboo Weave	00			1	m2	No	0.01	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Textile - Bamboo Weave	00			1	m2	No	0.01	m3
+Steel, Chrome Plated				1	m2	No	0.01	m3
+Glass - Clear, Grey				5	m2	No	0.03	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Textile - Bamboo Weave	00			1	m2	No	0.01	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Textile - Bamboo Weave	00			1	m2	No	0.01	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Textile - Bamboo Weave	00			1	m2	No	0.01	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Textile - Bamboo Weave	00			1	m2	No	0.01	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Textile - Bamboo Weave	00			1	m2	No	0.01	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Textile - Bamboo Weave	00			1	m2	No	0.01	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Textile - Bamboo Weave	00			1	m2	No	0.01	m3
+Steel, Chrome Plated				0	m2	No	0	m3
+Textile - Bamboo Weave	00			1	m2	No	0.01	m3
+ARK_06.01.01_Enlucido de Fachada	06			2	m2	No	0.02	m3
+ARK_08.01.02_Pintura en Fachadas	08			2	m2	No	0.02	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			2	m2	No	0.21	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			2	m2	No	0.25	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			2	m2	No	0.23	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			0	m2	No	0.02	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.22	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			2	m2	No	0.26	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.13	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.22	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.15	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.22	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			2	m2	No	0.25	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			2	m2	No	0.24	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			2	m2	No	0.27	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.22	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			2	m2	No	0.24	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			5	m2	No	0.05	m3
+Default				5	m2	No	0.17	m3
+ARK_08.01.04_Cielo Raso en Gypsum para Humedad Estucado y Pintado	08			5	m2	No	0.08	m3
+ARK_08.01.01_Empaste y Pintura	08			1	m2	No	0.01	m3
+ARK_06.01.01_Enlucido de Fachada	06			1	m2	No	0.01	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			1	m2	No	0.01	m3
+ARK_08.01.02_Pintura en Fachadas	08			1	m2	No	0.01	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.16	m3
+ARK_08.01.01_Empaste y Pintura	08			2	m2	No	0.02	m3
+ARK_06.01.01_Enlucido de Fachada	06			2	m2	No	0.02	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			2	m2	No	0.02	m3
+ARK_08.01.02_Pintura en Fachadas	08			2	m2	No	0.02	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			2	m2	No	0.19	m3
+ARK_08.01.01_Empaste y Pintura	08			1	m2	No	0.01	m3
+ARK_06.01.01_Enlucido de Fachada	06			1	m2	No	0.01	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			1	m2	No	0.01	m3
+ARK_08.01.02_Pintura en Fachadas	08			1	m2	No	0.01	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.07	m3
+Appliance - Stainless Steel				1	m2	No	0.03	m3
+Appliance - Black				1	m2	No	0	m3
+Appliance - Burner Ring				0	m2	No	0	m3
+Metal - Acero, Pulido			79	2	m2	No	0.02	m3
+Gypsum Wall Board				1	m2	No	0.01	m3
+ARK_08.01.01_Empaste y Pintura	08			5	m2	No	0.05	m3
+ARK_06.01.01_Enlucido de Fachada	06			5	m2	No	0.05	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			5	m2	No	0.05	m3
+ARK_08.01.02_Pintura en Fachadas	08			5	m2	No	0.05	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			5	m2	No	0.56	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			3	m2	No	0.35	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			7	m2	No	0.07	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			1	m2	No	0.26	m3
+ARK_08.01.01_Empaste y Pintura	08			1	m2	No	0.01	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			1	m2	No	0.01	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			9	m2	No	1.7	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			9	m2	No	0.09	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			11	m2	No	2.15	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			11	m2	No	0.11	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			2	m2	No	0.29	m3
+ARK_06.01.01_Enlucido de Fachada	06			2	m2	No	0.01	m3
+ARK_08.01.02_Pintura en Fachadas	08			2	m2	No	0.01	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			2	m2	No	0.33	m3
+ARK_06.01.01_Enlucido de Fachada	06			2	m2	No	0.02	m3
+ARK_08.01.02_Pintura en Fachadas	08			2	m2	No	0.02	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			2	m2	No	0.02	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			1	m2	No	0.14	m3
+ARK_06.01.01_Enlucido de Fachada	06			1	m2	No	0.01	m3
+ARK_08.01.02_Pintura en Fachadas	08			1	m2	No	0.01	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			1	m2	No	0.01	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			13	m2	No	2.38	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			13	m2	No	0.13	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			5	m2	No	0.9	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			5	m2	No	0.05	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			6	m2	No	0.64	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			13	m2	No	0.13	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			14	m2	No	0.14	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			14	m2	No	0.14	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			14	m2	No	1.14	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			32	m2	No	0.95	m3
+Default				35	m2	No	1.26	m3
+ARK_08.01.03_Cielo Raso En Gypsum Estucado y Pintado	08			35	m2	No	0.56	m3
+Concrete, Precast Smooth, Light Grey				2	m2	No	0.01	m3
+Concrete, Precast Smooth, Light Grey				3	m2	No	0.03	m3
+Gypsum Wall Board				2	m2	No	0.02	m3
+Gypsum Wall Board				13	m2	No	0.13	m3
+Concrete, Precast Smooth, Light Grey				0	m2	No	0	m3
+Concrete, Precast Smooth, Light Grey				0	m2	No	0	m3
+Concrete, Precast Smooth, Light Grey				0	m2	No	0	m3
+Concrete, Precast Smooth, Light Grey				0	m2	No	0	m3
+Concrete, Precast Smooth, Light Grey				1	m2	No	0.01	m3
+Concrete, Precast Smooth, Light Grey				0	m2	No	0	m3
+Concrete, Precast Smooth, Light Grey				1	m2	No	0	m3
+Concrete, Precast Smooth, Light Grey				1	m2	No	0.01	m3
+Gypsum Wall Board				6	m2	No	0.04	m3
+ARK_06.01.01_Enlucido de Fachada	06			9	m2	No	0.09	m3
+ARK_08.01.02_Pintura en Fachadas	08			9	m2	No	0.09	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			9	m2	No	1.05	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			9	m2	No	0.09	m3
+ARK_06.01.01_Enlucido de Fachada	06			26	m2	No	0.26	m3
+ARK_08.01.02_Pintura en Fachadas	08			26	m2	No	0.26	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			26	m2	No	3.35	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.14	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			3	m2	No	0.03	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			4	m2	No	0.04	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			4	m2	No	0.04	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			4	m2	No	0.5	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			4	m2	No	0.04	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			6	m2	No	0.06	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			6	m2	No	0.06	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			6	m2	No	0.71	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			6	m2	No	0.06	m3
+Birch	00			3	m2	No	0.04	m3
+Linen, White				5	m2	No	0.36	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			9	m2	No	1.32	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			9	m2	No	0.09	m3
+Door - Frame			71	4	m2	No	0.07	m3
+Door - Panel			71	4	m2	No	0.04	m3
+Madera - Nogal Natural			81	2	m2	No	0.09	m3
+Porcelana			81	0	m2	No	0	m3
+Metal - Cromo pulido			81	0	m2	No	0	m3
+Door - Frame			72	4	m2	No	0.08	m3
+Door - Panel			72	4	m2	No	0.04	m3
+219709 Floor-mounted-toilet-for-combination - white-tulip-floor-mounted-toilet-for-combination-219709 - White Alpin			82	2	m2	No	0.03	m3
+Glass				2	m2	No	0.04	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Glass				2	m2	No	0.04	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				1	m2	No	0.01	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			24	m2	No	4.13	m3
+ARK_06.01.01_Enlucido de Fachada	06			24	m2	No	0.24	m3
+ARK_08.01.02_Pintura en Fachadas	08			24	m2	No	0.24	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			24	m2	No	0.24	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			3	m2	No	0.33	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			7	m2	No	0.07	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			9	m2	No	0.86	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			17	m2	No	0.17	m3
+Door - Frame			73	4	m2	No	0.07	m3
+Door - Panel			73	4	m2	No	0.04	m3
+Appliance - Stainless Steel				5	m2	No	0.55	m3
+Appliance - Controls				0	m2	No	0	m3
+Appliance - Panel				0	m2	No	0	m3
+Appliance - Stainless Steel				5	m2	No	0.55	m3
+Appliance - Controls				0	m2	No	0	m3
+Appliance - Panel				0	m2	No	0	m3
+Door - Frame			74	4	m2	No	0.07	m3
+Door - Panel			74	4	m2	No	0.04	m3
+Metal - Acero - 345 MPa				6	m2	No	0.03	m3
+Metal - Acero - 345 MPa				6	m2	No	0.03	m3
+Glass				2	m2	No	0.05	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			5	m2	No	0.52	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			5	m2	No	0.05	m3
+ARK_06.01.01_Enlucido de Fachada	06			5	m2	No	0.05	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			5	m2	No	0.05	m3
+ARK_08.01.02_Pintura en Fachadas	08			5	m2	No	0.05	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			16	m2	No	1.77	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			16	m2	No	0.16	m3
+ARK_06.01.01_Enlucido de Fachada	06			16	m2	No	0.16	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			16	m2	No	0.16	m3
+ARK_08.01.02_Pintura en Fachadas	08			16	m2	No	0.16	m3
+Laminate, Ivory, Matte				1	m2	No	0.02	m3
+Birch	00			0	m2	No	0.01	m3
+Laminate, Ivory, Matte				1	m2	No	0.02	m3
+Birch	00			0	m2	No	0.01	m3
+ARK_06.01.01_Enlucido de Fachada	06			11	m2	No	0.11	m3
+ARK_08.01.02_Pintura en Fachadas	08			11	m2	No	0.11	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			11	m2	No	1.48	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			12	m2	No	2.31	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			12	m2	No	0.12	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			8	m2	No	1.36	m3
+ARK_08.01.01_Empaste y Pintura	08			8	m2	No	0.04	m3
+ARK_06.01.01_Enlucido de Fachada	06			8	m2	No	0.04	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			8	m2	No	0.04	m3
+ARK_08.01.02_Pintura en Fachadas	08			8	m2	No	0.04	m3
+ARK_08.01.01_Empaste y Pintura	08			7	m2	No	0.04	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			7	m2	No	0.04	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			7	m2	No	0.53	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			5	m2	No	1.2	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			10	m2	No	0.1	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			6	m2	No	0.06	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			6	m2	No	0.06	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			6	m2	No	0.76	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			6	m2	No	0.06	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			5	m2	No	0.05	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			5	m2	No	0.05	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			5	m2	No	0.44	m3
+ARK_06.01.01_Enlucido de Fachada	06			12	m2	No	0.12	m3
+ARK_08.01.02_Pintura en Fachadas	08			12	m2	No	0.12	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			12	m2	No	1.6	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			7	m2	No	1.55	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			13	m2	No	0.13	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			2	m2	No	0.15	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			1	m2	No	0.14	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.2	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.2	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			2	m2	No	0.23	m3
+Default				3	m2	No	0.12	m3
+ARK_08.01.04_Cielo Raso en Gypsum para Humedad Estucado y Pintado	08			3	m2	No	0.05	m3
+Default				6	m2	No	0.21	m3
+ARK_08.01.04_Cielo Raso en Gypsum para Humedad Estucado y Pintado	08			6	m2	No	0.09	m3
+Default				13	m2	No	0.46	m3
+ARK_08.01.03_Cielo Raso En Gypsum Estucado y Pintado	08			13	m2	No	0.21	m3
+Default				4	m2	No	0.15	m3
+ARK_08.01.03_Cielo Raso En Gypsum Estucado y Pintado	08			4	m2	No	0.07	m3
+Porcelana - Marfil			107	6	m2	No	0.05	m3
+Madera - Nogal Natural			110	2	m2	No	0.07	m3
+Porcelana			110	0	m2	No	0	m3
+Metal - Cromo pulido			110	0	m2	No	0	m3
+Madera - Nogal Natural			111	2	m2	No	0.07	m3
+Porcelana			111	0	m2	No	0	m3
+Metal - Cromo pulido			111	0	m2	No	0	m3
+Glass				4	m2	No	0.11	m3
+Glass				3	m2	No	0.07	m3
+Glass				3	m2	No	0.07	m3
+Glass				6	m2	No	0.15	m3
+Glass				3	m2	No	0.07	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			5	m2	No	0.53	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			5	m2	No	0.05	m3
+ARK_06.01.01_Enlucido de Fachada	06			5	m2	No	0.05	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			5	m2	No	0.05	m3
+ARK_08.01.02_Pintura en Fachadas	08			5	m2	No	0.05	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			1	m2	No	0.15	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			1	m2	No	0.01	m3
+ARK_06.01.01_Enlucido de Fachada	06			1	m2	No	0.01	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			1	m2	No	0.01	m3
+ARK_08.01.02_Pintura en Fachadas	08			1	m2	No	0.01	m3
+Glass				2	m2	No	0.05	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+ARK_03.03.08.b_Hormigón en Losa de Entrepiso F'c=240kg/Cm²	03.03			24	m2	No	2.62	m3
+ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07			24	m2	No	0.24	m3
+Glass				1	m2	No	0.02	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+ARK_06.01.01_Enlucido de Fachada	06			1	m2	No	0	m3
+ARK_08.01.02_Pintura en Fachadas	08			1	m2	No	0	m3
+ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07			1	m2	No	0.01	m3
+ARK_05.01.10_Bordillo de terrazas	05			1	m2	No	0.05	m3
+ARK_06.01.01_Enlucido de Fachada	06			0	m2	No	0	m3
+ARK_08.01.02_Pintura en Fachadas	08			0	m2	No	0	m3
+ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07			0	m2	No	0	m3
+ARK_05.01.10_Bordillo de terrazas	05			0	m2	No	0.03	m3
+Gypsum Wall Board				6	m2	No	0.06	m3
+ARK_06.01.01_Enlucido de Fachada	06			0	m2	No	0	m3
+ARK_08.01.02_Pintura en Fachadas	08			0	m2	No	0	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			0	m2	No	0.02	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			18	m2	No	2.35	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			18	m2	No	0.17	m3
+ARK_06.01.01_Enlucido de Fachada	06			1	m2	No	0.01	m3
+ARK_08.01.02_Pintura en Fachadas	08			1	m2	No	0.01	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			1	m2	No	0.11	m3
+ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08			1	m2	No	0.01	m3
+ARK_05.01.01_Mampostería de Bloque E=20 cm	05			0	m2	No	0	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			0	m2	No	0	m3
+ARK_06.01.01_Enlucido de Fachada	06			0	m2	No	0	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			0	m2	No	0	m3
+ARK_08.01.02_Pintura en Fachadas	08			0	m2	No	0	m3
+Glass				3	m2	No	0.07	m3
+Glass				3	m2	No	0.07	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Aluminio Negro				1	m2	No	0.01	m3
+Concrete, Precast Smooth, Light Grey				5	m2	No	0.04	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			4	m2	No	0.38	m3
+ARK_06.01.01_Enlucido de Fachada	06			2	m2	No	0.02	m3
+ARK_08.01.02_Pintura en Fachadas	08			2	m2	No	0.02	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			2	m2	No	0.22	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			4	m2	No	0.59	m3
+ARK_05.01.02_Mampostería de Bloque E=15 cm	05			3	m2	No	0.38	m3
+Default				16	m2	No	0.58	m3
+ARK_08.01.04_Cielo Raso en Gypsum para Humedad Estucado y Pintado	08			16	m2	No	0.26	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			27	m2	No	0.8	m3
+Concrete, Precast Smooth, Light Grey				4	m2	No	0.03	m3
+Concrete, Precast Smooth, Light Grey				3	m2	No	0.03	m3
+Concrete, Precast Smooth, Light Grey				4	m2	No	0.03	m3
+Concrete, Precast Smooth, Light Grey				1	m2	No	0.01	m3
+Concrete, Precast Smooth, Light Grey				3	m2	No	0.03	m3
+Concrete, Precast Smooth, Light Grey				1	m2	No	0	m3
+Gypsum Wall Board				0	m2	No	0	m3
+Gypsum Wall Board				0	m2	No	0	m3
+Gypsum Wall Board				1	m2	No	0	m3
+Gypsum Wall Board				0	m2	No	0	m3
+ARK_06.01.01_Enlucido de Fachada	06			1	m2	No	0	m3
+ARK_08.01.02_Pintura en Fachadas	08			1	m2	No	0	m3
+ARK_05.01.03_Mampostería de Bloque E=10 cm	05			1	m2	No	0.08	m3
+219709 Floor-mounted-toilet-for-combination - white-tulip-floor-mounted-toilet-for-combination-219709 - White Alpin			115	2	m2	No	0.03	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Default				0	m2	No	0.01	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Aluminio Negro				0	m2	No	0	m3
+Metal - Acero - 345 MPa				6	m2	No	0.03	m3
+Metal - Acero - 345 MPa				1	m2	No	0.01	m3
+Metal - Acero - 345 MPa				1	m2	No	0.01	m3
+ARK_08.01.12_ Baldosa de Porcelanato	08			3	m2	No	0.05	m3
+ARK_06.01.05_Enlucido Vertical Interior	06			3	m2	No	0.03	m3
+
+05.01.06	Dinteles De Hormigón F'c = 180 Kg/Cm2
+Family	Type	Model	Mark	Level	Length
+M_W Shapes	15 x 30				2.71
+M_W Shapes	15 x 30				2.56
+M_W Shapes	15 x 30				2.31
+M_W Shapes	15 x 30				5.30
+M_W Shapes	15 x 30				3.65
+M_W Shapes	15 x 30				3.43
+M_W Shapes	15 x 30				3.50
+M_W Shapes	15 x 30				4.38
+M_W Shapes	15 x 30				4.93
+M_W Shapes	15 x 30				4.44
+M_Square Bars	5 x 10				3.15
+M_Square Bars	5 x 10				3.14
+M_Square Bars	5 x 10				3.12
+M_Square Bars	5 x 10				3.10
+M_Square Bars	5 x 10				3.08
+M_Square Bars	5 x 10				3.16
+M_Square Bars	5 x 10				3.15
+M_Square Bars	5 x 10				3.15
+M_Square Bars	5 x 10				3.13
+M_Square Bars	5 x 10				3.11
+M_Square Bars	5 x 10				3.06
+M_Square Bars	5 x 10				3.03
+M_Square Bars	5 x 10				3.00
+M_Square Bars	5 x 10				2.96
+M_Square Bars	5 x 10				2.91
+M_Square Bars	5 x 10				2.87
+M_Square Bars	5 x 10				2.81
+M_Square Bars	5 x 10				6.47
+M_Square Bars	5 x 10				6.40
+M_Square Bars	5 x 10				6.33
+M_Square Bars	5 x 10				6.25
+M_Square Bars	5 x 10				6.17
+M_Square Bars	5 x 10				6.08
+M_Square Bars	5 x 10				3.69
+M_Madera	4 x 2cm				11.25
+M_Madera	4 x 2cm				12.42
+M_Madera	4 x 2cm				13.62
+M_Madera	4 x 2cm				14.23
+M_Madera	4 x 2cm				14.83
+M_Madera	4 x 2cm				15.43
+M_Madera	4 x 2cm				16.03
+M_Madera	4 x 2cm				16.63
+M_Madera	4 x 2cm				16.93
+M_Madera	4 x 2cm				16.86
+M_Madera	4 x 2cm				16.83
+M_Madera	4 x 2cm				16.81
+M_Madera	4 x 2cm				16.79
+M_Madera	4 x 2cm				16.76
+M_Madera	4 x 2cm				16.74
+M_Madera	4 x 2cm				16.72
+M_Madera	4 x 2cm				16.69
+M_Madera	4 x 2cm				16.67
+M_Madera	4 x 2cm				16.65
+M_Madera	4 x 2cm				16.62
+M_Madera	4 x 2cm				16.60
+M_Madera	4 x 2cm				16.58
+M_Madera	4 x 2cm				16.56
+M_Madera	4 x 2cm				16.53
+M_Madera	4 x 2cm				16.51
+M_Madera	4 x 2cm				16.49
+M_Madera	4 x 2cm				16.46
+M_Madera	4 x 2cm				16.44
+M_Madera	4 x 2cm				10.68
+M_Madera	4 x 2cm				4.50
+M_Madera	4 x 2cm				4.48
+M_Madera	4 x 2cm				4.45
+M_Madera	4 x 2cm				4.43
+M_Madera	4 x 2cm				4.41
+M_Madera	4 x 2cm				4.38
+M_Madera	4 x 2cm				4.36
+M_Madera	4 x 2cm				4.34
+M_Madera	4 x 2cm				4.32
+M_Madera	4 x 2cm				4.29
+M_Madera	4 x 2cm				4.27
+M_Madera	4 x 2cm				4.25
+M_Madera	4 x 2cm				4.22
+M_Madera	4 x 2cm				4.20
+M_Madera	4 x 2cm				4.18
+M_Madera	4 x 2cm				4.15
+M_Madera	4 x 2cm				4.13
+M_Madera	4 x 2cm				4.11
+M_Madera	4 x 2cm				4.08
+M_Madera	4 x 2cm				4.06
+M_Madera	4 x 2cm				4.06
+M_Madera	4 x 2cm				4.04
+M_Madera	4 x 2cm				4.01
+M_Madera	4 x 2cm				3.99
+M_Madera	4 x 2cm				3.97
+M_Madera	4 x 2cm				3.94
+M_Madera	4 x 2cm				3.92
+M_Madera	4 x 2cm				3.90
+M_Madera	4 x 2cm				3.87
+M_Madera	4 x 2cm				3.85
+M_Madera	4 x 2cm				3.83
+M_Madera	4 x 2cm				3.81
+M_Madera	4 x 2cm				3.78
+M_Madera	4 x 2cm				3.76
+M_Madera	4 x 2cm				3.74
+M_Madera	4 x 2cm				3.71
+M_Madera	4 x 2cm				3.69
+M_Madera	4 x 2cm				3.67
+M_Square Bars	5 x 10				2.76
+M_Square Bars	5 x 10				3.09
+M_Square Bars	5 x 10				3.16
+M_Madera	4 x 2cm				8.96
+M_Madera	4 x 2cm				7.82
+M_Square Bars	5 x 10				1.53
+M_Square Bars	5 x 10				1.54
+M_Square Bars	5 x 10				1.54
+M_Square Bars	5 x 10				5.50
+
+05.01.08	Alfeizar En Ventana
+Family and Type	Model	Mark	Length
+Barrido de muro: ARK_05.01.08 Alfeizer en Ventana	05.01.08		4.97
+Barrido de muro: ARK_05.01.08 Alfeizer en Ventana	05.01.08		0.00
+Barrido de muro: ARK_05.01.08 Alfeizer en Ventana	05.01.08		5.70
+Barrido de muro: ARK_05.01.08 Alfeizer en Ventana	05.01.08		3.07
+Barrido de muro: ARK_05.01.08 Alfeizer en Ventana	05.01.08		19.30
+Barrido de muro: ARK_05.01.08 Alfeizer en Ventana	05.01.08		1.00
+Barrido de muro: ARK_05.01.08 Alfeizer en Ventana	05.01.08		2.10
+Grand total: 7			36.15
+
+05.01.09	Alfeizar en Antepecho
+Family and Type	Model	Mark	Length
+Barrido de muro: ARK_05.01.09 Alfeizer en Antepecho 150 mm	05.01.09		2.76
+Barrido de muro: ARK_05.01.09 BORDILLO DE TERRAZA	05.01.09		22.41
+Barrido de muro: ARK_05.01.09 BORDILLO DE TERRAZA	05.01.09		10.08
+Grand total: 3			35.25
+
+05.01.10	Bordillo de Terrazas
+Familia y tipo	Name	Model	Mark	Area	Unidad	As Paint	Volume	Unidad	Nivel
+Muro básico: ARK_EX_100mm_Bordillo de terrazas									
+Muro básico: ARK_EX_100mm_Bordillo de terrazas	ARK_05.01.10_Bordillo de terrazas	05		4	m2	No	0.29	m3	
+Muro básico: ARK_EX_100mm_Bordillo de terrazas	ARK_05.01.10_Bordillo de terrazas	05		2	m2	No	0.12	m3	
+Muro básico: ARK_EX_100mm_Bordillo de terrazas	ARK_05.01.10_Bordillo de terrazas	05		2	m2	No	0.13	m3	
+Muro básico: ARK_EX_100mm_Bordillo de terrazas	ARK_05.01.10_Bordillo de terrazas	05		1	m2	No	0.05	m3	
+Muro básico: ARK_EX_100mm_Bordillo de terrazas	ARK_05.01.10_Bordillo de terrazas	05		0	m2	No	0.03	m3	
+Muro básico: ARK_EX_100mm_Bordillo de terrazas: 5				8	m2				
+Muro básico: ARK_EX_150mm_Bordillo de terrazas 2									
+Muro básico: ARK_EX_150mm_Bordillo de terrazas 2	ARK_05.01.10_Bordillo de terrazas	05		6	m2	No	0.75	m3	
+Muro básico: ARK_EX_150mm_Bordillo de terrazas 2: 1				6	m2				
+Grand total: 6				14	m2				
+
+05.01.11	Nicho Para Baños
+Family and Type	Model	Level	Height	Width
+
+05.01.12	Ducha Rehundida
+Family and Type	Model	Level	Length	Area
+M_Shower Stall-2D: 1.0 x 1.2		SUBSUELO		
+M_Shower Stall-2D: 1.0 x 1.2		SUBSUELO		
+Sanitary_Toilets_DURAVIT_219709-Floor-mounted-toilet-for-combinat: INODORO MODERNO		PLANTA BAJA		
+Lavabo moderno - Estante (2): mueble 0.6		PLANTA BAJA		
+Sanitary_Toilets_DURAVIT_219709-Floor-mounted-toilet-for-combinat: INODORO MODERNO		SUBSUELO		
+Lavabo moderno - Estante (2): mueble 0.9		SUBSUELO		
+M_Shower Stall-2D: 1.0 x 1.2		SUBSUELO		
+Sanitary_Toilets_DURAVIT_219709-Floor-mounted-toilet-for-combinat: INODORO MODERNO		SUBSUELO		
+Sanitary_Toilets_DURAVIT_219709-Floor-mounted-toilet-for-combinat: INODORO MODERNO		SUBSUELO		
+Lavabo moderno - Estante (2): mueble 0.9		SUBSUELO		
+Lavabo moderno - Estante (2): mueble 0.9		SUBSUELO		
+M_Sink-Single-2D: 45X40		PLANTA BAJA		
+Fregadero de cocina-Doble-3D: 1000 x 535mm		PLANTA BAJA		
+Lavabo moderno - Estante (2): mueble 0.8		SUBSUELO		
+Sanitary_Toilets_DURAVIT_219709-Floor-mounted-toilet-for-combinat: INODORO MODERNO		SUBSUELO		
+M_Shower Stall-2D: ducha servicio 1 x1		SUBSUELO		
+M_Shower Stall-2D: DUCHA MASTER 1.40 x 1.25		SUBSUELO		
+Bañera-De pie-3D: 760 x 1525mm		SUBSUELO		
+Lavabo moderno - Estante (2): mueble 0.6		SUBSUELO		
+Lavabo moderno - Estante (2): mueble 0.6		SUBSUELO		
+Sanitary_Toilets_DURAVIT_219709-Floor-mounted-toilet-for-combinat: INODORO MODERNO		SUBSUELO		
+
+05.01.13	Canal Rehundida en ducha
+Family and Type	Model	Level	Length
+M_Shower Stall-2D: 1.0 x 1.2		SUBSUELO	
+M_Shower Stall-2D: 1.0 x 1.2		SUBSUELO	
+Sanitary_Toilets_DURAVIT_219709-Floor-mounted-toilet-for-combinat: INODORO MODERNO		PLANTA BAJA	
+Lavabo moderno - Estante (2): mueble 0.6		PLANTA BAJA	
+Sanitary_Toilets_DURAVIT_219709-Floor-mounted-toilet-for-combinat: INODORO MODERNO		SUBSUELO	
+Lavabo moderno - Estante (2): mueble 0.9		SUBSUELO	
+M_Shower Stall-2D: 1.0 x 1.2		SUBSUELO	
+Sanitary_Toilets_DURAVIT_219709-Floor-mounted-toilet-for-combinat: INODORO MODERNO		SUBSUELO	
+Sanitary_Toilets_DURAVIT_219709-Floor-mounted-toilet-for-combinat: INODORO MODERNO		SUBSUELO	
+Lavabo moderno - Estante (2): mueble 0.9		SUBSUELO	
+Lavabo moderno - Estante (2): mueble 0.9		SUBSUELO	
+M_Sink-Single-2D: 45X40		PLANTA BAJA	
+Fregadero de cocina-Doble-3D: 1000 x 535mm		PLANTA BAJA	
+Lavabo moderno - Estante (2): mueble 0.8		SUBSUELO	
+Sanitary_Toilets_DURAVIT_219709-Floor-mounted-toilet-for-combinat: INODORO MODERNO		SUBSUELO	
+M_Shower Stall-2D: ducha servicio 1 x1		SUBSUELO	
+M_Shower Stall-2D: DUCHA MASTER 1.40 x 1.25		SUBSUELO	
+Bañera-De pie-3D: 760 x 1525mm		SUBSUELO	
+Lavabo moderno - Estante (2): mueble 0.6		SUBSUELO	
+Lavabo moderno - Estante (2): mueble 0.6		SUBSUELO	
+Sanitary_Toilets_DURAVIT_219709-Floor-mounted-toilet-for-combinat: INODORO MODERNO		SUBSUELO	
+
+06.01.01	Enlucido de Fachada
+Family and Type	Name	Model	Mark	As Paint	Volume	Unidad	Area	Unidad
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.18	m3	18	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.11	m3	11	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.06	m3	6	m2
+Muro básico: ARK_FC_200mm_E_PF_EF_I_GYP BLOQUE EMPLANCHADO	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.05	m3	5	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.14	m3	14	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.1	m3	10	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.04	m3	4	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.14	m3	14	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.07	m3	7	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.03	m3	3	m2
+Muro básico: ARK_FC_200mm_E_PF_EF_I_GYP BLOQUE EMPLANCHADO	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.1	m3	10	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.05	m3	5	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.02	m3	2	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.02	m3	2	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.15	m3	15	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.07	m3	7	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.16	m3	16	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.13	m3	13	m2
+Muro básico: ARK_EX_100mm_ ANTEPECHO DE TERRAZA	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.02	m3	5	m2
+Muro básico: ARK_EX_100mm_ ANTEPECHO DE TERRAZA	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.06	m3	11	m2
+Muro básico: ARK_EX_100mm_ ANTEPECHO DE TERRAZA	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.06	m3	11	m2
+Muro básico: ARK_EX_100mm_ ANTEPECHO DE TERRAZA	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.02	m3	5	m2
+Muro básico: ARK_EX_100mm_ ANTEPECHO DE TERRAZA	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.03	m3	7	m2
+Muro básico: ARK_EX_100mm_ ANTEPECHO DE TERRAZA	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.01	m3	1	m2
+Muro básico: ARK_EX_100mm_ ANTEPECHO DE TERRAZA	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.01	m3	2	m2
+Muro básico: ARK_EX_100mm_ ANTEPECHO DE TERRAZA	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.03	m3	6	m2
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.03	m3	6	m2
+Muro básico: ARK_EX_100mm_Bordillo de terrazas	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.02	m3	4	m2
+Muro básico: ARK_EX_100mm_Bordillo de terrazas	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.01	m3	2	m2
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.01	m3	3	m2
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.01	m3	2	m2
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.01	m3	2	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_EP	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.02	m3	2	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_EP	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.08	m3	8	m2
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.05	m3	11	m2
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.02	m3	4	m2
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0	m3	1	m2
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.01	m3	3	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.05	m3	5	m2
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.03	m3	6	m2
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.04	m3	8	m2
+Muro básico: ARK_EX_150mm_Bordillo de terrazas 2	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.03	m3	6	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.02	m3	2	m2
+Muro básico: ARK_FC_200mm_E_PF_EF_I_EV_EP	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.08	m3	16	m2
+Muro básico: ARK_EX_100mm_Bordillo de terrazas	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.01	m3	2	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.09	m3	9	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.06	m3	6	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.02	m3	2	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_EP	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.01	m3	1	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_EP	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.02	m3	2	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_EP	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.01	m3	1	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_EP	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.05	m3	5	m2
+Muro básico: ARK_FC_200mm_E_PF_EF_I_N/A	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.01	m3	2	m2
+Muro básico: ARK_FC_200mm_E_PF_EF_I_GYP BLOQUE EMPLANCHADO	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.02	m3	2	m2
+Muro básico: ARK_FC_200mm_E_PF_EF_I_GYP BLOQUE EMPLANCHADO	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.01	m3	1	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.09	m3	9	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.26	m3	26	m2
+Muro básico: ARK_FC_200mm_E_PF_EF_I_GYP BLOQUE EMPLANCHADO	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.24	m3	24	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.05	m3	5	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.16	m3	16	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.11	m3	11	m2
+Muro básico: ARK_FC_200mm_E_PF_EF_I_EV_EP	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.04	m3	8	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.12	m3	12	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.05	m3	5	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.01	m3	1	m2
+Muro básico: ARK_EX_100mm_Bordillo de terrazas	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0	m3	1	m2
+Muro básico: ARK_EX_100mm_Bordillo de terrazas	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0	m3	0	m2
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0	m3	0	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.01	m3	1	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0	m3	0	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0.02	m3	2	m2
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_06.01.01_Enlucido de Fachada	06	06.01.01	No	0	m3	1	m2
+Grand total: 72							449	m2
+
+06.01.02	Enlucido de Fachada con textura
+Family and Type	Material: Name	Material: Model	Material: Mark	Material: As Paint	Material: Volume	Material: Area
+
+06.01.03	Fajas Exteriores
+Family and Type	Model	Level	Height	Width
+
+06.01.04	Enlucido de Filo Exteriores
+Family and Type	Base Level	Model	Length
+
+06.01.05	Enlucido Vertical Interior
+Family and Type	Name	Model	Mark	As Paint	Volume	Unidad	Area	Unidad
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.08	m3	8	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.04	m3	4	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.04	m3	4	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.04	m3	4	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.06	m3	6	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.05	m3	5	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.08	m3	8	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.08	m3	8	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.06	m3	6	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.07	m3	7	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_EP	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.02	m3	2	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.08	m3	8	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.05	m3	5	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.01	m3	1	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_EP	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.08	m3	8	m2
+Muro básico: ARK_IN_150mm_E_EP_EV_I_N/A	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.02	m3	5	m2
+Muro básico: ARK_IN_150mm_E_EP_EV_I_N/A	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.01	m3	1	m2
+Muro básico: ARK_FC_200mm_E_PF_EF_I_EV_EP	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.08	m3	16	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.06	m3	6	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_EP	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.01	m3	1	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_EP	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.02	m3	2	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_EP	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.01	m3	1	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_EP	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.05	m3	5	m2
+Muro básico: ARK_IN_200mm_E_EP_EV_I_N/A	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.01	m3	1	m2
+Muro básico: ARK_IN_100mm_E_BP_EV_I_NA	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.14	m3	14	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.04	m3	4	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.06	m3	6	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.05	m3	5	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.16	m3	16	m2
+Muro básico: ARK_FC_200mm_E_PF_EF_I_EV_EP	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.04	m3	8	m2
+Muro básico: ARK_IN_100mm_E_EP_EV_I_N/A	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.04	m3	7	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.06	m3	6	m2
+Muro básico: ARK_IN_100mm_E_BP_EV_I_NA	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.05	m3	5	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.05	m3	5	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.01	m3	1	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0	m3	0	m2
+Muro básico: ARK_IN_30mm_E_BP_EV_I_N/A LAVANDERIA	ARK_06.01.05_Enlucido Vertical Interior	06	06.01.05	No	0.03	m3	3	m2
+Grand total: 37							203	m2
+
+06.01.06	Fajas Interiores
+Family and Type	Model	Level	Height	Width
+
+06.01.07	Enlucido de Filos Interiores
+Family and Type	Base Level	Model	Length
+
+06.01.08	Enlucido De Medias Cañas Rectangulares Fachada
+Family and Type	Model	Mark	Length
+
+06.01.10	Masillado De Piso A Máquina Con Endurecedor
+Family and Type	Name	Model	Mark	As Paint	Volume	Unidad	Area	Unidad
+Suelo: ARK_EX_200mm_E_CONTRAPISO	ARK_06.01.10_Masillado de Piso a Maquina con Endurecedor	06	06.01.10	No	2.14	m3	214	m2
+Suelo: ARK_EX_200mm_E_CONTRAPISO	ARK_06.01.10_Masillado de Piso a Maquina con Endurecedor	06	06.01.10	No	0.31	m3	31	m2
+
+06.01.11	Masillado de escaleras
+Family and Type	Material: Name	Material: Model	Material: Mark	Material: As Paint	Material: Volume	Material: Area
+
+06.01.13	Goterones - Medias Cañas
+Family and Type	Model	Mark	Length
+Barrido de muro: ARK_06.01.13 Goterones	06.01.13		3.30
+Barrido de muro: ARK_06.01.13 Goterones	06.01.13		3.07
+Barrido de muro: ARK_06.01.13 Goterones	06.01.13		4.97
+Barrido de muro: ARK_06.01.13 Goterones	06.01.13		1.18
+Barrido de muro: ARK_06.01.13 Goterones	06.01.13		3.47
+Barrido de muro: ARK_06.01.13 Goterones	06.01.13		22.67
+Barrido de muro: ARK_06.01.13 Goterones	06.01.13		10.12
+Barrido de muro: ARK_06.01.13 Goterones	06.01.13		1.08
+Barrido de muro: ARK_06.01.13 Goterones	06.01.13		0.00
+Barrido de muro: ARK_06.01.13 Goterones	06.01.13		1.00
+Barrido de muro: ARK_06.01.13 Goterones	06.01.13		2.10
+Grand total: 11			52.96
+
+07.01.01	Impermeabilización De Cubiertas
+Family and Type	Material: Name	Material: Model	Material: Mark	Material: As Paint	Material: Volume	Material: Area
+
+07.01.02	Impermeabilización De Cubiertas Planas
+Family and Type	Name	Model	Mark	As Paint	Volume	Unidad	Area	Unidad
+Suelo: ARK_EX_120mm_E_ENTREPISO CUBIERTA	ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07	07.01.02	No	1.14	m3	114	m2
+Muro básico: ARK_EX_100mm_ ANTEPECHO DE TERRAZA	ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07	07.01.02	No	0.05	m3	5	m2
+Muro básico: ARK_EX_100mm_ ANTEPECHO DE TERRAZA	ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07	07.01.02	No	0.11	m3	11	m2
+Muro básico: ARK_EX_100mm_ ANTEPECHO DE TERRAZA	ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07	07.01.02	No	0.11	m3	11	m2
+Muro básico: ARK_EX_100mm_ ANTEPECHO DE TERRAZA	ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07	07.01.02	No	0.05	m3	5	m2
+Muro básico: ARK_EX_100mm_ ANTEPECHO DE TERRAZA	ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07	07.01.02	No	0.07	m3	7	m2
+Muro básico: ARK_EX_100mm_ ANTEPECHO DE TERRAZA	ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07	07.01.02	No	0.01	m3	1	m2
+Muro básico: ARK_EX_100mm_ ANTEPECHO DE TERRAZA	ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07	07.01.02	No	0.02	m3	2	m2
+Muro básico: ARK_EX_100mm_ ANTEPECHO DE TERRAZA	ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07	07.01.02	No	0.06	m3	6	m2
+Muro básico: ARK_EX_100mm_Bordillo de terrazas	ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07	07.01.02	No	0.04	m3	4	m2
+Muro básico: ARK_EX_100mm_Bordillo de terrazas	ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07	07.01.02	No	0.02	m3	2	m2
+Muro básico: ARK_EX_150mm_Bordillo de terrazas 2	ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07	07.01.02	No	0.06	m3	6	m2
+Muro básico: ARK_EX_100mm_Bordillo de terrazas	ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07	07.01.02	No	0.02	m3	2	m2
+Suelo: ARK_EX_120mm_E_ENTREPISO CUBIERTA	ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07	07.01.02	No	0.24	m3	24	m2
+Muro básico: ARK_EX_100mm_Bordillo de terrazas	ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07	07.01.02	No	0.01	m3	1	m2
+Muro básico: ARK_EX_100mm_Bordillo de terrazas	ARK_07.01.02_Impermeabilizacion de Cubiertas Planas	07	07.01.02	No	0	m3	0	m2
+Grand total: 16							199	m2
+
+07.01.03	Impermeabilización Jardineras
+Family and Type	Material: Name	Material: Model	Material: Mark	Material: As Paint	Material: Volume	Material: Area
+
+07.01.04	Impermeabilización Cisterna
+Family and Type	Material: Name	Material: Model	Material: Mark	Material: As Paint	Material: Volume	Material: Area
+
+07.01.05	Impermeabilización Muro
+Family and Type	Material: Name	Material: Model	Material: Mark	Material: As Paint	Material: Volume	Material: Area
+
+08.01.01	Empaste y Pintura Vertical Interior Blanca
+Family and Type	Name	Model	Mark	As Paint	Volume	Unidad	Area	Unidad
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_EP	ARK_08.01.01_Empaste y Pintura	08	08.01.01	No	0.02	m3	2	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_EP	ARK_08.01.01_Empaste y Pintura	08	08.01.01	No	0.08	m3	8	m2
+Muro básico: ARK_IN_150mm_E_EP_EV_I_N/A	ARK_08.01.01_Empaste y Pintura	08	08.01.01	No	0.02	m3	5	m2
+Muro básico: ARK_IN_150mm_E_EP_EV_I_N/A	ARK_08.01.01_Empaste y Pintura	08	08.01.01	No	0.01	m3	1	m2
+Muro básico: ARK_FC_200mm_E_PF_EF_I_EV_EP	ARK_08.01.01_Empaste y Pintura	08	08.01.01	No	0.08	m3	16	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_EP	ARK_08.01.01_Empaste y Pintura	08	08.01.01	No	0.01	m3	1	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_EP	ARK_08.01.01_Empaste y Pintura	08	08.01.01	No	0.02	m3	2	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_EP	ARK_08.01.01_Empaste y Pintura	08	08.01.01	No	0.01	m3	1	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_EP	ARK_08.01.01_Empaste y Pintura	08	08.01.01	No	0.05	m3	5	m2
+Muro básico: ARK_IN_200mm_E_EP_EV_I_N/A	ARK_08.01.01_Empaste y Pintura	08	08.01.01	No	0.01	m3	1	m2
+Muro básico: ARK_FC_200mm_E_PF_EF_I_EV_EP	ARK_08.01.01_Empaste y Pintura	08	08.01.01	No	0.04	m3	8	m2
+Muro básico: ARK_IN_100mm_E_EP_EV_I_N/A	ARK_08.01.01_Empaste y Pintura	08	08.01.01	No	0.04	m3	7	m2
+Grand total: 12							56	m2
+
+08.01.02	Pintura en Fachadas
+Family and Type	Name	Model	Mark	As Paint	Volume	Unidad	Area	Unidad
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.18	m3	18	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.11	m3	11	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.06	m3	6	m2
+Muro básico: ARK_FC_200mm_E_PF_EF_I_GYP BLOQUE EMPLANCHADO	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.05	m3	5	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.14	m3	14	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.1	m3	10	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.04	m3	4	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.14	m3	14	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.07	m3	7	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.03	m3	3	m2
+Muro básico: ARK_FC_200mm_E_PF_EF_I_GYP BLOQUE EMPLANCHADO	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.1	m3	10	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.05	m3	5	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.02	m3	2	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.02	m3	2	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.15	m3	15	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.07	m3	7	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.16	m3	16	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.13	m3	13	m2
+Muro básico: ARK_EX_100mm_ ANTEPECHO DE TERRAZA	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.02	m3	5	m2
+Muro básico: ARK_EX_100mm_ ANTEPECHO DE TERRAZA	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.06	m3	11	m2
+Muro básico: ARK_EX_100mm_ ANTEPECHO DE TERRAZA	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.06	m3	11	m2
+Muro básico: ARK_EX_100mm_ ANTEPECHO DE TERRAZA	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.02	m3	5	m2
+Muro básico: ARK_EX_100mm_ ANTEPECHO DE TERRAZA	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.03	m3	7	m2
+Muro básico: ARK_EX_100mm_ ANTEPECHO DE TERRAZA	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.01	m3	1	m2
+Muro básico: ARK_EX_100mm_ ANTEPECHO DE TERRAZA	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.01	m3	2	m2
+Muro básico: ARK_EX_100mm_ ANTEPECHO DE TERRAZA	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.03	m3	6	m2
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.03	m3	6	m2
+Muro básico: ARK_EX_100mm_Bordillo de terrazas	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.02	m3	4	m2
+Muro básico: ARK_EX_100mm_Bordillo de terrazas	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.01	m3	2	m2
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.01	m3	3	m2
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.01	m3	2	m2
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.01	m3	2	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_EP	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.02	m3	2	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_EP	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.08	m3	8	m2
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.05	m3	11	m2
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.02	m3	4	m2
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0	m3	1	m2
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.01	m3	3	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.05	m3	5	m2
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.03	m3	6	m2
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.04	m3	8	m2
+Muro básico: ARK_EX_150mm_Bordillo de terrazas 2	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.03	m3	6	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.02	m3	2	m2
+Muro básico: ARK_FC_200mm_E_PF_EF_I_EV_EP	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.08	m3	16	m2
+Muro básico: ARK_EX_100mm_Bordillo de terrazas	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.01	m3	2	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.09	m3	9	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.06	m3	6	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.02	m3	2	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_EP	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.01	m3	1	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_EP	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.02	m3	2	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_EP	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.01	m3	1	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_EP	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.05	m3	5	m2
+Muro básico: ARK_FC_200mm_E_PF_EF_I_N/A	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.01	m3	2	m2
+Muro básico: ARK_FC_200mm_E_PF_EF_I_GYP BLOQUE EMPLANCHADO	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.02	m3	2	m2
+Muro básico: ARK_FC_200mm_E_PF_EF_I_GYP BLOQUE EMPLANCHADO	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.01	m3	1	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.09	m3	9	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.26	m3	26	m2
+Muro básico: ARK_FC_200mm_E_PF_EF_I_GYP BLOQUE EMPLANCHADO	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.24	m3	24	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.05	m3	5	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.16	m3	16	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.11	m3	11	m2
+Muro básico: ARK_FC_200mm_E_PF_EF_I_EV_EP	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.04	m3	8	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.12	m3	12	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.05	m3	5	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.01	m3	1	m2
+Muro básico: ARK_EX_100mm_Bordillo de terrazas	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0	m3	1	m2
+Muro básico: ARK_EX_100mm_Bordillo de terrazas	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0	m3	0	m2
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0	m3	0	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.01	m3	1	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0	m3	0	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_N/A	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0.02	m3	2	m2
+Muro básico: ARK_FC_100mm_E_PF_EF_I_N/A DESCOLGADOS	ARK_08.01.02_Pintura en Fachadas	08	08.01.02	No	0	m3	1	m2
+
+08.01.03	Cielo Raso De Gypsum Incluye Estucado y Pintura
+Family and Type	Name	Model	Mark	As Paint	Volume	Unidad	Area	Unidad
+Techo compuesto: ARK_IN_CG	ARK_08.01.03_Cielo Raso En Gypsum Estucado y Pintado	08	08.01.03	No	0.22	m3	13	m2
+Techo compuesto: ARK_IN_CG	ARK_08.01.03_Cielo Raso En Gypsum Estucado y Pintado	08	08.01.03	No	0.22	m3	14	m2
+Techo compuesto: ARK_IN_CG	ARK_08.01.03_Cielo Raso En Gypsum Estucado y Pintado	08	08.01.03	No	0.38	m3	24	m2
+Techo compuesto: ARK_IN_CG	ARK_08.01.03_Cielo Raso En Gypsum Estucado y Pintado	08	08.01.03	No	0.19	m3	12	m2
+Techo compuesto: ARK_IN_CG	ARK_08.01.03_Cielo Raso En Gypsum Estucado y Pintado	08	08.01.03	No	0.2	m3	12	m2
+Techo compuesto: ARK_IN_CG	ARK_08.01.03_Cielo Raso En Gypsum Estucado y Pintado	08	08.01.03	No	1.33	m3	83	m2
+Techo compuesto: ARK_IN_CG	ARK_08.01.03_Cielo Raso En Gypsum Estucado y Pintado	08	08.01.03	No	0.04	m3	3	m2
+Techo compuesto: ARK_IN_CG	ARK_08.01.03_Cielo Raso En Gypsum Estucado y Pintado	08	08.01.03	No	0.56	m3	35	m2
+Techo compuesto: ARK_IN_CG	ARK_08.01.03_Cielo Raso En Gypsum Estucado y Pintado	08	08.01.03	No	0.21	m3	13	m2
+Techo compuesto: ARK_IN_CG	ARK_08.01.03_Cielo Raso En Gypsum Estucado y Pintado	08	08.01.03	No	0.07	m3	4	m2
+Grand total: 10							213	m2
+
+08.01.04	Cielo Raso De Gypsum Para Humedad Incluye Estucado  y Pintura
+Family and Type	Name	Model	Mark	As Paint	Volume	Unidad	Area	Unidad
+Techo compuesto: ARK_IN_CGH HUMEDAD	ARK_08.01.04_Cielo Raso en Gypsum para Humedad Estucado y Pintado	08	08.01.04	No	0.08	m3	5	m2
+Techo compuesto: ARK_IN_CGH HUMEDAD	ARK_08.01.04_Cielo Raso en Gypsum para Humedad Estucado y Pintado	08	08.01.04	No	0.08	m3	5	m2
+Techo compuesto: ARK_IN_CGH HUMEDAD	ARK_08.01.04_Cielo Raso en Gypsum para Humedad Estucado y Pintado	08	08.01.04	No	0.25	m3	16	m2
+Techo compuesto: ARK_IN_CGH HUMEDAD	ARK_08.01.04_Cielo Raso en Gypsum para Humedad Estucado y Pintado	08	08.01.04	No	0.01	m3	0	m2
+Techo compuesto: ARK_IN_CGH HUMEDAD	ARK_08.01.04_Cielo Raso en Gypsum para Humedad Estucado y Pintado	08	08.01.04	No	0.05	m3	3	m2
+Techo compuesto: ARK_IN_CGH HUMEDAD	ARK_08.01.04_Cielo Raso en Gypsum para Humedad Estucado y Pintado	08	08.01.04	No	0.02	m3	2	m2
+Techo compuesto: ARK_IN_CGH HUMEDAD	ARK_08.01.04_Cielo Raso en Gypsum para Humedad Estucado y Pintado	08	08.01.04	No	0.08	m3	5	m2
+Techo compuesto: ARK_IN_CGH HUMEDAD	ARK_08.01.04_Cielo Raso en Gypsum para Humedad Estucado y Pintado	08	08.01.04	No	0.05	m3	3	m2
+Techo compuesto: ARK_IN_CGH HUMEDAD	ARK_08.01.04_Cielo Raso en Gypsum para Humedad Estucado y Pintado	08	08.01.04	No	0.09	m3	6	m2
+Techo compuesto: ARK_IN_CGH HUMEDAD	ARK_08.01.04_Cielo Raso en Gypsum para Humedad Estucado y Pintado	08	08.01.04	No	0.26	m3	16	m2
+Grand total: 10							61	m2
+
+08.01.06	Pared Interior Gypsum
+Family and Type	Name	Model	Mark	As Paint	Volume	Unidad	Area	Unidad
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.07	m3	7	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.04	m3	4	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.04	m3	4	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.04	m3	4	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.06	m3	6	m2
+Muro básico: ARK_IN_250mm_E_EP_EV_I_EV_EP GYPSUM	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.35	m3	35	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.05	m3	5	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.08	m3	8	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.08	m3	8	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.06	m3	6	m2
+Muro básico: ARK_IN_250mm_E_EP_EV_I_EV_EP GYPSUM	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.27	m3	27	m2
+Muro básico: ARK_IN_250mm_E_EP_EV_I_EV_EP GYPSUM	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.19	m3	20	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.18	m3	18	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.11	m3	11	m2
+Muro básico: ARK_FC_200mm_E_PF_EF_I_GYP BLOQUE EMPLANCHADO	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.05	m3	5	m2
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.02	m3	2	m2
+Muro básico: ARK_IN_200mm_E_EP_EV_I_EV_ GYPSUM	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.08	m3	8	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.14	m3	14	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.07	m3	7	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.03	m3	3	m2
+Muro básico: ARK_FC_200mm_E_PF_EF_I_GYP BLOQUE EMPLANCHADO	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.1	m3	10	m2
+Muro básico: ARK_IN_250mm_E_EP_EV_I_EV_EP GYPSUM	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.05	m3	5	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.02	m3	2	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.02	m3	2	m2
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.13	m3	13	m2
+Muro básico: ARK_IN_250mm_E_EP_EV_I_EV_EP GYPSUM	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.23	m3	24	m2
+Muro básico: ARK_IN_250mm_E_EP_EV_I_EV_EP GYPSUM	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.16	m3	16	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.16	m3	16	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.13	m3	13	m2
+Muro básico: ARK_IN_250mm_E_EP_EV_I_EV_EP GYPSUM	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.09	m3	9	m2
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.09	m3	9	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.08	m3	8	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.05	m3	5	m2
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.14	m3	14	m2
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.07	m3	7	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.01	m3	1	m2
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.06	m3	6	m2
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.08	m3	8	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.02	m3	2	m2
+Muro básico: ARK_IN_250mm_E_EP_EF_I_EV_EP GYPSUM	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.28	m3	28	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.09	m3	9	m2
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.08	m3	8	m2
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.08	m3	8	m2
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.02	m3	2	m2
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.02	m3	2	m2
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.02	m3	2	m2
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.05	m3	5	m2
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.07	m3	7	m2
+Muro básico: ARK_IN_200mm_E_GYP_I_NA BLOQUE EMPLANCHADO INTERIOR	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.09	m3	9	m2
+Muro básico: ARK_IN_200mm_E_GYP_I_NA BLOQUE EMPLANCHADO INTERIOR	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.11	m3	11	m2
+Muro básico: ARK_FC_200mm_E_PF_EF_I_GYP BLOQUE EMPLANCHADO	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.02	m3	2	m2
+Muro básico: ARK_FC_200mm_E_PF_EF_I_GYP BLOQUE EMPLANCHADO	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.01	m3	1	m2
+Muro básico: ARK_IN_200mm_E_GYP_I_NA BLOQUE EMPLANCHADO INTERIOR	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.13	m3	13	m2
+Muro básico: ARK_IN_200mm_E_GYP_I_NA BLOQUE EMPLANCHADO INTERIOR	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.05	m3	5	m2
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.13	m3	13	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.09	m3	9	m2
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.03	m3	3	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.04	m3	4	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.06	m3	6	m2
+Muro básico: ARK_IN_150mm_E_GYP__I_NA_ BLOQUE EMPLANCHADO 3	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.09	m3	9	m2
+Muro básico: ARK_FC_200mm_E_PF_EF_I_GYP BLOQUE EMPLANCHADO	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.24	m3	24	m2
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.07	m3	7	m2
+Muro básico: ARK_IN_120mm_E_EP_EV_I_EV_EP GYPSUM	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.17	m3	17	m2
+Muro básico: ARK_IN_200mm_E_GYP_I_NA BLOQUE EMPLANCHADO INTERIOR	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.12	m3	12	m2
+Muro básico: ARK_IN_250mm_E_EP_EF_I_EV_EP GYPSUM	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.1	m3	10	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.06	m3	6	m2
+Muro básico: ARK_IN_250mm_E_EP_EF_I_EV_EP GYPSUM	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.13	m3	13	m2
+Muro básico: ARK_IN_150mm_E_GYP__I_NA_ BLOQUE EMPLANCHADO 3	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.17	m3	18	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_GYP  BLOQUE EMPLANCHADO INTERIOR	ARK_08.01.06_Pared Interior Gypsum Estucado y Pintado	08	08.01.06	No	0.01	m3	1	m2
+Grand total: 69							637	m2
+
+08.01.07	Pared Exterior Gypsum
+Family and Type	Material: Name	Material: Model	Material: Mark	Material: As Paint	Material: Volume	Material: Area
+
+08.01.08	Pared Gypsum Humedad Baños
+Family and Type	Material: Name	Material: Model	Material: Mark	Material: As Paint	Material: Volume	Material: Area
+
+08.01.09	Pintura en Cerramientos
+Family and Type	Material: Name	Material: Model	Material: Mark	Material: As Paint	Material: Volume	Material: Area
+
+08.01.10	Pintura de Caucho Interior
+Family and Type	Material: Name	Material: Model	Material: Mark	Material: As Paint	Material: Volume	Material: Area
+
+08.01.11	Revestimiento epoxico 5mm en piso
+Family and Type	Material: Name	Material: Model	Material: Mark	Material: As Paint	Material: Volume	Material: Area
+
+08.01.12	Recubrimiento Pisos y Paredes (Mat.)
+Family and Type	Name	Nivel	Comentarios	Area	Unidad
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB					
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_08.01.12_ Baldosa de Porcelanato			7	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_08.01.12_ Baldosa de Porcelanato			6	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_08.01.12_ Baldosa de Porcelanato			5	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_08.01.12_ Baldosa de Porcelanato			16	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_08.01.12_ Baldosa de Porcelanato			5	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_08.01.12_ Baldosa de Porcelanato			1	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB	ARK_08.01.12_ Baldosa de Porcelanato			0	m2
+: 7				40	m2
+Muro básico: ARK_FC_150mm_E_PF_EF_I_EV_PB: 7				40	m2
+Muro básico: ARK_IN_30mm_E_BP_EV_I_N/A LAVANDERIA					
+Muro básico: ARK_IN_30mm_E_BP_EV_I_N/A LAVANDERIA	ARK_08.01.12_ Baldosa de Porcelanato			3	m2
+: 1				3	m2
+Muro básico: ARK_IN_30mm_E_BP_EV_I_N/A LAVANDERIA: 1				3	m2
+Muro básico: ARK_IN_100mm_E_BP_EV_I_NA					
+Muro básico: ARK_IN_100mm_E_BP_EV_I_NA	ARK_08.01.12_ Baldosa de Porcelanato			14	m2
+Muro básico: ARK_IN_100mm_E_BP_EV_I_NA	ARK_08.01.12_ Baldosa de Porcelanato			5	m2
+: 2				20	m2
+Muro básico: ARK_IN_100mm_E_BP_EV_I_NA: 2				20	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO					
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_08.01.12_ Baldosa de Porcelanato			8	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_08.01.12_ Baldosa de Porcelanato			4	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_08.01.12_ Baldosa de Porcelanato			4	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_08.01.12_ Baldosa de Porcelanato			4	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_08.01.12_ Baldosa de Porcelanato			6	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_08.01.12_ Baldosa de Porcelanato			5	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_08.01.12_ Baldosa de Porcelanato			8	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_08.01.12_ Baldosa de Porcelanato			8	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_08.01.12_ Baldosa de Porcelanato			6	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_08.01.12_ Baldosa de Porcelanato			8	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_08.01.12_ Baldosa de Porcelanato			5	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_08.01.12_ Baldosa de Porcelanato			1	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_08.01.12_ Baldosa de Porcelanato			4	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_08.01.12_ Baldosa de Porcelanato			6	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO	ARK_08.01.12_ Baldosa de Porcelanato			6	m2
+: 15				84	m2
+Muro básico: ARK_IN_150mm_E_GYP_I_EV_PB BLOQUE EMPLANCHADO: 15				84	m2
+Suelo: ARK_EX_30mm_E_BP					
+ACCESO					
+Suelo: ARK_EX_30mm_E_BP	ARK_08.01.12_ Baldosa de Porcelanato	PLANTA BAJA	ACCESO	4	m2
+ACCESO: 1				4	m2
+AREA SOCIAL					
+Suelo: ARK_EX_30mm_E_BP	ARK_08.01.12_ Baldosa de Porcelanato	PLANTA BAJA	AREA SOCIAL	98	m2
+AREA SOCIAL: 1				98	m2
+BAÑOS					
+Suelo: ARK_EX_30mm_E_BP	ARK_08.01.12_ Baldosa de Porcelanato	SUBSUELO	BAÑOS	32	m2
+BAÑOS: 1				32	m2
+DORMITOTRIOS					
+Suelo: ARK_EX_30mm_E_BP	ARK_08.01.12_ Baldosa de Porcelanato	SUBSUELO	DORMITOTRIOS	110	m2
+DORMITOTRIOS: 1				110	m2
+EXTERIOR					
+Suelo: ARK_EX_30mm_E_BP	ARK_08.01.12_ Baldosa de Porcelanato	SUBSUELO	EXTERIOR	19	m2
+EXTERIOR: 1				19	m2
+PORCHE					
+Suelo: ARK_EX_30mm_E_BP	ARK_08.01.12_ Baldosa de Porcelanato	PLANTA BAJA	PORCHE	64	m2
+PORCHE: 1				64	m2
+SERVICIO					
+Suelo: ARK_EX_30mm_E_BP	ARK_08.01.12_ Baldosa de Porcelanato	SUBSUELO	SERVICIO	27	m2
+SERVICIO: 1				27	m2
+Suelo: ARK_EX_30mm_E_BP: 7				353	m2
+Grand total: 32				499	m2
+
+08.01.14	Subcontrato  Recubrimiento Pisos y Paredes (Inst.)
+Family and Type	Material: Name	Material: Model	Material: Mark	Material: As Paint	Material: Volume	Material: Area
+
+08.01.15	Barrederas De Cerámica
+Family and Type	Model	Mark	Length
+Barrido de muro: ARK_08.01.15 Barrederas de Ceramica	08.01.15		1.62
+Barrido de muro: ARK_08.01.15 Barrederas de Ceramica	08.01.15		10.83
+Barrido de muro: ARK_08.01.15 Barrederas de Ceramica	08.01.15		13.47
+Barrido de muro: ARK_08.01.15 Barrederas de Ceramica	08.01.15		12.60
+Barrido de muro: ARK_08.01.15 Barrederas de Ceramica	08.01.15		0.87
+Barrido de muro: ARK_08.01.15 Barrederas de Ceramica	08.01.15		3.47
+Barrido de muro: ARK_08.01.15 Barrederas de Ceramica	08.01.15		0.99
+Barrido de muro: ARK_08.01.15 Barrederas de Ceramica	08.01.15		8.34
+Barrido de muro: ARK_08.01.15 Barrederas de Ceramica	08.01.15		8.36
+Barrido de muro: ARK_08.01.15 Barrederas de Ceramica	08.01.15		14.07
+Barrido de muro: ARK_08.01.15 Barrederas de Ceramica	08.01.15		0.91
+Barrido de muro: ARK_08.01.15 Barrederas de Ceramica	08.01.15		0.84
+Barrido de muro: ARK_08.01.15 Barrederas de Ceramica	08.01.15		1.48
+Barrido de muro: ARK_08.01.15 Barrederas de Ceramica	08.01.15		0.75
+Barrido de muro: ARK_08.01.15 Barrederas de Ceramica	08.01.15		4.64
+Barrido de muro: ARK_08.01.15 Barrederas de Ceramica	08.01.15		0.75
+Barrido de muro: ARK_08.01.15 Barrederas de Ceramica	08.01.15		2.43
+Barrido de muro: ARK_08.01.15 Barrederas de Ceramica	08.01.15		3.70
+Barrido de muro: ARK_08.01.15 Barrederas de Ceramica	08.01.15		21.03
+Barrido de muro: ARK_08.01.15 Barrederas de Ceramica	08.01.15		18.93
+Barrido de muro: ARK_08.01.15 Barrederas de Ceramica	08.01.15		15.90
+Barrido de muro: ARK_08.01.15 Barrederas de Ceramica	08.01.15		16.38
+Barrido de muro: ARK_08.01.15 Barrederas de Ceramica	08.01.15		5.97
+Barrido de muro: ARK_08.01.15 Barrederas de Ceramica	08.01.15		15.81
+Barrido de muro: ARK_08.01.15 Barrederas de Ceramica	08.01.15		2.79
+Grand total: 25			186.92
+
+08.01.16	Barrederas De Madera
+Family and Type	Model	Mark	Length
+
+14.01.07.a Adoquín En Estacionamientos
+Family and Type	Material: Name	Material: Model	Material: Mark	Material: As Paint	Material: Volume	Material: Area
+
+14.01.07.b Asfalto
+Family and Type	Material: Name	Material: Model	Material: Mark	Material: As Paint	Material: Volume	Material: Area
+
+CUADRO DE AREAS
+Nombre	Nivel	Área
+
+Tabla de planificación de barandillas
+Familia y tipo	Longitud	Altura de barandilla
+Barandilla: 900mm Pipe	18.96	0.90
+Barandilla: 900mm Pipe	9.09	0.90
+Barandilla: 900mm Pipe	3.22	0.90
+Barandilla: 900mm Pipe	4.50	0.90
+Barandilla: 900mm Pipe	1.47	0.90
+Barandilla: 900mm Pipe	1.20	0.90
+Barandilla: 900mm Pipe	3.74	0.90
+Barandilla: 900mm Pipe	0.74	0.90
+Barandilla: 900mm Pipe	7.99	0.90
+Barandilla: 900mm Pipe	11.27	0.90
+Barandilla: 900mm Pipe	3.74	0.90
+Barandilla: 900mm Pipe	3.74	0.90
+Barandilla: 900mm Pipe	1.20	0.90
+Barandilla: 900mm Pipe	0.50	0.90
+Total general: 14	71.35	
+
+Tabla de planificación de puertas
+Altura	Nivel	Anchura	Familia y tipo	Recuento
+SUBSUELO				
+2.40	SUBSUELO	0.76	Door Internal Single: 750W X 2400H mm	1
+2.40	SUBSUELO	0.86	Door Internal Single: 850W X 2400H mm	1
+2.40	SUBSUELO	0.86	Door Internal Single: 850W X 2400H mm	1
+2.40	SUBSUELO	0.86	Door Internal Single: 850W X 2400H mm	1
+2.40	SUBSUELO	0.76	Door Internal Single: 750W X 2400H mm	1
+2.40	SUBSUELO	0.76	Door Internal Single: 750W X 2400H mm	1
+2.40	SUBSUELO	0.86	Door Internal Single: 850W X 2400H mm	1
+2.40	SUBSUELO	0.86	Door Internal Single: 850W X 2400H mm	1
+2.40	SUBSUELO	0.76	Door Internal Single: 750W X 2400H mm	1
+2.40	SUBSUELO	0.76	Door Internal Single: 750W X 2400H mm	1
+2.40	SUBSUELO	0.76	Door Internal Single: 750W X 2400H mm	1
+2.40	SUBSUELO	0.80	Puerta corredera simple en muro: 0.80	1
+2.40	SUBSUELO	0.80	Puerta corredera simple en muro: 0.80	1
+31.20		10.46		13
+PLANTA BAJA				
+2.40	PLANTA BAJA	0.95	Door Internal Single: 900W X 2400H mm	1
+2.40	PLANTA BAJA	0.76	Door Internal Single: 750W X 2400H mm	1
+2.60	PLANTA BAJA	1.50	Pivoted_Door_Puerta_Pivoteada_3502: Pivot Acceso 1.60 x 3.00	1
+2.40	PLANTA BAJA	0.80	Puerta corredera simple en muro: 0.80	1
+9.80		4.01		4
+41.00		14.47		17
+
+Tabla de planificación de PUERTAS METALICAS
+Familia y tipo	Longitud	Familia	Altura desconectada	Área	Unidad
+Muro cortina: PUERTAS METALICAS	1.30	Muro cortina	3.85	5.01	m2
+Total general: 1				5.01	m2
+
+Tabla de planificación de VENTANAS
+Familia y tipo	Longitud	Familia	Altura desconectada	Área	Unidad
+Muro cortina: PERFIL 8CM	7.20	Muro cortina	2.75	19.53	m2
+Muro cortina: PERFIL 8CM	3.31	Muro cortina	3.05	10.1	m2
+Muro cortina: PERFIL 8CM	3.58	Muro cortina	3.05	10.52	m2
+Muro cortina: PERFIL 8CM	4.44	Muro cortina	3.05	13.17	m2
+Muro cortina: PERFIL 8CM	11.64	Muro cortina	2.60	30.12	m2
+Muro cortina: PERFIL 8CM	3.58	Muro cortina	3.05	9.76	m2
+Muro cortina: PERFIL 8CM	3.10	Muro cortina	1.80	5.58	m2
+Muro cortina: PERFIL 8CM	4.97	Muro cortina	0.60	2.91	m2
+Muro cortina: PERFIL 8CM	5.58	Muro cortina	1.20	6.63	m2
+Muro cortina: PERFIL 8CM	0.58	Muro cortina	1.20	0.6	m2
+Muro cortina: PERFIL 8CM	2.30	Muro cortina	2.60	5.97	m2
+Muro cortina: PERFIL 8CM	2.10	Muro cortina	2.05	4.31	m2
+Muro cortina: PERFIL 8CM	0.90	Muro cortina	2.75	2.48	m2
+Muro cortina: Curtain Wall	1.51	Muro cortina	3.05	4.36	m2
+Muro cortina: Curtain Wall	0.89	Muro cortina	3.05	2.7	m2
+Muro cortina: Curtain Wall	1.05	Muro cortina	3.05	2.82	m2
+Muro cortina: Curtain Wall	2.00	Muro cortina	3.05	6.1	m2
+Muro cortina: Curtain Wall	0.93	Muro cortina	3.05	2.82	m2
+Muro cortina: PERFIL 8CM	1.00	Muro cortina	2.75	2.75	m2
+Muro cortina: PERFIL 8CM	0.60	Muro cortina	2.05	1.23	m2
+Muro cortina: PERFIL 8CM	2.35	Muro cortina	3.05	7.02	m2
+Muro cortina: PUERTAS METALICAS	1.30	Muro cortina	3.85	5.01	m2
+Total general: 22				156.49	m2
+

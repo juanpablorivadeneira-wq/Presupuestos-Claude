@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Database, FileText, TrendingUp, Ruler, ChevronDown, Check, Plus, User, Menu, HardDrive, Search, Bell, Bookmark, HelpCircle } from 'lucide-react';
+import { Database, FileText, TrendingUp, Ruler, ChevronDown, Check, Plus, User, Menu, HardDrive, Search, Bell, Bookmark, HelpCircle, BarChart3 } from 'lucide-react';
 import { useStore, loadFromServer, loginToServer, clearAuthToken, getAuthToken } from './store/useStore';
 import LoginView from './components/auth/LoginView';
 import { AppView } from './types';
@@ -8,6 +8,7 @@ import ItemsView from './components/items/ItemsView';
 import RubrosView from './components/rubros/RubrosView';
 import BudgetView from './components/budgets/BudgetView';
 import ActualizacionView from './components/actualizacion/ActualizacionView';
+import RevitAnalyzerView from './components/revit/RevitAnalyzerView';
 import MedicionView from './components/medicion/MedicionView';
 import CompareView from './components/compare/CompareView';
 import Modal from './components/shared/Modal';
@@ -15,7 +16,7 @@ import BuildKontrolLogo from './components/shared/BuildKontrolLogo';
 import BackupModal from './components/shared/BackupModal';
 
 type DbTab = 'items' | 'rubros';
-type HomeSection = 'databases' | 'budgets' | 'actualizacion' | 'medicion';
+type HomeSection = 'databases' | 'budgets' | 'actualizacion' | 'medicion' | 'revit';
 
 type AuthState = 'loading' | 'authenticated' | 'needs_login';
 
@@ -53,6 +54,7 @@ export default function App() {
     : view === 'budget' || view === 'compare' ? 'budgets'
     : view === 'actualizacion' ? 'actualizacion'
     : view === 'medicion' ? 'medicion'
+    : view === 'revit' ? 'revit'
     : activeSection;
 
   // ── Initialize from server on mount ──────────────────────────────────────
@@ -106,6 +108,10 @@ export default function App() {
 
   function handleSidebarNav(section: HomeSection) {
     setActiveSection(section);
+    if (section === 'revit') {
+      setView('revit');
+      return;
+    }
     if (view !== 'home') {
       if (view === 'database') closeDatabase();
       else if (view === 'budget') closeBudget();
@@ -424,6 +430,24 @@ export default function App() {
               </span>
             </button>
 
+            <div className="mt-3 mb-1 w-full border-t border-gray-100" />
+            <p className="px-2 mb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Herramientas</p>
+
+            <button
+              onClick={() => handleSidebarNav('revit')}
+              className={`relative w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
+                activeSidebarSection === 'revit'
+                  ? 'bg-[#1F4E78]/10 text-[#1F4E78]'
+                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+              }`}
+            >
+              {activeSidebarSection === 'revit' && (
+                <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-[#1F4E78] rounded-r" />
+              )}
+              <BarChart3 size={16} className="shrink-0" />
+              <span className="flex-1 text-left leading-tight">Cantidades Revit</span>
+            </button>
+
           </nav>
         </aside>
 
@@ -432,8 +456,8 @@ export default function App() {
           {view === 'home' && (
             <HomeView
               onNavigate={handleNavigate}
-              activeSection={activeSection}
-              onSectionChange={setActiveSection}
+              activeSection={activeSection as 'databases' | 'budgets' | 'actualizacion' | 'medicion'}
+              onSectionChange={setActiveSection as (s: 'databases' | 'budgets' | 'actualizacion' | 'medicion') => void}
             />
           )}
           {view === 'database' && (
@@ -445,6 +469,7 @@ export default function App() {
           {view === 'actualizacion' && <ActualizacionView onNavigate={handleNavigate} />}
           {view === 'medicion' && <MedicionView />}
           {view === 'compare' && <CompareView onNavigate={handleNavigate} />}
+          {view === 'revit' && <RevitAnalyzerView />}
         </main>
 
       </div>

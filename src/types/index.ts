@@ -119,7 +119,7 @@ export interface BudgetUpdate {
   lineItems: BudgetUpdateLineItem[];
 }
 
-export type AppView = 'home' | 'database' | 'budget' | 'actualizacion' | 'compare' | 'medicion';
+export type AppView = 'home' | 'database' | 'budget' | 'actualizacion' | 'compare' | 'medicion' | 'revit';
 
 // ── Medición ──────────────────────────────────────────────────────────────────
 

@@ -1,0 +1,17 @@
+# Local development — runs the Python API directly (no Docker needed)
+# Usage: uvicorn backend.api.main:app --reload --port 8001
+# Then: npm run dev
+#
+# Override the API URL by creating .env.local:
+#   VITE_REVIT_API_URL=http://localhost:8001
+services:
+  revit-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./backend:/app/backend
+    environment:
+      - PYTHONPATH=/app
