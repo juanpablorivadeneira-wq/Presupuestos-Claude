@@ -219,7 +219,7 @@ export const initialItems: Item[] = [
 ];
 
 export const initialRubroCategories: RubroCategory[] = [
-  { id: 'rcat-root', name: 'Assemblies', parentId: null },
+  { id: 'rcat-root', name: 'APU - Rubros', parentId: null },
   { id: 'rcat-001', name: '001 PRELIMINARES', parentId: 'rcat-root' },
   { id: 'rcat-002', name: '002 MOVIMIENTOS DE TIERRA', parentId: 'rcat-root' },
   { id: 'rcat-003', name: '003 ESTRUCTURA', parentId: 'rcat-root' },

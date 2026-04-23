@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Trash2, Search, Plus, X } from 'lucide-react';
+import { Trash2, Search, Plus, X, AlertCircle } from 'lucide-react';
 import { Item, ItemCategory, Rubro, RubroCategory } from '../../types';
 import { itemTotal, genId, formatMoney } from '../../store/useStore';
 
@@ -53,6 +53,7 @@ function detectType(item: Item, itemCategories: ItemCategory[]): ComponentType {
 
 export default function RubroForm({
   rubro,
+  rubros,
   rubroCategories,
   items,
   itemCategories,
@@ -73,6 +74,9 @@ export default function RubroForm({
     })) ?? []
   );
   const [errors, setErrors] = useState<Record<string, string>>({});
+  // Quantity inline editing state
+  const [editingCompId, setEditingCompId] = useState<string | null>(null);
+  const [editingQtyText, setEditingQtyText] = useState('');
 
   // Item picker state
   const [showPicker, setShowPicker] = useState(false);
@@ -86,11 +90,24 @@ export default function RubroForm({
     }
   }, [showPicker]);
 
+  function checkDuplicateCode(val: string) {
+    const exists = rubros.some((r) => r.id !== rubro?.id && r.code.trim().toLowerCase() === val.trim().toLowerCase());
+    return exists ? 'Ya existe un APU con este código' : '';
+  }
+
+  function checkDuplicateName(val: string) {
+    const exists = rubros.some((r) => r.id !== rubro?.id && r.name.trim().toLowerCase() === val.trim().toLowerCase());
+    return exists ? 'Ya existe un APU con este nombre' : '';
+  }
+
   function validate() {
     const e: Record<string, string> = {};
     if (!code.trim()) e.code = 'Requerido';
+    else { const dup = checkDuplicateCode(code); if (dup) e.code = dup; }
     if (!name.trim()) e.name = 'Requerido';
+    else { const dup = checkDuplicateName(name); if (dup) e.name = dup; }
     if (!unit.trim()) e.unit = 'Requerido';
+    if (!categoryId) e.categoryId = 'Requerido';
     return e;
   }
 
@@ -140,11 +157,8 @@ export default function RubroForm({
   }
 
   function updateQty(id: string, qty: number) {
-    setComponents((prev) => prev.map((c) => (c.id === id ? { ...c, quantity: Math.max(0, qty) } : c)));
-  }
-
-  function updateType(id: string, type: ComponentType) {
-    setComponents((prev) => prev.map((c) => (c.id === id ? { ...c, type } : c)));
+    const rounded = Math.round(qty * 1e8) / 1e8;
+    setComponents((prev) => prev.map((c) => (c.id === id ? { ...c, quantity: Math.max(0, rounded) } : c)));
   }
 
   // Filtered items for the picker
@@ -188,12 +202,21 @@ export default function RubroForm({
           <input
             type="text"
             value={code}
-            onChange={(e) => { setCode(e.target.value); setErrors((p) => ({ ...p, code: '' })); }}
+            onChange={(e) => {
+              const v = e.target.value;
+              setCode(v);
+              const dup = v.trim() ? checkDuplicateCode(v) : '';
+              setErrors((p) => ({ ...p, code: dup }));
+            }}
             className={inputCls(errors.code)}
             placeholder="ej. 02.01.01"
             autoFocus
           />
-          {errors.code && <p className="text-red-500 text-xs mt-0.5">{errors.code}</p>}
+          {errors.code && (
+            <p className="text-red-500 text-xs mt-0.5 flex items-center gap-1">
+              <AlertCircle size={11} />{errors.code}
+            </p>
+          )}
         </div>
 
         {/* Nombre */}
@@ -202,11 +225,20 @@ export default function RubroForm({
           <input
             type="text"
             value={name}
-            onChange={(e) => { setName(e.target.value); setErrors((p) => ({ ...p, name: '' })); }}
+            onChange={(e) => {
+              const v = e.target.value;
+              setName(v);
+              const dup = v.trim() ? checkDuplicateName(v) : '';
+              setErrors((p) => ({ ...p, name: dup }));
+            }}
             className={inputCls(errors.name)}
             placeholder="Nombre del rubro"
           />
-          {errors.name && <p className="text-red-500 text-xs mt-0.5">{errors.name}</p>}
+          {errors.name && (
+            <p className="text-red-500 text-xs mt-0.5 flex items-center gap-1">
+              <AlertCircle size={11} />{errors.name}
+            </p>
+          )}
         </div>
 
         {/* Unidad */}
@@ -225,15 +257,20 @@ export default function RubroForm({
 
         {/* Categoría */}
         <div>
-          <label className="block text-xs font-medium text-gray-600 mb-1">Categoría</label>
+          <label className="block text-xs font-medium text-gray-600 mb-1">Categoría <span className="text-red-400">*</span></label>
           <select
             value={categoryId ?? ''}
-            onChange={(e) => setCategoryId(e.target.value || null)}
-            className={inputCls()}
+            onChange={(e) => { setCategoryId(e.target.value || null); setErrors((p) => ({ ...p, categoryId: '' })); }}
+            className={inputCls(errors.categoryId)}
           >
-            <option value="">Sin categoría</option>
+            <option value="">Seleccionar categoría...</option>
             {buildCatOptions(rubroCategories, null, 0)}
           </select>
+          {errors.categoryId && (
+            <p className="text-red-500 text-xs mt-0.5 flex items-center gap-1">
+              <AlertCircle size={11} />{errors.categoryId}
+            </p>
+          )}
         </div>
 
         {/* Descripción */}
@@ -435,24 +472,19 @@ export default function RubroForm({
                         <div className="text-xs text-gray-400">{item.code} · {item.unit}</div>
                       </td>
                       <td className="px-3 py-2">
-                        <select
-                          value={comp.type}
-                          onChange={(e) => updateType(comp.id, e.target.value as ComponentType)}
-                          className="w-full text-xs border border-gray-200 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-green-500 bg-white"
-                        >
-                          {Object.entries(TYPE_LABELS).map(([val, label]) => (
-                            <option key={val} value={val}>{label}</option>
-                          ))}
-                        </select>
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-semibold ${TYPE_COLORS[comp.type]}`}>
+                          {TYPE_LABELS[comp.type]}
+                        </span>
                       </td>
                       <td className="px-3 py-2 text-right text-xs text-gray-500">{formatMoney(unitPrice)}</td>
                       <td className="px-3 py-2">
                         <input
-                          type="number"
-                          min="0"
-                          step="0.001"
-                          value={comp.quantity}
-                          onChange={(e) => updateQty(comp.id, parseFloat(e.target.value) || 0)}
+                          type="text"
+                          inputMode="decimal"
+                          value={editingCompId === comp.id ? editingQtyText : (comp.quantity === 0 ? '0' : parseFloat(comp.quantity.toFixed(4)).toString())}
+                          onFocus={() => { setEditingCompId(comp.id); setEditingQtyText(comp.quantity === 0 ? '0' : String(comp.quantity)); }}
+                          onChange={(e) => setEditingQtyText(e.target.value)}
+                          onBlur={() => { updateQty(comp.id, parseFloat(editingQtyText.replace(',', '.')) || 0); setEditingCompId(null); }}
                           className="w-full text-right border border-gray-200 rounded px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-green-500"
                         />
                       </td>

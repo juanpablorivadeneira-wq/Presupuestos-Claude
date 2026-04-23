@@ -149,7 +149,7 @@ export default function ItemsView({ onTabChange }: ItemsViewProps) {
             onClick={() => onTabChange('rubros')}
             className="flex-1 py-2.5 text-sm font-medium text-gray-500 bg-gray-50 hover:bg-gray-100 hover:text-gray-700 border-b-2 border-transparent transition-colors"
           >
-            Assemblies
+            APU - Rubro
           </button>
         </div>
         <div className="flex-1 overflow-hidden">
