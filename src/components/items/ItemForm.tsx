@@ -23,7 +23,9 @@ export default function ItemForm({ item, categories, onSave, onCancel }: ItemFor
   const [manoDeObra, setManoDeObra] = useState(String(item?.manoDeObra ?? '0'));
   const [equipo, setEquipo] = useState(String(item?.equipo ?? '0'));
   const [indirectos, setIndirectos] = useState(String(item?.indirectos ?? '0'));
-  const [ivaRate, setIvaRate] = useState(item?.ivaRate ?? defaultIvaRate);
+  // For existing items: use their stored ivaRate (undefined → 0, not default)
+  // For new items: start with the global default rate
+  const [ivaRate, setIvaRate] = useState(item ? (item.ivaRate ?? 0) : defaultIvaRate);
   const [categoryId, setCategoryId] = useState<string | null>(item?.categoryId ?? null);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -144,7 +146,7 @@ export default function ItemForm({ item, categories, onSave, onCancel }: ItemFor
       </div>
 
       {/* IVA + Totales */}
-      <div className="bg-gray-50 border border-gray-200 rounded-md px-4 py-3 space-y-2">
+      <div className={`border rounded-md px-4 py-3 space-y-2 ${item && item.ivaRate === undefined ? 'bg-amber-50 border-amber-300' : 'bg-gray-50 border-gray-200'}`}>
         <div className="flex items-center gap-3">
           <label className="text-sm text-gray-700 shrink-0">IVA aplicable</label>
           <select
@@ -156,7 +158,9 @@ export default function ItemForm({ item, categories, onSave, onCancel }: ItemFor
               <option key={r} value={r}>{(r * 100).toFixed(0)}%</option>
             ))}
           </select>
-          {ivaRate === 0 && <span className="text-xs text-gray-400">Exento / Artesano</span>}
+          {ivaRate === 0 && !item?.ivaRate && item && <span className="text-xs text-amber-600 font-medium">⚠ Sin IVA asignado — guarda para confirmar</span>}
+          {ivaRate === 0 && item?.ivaRate === 0 && <span className="text-xs text-gray-400">Exento / Artesano</span>}
+          {ivaRate === 0 && !item && <span className="text-xs text-gray-400">Exento / Artesano</span>}
         </div>
         <div className="grid grid-cols-3 gap-4 pt-1 border-t border-gray-200">
           <div>
