@@ -383,22 +383,24 @@ export const useStore = create<AppState>((set, get) => ({
 
   addItem: (item) => {
     set((state) => {
-      const databases = updateDbInList(state.databases, state.currentDatabaseId, (db) => ({
-        ...db,
-        items: [...db.items, item],
-        updatedAt: new Date().toISOString(),
-      }));
+      const databases = updateDbInList(state.databases, state.currentDatabaseId, (db) => {
+        if (item.code.trim() && db.items.some((i) => i.code.trim().toLowerCase() === item.code.trim().toLowerCase())) {
+          return db; // reject duplicate code
+        }
+        return { ...db, items: [...db.items, item], updatedAt: new Date().toISOString() };
+      });
       return { databases };
     });
   },
 
   updateItem: (item) => {
     set((state) => {
-      const databases = updateDbInList(state.databases, state.currentDatabaseId, (db) => ({
-        ...db,
-        items: db.items.map((i) => (i.id === item.id ? item : i)),
-        updatedAt: new Date().toISOString(),
-      }));
+      const databases = updateDbInList(state.databases, state.currentDatabaseId, (db) => {
+        if (item.code.trim() && db.items.some((i) => i.id !== item.id && i.code.trim().toLowerCase() === item.code.trim().toLowerCase())) {
+          return db; // reject duplicate code
+        }
+        return { ...db, items: db.items.map((i) => (i.id === item.id ? item : i)), updatedAt: new Date().toISOString() };
+      });
       return { databases };
     });
   },
@@ -472,22 +474,24 @@ export const useStore = create<AppState>((set, get) => ({
 
   addRubro: (rubro) => {
     set((state) => {
-      const databases = updateDbInList(state.databases, state.currentDatabaseId, (db) => ({
-        ...db,
-        rubros: [...db.rubros, rubro],
-        updatedAt: new Date().toISOString(),
-      }));
+      const databases = updateDbInList(state.databases, state.currentDatabaseId, (db) => {
+        if (rubro.code.trim() && db.rubros.some((r) => r.code.trim().toLowerCase() === rubro.code.trim().toLowerCase())) {
+          return db; // reject duplicate code
+        }
+        return { ...db, rubros: [...db.rubros, rubro], updatedAt: new Date().toISOString() };
+      });
       return { databases };
     });
   },
 
   updateRubro: (rubro) => {
     set((state) => {
-      const databases = updateDbInList(state.databases, state.currentDatabaseId, (db) => ({
-        ...db,
-        rubros: db.rubros.map((r) => (r.id === rubro.id ? rubro : r)),
-        updatedAt: new Date().toISOString(),
-      }));
+      const databases = updateDbInList(state.databases, state.currentDatabaseId, (db) => {
+        if (rubro.code.trim() && db.rubros.some((r) => r.id !== rubro.id && r.code.trim().toLowerCase() === rubro.code.trim().toLowerCase())) {
+          return db; // reject duplicate code
+        }
+        return { ...db, rubros: db.rubros.map((r) => (r.id === rubro.id ? rubro : r)), updatedAt: new Date().toISOString() };
+      });
       return { databases };
     });
   },
