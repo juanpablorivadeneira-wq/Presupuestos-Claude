@@ -11,6 +11,27 @@ interface ItemFormProps {
   onCancel: () => void;
 }
 
+type CostFieldType = 'material' | 'manoDeObra' | 'equipo' | 'subcontrato' | null;
+
+function detectCostType(catId: string | null, cats: ItemCategory[]): CostFieldType {
+  if (!catId) return null;
+  let current = cats.find((c) => c.id === catId);
+  let root = current;
+  while (current?.parentId) {
+    const parent = cats.find((c) => c.id === current!.parentId);
+    if (!parent) break;
+    root = parent;
+    current = parent;
+  }
+  if (!root) return null;
+  const n = root.name.toLowerCase();
+  if (n.includes('mano') || n.includes('obra') || n.includes('labor')) return 'manoDeObra';
+  if (n.includes('equipo') || n.includes('equipment') || n.includes('maquinaria')) return 'equipo';
+  if (n.includes('subcontrat')) return 'subcontrato';
+  if (n.includes('material')) return 'material';
+  return null;
+}
+
 export default function ItemForm({ item, categories, onSave, onCancel }: ItemFormProps) {
   const ivaRates = useStore((s) => s.ivaRates);
   const defaultIvaRate = useStore((s) => s.defaultIvaRate);
@@ -23,11 +44,28 @@ export default function ItemForm({ item, categories, onSave, onCancel }: ItemFor
   const [manoDeObra, setManoDeObra] = useState(String(item?.manoDeObra ?? '0'));
   const [equipo, setEquipo] = useState(String(item?.equipo ?? '0'));
   const [indirectos, setIndirectos] = useState(String(item?.indirectos ?? '0'));
-  // For existing items: use their stored ivaRate (undefined → 0, not default)
-  // For new items: start with the global default rate
   const [ivaRate, setIvaRate] = useState(item ? (item.ivaRate ?? 0) : defaultIvaRate);
   const [categoryId, setCategoryId] = useState<string | null>(item?.categoryId ?? null);
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const costType = detectCostType(categoryId, categories);
+  const matDisabled = costType !== null && costType !== 'material';
+  const moDisabled  = costType !== null && costType !== 'manoDeObra';
+  const eqDisabled  = costType !== null && costType !== 'equipo';
+
+  function handleCategoryChange(newCatId: string | null) {
+    const newType = detectCostType(newCatId, categories);
+    setCategoryId(newCatId);
+    if (newType === 'material')   { setManoDeObra('0'); setEquipo('0'); }
+    if (newType === 'manoDeObra') { setMaterial('0');   setEquipo('0'); }
+    if (newType === 'equipo')     { setMaterial('0');   setManoDeObra('0'); }
+    if (newType === 'subcontrato'){ setMaterial('0');   setManoDeObra('0'); setEquipo('0'); }
+    // Suggest IVA for new items based on category type
+    if (!item) {
+      if (newType === 'manoDeObra') setIvaRate(0);
+      else if (newType !== null)    setIvaRate(defaultIvaRate);
+    }
+  }
 
   const matVal = parseFloat(material) || 0;
   const moVal  = parseFloat(manoDeObra) || 0;
@@ -54,9 +92,9 @@ export default function ItemForm({ item, categories, onSave, onCancel }: ItemFor
       name: name.trim(),
       description: description.trim(),
       unit: unit.trim(),
-      material: matVal,
-      manoDeObra: moVal,
-      equipo: eqVal,
+      material: matDisabled ? 0 : matVal,
+      manoDeObra: moDisabled ? 0 : moVal,
+      equipo: eqDisabled ? 0 : eqVal,
       indirectos: indVal,
       ivaRate,
       categoryId,
@@ -72,22 +110,32 @@ export default function ItemForm({ item, categories, onSave, onCancel }: ItemFor
       ]);
   }
 
-  const inputCls = (err?: string) =>
-    `w-full border rounded-md px-3 py-2 text-sm bg-gray-50 focus:outline-none focus:ring-1 focus:ring-green-500 ${err ? 'border-red-400' : 'border-gray-200'}`;
+  const inputCls = (err?: string, disabled = false) =>
+    `w-full border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-green-500 ${
+      disabled
+        ? 'bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed'
+        : err
+          ? 'bg-gray-50 border-red-400'
+          : 'bg-gray-50 border-gray-200'
+    }`;
 
-  // Available rates: store rates + current item rate if not in list
   const availableRates = [...new Set([...ivaRates, ivaRate])].sort((a, b) => a - b);
+
+  const costTypeLabel: Record<NonNullable<CostFieldType>, string> = {
+    material: 'Material',
+    manoDeObra: 'Mano de Obra',
+    equipo: 'Equipo',
+    subcontrato: 'Subcontrato',
+  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {/* Row 1: Nombre + Código */}
+      {/* Nombre + Código */}
       <div className="grid grid-cols-3 gap-4">
         <div className="col-span-2">
           <label className="block text-sm text-gray-700 mb-1">Nombre *</label>
           <input
-            type="text"
-            value={name}
-            autoFocus
+            type="text" value={name} autoFocus
             onChange={(e) => { setName(e.target.value); setErrors((err) => ({ ...err, name: '' })); }}
             className={inputCls(errors.name)}
           />
@@ -118,26 +166,54 @@ export default function ItemForm({ item, categories, onSave, onCancel }: ItemFor
         </div>
         <div>
           <label className="block text-sm text-gray-700 mb-1">Categoría</label>
-          <select value={categoryId ?? ''} onChange={(e) => setCategoryId(e.target.value || null)} className={inputCls()}>
+          <select
+            value={categoryId ?? ''}
+            onChange={(e) => handleCategoryChange(e.target.value || null)}
+            className={inputCls()}
+          >
             <option value="">Sin categoría</option>
             {buildOptions(categories, null, 0)}
           </select>
         </div>
       </div>
 
-      {/* Costos 2x2 */}
+      {/* Costos — with category-type lock */}
+      {costType && (
+        <div className="flex items-center gap-1.5 text-xs text-blue-600 bg-blue-50 border border-blue-200 rounded px-2 py-1">
+          <span>Categoría <strong>{costTypeLabel[costType]}</strong> — solo se edita el campo correspondiente</span>
+        </div>
+      )}
+
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm text-gray-700 mb-1">Costo Material</label>
-          <input type="number" min="0" step="0.0001" value={material} onChange={(e) => setMaterial(e.target.value)} className={inputCls()} />
+          <label className={`block text-sm mb-1 ${matDisabled ? 'text-gray-400' : 'text-gray-700'}`}>Costo Material</label>
+          <input
+            type="number" min="0" step="0.0001"
+            value={matDisabled ? '0' : material}
+            onChange={(e) => setMaterial(e.target.value)}
+            disabled={matDisabled}
+            className={inputCls(undefined, matDisabled)}
+          />
         </div>
         <div>
-          <label className="block text-sm text-gray-700 mb-1">Costo Mano de Obra</label>
-          <input type="number" min="0" step="0.0001" value={manoDeObra} onChange={(e) => setManoDeObra(e.target.value)} className={inputCls()} />
+          <label className={`block text-sm mb-1 ${moDisabled ? 'text-gray-400' : 'text-gray-700'}`}>Costo Mano de Obra</label>
+          <input
+            type="number" min="0" step="0.0001"
+            value={moDisabled ? '0' : manoDeObra}
+            onChange={(e) => setManoDeObra(e.target.value)}
+            disabled={moDisabled}
+            className={inputCls(undefined, moDisabled)}
+          />
         </div>
         <div>
-          <label className="block text-sm text-gray-700 mb-1">Costo Equipo</label>
-          <input type="number" min="0" step="0.0001" value={equipo} onChange={(e) => setEquipo(e.target.value)} className={inputCls()} />
+          <label className={`block text-sm mb-1 ${eqDisabled ? 'text-gray-400' : 'text-gray-700'}`}>Costo Equipo</label>
+          <input
+            type="number" min="0" step="0.0001"
+            value={eqDisabled ? '0' : equipo}
+            onChange={(e) => setEquipo(e.target.value)}
+            disabled={eqDisabled}
+            className={inputCls(undefined, eqDisabled)}
+          />
         </div>
         <div>
           <label className="block text-sm text-gray-700 mb-1">Costos Indirectos</label>
@@ -158,9 +234,8 @@ export default function ItemForm({ item, categories, onSave, onCancel }: ItemFor
               <option key={r} value={r}>{(r * 100).toFixed(0)}%</option>
             ))}
           </select>
-          {ivaRate === 0 && !item?.ivaRate && item && <span className="text-xs text-amber-600 font-medium">⚠ Sin IVA asignado — guarda para confirmar</span>}
-          {ivaRate === 0 && item?.ivaRate === 0 && <span className="text-xs text-gray-400">Exento / Artesano</span>}
-          {ivaRate === 0 && !item && <span className="text-xs text-gray-400">Exento / Artesano</span>}
+          {ivaRate === 0 && item && item.ivaRate === undefined && <span className="text-xs text-amber-600 font-medium">⚠ Sin IVA asignado — guarda para confirmar</span>}
+          {ivaRate === 0 && (!item || item.ivaRate === 0) && <span className="text-xs text-gray-400">Exento / Artesano</span>}
         </div>
         <div className="grid grid-cols-3 gap-4 pt-1 border-t border-gray-200">
           <div>
