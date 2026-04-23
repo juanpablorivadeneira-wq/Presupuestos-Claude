@@ -6,6 +6,7 @@ import { UNITS } from '../../data/units';
 
 interface ItemFormProps {
   item?: Item;
+  items: Item[];
   categories: ItemCategory[];
   onSave: (item: Item) => void;
   onCancel: () => void;
@@ -32,12 +33,13 @@ function detectCostType(catId: string | null, cats: ItemCategory[]): CostFieldTy
   return null;
 }
 
-export default function ItemForm({ item, categories, onSave, onCancel }: ItemFormProps) {
+export default function ItemForm({ item, items, categories, onSave, onCancel }: ItemFormProps) {
   const ivaRates = useStore((s) => s.ivaRates);
   const defaultIvaRate = useStore((s) => s.defaultIvaRate);
 
   const [code, setCode] = useState(item?.code ?? '');
   const [name, setName] = useState(item?.name ?? '');
+  const [nameWarning, setNameWarning] = useState('');
   const [description, setDescription] = useState(item?.description ?? '');
   const [unit, setUnit] = useState(item?.unit ?? 'Und');
   const [material, setMaterial] = useState(String(item?.material ?? '0'));
@@ -79,6 +81,10 @@ export default function ItemForm({ item, categories, onSave, onCancel }: ItemFor
     const e: Record<string, string> = {};
     if (!name.trim()) e.name = 'El nombre es requerido';
     if (!unit.trim()) e.unit = 'La unidad es requerida';
+    if (code.trim()) {
+      const dup = items.some((i) => i.id !== item?.id && i.code.trim().toLowerCase() === code.trim().toLowerCase());
+      if (dup) e.code = 'Ya existe un ítem con este código';
+    }
     return e;
   }
 
@@ -136,14 +142,32 @@ export default function ItemForm({ item, categories, onSave, onCancel }: ItemFor
           <label className="block text-sm text-gray-700 mb-1">Nombre *</label>
           <input
             type="text" value={name} autoFocus
-            onChange={(e) => { setName(e.target.value); setErrors((err) => ({ ...err, name: '' })); }}
+            onChange={(e) => {
+              const v = e.target.value;
+              setName(v);
+              setErrors((err) => ({ ...err, name: '' }));
+              const dup = v.trim() && items.some((i) => i.id !== item?.id && i.name.trim().toLowerCase() === v.trim().toLowerCase());
+              setNameWarning(dup ? 'Ya existe un ítem con este nombre' : '');
+            }}
             className={inputCls(errors.name)}
           />
           {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+          {!errors.name && nameWarning && <p className="text-amber-600 text-xs mt-1">⚠ {nameWarning} — puedes continuar si es intencional</p>}
         </div>
         <div>
           <label className="block text-sm text-gray-700 mb-1">Código</label>
-          <input type="text" value={code} onChange={(e) => setCode(e.target.value)} className={inputCls()} placeholder="ej. MAT-OG-001" />
+          <input
+            type="text" value={code}
+            onChange={(e) => {
+              const v = e.target.value;
+              setCode(v);
+              const dup = v.trim() && items.some((i) => i.id !== item?.id && i.code.trim().toLowerCase() === v.trim().toLowerCase());
+              setErrors((err) => ({ ...err, code: dup ? 'Ya existe un ítem con este código' : '' }));
+            }}
+            className={inputCls(errors.code)}
+            placeholder="ej. MAT-OG-001"
+          />
+          {errors.code && <p className="text-red-500 text-xs mt-1">{errors.code}</p>}
         </div>
       </div>
 
