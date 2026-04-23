@@ -247,6 +247,8 @@ export default function RubrosView({ onTabChange }: RubrosViewProps) {
           onClose={() => setModalMode(null)}
           size="xl"
           flush
+          draggable
+          resizable
         >
           <RubroForm
             rubro={selectedRubro ?? undefined}

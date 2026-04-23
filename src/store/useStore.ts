@@ -178,6 +178,7 @@ interface AppState {
   updateLineItem: (budgetId: string, lineItemId: string, quantity: number) => void;
   removeLineItem: (budgetId: string, lineItemId: string) => void;
   recalculateBudget: (budgetId: string) => void;
+  setBudgetIvaRate: (budgetId: string, rate: number) => void;
 
   // BudgetUpdate actions
   createBudgetUpdate: (name: string, description: string, sourceBudgetId: string, newDatabaseId: string) => string;
@@ -552,6 +553,14 @@ export const useStore = create<AppState>((set, get) => ({
       );
       return { budgets };
     });
+  },
+
+  setBudgetIvaRate: (budgetId, rate) => {
+    set((state) => ({
+      budgets: state.budgets.map((b) =>
+        b.id === budgetId ? { ...b, ivaRate: rate, updatedAt: new Date().toISOString() } : b
+      ),
+    }));
   },
 
   deleteBudget: (id) => {

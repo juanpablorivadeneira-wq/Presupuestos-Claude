@@ -16,7 +16,7 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
   const budgets = useStore((s) => s.budgets);
   const currentBudgetId = useStore((s) => s.currentBudgetId);
   const databases = useStore((s) => s.databases);
-  const { addLineItemsBulk, removeLineItem, updateLineItem, recalculateBudget } = useStore();
+  const { addLineItemsBulk, removeLineItem, updateLineItem, recalculateBudget, setBudgetIvaRate } = useStore();
 
   const budget = budgets.find((b) => b.id === currentBudgetId) ?? null;
   const sourceDb = budget ? databases.find((d) => d.id === budget.databaseId) ?? null : null;
@@ -474,7 +474,20 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
               </tr>
               <tr className="bg-gray-50">
                 <td colSpan={8} className="px-4 py-2 text-right text-sm text-gray-500">
-                  IVA ({(ivaRate * 100).toFixed(0)}%)
+                  <div className="flex items-center justify-end gap-2">
+                    <span>IVA</span>
+                    <select
+                      value={ivaRate}
+                      onChange={(e) => setBudgetIvaRate(budget.id, parseFloat(e.target.value))}
+                      className="text-xs border border-gray-300 rounded px-1.5 py-0.5 focus:outline-none focus:ring-1 focus:ring-green-500 bg-white"
+                    >
+                      <option value="0">0%</option>
+                      <option value="0.05">5%</option>
+                      <option value="0.08">8%</option>
+                      <option value="0.12">12%</option>
+                      <option value="0.15">15%</option>
+                    </select>
+                  </div>
                 </td>
                 <td className="px-3 py-2 text-right text-sm text-gray-600">{formatMoney(ivaAmount)}</td>
                 <td />
