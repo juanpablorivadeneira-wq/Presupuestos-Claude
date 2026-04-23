@@ -13,6 +13,7 @@ interface ItemFormProps {
 
 export default function ItemForm({ item, categories, onSave, onCancel }: ItemFormProps) {
   const ivaRates = useStore((s) => s.ivaRates);
+  const defaultIvaRate = useStore((s) => s.defaultIvaRate);
 
   const [code, setCode] = useState(item?.code ?? '');
   const [name, setName] = useState(item?.name ?? '');
@@ -22,7 +23,7 @@ export default function ItemForm({ item, categories, onSave, onCancel }: ItemFor
   const [manoDeObra, setManoDeObra] = useState(String(item?.manoDeObra ?? '0'));
   const [equipo, setEquipo] = useState(String(item?.equipo ?? '0'));
   const [indirectos, setIndirectos] = useState(String(item?.indirectos ?? '0'));
-  const [ivaRate, setIvaRate] = useState(item?.ivaRate ?? 0);
+  const [ivaRate, setIvaRate] = useState(item?.ivaRate ?? defaultIvaRate);
   const [categoryId, setCategoryId] = useState<string | null>(item?.categoryId ?? null);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
