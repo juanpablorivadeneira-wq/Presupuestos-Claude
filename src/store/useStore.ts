@@ -155,6 +155,7 @@ interface AppState {
   addItem: (item: Item) => void;
   updateItem: (item: Item) => void;
   deleteItem: (id: string) => void;
+  bulkUpdateIvaRate: (itemIds: string[], ivaRate: number) => void;
 
   // ItemCategory actions
   addItemCategory: (category: ItemCategory) => void;
@@ -400,6 +401,17 @@ export const useStore = create<AppState>((set, get) => ({
       }));
       return { databases };
     });
+  },
+
+  bulkUpdateIvaRate: (itemIds, ivaRate) => {
+    const idSet = new Set(itemIds);
+    set((state) => ({
+      databases: updateDbInList(state.databases, state.currentDatabaseId, (db) => ({
+        ...db,
+        items: db.items.map((i) => (idSet.has(i.id) ? { ...i, ivaRate } : i)),
+        updatedAt: new Date().toISOString(),
+      })),
+    }));
   },
 
   deleteItem: (id) => {
