@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowUpDown, Pencil, Trash2, Plus, Minus } from 'lucide-react';
+import { ArrowUpDown, Pencil, Trash2, Plus, Minus, Copy } from 'lucide-react';
 import { Item, Rubro, RubroCategory, SortConfig } from '../../types';
 import { itemTotal, rubroTotal, formatMoney } from '../../store/useStore';
 import { useResizableColumns } from '../shared/useResizableColumns.tsx';
@@ -10,6 +10,7 @@ interface RubroTableProps {
   rubroCategories: RubroCategory[];
   onEdit: (rubro: Rubro) => void;
   onDelete: (rubro: Rubro) => void;
+  onDuplicate: (rubro: Rubro) => void;
   sortConfig: SortConfig;
   onSort: (key: string) => void;
 }
@@ -66,6 +67,7 @@ export default function RubroTable({
   rubroCategories,
   onEdit,
   onDelete,
+  onDuplicate,
   sortConfig,
   onSort,
 }: RubroTableProps) {
@@ -177,9 +179,16 @@ export default function RubroTable({
                       <button
                         onClick={() => onEdit(rubro)}
                         className="p-1.5 rounded hover:bg-blue-50 text-gray-400 hover:text-blue-600 transition-colors"
-                        title="Editar"
+                        title="Ver / Editar"
                       >
                         <Pencil size={14} />
+                      </button>
+                      <button
+                        onClick={() => onDuplicate(rubro)}
+                        className="p-1.5 rounded hover:bg-green-50 text-gray-400 hover:text-green-600 transition-colors"
+                        title="Duplicar"
+                      >
+                        <Copy size={14} />
                       </button>
                       <button
                         onClick={() => onDelete(rubro)}

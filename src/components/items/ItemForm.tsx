@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { X, Check } from 'lucide-react';
 import { Item, ItemCategory } from '../../types';
 import { genId, formatMoney } from '../../store/useStore';
+import { UNITS } from '../../data/units';
 
 interface ItemFormProps {
   item?: Item;
@@ -9,8 +10,6 @@ interface ItemFormProps {
   onSave: (item: Item) => void;
   onCancel: () => void;
 }
-
-const UNITS = ['kg', 'm', 'm²', 'm³', 'h', 'Und', 'Global', 'ml', 'l', 'ton', 'día', 'mes', 'km'];
 
 export default function ItemForm({ item, categories, onSave, onCancel }: ItemFormProps) {
   const [code, setCode] = useState(item?.code ?? '');
