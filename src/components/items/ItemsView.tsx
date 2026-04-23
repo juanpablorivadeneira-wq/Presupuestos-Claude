@@ -299,6 +299,7 @@ export default function ItemsView({ onTabChange }: ItemsViewProps) {
         <Modal title="Detalles del Item" onClose={() => setModalMode(null)} size="lg">
           <ItemForm
             item={selectedItem ?? undefined}
+            items={items}
             categories={itemCategories}
             onSave={handleSave}
             onCancel={() => setModalMode(null)}

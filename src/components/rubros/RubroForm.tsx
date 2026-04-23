@@ -77,6 +77,8 @@ export default function RubroForm({
     })) ?? []
   );
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [nameWarning, setNameWarning] = useState('');
+  const [pickerDupWarning, setPickerDupWarning] = useState('');
   const [editingCompId, setEditingCompId] = useState<string | null>(null);
   const [editingQtyText, setEditingQtyText] = useState('');
 
@@ -120,7 +122,7 @@ export default function RubroForm({
     if (!code.trim()) e.code = 'Requerido';
     else { const dup = checkDuplicateCode(code); if (dup) e.code = dup; }
     if (!name.trim()) e.name = 'Requerido';
-    else { const dup = checkDuplicateName(name); if (dup) e.name = dup; }
+    // Name duplicate is a warning only — doesn't block saving
     if (!unit.trim()) e.unit = 'Requerido';
     if (!categoryId) e.categoryId = 'Requerido';
     return e;
@@ -155,9 +157,11 @@ export default function RubroForm({
   function addComponent(item: Item) {
     const existing = components.find((c) => c.itemId === item.id);
     if (existing) {
-      setComponents((prev) => prev.map((c) => c.id === existing.id ? { ...c, quantity: c.quantity + 1 } : c));
+      setPickerDupWarning(`"${item.name}" ya fue agregado — ajusta la cantidad en la tabla`);
+      setTimeout(() => setPickerDupWarning(''), 3000);
       return;
     }
+    setPickerDupWarning('');
     setComponents((prev) => [
       ...prev,
       { id: genId(), itemId: item.id, quantity: 1, type: detectType(item, itemCategories) },
@@ -276,8 +280,8 @@ export default function RubroForm({
                 onChange={(e) => {
                   const v = e.target.value;
                   setName(v);
-                  const dup = v.trim() ? checkDuplicateName(v) : '';
-                  setErrors((p) => ({ ...p, name: dup }));
+                  setErrors((p) => ({ ...p, name: '' }));
+                  setNameWarning(v.trim() ? checkDuplicateName(v) : '');
                 }}
                 className={inputCls(errors.name)}
                 placeholder="Nombre del rubro"
@@ -286,6 +290,9 @@ export default function RubroForm({
                 <p className="text-red-500 text-xs mt-0.5 flex items-center gap-1">
                   <AlertCircle size={11} />{errors.name}
                 </p>
+              )}
+              {!errors.name && nameWarning && (
+                <p className="text-amber-600 text-xs mt-0.5">⚠ {nameWarning} — puedes continuar si es intencional</p>
               )}
             </>
           ) : (
@@ -462,6 +469,12 @@ export default function RubroForm({
                 <X size={15} />
               </button>
             </div>
+
+            {pickerDupWarning && (
+              <div className="px-4 py-1.5 bg-amber-50 border-b border-amber-200 text-xs text-amber-700 flex items-center gap-1.5">
+                <AlertCircle size={11} /> {pickerDupWarning}
+              </div>
+            )}
 
             <div className="overflow-y-auto flex-1">
               {items.length === 0 ? (
