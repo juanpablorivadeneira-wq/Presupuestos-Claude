@@ -152,12 +152,21 @@ export default function ItemTable({
                     <td colSpan={colSpanTotal} className="px-8 py-3">
                       <div className="text-xs text-gray-500 space-y-1">
                         <div className="font-semibold text-gray-700 mb-2">Desglose completo:</div>
-                        <div className="grid grid-cols-5 gap-4 max-w-xl">
+                        <div className="grid grid-cols-6 gap-4 max-w-2xl">
                           <div><span className="text-gray-400">Material</span><div className="font-medium text-gray-800">{formatMoney(item.material)}</div></div>
                           <div><span className="text-gray-400">Mano de Obra</span><div className="font-medium text-gray-800">{formatMoney(item.manoDeObra)}</div></div>
                           <div><span className="text-gray-400">Equipo</span><div className="font-medium text-gray-800">{formatMoney(item.equipo)}</div></div>
                           <div><span className="text-gray-400">Indirectos</span><div className="font-medium text-gray-800">{formatMoney(item.indirectos)}</div></div>
-                          <div><span className="text-gray-400">Total</span><div className="font-bold text-green-700">{formatMoney(total)}</div></div>
+                          <div>
+                            <span className="text-gray-400">IVA</span>
+                            <div className="font-medium text-amber-600">
+                              {(item.ivaRate ?? 0) === 0
+                                ? <span className="text-gray-400">0% (exento)</span>
+                                : `${((item.ivaRate ?? 0) * 100).toFixed(0)}% = ${formatMoney((item.material + item.manoDeObra + item.equipo + item.indirectos) * (item.ivaRate ?? 0))}`
+                              }
+                            </div>
+                          </div>
+                          <div><span className="text-gray-400">Precio Unit.</span><div className="font-bold text-green-700">{formatMoney(total)}</div></div>
                         </div>
                         {item.description && <div className="mt-2 text-gray-500"><span className="font-medium">Descripción:</span> {item.description}</div>}
                       </div>

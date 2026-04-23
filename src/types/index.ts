@@ -14,6 +14,7 @@ export interface Item {
   manoDeObra: number;
   equipo: number;
   indirectos: number;
+  ivaRate?: number;
   categoryId: string | null;
 }
 
