@@ -47,6 +47,7 @@ export interface StorageData {
   currentBudgetUpdateId: string | null;
   medicionProjects: MedicionProject[];
   currentMedicionId: string | null;
+  ivaRates: number[];
 }
 
 // ── localStorage helpers (fallback / dev) ─────────────────────────────────────
@@ -131,6 +132,7 @@ interface AppState {
   currentBudgetUpdateId: string | null;
   medicionProjects: MedicionProject[];
   currentMedicionId: string | null;
+  ivaRates: number[];
 
   // Computed selectors
   getCurrentDatabase: () => Database | null;
@@ -178,6 +180,8 @@ interface AppState {
   updateLineItem: (budgetId: string, lineItemId: string, quantity: number) => void;
   removeLineItem: (budgetId: string, lineItemId: string) => void;
   recalculateBudget: (budgetId: string) => void;
+  setBudgetIvaRate: (budgetId: string, rate: number) => void;
+  setIvaRates: (rates: number[]) => void;
 
   // BudgetUpdate actions
   createBudgetUpdate: (name: string, description: string, sourceBudgetId: string, newDatabaseId: string) => string;
@@ -219,6 +223,7 @@ const initialBudgetUpdates: BudgetUpdate[] = saved?.budgetUpdates ?? [];
 const initialCurrentBudgetUpdateId: string | null = saved?.currentBudgetUpdateId ?? null;
 const initialMedicionProjects: MedicionProject[] = saved?.medicionProjects ?? [];
 const initialCurrentMedicionId: string | null = saved?.currentMedicionId ?? null;
+const initialIvaRates: number[] = saved?.ivaRates ?? [0, 0.05, 0.08, 0.12, 0.15];
 
 function updateDbInList(databases: Database[], dbId: string | null, updater: (db: Database) => Database): Database[] {
   if (!dbId) return databases;
@@ -234,6 +239,7 @@ export const useStore = create<AppState>((set, get) => ({
   currentBudgetUpdateId: initialCurrentBudgetUpdateId,
   medicionProjects: initialMedicionProjects,
   currentMedicionId: initialCurrentMedicionId,
+  ivaRates: initialIvaRates,
 
   getCurrentDatabase: () => {
     const state = get();
@@ -552,6 +558,18 @@ export const useStore = create<AppState>((set, get) => ({
       );
       return { budgets };
     });
+  },
+
+  setBudgetIvaRate: (budgetId, rate) => {
+    set((state) => ({
+      budgets: state.budgets.map((b) =>
+        b.id === budgetId ? { ...b, ivaRate: rate, updatedAt: new Date().toISOString() } : b
+      ),
+    }));
+  },
+
+  setIvaRates: (rates) => {
+    set({ ivaRates: [...rates].sort((a, b) => a - b) });
   },
 
   deleteBudget: (id) => {
@@ -920,6 +938,7 @@ export const useStore = create<AppState>((set, get) => ({
       currentBudgetUpdateId: s.currentBudgetUpdateId,
       medicionProjects: s.medicionProjects,
       currentMedicionId: s.currentMedicionId,
+      ivaRates: s.ivaRates,
     };
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -980,6 +999,7 @@ useStore.subscribe((state) => {
     currentBudgetUpdateId: state.currentBudgetUpdateId,
     medicionProjects: state.medicionProjects,
     currentMedicionId: state.currentMedicionId,
+    ivaRates: state.ivaRates,
   });
 });
 

@@ -1,7 +1,7 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { Budget } from '../types';
-import { formatMoney } from '../store/useStore';
+import { Budget, Rubro, Item, RubroCategory } from '../types';
+import { formatMoney, itemTotal } from '../store/useStore';
 
 export function exportBudgetPdf(budget: Budget): void {
   const doc = new jsPDF();
@@ -77,4 +77,130 @@ export function exportBudgetPdf(budget: Budget): void {
   }
 
   doc.save(`${budget.name.replace(/[^a-z0-9]/gi, '_')}.pdf`);
+}
+
+const TYPE_ORDER = ['material', 'manoDeObra', 'equipo', 'subcontrato'] as const;
+const TYPE_LABELS: Record<string, string> = {
+  material: 'MATERIALES',
+  manoDeObra: 'MANO DE OBRA',
+  equipo: 'EQUIPOS',
+  subcontrato: 'SUBCONTRATOS',
+};
+const TYPE_COLORS: Record<string, [number, number, number]> = {
+  material:    [219, 234, 254],
+  manoDeObra:  [254, 235, 213],
+  equipo:      [237, 233, 254],
+  subcontrato: [254, 252, 207],
+};
+
+export function exportRubroPdf(
+  rubro: Rubro,
+  items: Item[],
+  rubroCategories: RubroCategory[],
+): void {
+  const doc = new jsPDF();
+  const pageW = doc.internal.pageSize.width;
+
+  // Header block
+  doc.setFillColor(31, 45, 69);
+  doc.rect(0, 0, pageW, 28, 'F');
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(14);
+  doc.setFont('helvetica', 'bold');
+  doc.text('ANÁLISIS DE PRECIO UNITARIO', 14, 11);
+  doc.setFontSize(9);
+  doc.setFont('helvetica', 'normal');
+  doc.text(`Generado el ${new Date().toLocaleString('es-EC')}`, 14, 18);
+  doc.text('BuildKontrol', pageW - 14, 18, { align: 'right' });
+
+  // APU info grid
+  let y = 36;
+  const catName = rubroCategories.find((c) => c.id === rubro.categoryId)?.name ?? '—';
+  const infoRows = [
+    ['Código', rubro.code, 'Categoría', catName],
+    ['Nombre', rubro.name, 'Unidad', rubro.unit],
+    ...(rubro.description ? [['Descripción', rubro.description, '', '']] : []),
+  ];
+  doc.setFontSize(9);
+  for (const [l1, v1, l2, v2] of infoRows) {
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(80, 80, 80);
+    doc.text(l1 + ':', 14, y);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(30, 30, 30);
+    doc.text(String(v1), 45, y);
+    if (l2) {
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(80, 80, 80);
+      doc.text(l2 + ':', 120, y);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(30, 30, 30);
+      doc.text(String(v2), 148, y);
+    }
+    y += 7;
+  }
+  y += 4;
+
+  // Components by type
+  let grandTotal = 0;
+  for (const type of TYPE_ORDER) {
+    const comps = rubro.components.filter((c) => c.type === type);
+    if (comps.length === 0) continue;
+
+    const rows = comps.map((comp) => {
+      const item = items.find((i) => i.id === comp.itemId);
+      if (!item) return ['—', '—', '—', '—', '—'];
+      const up = itemTotal(item);
+      const sub = up * comp.quantity;
+      grandTotal += sub;
+      return [
+        item.code,
+        item.name,
+        item.unit,
+        parseFloat(comp.quantity.toFixed(6)).toString(),
+        formatMoney(up),
+        formatMoney(sub),
+      ];
+    });
+
+    const [r, g, b] = TYPE_COLORS[type];
+    autoTable(doc, {
+      startY: y,
+      head: [[
+        { content: TYPE_LABELS[type], colSpan: 4, styles: { fillColor: [r, g, b], textColor: [30, 30, 30], fontStyle: 'bold', fontSize: 8 } },
+        { content: 'P. Unit.', styles: { fillColor: [r, g, b], textColor: [30, 30, 30], fontStyle: 'bold', halign: 'right', fontSize: 8 } },
+        { content: 'Subtotal', styles: { fillColor: [r, g, b], textColor: [30, 30, 30], fontStyle: 'bold', halign: 'right', fontSize: 8 } },
+      ]],
+      body: rows,
+      styles: { fontSize: 8, cellPadding: 2.5 },
+      columnStyles: {
+        0: { cellWidth: 22, textColor: [80, 80, 80] },
+        1: { cellWidth: 'auto' },
+        2: { cellWidth: 18, halign: 'center' },
+        3: { cellWidth: 22, halign: 'right' },
+        4: { cellWidth: 26, halign: 'right' },
+        5: { cellWidth: 26, halign: 'right', fontStyle: 'bold' },
+      },
+      margin: { left: 14, right: 14 },
+    });
+    y = (doc as any).lastAutoTable.finalY + 4;
+  }
+
+  // Total row
+  autoTable(doc, {
+    startY: y,
+    body: [['', '', '', '', 'COSTO TOTAL', formatMoney(grandTotal)]],
+    styles: { fontSize: 9, cellPadding: 3, fontStyle: 'bold', fillColor: [243, 244, 246] },
+    columnStyles: {
+      0: { cellWidth: 22 },
+      1: { cellWidth: 'auto' },
+      2: { cellWidth: 18 },
+      3: { cellWidth: 22 },
+      4: { cellWidth: 26, halign: 'right', textColor: [31, 45, 69] },
+      5: { cellWidth: 26, halign: 'right', textColor: [22, 101, 52] },
+    },
+    margin: { left: 14, right: 14 },
+  });
+
+  doc.save(`APU_${rubro.code.replace(/[^a-z0-9]/gi, '_')}_${rubro.name.replace(/[^a-z0-9]/gi, '_').slice(0, 30)}.pdf`);
 }

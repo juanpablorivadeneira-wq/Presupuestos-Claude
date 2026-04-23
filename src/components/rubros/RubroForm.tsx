@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Trash2, Search, Plus, X, AlertCircle, Pencil } from 'lucide-react';
+import { Trash2, Search, Plus, X, AlertCircle, Pencil, FileDown } from 'lucide-react';
 import { Item, ItemCategory, Rubro, RubroCategory } from '../../types';
 import { itemTotal, genId, formatMoney } from '../../store/useStore';
 import { UNITS } from '../../data/units';
+import { exportRubroPdf } from '../../utils/exportPdf';
 
 interface RubroFormProps {
   rubro?: Rubro;
@@ -207,14 +208,26 @@ export default function RubroForm({
         <div className="flex items-center justify-between mb-1">
           <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide">Detalles del Rubro</p>
           {!isEditing && (
-            <button
-              type="button"
-              onClick={() => setIsEditing(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-gray-800 text-white rounded-md hover:bg-gray-700 transition-colors"
-            >
-              <Pencil size={12} />
-              Editar
-            </button>
+            <div className="flex gap-1.5">
+              {rubro && (
+                <button
+                  type="button"
+                  onClick={() => exportRubroPdf(rubro, items, rubroCategories)}
+                  className="flex items-center gap-1 px-2 py-1.5 text-xs font-medium border border-gray-300 text-gray-600 rounded-md hover:bg-gray-100 transition-colors"
+                >
+                  <FileDown size={11} />
+                  PDF
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={() => setIsEditing(true)}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-gray-800 text-white rounded-md hover:bg-gray-700 transition-colors"
+              >
+                <Pencil size={12} />
+                Editar
+              </button>
+            </div>
           )}
         </div>
 
