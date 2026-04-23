@@ -55,6 +55,10 @@ export default function ItemForm({ item, items, categories, onSave, onCancel }: 
   const moDisabled  = costType !== null && costType !== 'manoDeObra';
   const eqDisabled  = costType !== null && costType !== 'equipo';
 
+  const codeIsDuplicate = code.trim() !== '' && items.some(
+    (i) => i.id !== item?.id && i.code.trim().toLowerCase() === code.trim().toLowerCase()
+  );
+
   function handleCategoryChange(newCatId: string | null) {
     const newType = detectCostType(newCatId, categories);
     setCategoryId(newCatId);
@@ -81,10 +85,7 @@ export default function ItemForm({ item, items, categories, onSave, onCancel }: 
     const e: Record<string, string> = {};
     if (!name.trim()) e.name = 'El nombre es requerido';
     if (!unit.trim()) e.unit = 'La unidad es requerida';
-    if (code.trim()) {
-      const dup = items.some((i) => i.id !== item?.id && i.code.trim().toLowerCase() === code.trim().toLowerCase());
-      if (dup) e.code = 'Ya existe un ítem con este código';
-    }
+    if (codeIsDuplicate) e.code = 'Ya existe un ítem con este código';
     return e;
   }
 
@@ -158,16 +159,11 @@ export default function ItemForm({ item, items, categories, onSave, onCancel }: 
           <label className="block text-sm text-gray-700 mb-1">Código</label>
           <input
             type="text" value={code}
-            onChange={(e) => {
-              const v = e.target.value;
-              setCode(v);
-              const dup = v.trim() && items.some((i) => i.id !== item?.id && i.code.trim().toLowerCase() === v.trim().toLowerCase());
-              setErrors((err) => ({ ...err, code: dup ? 'Ya existe un ítem con este código' : '' }));
-            }}
-            className={inputCls(errors.code)}
+            onChange={(e) => setCode(e.target.value)}
+            className={inputCls(codeIsDuplicate ? 'dup' : undefined)}
             placeholder="ej. MAT-OG-001"
           />
-          {errors.code && <p className="text-red-500 text-xs mt-1">{errors.code}</p>}
+          {codeIsDuplicate && <p className="text-red-500 text-xs mt-1">Ya existe un ítem con este código</p>}
         </div>
       </div>
 
@@ -282,7 +278,11 @@ export default function ItemForm({ item, items, categories, onSave, onCancel }: 
         <button type="button" onClick={onCancel} className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-gray-800">
           <X size={14} /> Cancelar
         </button>
-        <button type="submit" className="flex items-center gap-1.5 text-sm text-gray-800 font-medium hover:text-green-700">
+        <button
+          type="submit"
+          disabled={codeIsDuplicate}
+          className={`flex items-center gap-1.5 text-sm font-medium transition-colors ${codeIsDuplicate ? 'text-gray-300 cursor-not-allowed' : 'text-gray-800 hover:text-green-700'}`}
+        >
           <Check size={14} /> Guardar
         </button>
       </div>
