@@ -48,6 +48,7 @@ export interface StorageData {
   medicionProjects: MedicionProject[];
   currentMedicionId: string | null;
   ivaRates: number[];
+  defaultIvaRate: number;
 }
 
 // ── localStorage helpers (fallback / dev) ─────────────────────────────────────
@@ -133,6 +134,7 @@ interface AppState {
   medicionProjects: MedicionProject[];
   currentMedicionId: string | null;
   ivaRates: number[];
+  defaultIvaRate: number;
 
   // Computed selectors
   getCurrentDatabase: () => Database | null;
@@ -182,6 +184,7 @@ interface AppState {
   recalculateBudget: (budgetId: string) => void;
   setBudgetIvaRate: (budgetId: string, rate: number) => void;
   setIvaRates: (rates: number[]) => void;
+  setDefaultIvaRate: (rate: number) => void;
 
   // BudgetUpdate actions
   createBudgetUpdate: (name: string, description: string, sourceBudgetId: string, newDatabaseId: string) => string;
@@ -223,7 +226,8 @@ const initialBudgetUpdates: BudgetUpdate[] = saved?.budgetUpdates ?? [];
 const initialCurrentBudgetUpdateId: string | null = saved?.currentBudgetUpdateId ?? null;
 const initialMedicionProjects: MedicionProject[] = saved?.medicionProjects ?? [];
 const initialCurrentMedicionId: string | null = saved?.currentMedicionId ?? null;
-const initialIvaRates: number[] = saved?.ivaRates ?? [0, 0.05, 0.08, 0.12, 0.15];
+const initialIvaRates: number[] = saved?.ivaRates ?? [0, 0.05, 0.15];
+const initialDefaultIvaRate: number = saved?.defaultIvaRate ?? 0.15;
 
 function updateDbInList(databases: Database[], dbId: string | null, updater: (db: Database) => Database): Database[] {
   if (!dbId) return databases;
@@ -240,6 +244,7 @@ export const useStore = create<AppState>((set, get) => ({
   medicionProjects: initialMedicionProjects,
   currentMedicionId: initialCurrentMedicionId,
   ivaRates: initialIvaRates,
+  defaultIvaRate: initialDefaultIvaRate,
 
   getCurrentDatabase: () => {
     const state = get();
@@ -570,6 +575,10 @@ export const useStore = create<AppState>((set, get) => ({
 
   setIvaRates: (rates) => {
     set({ ivaRates: [...rates].sort((a, b) => a - b) });
+  },
+
+  setDefaultIvaRate: (rate) => {
+    set({ defaultIvaRate: rate });
   },
 
   deleteBudget: (id) => {
@@ -939,6 +948,7 @@ export const useStore = create<AppState>((set, get) => ({
       medicionProjects: s.medicionProjects,
       currentMedicionId: s.currentMedicionId,
       ivaRates: s.ivaRates,
+      defaultIvaRate: s.defaultIvaRate,
     };
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -1000,6 +1010,7 @@ useStore.subscribe((state) => {
     medicionProjects: state.medicionProjects,
     currentMedicionId: state.currentMedicionId,
     ivaRates: state.ivaRates,
+    defaultIvaRate: state.defaultIvaRate,
   });
 });
 

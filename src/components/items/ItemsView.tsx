@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef } from 'react';
-import { Plus, Search, X, Settings2, ChevronDown, ChevronUp, Trash2 } from 'lucide-react';
+import { Plus, Search, X, Settings2, ChevronDown, ChevronUp, Trash2, Star } from 'lucide-react';
 import { Item, SortConfig } from '../../types';
 import { useStore, getCategoryIds, itemTotal } from '../../store/useStore';
 import CategoryTree from '../shared/CategoryTree';
@@ -21,7 +21,8 @@ export default function ItemsView({ onTabChange }: ItemsViewProps) {
   const items = currentDb?.items ?? [];
   const itemCategories = currentDb?.itemCategories ?? [];
   const ivaRates = useStore((s) => s.ivaRates);
-  const { addItem, updateItem, deleteItem, addItemCategory, updateItemCategory, deleteItemCategory, setIvaRates } = useStore();
+  const defaultIvaRate = useStore((s) => s.defaultIvaRate);
+  const { addItem, updateItem, deleteItem, addItemCategory, updateItemCategory, deleteItemCategory, setIvaRates, setDefaultIvaRate } = useStore();
 
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
   const [search, setSearch] = useState('');
@@ -227,34 +228,47 @@ export default function ItemsView({ onTabChange }: ItemsViewProps) {
         {/* IVA analysis panel */}
         {showIvaPanel && (
           <div className="flex-1 overflow-hidden border-t-2 border-amber-400">
-            <ItemsIvaView items={items} />
+            <ItemsIvaView items={items} categories={itemCategories} />
           </div>
         )}
       </div>
 
       {/* IVA rates manager modal */}
       {ivaModalOpen && (
-        <Modal title="Tasas IVA disponibles" onClose={() => setIvaModalOpen(false)} size="sm">
+        <Modal title="Tasas IVA" onClose={() => setIvaModalOpen(false)} size="sm">
           <div className="space-y-4">
-            <p className="text-xs text-gray-500">Estas son las tasas que aparecen al crear o editar un ítem.</p>
+            <p className="text-xs text-gray-500">
+              La tasa marcada con <span className="text-amber-500 font-semibold">★</span> es la que se aplica por defecto al crear un nuevo ítem.
+            </p>
 
             <div className="space-y-1">
-              {ivaRates.map((rate) => (
-                <div key={rate} className="flex items-center justify-between px-3 py-2 bg-gray-50 rounded-md">
-                  <span className="text-sm font-medium text-gray-800">
-                    {(rate * 100).toFixed(0)}%
-                    {rate === 0 && <span className="ml-2 text-xs text-gray-400">Exento / Tarifa 0</span>}
-                    {rate === 0.15 && <span className="ml-2 text-xs text-amber-600">Ecuador estándar</span>}
-                  </span>
-                  <button
-                    onClick={() => removeIvaRate(rate)}
-                    className="p-1 text-gray-400 hover:text-red-500 rounded"
-                    title="Eliminar tasa"
-                  >
-                    <Trash2 size={13} />
-                  </button>
-                </div>
-              ))}
+              {ivaRates.map((rate) => {
+                const isDefault = rate === defaultIvaRate;
+                return (
+                  <div key={rate} className={`flex items-center justify-between px-3 py-2 rounded-md border ${isDefault ? 'bg-amber-50 border-amber-200' : 'bg-gray-50 border-transparent'}`}>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => setDefaultIvaRate(rate)}
+                        title={isDefault ? 'Tasa por defecto' : 'Establecer como defecto'}
+                        className={`transition-colors ${isDefault ? 'text-amber-500' : 'text-gray-300 hover:text-amber-400'}`}
+                      >
+                        <Star size={14} fill={isDefault ? 'currentColor' : 'none'} />
+                      </button>
+                      <span className="text-sm font-semibold text-gray-800">{(rate * 100).toFixed(0)}%</span>
+                      {rate === 0 && <span className="text-xs text-gray-400">Exento / Tarifa 0</span>}
+                      {isDefault && <span className="text-xs text-amber-600 font-medium">predeterminado</span>}
+                    </div>
+                    <button
+                      onClick={() => removeIvaRate(rate)}
+                      disabled={isDefault}
+                      className="p-1 text-gray-300 hover:text-red-500 rounded disabled:opacity-30 disabled:cursor-not-allowed"
+                      title={isDefault ? 'No se puede eliminar la tasa predeterminada' : 'Eliminar tasa'}
+                    >
+                      <Trash2 size={13} />
+                    </button>
+                  </div>
+                );
+              })}
             </div>
 
             <div className="flex gap-2 pt-1 border-t border-gray-200">
@@ -265,6 +279,7 @@ export default function ItemsView({ onTabChange }: ItemsViewProps) {
                 onKeyDown={(e) => e.key === 'Enter' && addIvaRate()}
                 placeholder="Ej: 15 o 0.15"
                 className="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-amber-400"
+                autoFocus
               />
               <button
                 onClick={addIvaRate}
