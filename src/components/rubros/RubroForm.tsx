@@ -39,13 +39,23 @@ const TYPE_COLORS: Record<ComponentType, string> = {
 };
 
 function detectType(item: Item, itemCategories: ItemCategory[]): ComponentType {
-  const cat = itemCategories.find((c) => c.id === item.categoryId);
-  if (cat) {
-    const n = cat.name.toLowerCase();
+  // Walk up to root category (same logic as detectCostType in ItemForm)
+  let current = itemCategories.find((c) => c.id === item.categoryId);
+  let root = current;
+  while (current?.parentId) {
+    const parent = itemCategories.find((c) => c.id === current!.parentId);
+    if (!parent) break;
+    root = parent;
+    current = parent;
+  }
+  if (root) {
+    const n = root.name.toLowerCase();
     if (n.includes('mano') || n.includes('obra') || n.includes('labor')) return 'manoDeObra';
     if (n.includes('equipo') || n.includes('equipment') || n.includes('maquinaria')) return 'equipo';
-    if (n.includes('subcontrat') || n.includes('sc')) return 'subcontrato';
+    if (n.includes('subcontrat')) return 'subcontrato';
+    if (n.includes('material')) return 'material';
   }
+  // Fallback: infer from cost fields
   if (item.manoDeObra > 0 && item.material === 0 && item.equipo === 0) return 'manoDeObra';
   if (item.equipo > 0 && item.material === 0 && item.manoDeObra === 0) return 'equipo';
   return 'material';
