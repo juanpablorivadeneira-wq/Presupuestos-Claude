@@ -202,7 +202,8 @@ export default function RubroForm({
     <form onSubmit={handleSubmit} className="flex gap-0 flex-1 overflow-hidden" style={{ minHeight: 480 }}>
 
       {/* ── LEFT PANEL ──────────────────────────────────────────────── */}
-      <div className="w-72 shrink-0 border-r border-gray-200 px-5 py-4 flex flex-col gap-3 bg-gray-50">
+      <div className="w-72 shrink-0 border-r border-gray-200 flex flex-col bg-gray-50">
+      <div className="flex-1 overflow-y-auto px-5 py-4 flex flex-col gap-3">
 
         {/* Header */}
         <div className="flex items-center justify-between mb-1">
@@ -358,7 +359,7 @@ export default function RubroForm({
         </div>
 
         {/* Cost summary */}
-        <div className="mt-auto pt-3 border-t border-gray-200 space-y-1.5">
+        <div className="pt-3 border-t border-gray-200 space-y-1.5">
           {[
             { label: 'Material', val: matTotal, color: 'text-blue-600' },
             { label: 'Mano de Obra', val: labTotal, color: 'text-orange-600' },
@@ -375,8 +376,10 @@ export default function RubroForm({
           </div>
         </div>
 
-        {/* Action buttons */}
-        <div className="flex gap-2 pt-2">
+        </div>{/* end scrollable area */}
+
+        {/* Action buttons — always visible at bottom */}
+        <div className="shrink-0 flex gap-2 px-5 py-3 border-t border-gray-200 bg-gray-50">
           {isEditing ? (
             <>
               <button
