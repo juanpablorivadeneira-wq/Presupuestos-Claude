@@ -1006,6 +1006,11 @@ useStore.subscribe((state) => {
 // ── Standalone helper functions ───────────────────────────────────────────────
 
 export function itemTotal(item: Item): number {
+  const base = item.material + item.manoDeObra + item.equipo + item.indirectos;
+  return base * (1 + (item.ivaRate ?? 0));
+}
+
+export function itemBase(item: Item): number {
   return item.material + item.manoDeObra + item.equipo + item.indirectos;
 }
 

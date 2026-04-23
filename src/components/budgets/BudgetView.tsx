@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useRef } from 'react';
 import { useResizableColumns } from '../shared/useResizableColumns.tsx';
-import { Plus, Trash2, RefreshCw, FileDown, Search, X, ChevronDown, ChevronRight, CheckSquare, Check, AlertTriangle, Settings2 } from 'lucide-react';
+import { Plus, Trash2, RefreshCw, FileDown, Search, X, ChevronDown, ChevronRight, CheckSquare, Check, AlertTriangle } from 'lucide-react';
 import { useStore, formatMoney, rubroTotal, getCategoryIds } from '../../store/useStore';
 import { AppView, BudgetLineItem, Rubro } from '../../types';
 import Modal from '../shared/Modal';
@@ -16,12 +16,10 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
   const budgets = useStore((s) => s.budgets);
   const currentBudgetId = useStore((s) => s.currentBudgetId);
   const databases = useStore((s) => s.databases);
-  const ivaRates = useStore((s) => s.ivaRates);
-  const { addLineItemsBulk, removeLineItem, updateLineItem, recalculateBudget, setBudgetIvaRate, setIvaRates } = useStore();
+  const { addLineItemsBulk, removeLineItem, updateLineItem, recalculateBudget } = useStore();
 
   const budget = budgets.find((b) => b.id === currentBudgetId) ?? null;
   const sourceDb = budget ? databases.find((d) => d.id === budget.databaseId) ?? null : null;
-  const ivaRate = budget?.ivaRate ?? 0.12;
 
   // ── Search ──────────────────────────────────────────────────────────────────
   const [search, setSearch] = useState('');
@@ -33,10 +31,6 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
 
   // ── Collapsed chapters ──────────────────────────────────────────────────────
   const [collapsedChapters, setCollapsedChapters] = useState<Set<string>>(new Set());
-
-  // ── IVA rates editor ────────────────────────────────────────────────────────
-  const [ivaEditorOpen, setIvaEditorOpen] = useState(false);
-  const [newRateText, setNewRateText] = useState('');
 
   // ── Add modal state ─────────────────────────────────────────────────────────
   const [addModal, setAddModal] = useState(false);
@@ -51,12 +45,11 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
   const { widths: colWidths, resizer: colResizer } = useResizableColumns({ codigo: 112, nombre: 260, unidad: 72, material: 110, manoObra: 110, equipo: 96, precioUnit: 110, cantidad: 88, total: 120 });
 
   // ── Totals ──────────────────────────────────────────────────────────────────
-  const subtotal = budget ? budget.lineItems.reduce((s, li) => s + li.unitCost * li.quantity, 0) : 0;
+  // IVA is included in item prices — these are already final values
+  const total = budget ? budget.lineItems.reduce((s, li) => s + li.unitCost * li.quantity, 0) : 0;
   const subtotalMat = budget ? budget.lineItems.reduce((s, li) => s + (li.materialCost ?? 0) * li.quantity, 0) : 0;
   const subtotalMO = budget ? budget.lineItems.reduce((s, li) => s + (li.manoDeObraCost ?? 0) * li.quantity, 0) : 0;
   const subtotalEq = budget ? budget.lineItems.reduce((s, li) => s + (li.equipoCost ?? 0) * li.quantity, 0) : 0;
-  const ivaAmount = subtotal * ivaRate;
-  const total = subtotal + ivaAmount;
 
   // ── Filtered + grouped line items ───────────────────────────────────────────
   const filteredLineItems = useMemo(() => {
@@ -468,91 +461,17 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
             </tbody>
             <tfoot className="sticky bottom-0 z-10">
               <tr className="bg-gray-50">
-                <td colSpan={3} className="px-4 py-2.5 text-right text-sm text-gray-600 font-medium border-t-2 border-gray-300">Subtotal</td>
+                <td colSpan={3} className="px-4 py-2.5 text-right text-xs text-gray-400 italic border-t-2 border-gray-300">IVA incluido en precios unitarios</td>
                 <td className="px-3 py-2.5 text-right text-sm text-blue-700 font-semibold border-t-2 border-gray-300">{formatMoney(subtotalMat)}</td>
                 <td className="px-3 py-2.5 text-right text-sm text-orange-700 font-semibold border-t-2 border-gray-300">{formatMoney(subtotalMO)}</td>
                 <td className="px-3 py-2.5 text-right text-sm text-purple-700 font-semibold border-t-2 border-gray-300">{formatMoney(subtotalEq)}</td>
-                <td className="border-t-2 border-gray-300" />{/* Precio Unit. */}
-                <td className="border-t-2 border-gray-300" />{/* Cantidad */}
-                <td className="px-3 py-2.5 text-right text-sm text-gray-800 font-semibold border-t-2 border-gray-300">{formatMoney(subtotal)}</td>
+                <td className="border-t-2 border-gray-300" />
+                <td className="border-t-2 border-gray-300" />
+                <td className="border-t-2 border-gray-300" />
                 <td className="border-t-2 border-gray-300" />
               </tr>
-              <tr className="bg-gray-50">
-                <td colSpan={8} className="px-4 py-2 text-right text-sm text-gray-500">
-                  <div className="flex items-center justify-end gap-2 relative">
-                    <span>IVA</span>
-                    <select
-                      value={ivaRate}
-                      onChange={(e) => setBudgetIvaRate(budget.id, parseFloat(e.target.value))}
-                      className="text-xs border border-gray-300 rounded px-1.5 py-0.5 focus:outline-none focus:ring-1 focus:ring-green-500 bg-white"
-                    >
-                      {ivaRates.map((r) => (
-                        <option key={r} value={r}>{(r * 100).toFixed(0)}%</option>
-                      ))}
-                      {!ivaRates.includes(ivaRate) && (
-                        <option value={ivaRate}>{(ivaRate * 100).toFixed(0)}%</option>
-                      )}
-                    </select>
-                    <button
-                      onClick={() => setIvaEditorOpen((v) => !v)}
-                      className="p-1 rounded hover:bg-gray-200 text-gray-400 hover:text-gray-600"
-                      title="Personalizar tasas de IVA"
-                    >
-                      <Settings2 size={13} />
-                    </button>
-
-                    {/* IVA rates editor popover */}
-                    {ivaEditorOpen && (
-                      <div className="absolute bottom-8 right-0 z-20 bg-white border border-gray-200 rounded-lg shadow-xl w-56 p-3">
-                        <p className="text-xs font-semibold text-gray-600 mb-2">Tasas de IVA disponibles</p>
-                        <div className="space-y-1 mb-3">
-                          {ivaRates.map((r) => (
-                            <div key={r} className="flex items-center justify-between">
-                              <span className="text-sm text-gray-700">{(r * 100).toFixed(0)}%</span>
-                              <button
-                                onClick={() => setIvaRates(ivaRates.filter((x) => x !== r))}
-                                className="text-red-300 hover:text-red-500 p-0.5"
-                                title="Eliminar"
-                              >
-                                <Trash2 size={12} />
-                              </button>
-                            </div>
-                          ))}
-                        </div>
-                        <div className="flex gap-1.5 border-t border-gray-100 pt-2">
-                          <input
-                            type="number"
-                            min="0"
-                            max="100"
-                            step="1"
-                            value={newRateText}
-                            onChange={(e) => setNewRateText(e.target.value)}
-                            placeholder="ej. 15"
-                            className="flex-1 border border-gray-300 rounded px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-green-500"
-                          />
-                          <span className="text-xs text-gray-400 self-center">%</span>
-                          <button
-                            onClick={() => {
-                              const val = parseFloat(newRateText) / 100;
-                              if (!isNaN(val) && val >= 0 && !ivaRates.includes(val)) {
-                                setIvaRates([...ivaRates, val]);
-                              }
-                              setNewRateText('');
-                            }}
-                            className="px-2 py-1 bg-green-600 text-white rounded text-xs hover:bg-green-700 font-medium"
-                          >
-                            +
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </td>
-                <td className="px-3 py-2 text-right text-sm text-gray-600">{formatMoney(ivaAmount)}</td>
-                <td />
-              </tr>
               <tr className="bg-green-50">
-                <td colSpan={8} className="px-4 py-3 text-right text-sm font-bold text-gray-800">TOTAL</td>
+                <td colSpan={8} className="px-4 py-3 text-right text-sm font-bold text-gray-800">TOTAL (IVA incluido)</td>
                 <td className="px-3 py-3 text-right text-base font-bold text-green-700">{formatMoney(total)}</td>
                 <td />
               </tr>
