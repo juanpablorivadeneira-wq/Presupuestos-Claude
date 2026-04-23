@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Trash2, Search, Plus, X, AlertCircle } from 'lucide-react';
+import { Trash2, Search, Plus, X, AlertCircle, Pencil } from 'lucide-react';
 import { Item, ItemCategory, Rubro, RubroCategory } from '../../types';
 import { itemTotal, genId, formatMoney } from '../../store/useStore';
+import { UNITS } from '../../data/units';
 
 interface RubroFormProps {
   rubro?: Rubro;
@@ -21,8 +22,6 @@ interface ComponentRow {
   quantity: number;
   type: ComponentType;
 }
-
-const UNITS = ['m²', 'm³', 'm', 'ml', 'kg', 'ton', 'h', 'día', 'mes', 'Und', 'Global', 'km', 'l'];
 
 const TYPE_LABELS: Record<ComponentType, string> = {
   material: 'Material',
@@ -60,6 +59,9 @@ export default function RubroForm({
   onSave,
   onCancel,
 }: RubroFormProps) {
+  // Start in edit mode for new rubros, read-only for existing
+  const [isEditing, setIsEditing] = useState(!rubro);
+
   const [code, setCode] = useState(rubro?.code ?? '');
   const [name, setName] = useState(rubro?.name ?? '');
   const [description, setDescription] = useState(rubro?.description ?? '');
@@ -74,7 +76,6 @@ export default function RubroForm({
     })) ?? []
   );
   const [errors, setErrors] = useState<Record<string, string>>({});
-  // Quantity inline editing state
   const [editingCompId, setEditingCompId] = useState<string | null>(null);
   const [editingQtyText, setEditingQtyText] = useState('');
 
@@ -85,10 +86,23 @@ export default function RubroForm({
   const searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (showPicker && searchRef.current) {
-      searchRef.current.focus();
-    }
+    if (showPicker && searchRef.current) searchRef.current.focus();
   }, [showPicker]);
+
+  function cancelEdit() {
+    // Reset to original values and return to read-only
+    setCode(rubro?.code ?? '');
+    setName(rubro?.name ?? '');
+    setDescription(rubro?.description ?? '');
+    setUnit(rubro?.unit ?? '');
+    setCategoryId(rubro?.categoryId ?? null);
+    setComponents(
+      rubro?.components.map((c) => ({ id: c.id, itemId: c.itemId, quantity: c.quantity, type: c.type })) ?? []
+    );
+    setErrors({});
+    setShowPicker(false);
+    setIsEditing(false);
+  }
 
   function checkDuplicateCode(val: string) {
     const exists = rubros.some((r) => r.id !== rubro?.id && r.code.trim().toLowerCase() === val.trim().toLowerCase());
@@ -138,12 +152,9 @@ export default function RubroForm({
   }
 
   function addComponent(item: Item) {
-    // Don't add duplicates — just increment quantity instead
     const existing = components.find((c) => c.itemId === item.id);
     if (existing) {
-      setComponents((prev) =>
-        prev.map((c) => c.id === existing.id ? { ...c, quantity: c.quantity + 1 } : c)
-      );
+      setComponents((prev) => prev.map((c) => c.id === existing.id ? { ...c, quantity: c.quantity + 1 } : c));
       return;
     }
     setComponents((prev) => [
@@ -161,7 +172,6 @@ export default function RubroForm({
     setComponents((prev) => prev.map((c) => (c.id === id ? { ...c, quantity: Math.max(0, rounded) } : c)));
   }
 
-  // Filtered items for the picker
   const pickerItems = items.filter((i) => {
     const matchSearch = !pickerSearch.trim() ||
       i.name.toLowerCase().includes(pickerSearch.toLowerCase()) ||
@@ -170,119 +180,168 @@ export default function RubroForm({
     return matchSearch && matchCat;
   });
 
-  // Totals
   const total = components.reduce((sum, c) => {
     const item = items.find((i) => i.id === c.itemId);
     return item ? sum + itemTotal(item) * c.quantity : sum;
   }, 0);
 
-  const matTotal = components
-    .filter((c) => c.type === 'material')
+  const matTotal = components.filter((c) => c.type === 'material')
     .reduce((s, c) => { const it = items.find((i) => i.id === c.itemId); return it ? s + itemTotal(it) * c.quantity : s; }, 0);
-  const labTotal = components
-    .filter((c) => c.type === 'manoDeObra')
+  const labTotal = components.filter((c) => c.type === 'manoDeObra')
     .reduce((s, c) => { const it = items.find((i) => i.id === c.itemId); return it ? s + itemTotal(it) * c.quantity : s; }, 0);
-  const eqpTotal = components
-    .filter((c) => c.type === 'equipo')
+  const eqpTotal = components.filter((c) => c.type === 'equipo')
     .reduce((s, c) => { const it = items.find((i) => i.id === c.itemId); return it ? s + itemTotal(it) * c.quantity : s; }, 0);
 
   const inputCls = (err?: string) =>
     `w-full border rounded-md px-3 py-2 text-sm bg-gray-50 focus:outline-none focus:ring-1 focus:ring-green-500 focus:bg-white transition-colors ${err ? 'border-red-400' : 'border-gray-200'}`;
 
+  const categoryName = rubroCategories.find((c) => c.id === categoryId)?.name;
+
   return (
     <form onSubmit={handleSubmit} className="flex gap-0 flex-1 overflow-hidden" style={{ minHeight: 480 }}>
 
-      {/* ── LEFT PANEL — Rubro info ──────────────────────────────── */}
+      {/* ── LEFT PANEL ──────────────────────────────────────────────── */}
       <div className="w-72 shrink-0 border-r border-gray-200 px-5 py-4 flex flex-col gap-3 bg-gray-50">
-        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1">Detalles del Rubro</p>
+
+        {/* Header */}
+        <div className="flex items-center justify-between mb-1">
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide">Detalles del Rubro</p>
+          {!isEditing && (
+            <button
+              type="button"
+              onClick={() => setIsEditing(true)}
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-gray-800 text-white rounded-md hover:bg-gray-700 transition-colors"
+            >
+              <Pencil size={12} />
+              Editar
+            </button>
+          )}
+        </div>
 
         {/* Código */}
         <div>
-          <label className="block text-xs font-medium text-gray-600 mb-1">Código <span className="text-red-400">*</span></label>
-          <input
-            type="text"
-            value={code}
-            onChange={(e) => {
-              const v = e.target.value;
-              setCode(v);
-              const dup = v.trim() ? checkDuplicateCode(v) : '';
-              setErrors((p) => ({ ...p, code: dup }));
-            }}
-            className={inputCls(errors.code)}
-            placeholder="ej. 02.01.01"
-            autoFocus
-          />
-          {errors.code && (
-            <p className="text-red-500 text-xs mt-0.5 flex items-center gap-1">
-              <AlertCircle size={11} />{errors.code}
-            </p>
+          <label className="block text-xs font-medium text-gray-600 mb-1">
+            Código {isEditing && <span className="text-red-400">*</span>}
+          </label>
+          {isEditing ? (
+            <>
+              <input
+                type="text"
+                value={code}
+                onChange={(e) => {
+                  const v = e.target.value;
+                  setCode(v);
+                  const dup = v.trim() ? checkDuplicateCode(v) : '';
+                  setErrors((p) => ({ ...p, code: dup }));
+                }}
+                className={inputCls(errors.code)}
+                placeholder="ej. 02.01.01"
+                autoFocus
+              />
+              {errors.code && (
+                <p className="text-red-500 text-xs mt-0.5 flex items-center gap-1">
+                  <AlertCircle size={11} />{errors.code}
+                </p>
+              )}
+            </>
+          ) : (
+            <p className="text-sm text-gray-800 font-mono py-1">{code || '—'}</p>
           )}
         </div>
 
         {/* Nombre */}
         <div>
-          <label className="block text-xs font-medium text-gray-600 mb-1">Nombre <span className="text-red-400">*</span></label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => {
-              const v = e.target.value;
-              setName(v);
-              const dup = v.trim() ? checkDuplicateName(v) : '';
-              setErrors((p) => ({ ...p, name: dup }));
-            }}
-            className={inputCls(errors.name)}
-            placeholder="Nombre del rubro"
-          />
-          {errors.name && (
-            <p className="text-red-500 text-xs mt-0.5 flex items-center gap-1">
-              <AlertCircle size={11} />{errors.name}
-            </p>
+          <label className="block text-xs font-medium text-gray-600 mb-1">
+            Nombre {isEditing && <span className="text-red-400">*</span>}
+          </label>
+          {isEditing ? (
+            <>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => {
+                  const v = e.target.value;
+                  setName(v);
+                  const dup = v.trim() ? checkDuplicateName(v) : '';
+                  setErrors((p) => ({ ...p, name: dup }));
+                }}
+                className={inputCls(errors.name)}
+                placeholder="Nombre del rubro"
+              />
+              {errors.name && (
+                <p className="text-red-500 text-xs mt-0.5 flex items-center gap-1">
+                  <AlertCircle size={11} />{errors.name}
+                </p>
+              )}
+            </>
+          ) : (
+            <p className="text-sm text-gray-800 py-1">{name || '—'}</p>
           )}
         </div>
 
         {/* Unidad */}
         <div>
-          <label className="block text-xs font-medium text-gray-600 mb-1">Unidad <span className="text-red-400">*</span></label>
-          <select
-            value={unit}
-            onChange={(e) => { setUnit(e.target.value); setErrors((p) => ({ ...p, unit: '' })); }}
-            className={inputCls(errors.unit)}
-          >
-            <option value="">Seleccionar unidad...</option>
-            {UNITS.map((u) => <option key={u} value={u}>{u}</option>)}
-          </select>
-          {errors.unit && <p className="text-red-500 text-xs mt-0.5">{errors.unit}</p>}
+          <label className="block text-xs font-medium text-gray-600 mb-1">
+            Unidad {isEditing && <span className="text-red-400">*</span>}
+          </label>
+          {isEditing ? (
+            <>
+              <select
+                value={unit}
+                onChange={(e) => { setUnit(e.target.value); setErrors((p) => ({ ...p, unit: '' })); }}
+                className={inputCls(errors.unit)}
+              >
+                <option value="">Seleccionar unidad...</option>
+                {UNITS.map((u) => <option key={u} value={u}>{u}</option>)}
+                {unit && !UNITS.includes(unit) && <option value={unit}>{unit}</option>}
+              </select>
+              {errors.unit && <p className="text-red-500 text-xs mt-0.5">{errors.unit}</p>}
+            </>
+          ) : (
+            <p className="text-sm text-gray-800 py-1">{unit || '—'}</p>
+          )}
         </div>
 
         {/* Categoría */}
         <div>
-          <label className="block text-xs font-medium text-gray-600 mb-1">Categoría <span className="text-red-400">*</span></label>
-          <select
-            value={categoryId ?? ''}
-            onChange={(e) => { setCategoryId(e.target.value || null); setErrors((p) => ({ ...p, categoryId: '' })); }}
-            className={inputCls(errors.categoryId)}
-          >
-            <option value="">Seleccionar categoría...</option>
-            {buildCatOptions(rubroCategories, null, 0)}
-          </select>
-          {errors.categoryId && (
-            <p className="text-red-500 text-xs mt-0.5 flex items-center gap-1">
-              <AlertCircle size={11} />{errors.categoryId}
-            </p>
+          <label className="block text-xs font-medium text-gray-600 mb-1">
+            Categoría {isEditing && <span className="text-red-400">*</span>}
+          </label>
+          {isEditing ? (
+            <>
+              <select
+                value={categoryId ?? ''}
+                onChange={(e) => { setCategoryId(e.target.value || null); setErrors((p) => ({ ...p, categoryId: '' })); }}
+                className={inputCls(errors.categoryId)}
+              >
+                <option value="">Seleccionar categoría...</option>
+                {buildCatOptions(rubroCategories, null, 0)}
+              </select>
+              {errors.categoryId && (
+                <p className="text-red-500 text-xs mt-0.5 flex items-center gap-1">
+                  <AlertCircle size={11} />{errors.categoryId}
+                </p>
+              )}
+            </>
+          ) : (
+            <p className="text-sm text-gray-800 py-1">{categoryName || <span className="text-gray-400">Sin categoría</span>}</p>
           )}
         </div>
 
         {/* Descripción */}
         <div>
           <label className="block text-xs font-medium text-gray-600 mb-1">Descripción</label>
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            rows={2}
-            className={inputCls() + ' resize-none'}
-            placeholder="Descripción opcional"
-          />
+          {isEditing ? (
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              rows={2}
+              className={inputCls() + ' resize-none'}
+              placeholder="Descripción opcional"
+            />
+          ) : (
+            <p className="text-sm text-gray-600 py-1 whitespace-pre-wrap">{description || <span className="text-gray-400">—</span>}</p>
+          )}
         </div>
 
         {/* Cost summary */}
@@ -305,19 +364,31 @@ export default function RubroForm({
 
         {/* Action buttons */}
         <div className="flex gap-2 pt-2">
-          <button
-            type="button"
-            onClick={onCancel}
-            className="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-100 text-gray-600"
-          >
-            Cancelar
-          </button>
-          <button
-            type="submit"
-            className="flex-1 px-3 py-2 text-sm bg-green-600 text-white rounded-md hover:bg-green-700 font-medium"
-          >
-            {rubro ? 'Guardar' : 'Crear'}
-          </button>
+          {isEditing ? (
+            <>
+              <button
+                type="button"
+                onClick={rubro ? cancelEdit : onCancel}
+                className="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-100 text-gray-600"
+              >
+                Cancelar
+              </button>
+              <button
+                type="submit"
+                className="flex-1 px-3 py-2 text-sm bg-green-600 text-white rounded-md hover:bg-green-700 font-medium"
+              >
+                {rubro ? 'Guardar' : 'Crear'}
+              </button>
+            </>
+          ) : (
+            <button
+              type="button"
+              onClick={onCancel}
+              className="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-100 text-gray-600"
+            >
+              Cerrar
+            </button>
+          )}
         </div>
       </div>
 
@@ -330,20 +401,21 @@ export default function RubroForm({
             <p className="text-sm font-semibold text-gray-800">Componentes del Rubro</p>
             <p className="text-xs text-gray-400">{components.length} item(s) agregado(s)</p>
           </div>
-          <button
-            type="button"
-            onClick={() => setShowPicker((v) => !v)}
-            className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-md text-sm font-medium hover:bg-green-700 transition-colors"
-          >
-            <Plus size={15} />
-            Agregar Item
-          </button>
+          {isEditing && (
+            <button
+              type="button"
+              onClick={() => setShowPicker((v) => !v)}
+              className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-md text-sm font-medium hover:bg-green-700 transition-colors"
+            >
+              <Plus size={15} />
+              Agregar Item
+            </button>
+          )}
         </div>
 
-        {/* ── Item picker panel (inline, slides down) ─────────── */}
-        {showPicker && (
+        {/* Item picker (only in edit mode) */}
+        {isEditing && showPicker && (
           <div className="border-b border-gray-200 bg-gray-50 flex flex-col shrink-0" style={{ maxHeight: 260 }}>
-            {/* Picker header */}
             <div className="flex items-center gap-2 px-4 py-2 border-b border-gray-200">
               <div className="relative flex-1">
                 <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -362,11 +434,9 @@ export default function RubroForm({
                 className="text-sm border border-gray-200 rounded-md px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-green-500 bg-white max-w-[180px]"
               >
                 <option value="">Todas las categorías</option>
-                {itemCategories
-                  .filter((c) => c.parentId === null)
-                  .map((c) => (
-                    <option key={c.id} value={c.id}>{c.name}</option>
-                  ))}
+                {itemCategories.filter((c) => c.parentId === null).map((c) => (
+                  <option key={c.id} value={c.id}>{c.name}</option>
+                ))}
               </select>
               <button
                 type="button"
@@ -377,7 +447,6 @@ export default function RubroForm({
               </button>
             </div>
 
-            {/* Items list */}
             <div className="overflow-y-auto flex-1">
               {items.length === 0 ? (
                 <div className="px-4 py-6 text-center text-sm text-gray-400">
@@ -440,12 +509,16 @@ export default function RubroForm({
           </div>
         )}
 
-        {/* ── Component table ──────────────────────────────────── */}
+        {/* Component table */}
         <div className="flex-1 overflow-y-auto">
           {components.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-gray-400 gap-2">
               <Plus size={32} className="text-gray-200" />
-              <p className="text-sm">Haz clic en <strong className="text-gray-500">Agregar Item</strong> para componer el rubro</p>
+              <p className="text-sm">
+                {isEditing
+                  ? <>Haz clic en <strong className="text-gray-500">Agregar Item</strong> para componer el rubro</>
+                  : 'Sin componentes'}
+              </p>
             </div>
           ) : (
             <table className="w-full text-sm">
@@ -456,7 +529,7 @@ export default function RubroForm({
                   <th className="px-3 py-2.5 text-right text-xs font-semibold text-gray-500 w-20">P. Unit.</th>
                   <th className="px-3 py-2.5 text-right text-xs font-semibold text-gray-500 w-24">Cantidad</th>
                   <th className="px-3 py-2.5 text-right text-xs font-semibold text-gray-500 w-24">Subtotal</th>
-                  <th className="w-10"></th>
+                  {isEditing && <th className="w-10"></th>}
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -478,26 +551,34 @@ export default function RubroForm({
                       </td>
                       <td className="px-3 py-2 text-right text-xs text-gray-500">{formatMoney(unitPrice)}</td>
                       <td className="px-3 py-2">
-                        <input
-                          type="text"
-                          inputMode="decimal"
-                          value={editingCompId === comp.id ? editingQtyText : (comp.quantity === 0 ? '0' : parseFloat(comp.quantity.toFixed(4)).toString())}
-                          onFocus={() => { setEditingCompId(comp.id); setEditingQtyText(comp.quantity === 0 ? '0' : String(comp.quantity)); }}
-                          onChange={(e) => setEditingQtyText(e.target.value)}
-                          onBlur={() => { updateQty(comp.id, parseFloat(editingQtyText.replace(',', '.')) || 0); setEditingCompId(null); }}
-                          className="w-full text-right border border-gray-200 rounded px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-green-500"
-                        />
+                        {isEditing ? (
+                          <input
+                            type="text"
+                            inputMode="decimal"
+                            value={editingCompId === comp.id ? editingQtyText : (comp.quantity === 0 ? '0' : parseFloat(comp.quantity.toFixed(4)).toString())}
+                            onFocus={() => { setEditingCompId(comp.id); setEditingQtyText(comp.quantity === 0 ? '0' : String(comp.quantity)); }}
+                            onChange={(e) => setEditingQtyText(e.target.value)}
+                            onBlur={() => { updateQty(comp.id, parseFloat(editingQtyText.replace(',', '.')) || 0); setEditingCompId(null); }}
+                            className="w-full text-right border border-gray-200 rounded px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-green-500"
+                          />
+                        ) : (
+                          <span className="text-xs text-gray-700 text-right block">
+                            {comp.quantity === 0 ? '0' : parseFloat(comp.quantity.toFixed(4)).toString()}
+                          </span>
+                        )}
                       </td>
                       <td className="px-3 py-2 text-right text-xs font-semibold text-green-600">{formatMoney(subtotal)}</td>
-                      <td className="px-2 py-2 text-center">
-                        <button
-                          type="button"
-                          onClick={() => removeComponent(comp.id)}
-                          className="text-red-300 hover:text-red-500 transition-colors"
-                        >
-                          <Trash2 size={13} />
-                        </button>
-                      </td>
+                      {isEditing && (
+                        <td className="px-2 py-2 text-center">
+                          <button
+                            type="button"
+                            onClick={() => removeComponent(comp.id)}
+                            className="text-red-300 hover:text-red-500 transition-colors"
+                          >
+                            <Trash2 size={13} />
+                          </button>
+                        </td>
+                      )}
                     </tr>
                   );
                 })}
