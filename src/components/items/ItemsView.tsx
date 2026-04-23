@@ -199,37 +199,39 @@ export default function ItemsView({ onTabChange }: ItemsViewProps) {
           </div>
         </div>
 
-        {/* Table area */}
-        <div className={`${showIvaPanel ? 'flex-none' : 'flex-1'} overflow-auto bg-white`} style={showIvaPanel ? { maxHeight: '45%' } : {}}>
-          <ItemTable
-            items={paginatedItems}
-            categories={itemCategories}
-            selectedCategoryId={selectedCategoryId}
-            onEdit={openEdit}
-            onDelete={openDelete}
-            sortConfig={sortConfig}
-            onSort={handleSort}
-          />
-        </div>
-
-        {/* Pagination */}
+        {/* Table area — hidden in IVA mode */}
         {!showIvaPanel && (
-          <div className="bg-white border-t border-gray-200 shrink-0">
-            <Pagination
-              total={totalItems}
-              page={page}
-              pageSize={pageSize}
-              onPageChange={setPage}
-              onPageSizeChange={(s) => { setPageSize(s); setPage(1); }}
-            />
-          </div>
+          <>
+            <div className="flex-1 overflow-auto bg-white">
+              <ItemTable
+                items={paginatedItems}
+                categories={itemCategories}
+                selectedCategoryId={selectedCategoryId}
+                onEdit={openEdit}
+                onDelete={openDelete}
+                sortConfig={sortConfig}
+                onSort={handleSort}
+              />
+            </div>
+            <div className="bg-white border-t border-gray-200 shrink-0">
+              <Pagination
+                total={totalItems}
+                page={page}
+                pageSize={pageSize}
+                onPageChange={setPage}
+                onPageSizeChange={(s) => { setPageSize(s); setPage(1); }}
+              />
+            </div>
+          </>
         )}
 
-        {/* IVA analysis panel */}
+        {/* IVA analysis — full height */}
         {showIvaPanel && (
-          <div className="flex-1 overflow-hidden border-t-2 border-amber-400">
-            <ItemsIvaView items={items} categories={itemCategories} />
-          </div>
+          <ItemsIvaView
+            items={items}
+            categories={itemCategories}
+            selectedCategoryId={selectedCategoryId}
+          />
         )}
       </div>
 
