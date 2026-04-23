@@ -147,32 +147,38 @@ export default function ItemTable({
                     </div>
                   </td>
                 </tr>
-                {isExpanded && (
-                  <tr className="bg-gray-50">
-                    <td colSpan={colSpanTotal} className="px-8 py-3">
-                      <div className="text-xs text-gray-500 space-y-1">
-                        <div className="font-semibold text-gray-700 mb-2">Desglose completo:</div>
-                        <div className="grid grid-cols-6 gap-4 max-w-2xl">
-                          <div><span className="text-gray-400">Material</span><div className="font-medium text-gray-800">{formatMoney(item.material)}</div></div>
-                          <div><span className="text-gray-400">Mano de Obra</span><div className="font-medium text-gray-800">{formatMoney(item.manoDeObra)}</div></div>
-                          <div><span className="text-gray-400">Equipo</span><div className="font-medium text-gray-800">{formatMoney(item.equipo)}</div></div>
-                          <div><span className="text-gray-400">Indirectos</span><div className="font-medium text-gray-800">{formatMoney(item.indirectos)}</div></div>
-                          <div>
-                            <span className="text-gray-400">IVA</span>
-                            <div className="font-medium text-amber-600">
-                              {(item.ivaRate ?? 0) === 0
-                                ? <span className="text-gray-400">0% (exento)</span>
-                                : `${((item.ivaRate ?? 0) * 100).toFixed(0)}% = ${formatMoney((item.material + item.manoDeObra + item.equipo + item.indirectos) * (item.ivaRate ?? 0))}`
-                              }
+                {isExpanded && (() => {
+                  const base = item.material + item.manoDeObra + item.equipo + item.indirectos;
+                  const rate = item.ivaRate ?? 0;
+                  const ivaAmt = base * rate;
+                  return (
+                    <tr className="bg-gray-50">
+                      <td colSpan={colSpanTotal} className="px-8 py-3">
+                        <div className="flex items-center gap-8">
+                          <div className="text-xs">
+                            <span className="text-gray-400">Subtotal</span>
+                            <div className="font-medium text-gray-700 mt-0.5">{formatMoney(base)}</div>
+                          </div>
+                          <div className="text-xs">
+                            <span className="text-gray-400">IVA {(rate * 100).toFixed(0)}%</span>
+                            <div className="font-medium text-amber-600 mt-0.5">
+                              {rate === 0 ? <span className="text-gray-400">exento</span> : formatMoney(ivaAmt)}
                             </div>
                           </div>
-                          <div><span className="text-gray-400">Precio Unit.</span><div className="font-bold text-green-700">{formatMoney(total)}</div></div>
+                          <div className="text-xs">
+                            <span className="text-gray-400">Precio Unit. c/IVA</span>
+                            <div className="font-bold text-green-700 mt-0.5 text-sm">{formatMoney(total)}</div>
+                          </div>
+                          {item.description && (
+                            <div className="text-xs text-gray-400 ml-4 border-l border-gray-200 pl-4">
+                              {item.description}
+                            </div>
+                          )}
                         </div>
-                        {item.description && <div className="mt-2 text-gray-500"><span className="font-medium">Descripción:</span> {item.description}</div>}
-                      </div>
-                    </td>
-                  </tr>
-                )}
+                      </td>
+                    </tr>
+                  );
+                })()}
               </React.Fragment>
             );
           })}
