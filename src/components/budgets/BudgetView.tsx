@@ -400,10 +400,17 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
                     })()}
 
                     {/* Line items */}
-                    {!isCollapsed && items.map((li) => (
-                      <tr key={li.id} className="hover:bg-gray-50 group border-t border-gray-50">
+                    {!isCollapsed && items.map((li) => {
+                      const zeroQty = li.quantity === 0;
+                      return (
+                      <tr key={li.id} className={`group border-t border-gray-50 ${zeroQty ? 'bg-amber-50 hover:bg-amber-100' : 'hover:bg-gray-50'}`}>
                         <td className="px-4 py-2.5 font-mono text-xs text-gray-500">{li.rubroCode}</td>
-                        <td className="px-4 py-2.5 text-gray-800">{li.rubroName}</td>
+                        <td className="px-4 py-2.5 text-gray-800">
+                          <div className="flex items-center gap-1.5">
+                            {zeroQty && <AlertTriangle size={12} className="text-amber-500 shrink-0" />}
+                            {li.rubroName}
+                          </div>
+                        </td>
                         <td className="px-4 py-2.5 text-gray-500">{li.rubroUnit}</td>
                         <td className="px-3 py-2.5 text-right text-sm text-blue-700">{(li.materialCost ?? 0) > 0 ? formatMoney(li.materialCost) : <span className="text-gray-300">—</span>}</td>
                         <td className="px-3 py-2.5 text-right text-sm text-orange-700">{(li.manoDeObraCost ?? 0) > 0 ? formatMoney(li.manoDeObraCost) : <span className="text-gray-300">—</span>}</td>
@@ -448,7 +455,8 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
                           </button>
                         </td>
                       </tr>
-                    ))}
+                    );
+                    })}
                   </React.Fragment>
                 );
               })}

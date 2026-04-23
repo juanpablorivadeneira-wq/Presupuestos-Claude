@@ -146,7 +146,7 @@ export default function RubrosView({ onTabChange }: RubrosViewProps) {
           <button
             className="flex-1 py-2.5 text-sm font-semibold text-gray-900 bg-white border-b-2 border-gray-800 transition-colors"
           >
-            Assemblies
+            APU - Rubro
           </button>
         </div>
         <div className="flex-1 overflow-hidden">

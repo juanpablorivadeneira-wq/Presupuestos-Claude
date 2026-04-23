@@ -271,7 +271,7 @@ export default function App() {
                   )}
                 </div>
                 <span className="text-gray-300">/</span>
-                <span className="text-gray-600 font-medium">{dbTab === 'items' ? 'Items' : 'Assemblies'}</span>
+                <span className="text-gray-600 font-medium">{dbTab === 'items' ? 'Items' : 'APU - Rubro'}</span>
               </>
             ) : view === 'budget' ? (
               <span className="text-gray-700 font-medium truncate max-w-xs">

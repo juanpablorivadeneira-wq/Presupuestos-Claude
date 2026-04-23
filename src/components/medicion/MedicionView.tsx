@@ -45,40 +45,152 @@ function parseCSV(text: string, delimiter: string): string[][] {
   return rows;
 }
 
+// ── Revit multi-table parser ──────────────────────────────────────────────────
+
+interface RevitSection {
+  code: string;
+  name: string;
+  count: number;
+  values: { value: number; unit: string }[];
+}
+
+const SECTION_RE = /^\d{2}\.\d{2}\.\d{2}(\.[a-z])?$/;
+
+function isRevitMultiTable(text: string): boolean {
+  return text.split('\n').slice(0, 80).some((line) => {
+    const first = line.split('\t')[0].trim();
+    return SECTION_RE.test(first);
+  });
+}
+
+function parseRevitMultiTable(text: string): Map<string, RevitSection> {
+  const sections = new Map<string, RevitSection>();
+  const lines = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').replace(/^﻿/, '').split('\n');
+  let currentCode: string | null = null;
+
+  for (const rawLine of lines) {
+    const fields = rawLine.split('\t').map((f) => f.trim());
+    if (!fields[0]) continue;
+
+    // Section header
+    if (SECTION_RE.test(fields[0])) {
+      currentCode = fields[0];
+      const name = fields.slice(1).filter(Boolean).join(' ');
+      if (!sections.has(currentCode)) {
+        sections.set(currentCode, { code: currentCode, name, count: 0, values: [] });
+      }
+      continue;
+    }
+
+    // Grand total row
+    if (currentCode && fields[0].startsWith('Grand total:')) {
+      const section = sections.get(currentCode)!;
+      const countMatch = fields[0].match(/Grand total:\s*(\d+\.?\d*)/);
+      if (countMatch) section.count = parseFloat(countMatch[1]);
+
+      // Extract (value, unit) pairs scanning all fields
+      let i = 1;
+      while (i < fields.length) {
+        if (!fields[i]) { i++; continue; }
+        const val = parseFloat(fields[i].replace(',', '.'));
+        if (isNaN(val)) { i++; continue; }
+        // Look ahead for a unit
+        let j = i + 1;
+        while (j < fields.length && !fields[j]) j++;
+        const nextField = j < fields.length ? fields[j].toLowerCase() : '';
+        if (/^m[23²³]?$|^u$|^und$|^ml$|^kg$/.test(nextField)) {
+          const unit = nextField.replace('²', '2').replace('³', '3');
+          section.values.push({ value: val, unit });
+          i = j + 1;
+        } else {
+          section.values.push({ value: val, unit: '' });
+          i++;
+        }
+      }
+    }
+  }
+  return sections;
+}
+
+function pickQuantity(section: RevitSection, rubroUnit: string): number {
+  const u = rubroUnit.toLowerCase().replace('²', '2').replace('³', '3').replace(/\s/g, '');
+  const find = (unit: string) => section.values.find((v) => v.unit === unit)?.value;
+
+  if (u.includes('m3') || u === 'm³') return find('m3') ?? find('m2') ?? section.count;
+  if (u.includes('m2') || u === 'm²') return find('m2') ?? section.count;
+  if (u === 'ml' || u === 'm')        return find('ml') ?? find('m') ?? section.count;
+  if (u === 'kg')                      return find('kg') ?? section.count;
+  // count units or unknown → use count or first value
+  if (section.values.length > 0) return section.values[0].value;
+  return section.count;
+}
+
 interface ImportModalProps {
   projectId: string;
   onClose: (imported: number) => void;
 }
 
+interface RevitMatchRow {
+  code: string;
+  name: string;
+  unit: string;
+  quantity: number;
+  found: boolean;
+}
+
 function ImportModal({ projectId, onClose }: ImportModalProps) {
-  const { importRevitCsv } = useStore();
-  const [step, setStep] = useState<'upload' | 'map' | 'done'>('upload');
-  const [rows, setRows] = useState<string[][]>([]);
+  const { importRevitCsv, medicionProjects } = useStore();
+  const project = medicionProjects.find((p) => p.id === projectId) ?? null;
+
+  const [step, setStep] = useState<'upload' | 'preview_revit' | 'map_simple' | 'done'>('upload');
+  const [imported, setImported] = useState(0);
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  // Revit multi-table state
+  const [revitRows, setRevitRows] = useState<RevitMatchRow[]>([]);
+
+  // Simple CSV state
+  const [csvRows, setCsvRows] = useState<string[][]>([]);
   const [headers, setHeaders] = useState<string[]>([]);
   const [delimiter, setDelimiter] = useState(',');
   const [skipRows, setSkipRows] = useState(0);
   const [codeCol, setCodeCol] = useState(0);
   const [qtyCol, setQtyCol] = useState(1);
-  const [imported, setImported] = useState(0);
-  const fileRef = useRef<HTMLInputElement>(null);
 
   function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
     const reader = new FileReader();
     reader.onload = (ev) => {
-      const text = ev.target?.result as string;
-      const parsed = parseCSV(text, delimiter);
-      setRows(parsed);
-      setHeaders(parsed[skipRows] ?? []);
-      setStep('map');
+      const text = (ev.target?.result as string).replace(/^﻿/, '');
+      if (isRevitMultiTable(text)) {
+        const sections = parseRevitMultiTable(text);
+        const rows: RevitMatchRow[] = (project?.lineItems ?? []).map((li) => {
+          const sec = sections.get(li.rubroCode);
+          return sec
+            ? { code: li.rubroCode, name: li.rubroName, unit: li.rubroUnit, quantity: pickQuantity(sec, li.rubroUnit), found: true }
+            : { code: li.rubroCode, name: li.rubroName, unit: li.rubroUnit, quantity: 0, found: false };
+        });
+        setRevitRows(rows);
+        setStep('preview_revit');
+      } else {
+        const parsed = parseCSV(text, delimiter);
+        setCsvRows(parsed);
+        setHeaders(parsed[skipRows] ?? []);
+        setStep('map_simple');
+      }
     };
     reader.readAsText(file, 'utf-8');
   }
 
-  function handleImport() {
-    const dataRows = rows.slice(skipRows + 1);
-    const matches = dataRows
+  function handleImportRevit() {
+    const n = importRevitCsv(projectId, revitRows.filter((r) => r.found).map((r) => ({ code: r.code, quantity: r.quantity })));
+    setImported(n);
+    setStep('done');
+  }
+
+  function handleImportSimple() {
+    const matches = csvRows.slice(skipRows + 1)
       .map((r) => ({ code: r[codeCol] ?? '', quantity: parseFloat((r[qtyCol] ?? '').replace(',', '.')) }))
       .filter((m) => m.code && !isNaN(m.quantity));
     const n = importRevitCsv(projectId, matches);
@@ -86,10 +198,8 @@ function ImportModal({ projectId, onClose }: ImportModalProps) {
     setStep('done');
   }
 
-  const preview = useMemo(() => {
-    if (step !== 'map') return [];
-    return rows.slice(skipRows + 1, skipRows + 6);
-  }, [rows, skipRows, step]);
+  const csvPreview = useMemo(() => csvRows.slice(skipRows + 1, skipRows + 6), [csvRows, skipRows]);
+  const revitFound = revitRows.filter((r) => r.found).length;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
@@ -100,14 +210,18 @@ function ImportModal({ projectId, onClose }: ImportModalProps) {
         </div>
 
         <div className="flex-1 overflow-auto p-5 space-y-4">
+
+          {/* ── Upload ── */}
           {step === 'upload' && (
             <>
               <p className="text-sm text-gray-500">
-                Exporta un Schedule de Revit (<b>File → Export → Reports → Schedule</b>) en formato CSV y súbelo aquí. La app comparará los códigos de rubro con los del proyecto de medición.
+                Sube el archivo CSV exportado desde Revit. La app detecta automáticamente el formato
+                de <b>múltiples tablas</b> (Todas_las_Tablas) y extrae la cantidad correcta según la
+                unidad de cada rubro.
               </p>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-medium text-gray-600 mb-1">Separador</label>
+                  <label className="block text-xs font-medium text-gray-600 mb-1">Separador (CSV simple)</label>
                   <select value={delimiter} onChange={(e) => setDelimiter(e.target.value)} className="w-full px-3 py-1.5 text-sm border border-gray-300 rounded-md">
                     <option value=",">Coma (,)</option>
                     <option value=";">Punto y coma (;)</option>
@@ -115,7 +229,7 @@ function ImportModal({ projectId, onClose }: ImportModalProps) {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-gray-600 mb-1">Filas de encabezado a omitir</label>
+                  <label className="block text-xs font-medium text-gray-600 mb-1">Filas cabecera (CSV simple)</label>
                   <input type="number" min={0} max={10} value={skipRows} onChange={(e) => setSkipRows(Number(e.target.value))} className="w-full px-3 py-1.5 text-sm border border-gray-300 rounded-md" />
                 </div>
               </div>
@@ -126,9 +240,53 @@ function ImportModal({ projectId, onClose }: ImportModalProps) {
             </>
           )}
 
-          {step === 'map' && (
+          {/* ── Revit multi-table preview ── */}
+          {step === 'preview_revit' && (
             <>
-              <p className="text-sm text-gray-500">Se detectaron <b>{rows.length - skipRows - 1}</b> filas de datos. Selecciona qué columnas corresponden al código y la cantidad.</p>
+              <div className="flex items-center gap-3 px-3 py-2 bg-teal-50 rounded-lg border border-teal-200">
+                <Check size={16} className="text-teal-600 shrink-0" />
+                <p className="text-sm text-teal-800">
+                  Formato <b>Revit Multi-Tabla</b> detectado.{' '}
+                  <b>{revitFound}</b> de <b>{revitRows.length}</b> rubros encontrados en el CSV.
+                </p>
+              </div>
+              <div className="overflow-x-auto rounded border border-gray-200">
+                <table className="w-full text-xs">
+                  <thead>
+                    <tr className="bg-gray-50 text-gray-500">
+                      <th className="px-3 py-2 text-left font-semibold">Código</th>
+                      <th className="px-3 py-2 text-left font-semibold">Rubro</th>
+                      <th className="px-3 py-2 text-left font-semibold">Und.</th>
+                      <th className="px-3 py-2 text-right font-semibold">Cant. detectada</th>
+                      <th className="px-3 py-2 text-center font-semibold">Estado</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {revitRows.map((r) => (
+                      <tr key={r.code} className="border-t border-gray-100 hover:bg-gray-50">
+                        <td className="px-3 py-1.5 font-mono text-gray-500">{r.code}</td>
+                        <td className="px-3 py-1.5 text-gray-700 max-w-[200px] truncate" title={r.name}>{r.name}</td>
+                        <td className="px-3 py-1.5 text-gray-500">{r.unit}</td>
+                        <td className={`px-3 py-1.5 text-right font-medium ${r.found ? 'text-teal-700' : 'text-gray-300'}`}>
+                          {r.found ? r.quantity.toLocaleString('es-EC', { maximumFractionDigits: 2 }) : '—'}
+                        </td>
+                        <td className="px-3 py-1.5 text-center">
+                          {r.found
+                            ? <span className="text-teal-600 font-semibold">✓</span>
+                            : <span className="text-gray-300">sin datos</span>}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
+
+          {/* ── Simple CSV column mapping ── */}
+          {step === 'map_simple' && (
+            <>
+              <p className="text-sm text-gray-500">Se detectaron <b>{csvRows.length - skipRows - 1}</b> filas. Selecciona las columnas de código y cantidad.</p>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-medium text-gray-600 mb-1">Columna de Código</label>
@@ -144,37 +302,50 @@ function ImportModal({ projectId, onClose }: ImportModalProps) {
                 </div>
               </div>
               <div>
-                <p className="text-xs font-medium text-gray-500 mb-1">Vista previa (primeras 5 filas de datos):</p>
+                <p className="text-xs font-medium text-gray-500 mb-1">Vista previa (primeras 5 filas):</p>
                 <div className="overflow-x-auto rounded border border-gray-200">
                   <table className="w-full text-xs">
                     <thead><tr className="bg-gray-50">{headers.map((h, i) => <th key={i} className={`px-3 py-1.5 text-left font-semibold ${i === codeCol ? 'bg-teal-50 text-teal-700' : i === qtyCol ? 'bg-blue-50 text-blue-700' : 'text-gray-500'}`}>{h || `Col ${i+1}`}</th>)}</tr></thead>
-                    <tbody>{preview.map((row, ri) => <tr key={ri} className="border-t border-gray-100">{row.map((cell, ci) => <td key={ci} className={`px-3 py-1 ${ci === codeCol ? 'bg-teal-50/50 font-mono' : ci === qtyCol ? 'bg-blue-50/50' : ''}`}>{cell}</td>)}</tr>)}</tbody>
+                    <tbody>{csvPreview.map((row, ri) => <tr key={ri} className="border-t border-gray-100">{row.map((cell, ci) => <td key={ci} className={`px-3 py-1 ${ci === codeCol ? 'bg-teal-50/50 font-mono' : ci === qtyCol ? 'bg-blue-50/50' : ''}`}>{cell}</td>)}</tr>)}</tbody>
                   </table>
                 </div>
               </div>
             </>
           )}
 
+          {/* ── Done ── */}
           {step === 'done' && (
             <div className="flex flex-col items-center py-6 gap-3 text-center">
               <div className="w-14 h-14 rounded-full bg-teal-50 flex items-center justify-center">
                 <Check size={28} className="text-teal-600" />
               </div>
               <p className="text-base font-semibold text-gray-800">{imported} rubros actualizados</p>
-              <p className="text-sm text-gray-500">Las cantidades Revit han sido importadas. Los rubros sin coincidencia de código mantienen su valor anterior.</p>
+              <p className="text-sm text-gray-500">Las cantidades Revit han sido importadas. Los rubros sin coincidencia mantienen su valor anterior.</p>
             </div>
           )}
         </div>
 
         <div className="px-5 py-3 border-t border-gray-200 flex justify-end gap-2">
-          {step === 'upload' && <button onClick={() => onClose(0)} className="px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50">Cancelar</button>}
-          {step === 'map' && (
+          {step === 'upload' && (
+            <button onClick={() => onClose(0)} className="px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50">Cancelar</button>
+          )}
+          {step === 'preview_revit' && (
             <>
               <button onClick={() => setStep('upload')} className="px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50">Atrás</button>
-              <button onClick={handleImport} className="px-4 py-2 text-sm bg-teal-600 text-white rounded-md hover:bg-teal-700">Importar</button>
+              <button onClick={handleImportRevit} disabled={revitFound === 0} className="px-4 py-2 text-sm bg-teal-600 text-white rounded-md hover:bg-teal-700 disabled:opacity-50">
+                Importar {revitFound} rubros
+              </button>
             </>
           )}
-          {step === 'done' && <button onClick={() => onClose(imported)} className="px-4 py-2 text-sm bg-teal-600 text-white rounded-md hover:bg-teal-700">Cerrar</button>}
+          {step === 'map_simple' && (
+            <>
+              <button onClick={() => setStep('upload')} className="px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50">Atrás</button>
+              <button onClick={handleImportSimple} className="px-4 py-2 text-sm bg-teal-600 text-white rounded-md hover:bg-teal-700">Importar</button>
+            </>
+          )}
+          {step === 'done' && (
+            <button onClick={() => onClose(imported)} className="px-4 py-2 text-sm bg-teal-600 text-white rounded-md hover:bg-teal-700">Cerrar</button>
+          )}
         </div>
       </div>
     </div>
