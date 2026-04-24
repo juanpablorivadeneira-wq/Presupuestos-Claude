@@ -358,7 +358,10 @@ export default function HomeView({ onNavigate, activeSection, onSectionChange }:
                             {/* Name + desc + badge */}
                             <div className="min-w-0 w-48 shrink-0">
                               <div className="flex items-center gap-2">
-                                <span className="font-semibold text-gray-900 truncate text-sm">{db.name}</span>
+                                <span
+                                  className="font-semibold text-gray-900 truncate text-sm cursor-pointer hover:text-indigo-600 transition-colors"
+                                  onClick={() => handleOpenDb(db.id)}
+                                >{db.name}</span>
                                 {isActive && (
                                   <span className="shrink-0 px-1.5 py-0.5 bg-indigo-600 text-white text-[10px] font-bold rounded uppercase tracking-wide">EN USO</span>
                                 )}
