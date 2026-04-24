@@ -139,7 +139,12 @@ export default function RubroTable({
 
                   {/* Name + description */}
                   <td className="px-3 py-3">
-                    <div className="text-sm font-medium text-gray-900">{rubro.name}</div>
+                    <div
+                      className="text-sm font-medium text-gray-900 hover:text-green-700 cursor-pointer transition-colors"
+                      onClick={() => onEdit(rubro)}
+                    >
+                      {rubro.name}
+                    </div>
                     {rubro.description && (
                       <div className="text-xs text-gray-400 mt-0.5">{rubro.description}</div>
                     )}
