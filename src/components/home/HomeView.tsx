@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {
   Plus, Pencil, Trash2, Copy, FolderOpen, BarChart2,
-  Database, FileText, TrendingUp, Ruler,
+  Database, FileText, TrendingUp, Ruler, ChevronRight,
 } from 'lucide-react';
 import { useStore, formatMoney, rubroTotal } from '../../store/useStore';
 import { AppView, Budget, BudgetUpdate, MedicionProject } from '../../types';
@@ -17,6 +17,9 @@ interface HomeViewProps {
 }
 
 export default function HomeView({ onNavigate, activeSection, onSectionChange }: HomeViewProps) {
+
+  const currentDatabaseId = useStore((s) => s.currentDatabaseId);
+  const [dbSort, setDbSort] = useState<'recent' | 'used' | 'az'>('recent');
 
   const {
     databases, budgets, budgetUpdates, medicionProjects,
@@ -298,47 +301,123 @@ export default function HomeView({ onNavigate, activeSection, onSectionChange }:
                   );
                 })()}
 
-                {/* ── Card grid ── */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {databases.map((db) => (
-                    <div
-                      key={db.id}
-                      className="bg-white rounded-xl border border-gray-200 border-t-[3px] border-t-indigo-500 shadow-sm hover:shadow-md transition-shadow flex flex-col"
-                    >
-                      <div className="p-4 flex-1 flex flex-col gap-3">
-                        <div className="flex items-start justify-between gap-2">
-                          <div className="flex-1 min-w-0">
-                            <p className="font-semibold text-gray-900 truncate">{db.name}</p>
-                            {db.description && (
-                              <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{db.description}</p>
-                            )}
-                          </div>
-                          <div className="flex items-center gap-0.5 shrink-0">
-                            <button onClick={() => openDuplicateDb(db.id)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors" title="Duplicar"><Copy size={13} /></button>
-                            <button onClick={() => openEditDb(db.id)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors" title="Editar"><Pencil size={13} /></button>
-                            <button onClick={() => openDeleteDb(db.id)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-red-500 transition-colors" title="Eliminar"><Trash2 size={13} /></button>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <span className="px-2 py-0.5 bg-indigo-50 text-indigo-700 rounded-full text-xs font-medium">{db.items.length} items</span>
-                          <span className="px-2 py-0.5 bg-indigo-50 text-indigo-700 rounded-full text-xs font-medium">{db.rubros.length} rubros</span>
-                          <span className="ml-auto text-xs text-gray-400">
-                            {new Date(db.createdAt).toLocaleDateString('es-EC', { day: '2-digit', month: 'short', year: 'numeric' })}
-                          </span>
+                {/* ── Database list ── */}
+                {(() => {
+                  const budgetCountByDb = Object.fromEntries(
+                    databases.map((db) => [db.id, budgets.filter((b) => b.databaseId === db.id).length])
+                  );
+                  const sorted = [...databases].sort((a, b) => {
+                    if (dbSort === 'recent') return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
+                    if (dbSort === 'used') return (budgetCountByDb[b.id] ?? 0) - (budgetCountByDb[a.id] ?? 0);
+                    return a.name.localeCompare(b.name);
+                  });
+                  function fmtDate(iso: string) {
+                    const d = new Date(iso);
+                    return d.toLocaleDateString('es-EC', { day: '2-digit', month: 'short' })
+                      + ' · ' + d.toLocaleTimeString('es-EC', { hour: '2-digit', minute: '2-digit' });
+                  }
+                  return (
+                    <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                      {/* List header */}
+                      <div className="flex items-center justify-between px-4 py-2.5 border-b border-gray-100 bg-gray-50">
+                        <span className="text-xs text-gray-500 font-medium">
+                          Todas las bases &nbsp;
+                          <span className="text-gray-400">{databases.length} {databases.length === 1 ? 'resultado' : 'resultados'}</span>
+                        </span>
+                        <div className="flex items-center gap-1">
+                          {(['recent', 'used', 'az'] as const).map((s) => (
+                            <button
+                              key={s}
+                              onClick={() => setDbSort(s)}
+                              className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${dbSort === s ? 'bg-indigo-600 text-white' : 'text-gray-500 hover:bg-gray-200'}`}
+                            >
+                              {s === 'recent' ? 'Recientes' : s === 'used' ? 'Más usadas' : 'A–Z'}
+                            </button>
+                          ))}
                         </div>
                       </div>
-                      <div className="px-4 pb-4">
-                        <button
-                          onClick={() => handleOpenDb(db.id)}
-                          className="w-full flex items-center justify-center gap-2 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors"
-                        >
-                          <FolderOpen size={14} />
-                          Abrir
-                        </button>
-                      </div>
+
+                      {/* Rows */}
+                      {sorted.map((db, idx) => {
+                        const isActive = db.id === currentDatabaseId;
+                        const matCount = db.items.filter((i) => i.material > 0).length;
+                        const moCount  = db.items.filter((i) => i.manoDeObra > 0).length;
+                        const eqCount  = db.items.filter((i) => i.equipo > 0).length;
+                        const budgetCount = budgetCountByDb[db.id] ?? 0;
+                        const isEven = idx % 2 === 1;
+                        return (
+                          <div
+                            key={db.id}
+                            className={`flex items-center gap-4 px-4 py-3 border-b border-gray-100 last:border-b-0 transition-colors ${isEven ? 'bg-gray-50 hover:bg-indigo-50' : 'bg-white hover:bg-indigo-50'}`}
+                          >
+                            {/* Icon */}
+                            <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${isActive ? 'bg-indigo-600' : 'bg-indigo-100'}`}>
+                              <Database size={16} className={isActive ? 'text-white' : 'text-indigo-500'} />
+                            </div>
+
+                            {/* Name + desc + badge */}
+                            <div className="min-w-0 w-48 shrink-0">
+                              <div className="flex items-center gap-2">
+                                <span className="font-semibold text-gray-900 truncate text-sm">{db.name}</span>
+                                {isActive && (
+                                  <span className="shrink-0 px-1.5 py-0.5 bg-indigo-600 text-white text-[10px] font-bold rounded uppercase tracking-wide">EN USO</span>
+                                )}
+                              </div>
+                              {db.description && (
+                                <p className="text-xs text-gray-400 truncate mt-0.5">{db.description}</p>
+                              )}
+                            </div>
+
+                            {/* Item type counts */}
+                            <div className="flex items-center gap-3 shrink-0">
+                              <span className="text-xs text-gray-500">Mat <span className="font-semibold text-blue-600">{matCount}</span></span>
+                              <span className="text-xs text-gray-500">MO <span className="font-semibold text-orange-600">{moCount}</span></span>
+                              <span className="text-xs text-gray-500">Eq <span className="font-semibold text-purple-600">{eqCount}</span></span>
+                            </div>
+
+                            <div className="w-px h-6 bg-gray-200 shrink-0" />
+
+                            {/* Counts */}
+                            <div className="flex items-center gap-4 shrink-0">
+                              <div className="text-center">
+                                <p className="text-base font-bold text-indigo-600 leading-none">{db.items.length}</p>
+                                <p className="text-[10px] text-gray-400 uppercase tracking-wide mt-0.5">Items</p>
+                              </div>
+                              <div className="text-center">
+                                <p className="text-base font-bold text-indigo-600 leading-none">{db.rubros.length}</p>
+                                <p className="text-[10px] text-gray-400 uppercase tracking-wide mt-0.5">Rubros</p>
+                              </div>
+                              {budgetCount > 0 && (
+                                <div className="text-center">
+                                  <p className="text-base font-bold text-green-600 leading-none">{budgetCount}</p>
+                                  <p className="text-[10px] text-gray-400 uppercase tracking-wide mt-0.5">Presup.</p>
+                                </div>
+                              )}
+                            </div>
+
+                            {/* Date */}
+                            <div className="ml-auto text-xs text-gray-400 shrink-0 hidden lg:block">
+                              {fmtDate(db.updatedAt)}
+                            </div>
+
+                            {/* Actions */}
+                            <div className="flex items-center gap-0.5 shrink-0">
+                              <button onClick={() => openDuplicateDb(db.id)} className="p-1.5 rounded-lg hover:bg-gray-200 text-gray-400 hover:text-gray-600 transition-colors" title="Duplicar"><Copy size={13} /></button>
+                              <button onClick={() => openEditDb(db.id)} className="p-1.5 rounded-lg hover:bg-gray-200 text-gray-400 hover:text-gray-600 transition-colors" title="Editar"><Pencil size={13} /></button>
+                              <button onClick={() => openDeleteDb(db.id)} className="p-1.5 rounded-lg hover:bg-gray-200 text-gray-400 hover:text-red-500 transition-colors" title="Eliminar"><Trash2 size={13} /></button>
+                            </div>
+                            <button
+                              onClick={() => handleOpenDb(db.id)}
+                              className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-semibold transition-colors shrink-0"
+                            >
+                              Abrir <ChevronRight size={13} />
+                            </button>
+                          </div>
+                        );
+                      })}
                     </div>
-                  ))}
-                </div>
+                  );
+                })()}
               </>
             )}
           </div>
