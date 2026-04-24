@@ -122,14 +122,14 @@ export default function ItemsView({ onTabChange }: ItemsViewProps) {
   return (
     <div className="flex flex-1 overflow-hidden">
       {/* Left sidebar */}
-      <div className="w-64 shrink-0 border-r border-gray-200 bg-white flex flex-col overflow-hidden">
+      <div className="w-64 shrink-0 border-r border-gray-200 bg-gray-100 flex flex-col overflow-hidden">
         <div className="flex border-b border-gray-200 shrink-0">
-          <button className="flex-1 py-2.5 text-sm font-semibold text-gray-900 bg-white border-b-2 border-gray-800 transition-colors">
+          <button className="flex-1 py-2.5 text-sm font-semibold text-gray-900 bg-gray-100 border-b-2 border-gray-800 transition-colors">
             Items
           </button>
           <button
             onClick={() => onTabChange('rubros')}
-            className="flex-1 py-2.5 text-sm font-medium text-gray-500 bg-gray-50 hover:bg-gray-100 hover:text-gray-700 border-b-2 border-transparent transition-colors"
+            className="flex-1 py-2.5 text-sm font-medium text-gray-500 bg-gray-200 hover:bg-gray-300 hover:text-gray-700 border-b-2 border-transparent transition-colors"
           >
             APU - Rubro
           </button>

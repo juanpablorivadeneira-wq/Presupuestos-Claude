@@ -338,7 +338,7 @@ export default function App() {
       <div className="flex-1 flex overflow-hidden">
 
         {/* ── Persistent sidebar ──────────────────────────────────────── */}
-        <aside className="w-56 shrink-0 bg-white border-r border-gray-200 flex flex-col py-5">
+        <aside className="w-56 shrink-0 bg-gray-100 border-r border-gray-200 flex flex-col py-5">
           <p className="px-4 mb-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Gestión de Presupuestos</p>
           <nav className="flex-1 px-2 space-y-0.5">
 
@@ -347,7 +347,7 @@ export default function App() {
               className={`relative w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
                 activeSidebarSection === 'databases'
                   ? 'bg-indigo-50 text-indigo-700'
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                  : 'text-gray-600 hover:bg-gray-200 hover:text-gray-900'
               }`}
             >
               {activeSidebarSection === 'databases' && (
@@ -388,7 +388,7 @@ export default function App() {
               className={`relative w-full flex items-center gap-2 pl-8 pr-3 py-2 rounded-lg text-sm font-medium transition-all ${
                 activeSidebarSection === 'medicion'
                   ? 'bg-teal-50 text-teal-700'
-                  : 'text-gray-500 hover:bg-gray-50 hover:text-gray-800'
+                  : 'text-gray-500 hover:bg-gray-200 hover:text-gray-800'
               }`}
             >
               {activeSidebarSection === 'medicion' && (
