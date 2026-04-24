@@ -8,6 +8,7 @@ interface ItemTableProps {
   items: Item[];
   categories: ItemCategory[];
   selectedCategoryId: string | null;
+  onView: (item: Item) => void;
   onEdit: (item: Item) => void;
   onDelete: (item: Item) => void;
   sortConfig: SortConfig;
@@ -65,6 +66,7 @@ export default function ItemTable({
   items,
   categories,
   selectedCategoryId,
+  onView,
   onEdit,
   onDelete,
   sortConfig,
@@ -132,7 +134,12 @@ export default function ItemTable({
                     <span className="text-xs font-mono text-gray-500">{item.code}</span>
                   </td>
                   <td className="px-3 py-3">
-                    <div className="text-sm font-medium text-gray-900">{item.name}</div>
+                    <div
+                      className="text-sm font-medium text-gray-900 hover:text-green-700 cursor-pointer transition-colors"
+                      onClick={() => onView(item)}
+                    >
+                      {item.name}
+                    </div>
                     {item.description && <div className="text-xs text-gray-400 mt-0.5">{item.description}</div>}
                   </td>
                   <td className="px-3 py-3 text-sm text-gray-600">{item.unit}</td>

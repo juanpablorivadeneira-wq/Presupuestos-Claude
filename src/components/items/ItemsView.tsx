@@ -35,7 +35,7 @@ export default function ItemsView({ onTabChange }: ItemsViewProps) {
   const [newRateText, setNewRateText] = useState('');
 
   // Modal state
-  const [modalMode, setModalMode] = useState<'create' | 'edit' | 'delete' | null>(null);
+  const [modalMode, setModalMode] = useState<'create' | 'view' | 'edit' | 'delete' | null>(null);
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
 
   function handleSort(key: string) {
@@ -90,12 +90,13 @@ export default function ItemsView({ onTabChange }: ItemsViewProps) {
   const paginatedItems = pageSize === 0 ? sortedItems : sortedItems.slice((page - 1) * pageSize, page * pageSize);
 
   function openCreate() { setSelectedItem(null); setModalMode('create'); }
+  function openView(item: Item) { setSelectedItem(item); setModalMode('view'); }
   function openEdit(item: Item) { setSelectedItem(item); setModalMode('edit'); }
   function openDelete(item: Item) { setSelectedItem(item); setModalMode('delete'); }
 
   function handleSave(item: Item) {
     if (modalMode === 'create') addItem(item);
-    else if (modalMode === 'edit') updateItem(item);
+    else updateItem(item);
     setModalMode(null);
     setSelectedItem(null);
   }
@@ -207,6 +208,7 @@ export default function ItemsView({ onTabChange }: ItemsViewProps) {
                 items={paginatedItems}
                 categories={itemCategories}
                 selectedCategoryId={selectedCategoryId}
+                onView={openView}
                 onEdit={openEdit}
                 onDelete={openDelete}
                 sortConfig={sortConfig}
@@ -294,13 +296,14 @@ export default function ItemsView({ onTabChange }: ItemsViewProps) {
         </Modal>
       )}
 
-      {/* Create/Edit Item modal */}
-      {(modalMode === 'create' || modalMode === 'edit') && (
+      {/* Create / View / Edit Item modal */}
+      {(modalMode === 'create' || modalMode === 'view' || modalMode === 'edit') && (
         <Modal title="Detalles del Item" onClose={() => setModalMode(null)} size="lg">
           <ItemForm
             item={selectedItem ?? undefined}
             items={items}
             categories={itemCategories}
+            initialReadOnly={modalMode === 'view'}
             onSave={handleSave}
             onCancel={() => setModalMode(null)}
           />

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Check } from 'lucide-react';
+import { X, Check, Pencil } from 'lucide-react';
 import { Item, ItemCategory } from '../../types';
 import { genId, formatMoney, useStore } from '../../store/useStore';
 import { UNITS } from '../../data/units';
@@ -8,6 +8,7 @@ interface ItemFormProps {
   item?: Item;
   items: Item[];
   categories: ItemCategory[];
+  initialReadOnly?: boolean;
   onSave: (item: Item) => void;
   onCancel: () => void;
 }
@@ -33,9 +34,11 @@ function detectCostType(catId: string | null, cats: ItemCategory[]): CostFieldTy
   return null;
 }
 
-export default function ItemForm({ item, items, categories, onSave, onCancel }: ItemFormProps) {
+export default function ItemForm({ item, items, categories, initialReadOnly, onSave, onCancel }: ItemFormProps) {
   const ivaRates = useStore((s) => s.ivaRates);
   const defaultIvaRate = useStore((s) => s.defaultIvaRate);
+
+  const [isEditing, setIsEditing] = useState(!initialReadOnly);
 
   const [code, setCode] = useState(item?.code ?? '');
   const [name, setName] = useState(item?.name ?? '');
@@ -59,6 +62,22 @@ export default function ItemForm({ item, items, categories, onSave, onCancel }: 
     (i) => i.id !== item?.id && i.code.trim().toLowerCase() === code.trim().toLowerCase()
   );
 
+  function cancelEdit() {
+    setCode(item?.code ?? '');
+    setName(item?.name ?? '');
+    setDescription(item?.description ?? '');
+    setUnit(item?.unit ?? 'Und');
+    setMaterial(String(item?.material ?? '0'));
+    setManoDeObra(String(item?.manoDeObra ?? '0'));
+    setEquipo(String(item?.equipo ?? '0'));
+    setIndirectos(String(item?.indirectos ?? '0'));
+    setIvaRate(item ? (item.ivaRate ?? 0) : defaultIvaRate);
+    setCategoryId(item?.categoryId ?? null);
+    setErrors({});
+    setNameWarning('');
+    setIsEditing(false);
+  }
+
   function handleCategoryChange(newCatId: string | null) {
     const newType = detectCostType(newCatId, categories);
     setCategoryId(newCatId);
@@ -66,7 +85,6 @@ export default function ItemForm({ item, items, categories, onSave, onCancel }: 
     if (newType === 'manoDeObra') { setMaterial('0');   setEquipo('0'); }
     if (newType === 'equipo')     { setMaterial('0');   setManoDeObra('0'); }
     if (newType === 'subcontrato'){ setMaterial('0');   setManoDeObra('0'); setEquipo('0'); }
-    // Suggest IVA for new items based on category type
     if (!item) {
       if (newType === 'manoDeObra') setIvaRate(0);
       else if (newType !== null)    setIvaRate(defaultIvaRate);
@@ -135,6 +153,106 @@ export default function ItemForm({ item, items, categories, onSave, onCancel }: 
     subcontrato: 'Subcontrato',
   };
 
+  const catPath: string[] = [];
+  let cId = categoryId;
+  while (cId) {
+    const cat = categories.find((c) => c.id === cId);
+    if (!cat) break;
+    catPath.unshift(cat.name);
+    cId = cat.parentId;
+  }
+
+  // ── Read-only view ──────────────────────────────────────────────────────────
+  if (!isEditing) {
+    return (
+      <div className="space-y-4">
+        {/* Header */}
+        <div className="flex justify-end">
+          <button
+            type="button"
+            onClick={() => setIsEditing(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-gray-800 text-white rounded-md hover:bg-gray-700 transition-colors"
+          >
+            <Pencil size={12} /> Editar
+          </button>
+        </div>
+
+        {/* Name + Code */}
+        <div className="grid grid-cols-3 gap-4">
+          <div className="col-span-2">
+            <p className="text-xs font-medium text-gray-500 mb-1">Nombre</p>
+            <p className="text-sm font-semibold text-gray-900">{name || '—'}</p>
+          </div>
+          <div>
+            <p className="text-xs font-medium text-gray-500 mb-1">Código</p>
+            <p className="text-sm font-mono text-gray-700">{code || '—'}</p>
+          </div>
+        </div>
+
+        {/* Description */}
+        {description && (
+          <div>
+            <p className="text-xs font-medium text-gray-500 mb-1">Descripción</p>
+            <p className="text-sm text-gray-600 whitespace-pre-wrap">{description}</p>
+          </div>
+        )}
+
+        {/* Unit + Category */}
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <p className="text-xs font-medium text-gray-500 mb-1">Unidad</p>
+            <p className="text-sm text-gray-700">{unit || '—'}</p>
+          </div>
+          <div>
+            <p className="text-xs font-medium text-gray-500 mb-1">Categoría</p>
+            <p className="text-sm text-gray-700">{catPath.length ? catPath.join(' › ') : <span className="text-gray-400">Sin categoría</span>}</p>
+          </div>
+        </div>
+
+        {/* Costs */}
+        <div className="bg-gray-50 border border-gray-200 rounded-md px-4 py-3 space-y-2">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-1.5 text-sm">
+            {[
+              { label: 'Material', val: matVal, color: 'text-blue-600' },
+              { label: 'Mano de Obra', val: moVal, color: 'text-orange-600' },
+              { label: 'Equipo', val: eqVal, color: 'text-purple-600' },
+              { label: 'Indirectos', val: indVal, color: 'text-gray-600' },
+            ].map(({ label, val, color }) => (
+              <div key={label} className="flex justify-between">
+                <span className="text-gray-500 text-xs">{label}</span>
+                <span className={`text-xs font-medium ${val > 0 ? color : 'text-gray-300'}`}>
+                  {val > 0 ? formatMoney(val) : '—'}
+                </span>
+              </div>
+            ))}
+          </div>
+          <div className="grid grid-cols-3 gap-4 pt-2 border-t border-gray-200">
+            <div>
+              <p className="text-xs text-gray-400">Base (sin IVA)</p>
+              <p className="text-sm font-medium text-gray-700">{formatMoney(base)}</p>
+            </div>
+            <div>
+              <p className="text-xs text-gray-400">IVA ({(ivaRate * 100).toFixed(0)}%)</p>
+              <p className="text-sm font-medium text-amber-600">{ivaAmt > 0 ? formatMoney(ivaAmt) : <span className="text-gray-400">exento</span>}</p>
+            </div>
+            <div>
+              <p className="text-xs text-gray-400">Precio unitario</p>
+              <p className="text-base font-bold text-green-600">{formatMoney(total)}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Close */}
+        <div className="border-t border-gray-200 pt-4 flex justify-end">
+          <button type="button" onClick={onCancel} className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-gray-800">
+            <X size={14} /> Cerrar
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // ── Edit view ───────────────────────────────────────────────────────────────
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {/* Nombre + Código */}
@@ -275,7 +393,7 @@ export default function ItemForm({ item, items, categories, onSave, onCancel }: 
 
       {/* Actions */}
       <div className="border-t border-gray-200 pt-4 flex justify-end gap-4">
-        <button type="button" onClick={onCancel} className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-gray-800">
+        <button type="button" onClick={item ? cancelEdit : onCancel} className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-gray-800">
           <X size={14} /> Cancelar
         </button>
         <button
