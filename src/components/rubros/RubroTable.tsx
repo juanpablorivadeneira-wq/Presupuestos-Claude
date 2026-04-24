@@ -110,17 +110,18 @@ export default function RubroTable({
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-100">
-          {rubros.map((rubro) => {
+          {rubros.map((rubro, idx) => {
             const total = rubroTotal(rubro, items);
             const matCost = typeCost(rubro, items, 'material');
             const labCost = typeCost(rubro, items, 'manoDeObra');
             const eqpCost = typeCost(rubro, items, 'equipo');
             const isExpanded = expandedIds.has(rubro.id);
+            const isEven = idx % 2 === 1;
 
             return (
               <React.Fragment key={rubro.id}>
                 {/* ── Main rubro row ─────────────────────────────────── */}
-                <tr className={`transition-colors ${isExpanded ? 'bg-blue-50 hover:bg-blue-100' : 'hover:bg-gray-50'}`}>
+                <tr className={`transition-colors ${isExpanded ? 'bg-blue-50 hover:bg-blue-100' : isEven ? 'bg-gray-50 hover:bg-gray-100' : 'bg-white hover:bg-gray-50'}`}>
                   {/* Expand toggle */}
                   <td className="px-2 py-3 text-center">
                     <button

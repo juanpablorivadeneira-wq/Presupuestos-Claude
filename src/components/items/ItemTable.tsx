@@ -119,12 +119,13 @@ export default function ItemTable({
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-100">
-          {items.map((item) => {
+          {items.map((item, idx) => {
             const total = itemTotal(item);
             const isExpanded = expandedIds.has(item.id);
+            const isEven = idx % 2 === 1;
             return (
               <React.Fragment key={item.id}>
-                <tr className="hover:bg-gray-50 transition-colors">
+                <tr className={`transition-colors ${isEven ? 'bg-gray-50 hover:bg-gray-100' : 'bg-white hover:bg-gray-50'}`}>
                   <td className="px-2 py-3 text-center">
                     <button onClick={() => toggleExpand(item.id)} className="text-gray-400 hover:text-gray-600" title={isExpanded ? 'Contraer' : 'Expandir'}>
                       {isExpanded ? <Minus size={14} /> : <Plus size={14} />}
