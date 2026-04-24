@@ -121,7 +121,7 @@ export default function RubroTable({
             return (
               <React.Fragment key={rubro.id}>
                 {/* ── Main rubro row ─────────────────────────────────── */}
-                <tr className={`transition-colors ${isExpanded ? 'bg-blue-50 hover:bg-blue-100' : isEven ? 'bg-gray-50 hover:bg-gray-100' : 'bg-white hover:bg-gray-50'}`}>
+                <tr className={`transition-colors ${isExpanded ? 'bg-blue-50 hover:bg-blue-100' : isEven ? 'bg-gray-100 hover:bg-gray-200' : 'bg-white hover:bg-gray-50'}`}>
                   {/* Expand toggle */}
                   <td className="px-2 py-3 text-center">
                     <button
