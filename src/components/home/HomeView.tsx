@@ -356,7 +356,7 @@ export default function HomeView({ onNavigate, activeSection, onSectionChange }:
                             </div>
 
                             {/* Name + desc + badge */}
-                            <div className="min-w-0 w-48 shrink-0">
+                            <div className="min-w-0 w-80 shrink-0">
                               <div className="flex items-center gap-2">
                                 <span
                                   className="font-semibold text-gray-900 truncate text-sm cursor-pointer hover:text-indigo-600 transition-colors"
