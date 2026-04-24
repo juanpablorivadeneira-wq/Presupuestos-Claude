@@ -17,9 +17,9 @@ export default function Pagination({
   onPageChange,
   onPageSizeChange,
 }: PaginationProps) {
-  const totalPages = Math.max(1, Math.ceil(total / pageSize));
-  const start = total === 0 ? 0 : (page - 1) * pageSize + 1;
-  const end = Math.min(page * pageSize, total);
+  const totalPages = pageSize === 0 ? 1 : Math.max(1, Math.ceil(total / pageSize));
+  const start = total === 0 ? 0 : pageSize === 0 ? 1 : (page - 1) * pageSize + 1;
+  const end = pageSize === 0 ? total : Math.min(page * pageSize, total);
 
   return (
     <div className="flex items-center justify-between px-4 py-3 border-t border-gray-200 bg-white text-sm text-gray-600">
