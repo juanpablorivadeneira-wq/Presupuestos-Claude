@@ -1042,11 +1042,12 @@ export function itemBase(item: Item): number {
 }
 
 export function rubroTotal(rubro: Rubro, items: Item[]): number {
-  return rubro.components.reduce((sum, comp) => {
+  const base = rubro.components.reduce((sum, comp) => {
     const item = items.find((i) => i.id === comp.itemId);
     if (!item) return sum;
     return sum + itemTotal(item) * comp.quantity;
   }, 0);
+  return base * (1 + (rubro.imprevistos ?? 0));
 }
 
 export function rubroBreakdown(rubro: Rubro, items: Item[]): { material: number; manoDeObra: number; equipo: number } {

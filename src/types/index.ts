@@ -39,6 +39,7 @@ export interface Rubro {
   unit: string;
   components: RubroComponent[];
   categoryId: string | null;
+  imprevistos?: number; // decimal fraction, e.g. 0.05 = 5%
 }
 
 export type SortDirection = 'asc' | 'desc' | null;

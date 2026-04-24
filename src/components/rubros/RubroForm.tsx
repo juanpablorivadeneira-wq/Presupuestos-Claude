@@ -78,6 +78,10 @@ export default function RubroForm({
   const [description, setDescription] = useState(rubro?.description ?? '');
   const [unit, setUnit] = useState(rubro?.unit ?? '');
   const [categoryId, setCategoryId] = useState<string | null>(rubro?.categoryId ?? null);
+  const [imprevistosEnabled, setImprevistosEnabled] = useState((rubro?.imprevistos ?? 0) > 0);
+  const [imprevistosRate, setImprevistosRate] = useState(
+    rubro?.imprevistos ? String(Math.round(rubro.imprevistos * 100)) : '5'
+  );
   const [components, setComponents] = useState<ComponentRow[]>(
     rubro?.components.map((c) => ({
       id: c.id,
@@ -103,12 +107,13 @@ export default function RubroForm({
   }, [showPicker]);
 
   function cancelEdit() {
-    // Reset to original values and return to read-only
     setCode(rubro?.code ?? '');
     setName(rubro?.name ?? '');
     setDescription(rubro?.description ?? '');
     setUnit(rubro?.unit ?? '');
     setCategoryId(rubro?.categoryId ?? null);
+    setImprevistosEnabled((rubro?.imprevistos ?? 0) > 0);
+    setImprevistosRate(rubro?.imprevistos ? String(Math.round(rubro.imprevistos * 100)) : '5');
     setComponents(
       rubro?.components.map((c) => ({ id: c.id, itemId: c.itemId, quantity: c.quantity, type: c.type })) ?? []
     );
@@ -142,6 +147,7 @@ export default function RubroForm({
     e.preventDefault();
     const errs = validate();
     if (Object.keys(errs).length > 0) { setErrors(errs); return; }
+    const impRate = imprevistosEnabled ? (parseFloat(imprevistosRate) || 0) / 100 : 0;
     onSave({
       id: rubro?.id ?? genId(),
       code: code.trim(),
@@ -149,6 +155,7 @@ export default function RubroForm({
       description: description.trim(),
       unit: unit.trim(),
       categoryId,
+      imprevistos: impRate > 0 ? impRate : undefined,
       components: components.map((c) => ({
         id: c.id, itemId: c.itemId, quantity: c.quantity, type: c.type,
       })),
@@ -195,10 +202,13 @@ export default function RubroForm({
     return matchSearch && matchCat;
   });
 
-  const total = components.reduce((sum, c) => {
+  const baseTotal = components.reduce((sum, c) => {
     const item = items.find((i) => i.id === c.itemId);
     return item ? sum + itemTotal(item) * c.quantity : sum;
   }, 0);
+  const impRate = imprevistosEnabled ? (parseFloat(imprevistosRate) || 0) / 100 : 0;
+  const imprevistosAmt = baseTotal * impRate;
+  const total = baseTotal + imprevistosAmt;
 
   const matTotal = components.filter((c) => c.type === 'material')
     .reduce((s, c) => { const it = items.find((i) => i.id === c.itemId); return it ? s + itemTotal(it) * c.quantity : s; }, 0);
@@ -387,6 +397,48 @@ export default function RubroForm({
               <span className={`font-medium ${color}`}>{formatMoney(val)}</span>
             </div>
           ))}
+
+          {/* Imprevistos / Garantías */}
+          <div className="pt-2 border-t border-gray-200">
+            <div className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                id="imprevistos-check"
+                checked={imprevistosEnabled}
+                onChange={(e) => setImprevistosEnabled(e.target.checked)}
+                disabled={!isEditing}
+                className="rounded accent-yellow-600 cursor-pointer disabled:cursor-default"
+              />
+              <label htmlFor="imprevistos-check" className={`text-xs flex-1 ${isEditing ? 'cursor-pointer' : ''} ${imprevistosEnabled ? 'text-yellow-700 font-medium' : 'text-gray-500'}`}>
+                Imprevistos / Garantías
+              </label>
+              {imprevistosEnabled && (
+                isEditing ? (
+                  <div className="flex items-center gap-1">
+                    <input
+                      type="number"
+                      min="0"
+                      max="100"
+                      step="0.5"
+                      value={imprevistosRate}
+                      onChange={(e) => setImprevistosRate(e.target.value)}
+                      className="w-14 border border-yellow-300 rounded px-1.5 py-0.5 text-xs text-right focus:outline-none focus:ring-1 focus:ring-yellow-400 bg-yellow-50"
+                    />
+                    <span className="text-xs text-gray-500">%</span>
+                  </div>
+                ) : (
+                  <span className="text-xs font-semibold text-yellow-700">{imprevistosRate}%</span>
+                )
+              )}
+            </div>
+            {imprevistosEnabled && imprevistosAmt > 0 && (
+              <div className="flex justify-between text-xs mt-1 pl-5">
+                <span className="text-yellow-600">{formatMoney(baseTotal)} × {imprevistosRate}%</span>
+                <span className="font-medium text-yellow-700">+{formatMoney(imprevistosAmt)}</span>
+              </div>
+            )}
+          </div>
+
           <div className="flex justify-between items-center pt-1 border-t border-gray-200">
             <span className="text-sm font-semibold text-gray-700">Costo Total</span>
             <span className="text-base font-bold text-green-700">{formatMoney(total)}</span>
