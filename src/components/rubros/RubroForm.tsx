@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Trash2, Search, Plus, X, AlertCircle, Pencil, FileDown } from 'lucide-react';
 import { Item, ItemCategory, Rubro, RubroCategory } from '../../types';
-import { itemTotal, genId, formatMoney } from '../../store/useStore';
+import { itemTotal, genId, formatMoney, getCategoryIds } from '../../store/useStore';
 import { UNITS } from '../../data/units';
 import { exportRubroPdf } from '../../utils/exportPdf';
 
@@ -38,6 +38,26 @@ const TYPE_COLORS: Record<ComponentType, string> = {
   subcontrato: 'bg-yellow-100 text-yellow-700',
 };
 
+// Extracts the leading numeric prefix from a category name.
+// Walks up the category tree so a sub-category inherits its chapter's prefix
+// when its own name doesn't start with a number.
+// Examples: "03. ESTRUCTURA" → "03"; "03.03 - Hormigones" → "03.03";
+//           "Hormigones" under "03. ESTRUCTURA" → "03".
+function extractCategoryCodePrefix(
+  categoryId: string | null,
+  categories: RubroCategory[]
+): string {
+  let id: string | null = categoryId;
+  while (id) {
+    const cat = categories.find((c) => c.id === id);
+    if (!cat) break;
+    const m = cat.name.trim().match(/^\d+(?:\.\d+)*/);
+    if (m) return m[0];
+    id = cat.parentId;
+  }
+  return '';
+}
+
 function detectType(item: Item, itemCategories: ItemCategory[]): ComponentType {
   // Walk up to root category (same logic as detectCostType in ItemForm)
   let current = itemCategories.find((c) => c.id === item.categoryId);
@@ -73,7 +93,15 @@ export default function RubroForm({
   // Start in edit mode for new rubros, read-only for existing
   const [isEditing, setIsEditing] = useState(!rubro);
 
-  const [code, setCode] = useState(rubro?.code ?? '');
+  const initialPrefix = extractCategoryCodePrefix(rubro?.categoryId ?? null, rubroCategories);
+  const initialSuffix = (() => {
+    const c = rubro?.code ?? '';
+    if (!initialPrefix) return c;
+    if (c.startsWith(initialPrefix + '.')) return c.slice(initialPrefix.length + 1);
+    if (c === initialPrefix) return '';
+    return c;
+  })();
+  const [codeSuffix, setCodeSuffix] = useState(initialSuffix);
   const [name, setName] = useState(rubro?.name ?? '');
   const [description, setDescription] = useState(rubro?.description ?? '');
   const [unit, setUnit] = useState(rubro?.unit ?? '');
@@ -106,8 +134,13 @@ export default function RubroForm({
     if (showPicker && searchRef.current) searchRef.current.focus();
   }, [showPicker]);
 
+  const codePrefix = extractCategoryCodePrefix(categoryId, rubroCategories);
+  const code = codePrefix
+    ? (codeSuffix ? `${codePrefix}.${codeSuffix}` : codePrefix)
+    : codeSuffix;
+
   function cancelEdit() {
-    setCode(rubro?.code ?? '');
+    setCodeSuffix(initialSuffix);
     setName(rubro?.name ?? '');
     setDescription(rubro?.description ?? '');
     setUnit(rubro?.unit ?? '');
@@ -134,7 +167,8 @@ export default function RubroForm({
 
   function validate() {
     const e: Record<string, string> = {};
-    if (!code.trim()) e.code = 'Requerido';
+    if (!codeSuffix.trim()) e.code = 'Requerido';
+    else if (!code.trim()) e.code = 'Requerido';
     else { const dup = checkDuplicateCode(code); if (dup) e.code = dup; }
     if (!name.trim()) e.name = 'Requerido';
     // Name duplicate is a warning only — doesn't block saving
@@ -194,11 +228,14 @@ export default function RubroForm({
     setComponents((prev) => prev.map((c) => (c.id === id ? { ...c, quantity: Math.max(0, rounded) } : c)));
   }
 
+  const pickerCatIds = pickerCategoryId
+    ? new Set(getCategoryIds(pickerCategoryId, itemCategories))
+    : null;
   const pickerItems = items.filter((i) => {
     const matchSearch = !pickerSearch.trim() ||
       i.name.toLowerCase().includes(pickerSearch.toLowerCase()) ||
       i.code.toLowerCase().includes(pickerSearch.toLowerCase());
-    const matchCat = !pickerCategoryId || i.categoryId === pickerCategoryId;
+    const matchCat = !pickerCatIds || (i.categoryId !== null && pickerCatIds.has(i.categoryId));
     return matchSearch && matchCat;
   });
 
@@ -215,6 +252,8 @@ export default function RubroForm({
   const labTotal = components.filter((c) => c.type === 'manoDeObra')
     .reduce((s, c) => { const it = items.find((i) => i.id === c.itemId); return it ? s + itemTotal(it) * c.quantity : s; }, 0);
   const eqpTotal = components.filter((c) => c.type === 'equipo')
+    .reduce((s, c) => { const it = items.find((i) => i.id === c.itemId); return it ? s + itemTotal(it) * c.quantity : s; }, 0);
+  const subTotal = components.filter((c) => c.type === 'subcontrato')
     .reduce((s, c) => { const it = items.find((i) => i.id === c.itemId); return it ? s + itemTotal(it) * c.quantity : s; }, 0);
 
   const inputCls = (err?: string) =>
@@ -256,26 +295,51 @@ export default function RubroForm({
           )}
         </div>
 
-        {/* Código */}
+        {/* Código — el prefijo se hereda del capítulo y no es editable */}
         <div>
           <label className="block text-xs font-medium text-gray-600 mb-1">
             Código {isEditing && <span className="text-red-400">*</span>}
           </label>
           {isEditing ? (
             <>
-              <input
-                type="text"
-                value={code}
-                onChange={(e) => {
-                  const v = e.target.value;
-                  setCode(v);
-                  const dup = v.trim() ? checkDuplicateCode(v) : '';
-                  setErrors((p) => ({ ...p, code: dup }));
-                }}
-                className={inputCls(errors.code)}
-                placeholder="ej. 02.01.01"
-                autoFocus
-              />
+              {codePrefix ? (
+                <div className={`flex items-stretch overflow-hidden rounded-md border bg-gray-50 ${errors.code ? 'border-red-400' : 'border-gray-200'} focus-within:ring-1 focus-within:ring-green-500 focus-within:bg-white transition-colors`}>
+                  <span
+                    className="px-2.5 py-2 text-sm font-mono text-gray-500 bg-gray-100 border-r border-gray-200 select-none"
+                    title="Prefijo heredado del capítulo"
+                  >
+                    {codePrefix}.
+                  </span>
+                  <input
+                    type="text"
+                    value={codeSuffix}
+                    onChange={(e) => {
+                      const v = e.target.value;
+                      setCodeSuffix(v);
+                      const full = v ? `${codePrefix}.${v}` : codePrefix;
+                      const dup = full.trim() ? checkDuplicateCode(full) : '';
+                      setErrors((p) => ({ ...p, code: dup }));
+                    }}
+                    className="flex-1 px-2 py-2 text-sm font-mono bg-transparent focus:outline-none"
+                    placeholder="01.01"
+                    autoFocus
+                  />
+                </div>
+              ) : (
+                <input
+                  type="text"
+                  value={codeSuffix}
+                  onChange={(e) => {
+                    const v = e.target.value;
+                    setCodeSuffix(v);
+                    const dup = v.trim() ? checkDuplicateCode(v) : '';
+                    setErrors((p) => ({ ...p, code: dup }));
+                  }}
+                  className={inputCls(errors.code)}
+                  placeholder="Selecciona un capítulo para auto-generar el prefijo"
+                  autoFocus
+                />
+              )}
               {errors.code && (
                 <p className="text-red-500 text-xs mt-0.5 flex items-center gap-1">
                   <AlertCircle size={11} />{errors.code}
@@ -391,14 +455,17 @@ export default function RubroForm({
             { label: 'Material', val: matTotal, color: 'text-blue-600' },
             { label: 'Mano de Obra', val: labTotal, color: 'text-orange-600' },
             { label: 'Equipo', val: eqpTotal, color: 'text-purple-600' },
+            { label: 'Subcontrato', val: subTotal, color: 'text-pink-600' },
           ].map(({ label, val, color }) => (
             <div key={label} className="flex justify-between text-xs">
               <span className="text-gray-500">{label}</span>
-              <span className={`font-medium ${color}`}>{formatMoney(val)}</span>
+              <span className={`font-medium ${val > 0 ? color : 'text-gray-300'}`}>
+                {val > 0 ? formatMoney(val) : '—'}
+              </span>
             </div>
           ))}
 
-          {/* Imprevistos / Garantías */}
+          {/* Imprevistos / Garantías — checkbox + % editor + componente como fila */}
           <div className="pt-2 border-t border-gray-200">
             <div className="flex items-center gap-2">
               <input
@@ -431,13 +498,16 @@ export default function RubroForm({
                 )
               )}
             </div>
-            {imprevistosEnabled && imprevistosAmt > 0 && (
-              <div className="flex justify-between text-xs mt-1 pl-5">
-                <span className="text-yellow-600">{formatMoney(baseTotal)} × {imprevistosRate}%</span>
-                <span className="font-medium text-yellow-700">+{formatMoney(imprevistosAmt)}</span>
-              </div>
-            )}
           </div>
+
+          {imprevistosEnabled && (
+            <div className="flex justify-between text-xs">
+              <span className="text-gray-500">Imprevistos ({imprevistosRate}%)</span>
+              <span className={`font-medium ${imprevistosAmt > 0 ? 'text-yellow-700' : 'text-gray-300'}`}>
+                {imprevistosAmt > 0 ? formatMoney(imprevistosAmt) : '—'}
+              </span>
+            </div>
+          )}
 
           <div className="flex justify-between items-center pt-1 border-t border-gray-200">
             <span className="text-sm font-semibold text-gray-700">Costo Total</span>
