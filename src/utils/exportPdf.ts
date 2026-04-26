@@ -2,9 +2,38 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { Budget, Rubro, Item, RubroCategory } from '../types';
 import { formatMoney, itemTotal } from '../store/useStore';
+import logoUrl from '../assets/buildkontrol-logo.png';
 
-export function exportBudgetPdf(budget: Budget): void {
+let logoDataUrlCache: string | null = null;
+
+async function getLogoDataUrl(): Promise<string | null> {
+  if (logoDataUrlCache) return logoDataUrlCache;
+  try {
+    const res = await fetch(logoUrl);
+    const blob = await res.blob();
+    logoDataUrlCache = await new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.onerror = () => reject(reader.error);
+      reader.readAsDataURL(blob);
+    });
+    return logoDataUrlCache;
+  } catch {
+    return null;
+  }
+}
+
+export async function exportBudgetPdf(budget: Budget): Promise<void> {
   const doc = new jsPDF();
+  const pageW = doc.internal.pageSize.width;
+
+  // Logo BuildKontrol — esquina superior derecha
+  const logoData = await getLogoDataUrl();
+  if (logoData) {
+    const logoH = 10;
+    const logoW = logoH * (950 / 170);
+    doc.addImage(logoData, 'PNG', pageW - 14 - logoW, 10, logoW, logoH);
+  }
 
   // Title
   doc.setFontSize(18);
@@ -28,14 +57,14 @@ export function exportBudgetPdf(budget: Budget): void {
     doc.text(budget.description, 14, 34);
   }
 
-  // Table
+  // Table — Cantidad va inmediatamente después de Unidad
   const rows = budget.lineItems.map((li, idx) => [
     String(idx + 1),
     li.rubroCode,
     li.rubroName,
     li.rubroUnit,
-    formatMoney(li.unitCost),
     String(li.quantity),
+    formatMoney(li.unitCost),
     formatMoney(li.unitCost * li.quantity),
   ]);
 
@@ -44,7 +73,7 @@ export function exportBudgetPdf(budget: Budget): void {
 
   autoTable(doc, {
     startY: budget.description ? 40 : 34,
-    head: [['#', 'Código', 'Descripción', 'Unidad', 'P. Unitario', 'Cantidad', 'Total']],
+    head: [['#', 'Código', 'Descripción', 'Unidad', 'Cantidad', 'P. Unitario', 'Total']],
     body: rows,
     styles: { fontSize: 9, cellPadding: 3 },
     headStyles: { fillColor: [31, 41, 55], textColor: 255 },
@@ -53,8 +82,8 @@ export function exportBudgetPdf(budget: Budget): void {
       1: { cellWidth: 22 },
       2: { cellWidth: 70 },
       3: { cellWidth: 20 },
-      4: { cellWidth: 25, halign: 'right' },
-      5: { cellWidth: 20, halign: 'right' },
+      4: { cellWidth: 20, halign: 'right' },
+      5: { cellWidth: 25, halign: 'right' },
       6: { cellWidth: 25, halign: 'right' },
     },
     didParseCell: (data) => {
@@ -93,11 +122,11 @@ const TYPE_COLORS: Record<string, [number, number, number]> = {
   subcontrato: [254, 252, 207],
 };
 
-export function exportRubroPdf(
+export async function exportRubroPdf(
   rubro: Rubro,
   items: Item[],
   rubroCategories: RubroCategory[],
-): void {
+): Promise<void> {
   const doc = new jsPDF();
   const pageW = doc.internal.pageSize.width;
 
@@ -111,7 +140,16 @@ export function exportRubroPdf(
   doc.setFontSize(9);
   doc.setFont('helvetica', 'normal');
   doc.text(`Generado el ${new Date().toLocaleString('es-EC')}`, 14, 18);
-  doc.text('BuildKontrol', pageW - 14, 18, { align: 'right' });
+
+  // Logo BuildKontrol — proporción ~5.5:1 (logo 950×170)
+  const logoData = await getLogoDataUrl();
+  if (logoData) {
+    const logoH = 8;
+    const logoW = logoH * (950 / 170);
+    doc.addImage(logoData, 'PNG', pageW - 14 - logoW, 4, logoW, logoH);
+  } else {
+    doc.text('BuildKontrol', pageW - 14, 18, { align: 'right' });
+  }
 
   // APU info grid
   let y = 36;
@@ -164,13 +202,31 @@ export function exportRubroPdf(
     });
 
     const [r, g, b] = TYPE_COLORS[type];
+    const typeBarStyle = {
+      fillColor: [r, g, b] as [number, number, number],
+      textColor: [30, 30, 30] as [number, number, number],
+      fontStyle: 'bold' as const,
+      fontSize: 8,
+    };
+    const colHeaderStyle = {
+      fillColor: [243, 244, 246] as [number, number, number],
+      textColor: [80, 80, 80] as [number, number, number],
+      fontStyle: 'bold' as const,
+      fontSize: 7.5,
+    };
     autoTable(doc, {
       startY: y,
-      head: [[
-        { content: TYPE_LABELS[type], colSpan: 4, styles: { fillColor: [r, g, b], textColor: [30, 30, 30], fontStyle: 'bold', fontSize: 8 } },
-        { content: 'P. Unit.', styles: { fillColor: [r, g, b], textColor: [30, 30, 30], fontStyle: 'bold', halign: 'right', fontSize: 8 } },
-        { content: 'Subtotal', styles: { fillColor: [r, g, b], textColor: [30, 30, 30], fontStyle: 'bold', halign: 'right', fontSize: 8 } },
-      ]],
+      head: [
+        [{ content: TYPE_LABELS[type], colSpan: 6, styles: typeBarStyle }],
+        [
+          { content: 'Código', styles: colHeaderStyle },
+          { content: 'Descripción', styles: colHeaderStyle },
+          { content: 'Unidad', styles: { ...colHeaderStyle, halign: 'center' as const } },
+          { content: 'Cantidad', styles: { ...colHeaderStyle, halign: 'right' as const } },
+          { content: 'P. Unit.', styles: { ...colHeaderStyle, halign: 'right' as const } },
+          { content: 'Subtotal', styles: { ...colHeaderStyle, halign: 'right' as const } },
+        ],
+      ],
       body: rows,
       styles: { fontSize: 8, cellPadding: 2.5 },
       columnStyles: {

@@ -4,15 +4,15 @@ import { Budget } from '../types';
 export function exportBudgetExcel(budget: Budget): void {
   const total = budget.lineItems.reduce((s, li) => s + li.unitCost * li.quantity, 0);
 
-  const headers = ['#', 'Código', 'Descripción', 'Unidad', 'P. Unitario', 'Cantidad', 'Total'];
+  const headers = ['#', 'Código', 'Descripción', 'Unidad', 'Cantidad', 'P. Unitario', 'Total'];
 
   const rows = budget.lineItems.map((li, idx) => [
     idx + 1,
     li.rubroCode,
     li.rubroName,
     li.rubroUnit,
-    li.unitCost,
     li.quantity,
+    li.unitCost,
     li.unitCost * li.quantity,
   ]);
 
@@ -25,13 +25,13 @@ export function exportBudgetExcel(budget: Budget): void {
 
   // Column widths
   ws['!cols'] = [
-    { wch: 5 },
-    { wch: 15 },
-    { wch: 45 },
-    { wch: 12 },
-    { wch: 15 },
-    { wch: 12 },
-    { wch: 15 },
+    { wch: 5 },   // #
+    { wch: 15 },  // Código
+    { wch: 45 },  // Descripción
+    { wch: 12 },  // Unidad
+    { wch: 12 },  // Cantidad
+    { wch: 15 },  // P. Unitario
+    { wch: 15 },  // Total
   ];
 
   // Style header row (bold) — note: xlsx community edition doesn't support cell styles
