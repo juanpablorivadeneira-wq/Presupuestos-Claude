@@ -16,7 +16,6 @@ export default function ActualizacionView({ onNavigate: _onNavigate }: Actualiza
 
   const update = budgetUpdates.find((u) => u.id === currentBudgetUpdateId) ?? null;
   const newDb = update ? databases.find((d) => d.id === update.newDatabaseId) ?? null : null;
-  const ivaRate = update?.ivaRate ?? 0.12;
 
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingVal, setEditingVal] = useState('');
@@ -121,16 +120,16 @@ export default function ActualizacionView({ onNavigate: _onNavigate }: Actualiza
           <div className="flex items-center gap-8 shrink-0">
             <div className="text-center">
               <p className="text-xs text-gray-400">Restante (precios originales)</p>
-              <p className="text-lg font-bold text-gray-700">{formatMoney(totalOldRemaining * (1 + ivaRate))}</p>
+              <p className="text-lg font-bold text-gray-700">{formatMoney(totalOldRemaining)}</p>
             </div>
             <div className="text-center">
               <p className="text-xs text-gray-400">Restante (precios nuevos)</p>
-              <p className={`text-lg font-bold ${ic(totalImpact)}`}>{formatMoney(totalNewRemaining * (1 + ivaRate))}</p>
+              <p className={`text-lg font-bold ${ic(totalImpact)}`}>{formatMoney(totalNewRemaining)}</p>
             </div>
             <div className="text-center">
-              <p className="text-xs text-gray-400">Impacto total (c/IVA)</p>
+              <p className="text-xs text-gray-400">Impacto total</p>
               <p className={`text-lg font-bold ${ic(totalImpact)}`}>
-                {sign(totalImpact)}{formatMoney(totalImpact * (1 + ivaRate))}
+                {sign(totalImpact)}{formatMoney(totalImpact)}
               </p>
             </div>
           </div>
@@ -284,27 +283,19 @@ export default function ActualizacionView({ onNavigate: _onNavigate }: Actualiza
             </tbody>
             <tfoot className="border-t-2 border-gray-300">
               <tr className="bg-gray-50">
-                <td colSpan={8} className="px-3 py-2.5 text-right text-sm font-semibold text-gray-700">Subtotal restante</td>
+                <td colSpan={8} className="px-3 py-2.5 text-right text-xs text-gray-400 italic">IVA incluido en precios unitarios</td>
                 <td className="px-3 py-2.5 text-right text-sm font-semibold text-gray-800">{formatMoney(totalOldRemaining)}</td>
                 <td className="px-3 py-2.5 text-right text-sm font-semibold text-blue-700">{formatMoney(totalNewRemaining)}</td>
                 <td className={`px-3 py-2.5 text-right text-sm font-semibold ${ic(totalImpact)}`}>
                   {Math.abs(totalImpact) > 0.005 ? sign(totalImpact) + formatMoney(totalImpact) : '—'}
                 </td>
               </tr>
-              <tr className="bg-gray-50">
-                <td colSpan={8} className="px-3 py-1.5 text-right text-xs text-gray-400">IVA ({(ivaRate * 100).toFixed(0)}%)</td>
-                <td className="px-3 py-1.5 text-right text-xs text-gray-500">{formatMoney(totalOldRemaining * ivaRate)}</td>
-                <td className="px-3 py-1.5 text-right text-xs text-blue-500">{formatMoney(totalNewRemaining * ivaRate)}</td>
-                <td className={`px-3 py-1.5 text-right text-xs ${ic(totalImpact)}`}>
-                  {Math.abs(totalImpact) > 0.005 ? sign(totalImpact * ivaRate) + formatMoney(totalImpact * ivaRate) : '—'}
-                </td>
-              </tr>
               <tr className="bg-amber-50">
-                <td colSpan={8} className="px-3 py-3 text-right text-sm font-bold text-gray-800">TOTAL restante (c/IVA)</td>
-                <td className="px-3 py-3 text-right text-base font-bold text-gray-800">{formatMoney(totalOldRemaining * (1 + ivaRate))}</td>
-                <td className="px-3 py-3 text-right text-base font-bold text-blue-700">{formatMoney(totalNewRemaining * (1 + ivaRate))}</td>
+                <td colSpan={8} className="px-3 py-3 text-right text-sm font-bold text-gray-800">TOTAL restante</td>
+                <td className="px-3 py-3 text-right text-base font-bold text-gray-800">{formatMoney(totalOldRemaining)}</td>
+                <td className="px-3 py-3 text-right text-base font-bold text-blue-700">{formatMoney(totalNewRemaining)}</td>
                 <td className={`px-3 py-3 text-right text-base font-bold ${ic(totalImpact)}`}>
-                  {Math.abs(totalImpact) > 0.005 ? sign(totalImpact) + formatMoney(totalImpact * (1 + ivaRate)) : '—'}
+                  {Math.abs(totalImpact) > 0.005 ? sign(totalImpact) + formatMoney(totalImpact) : '—'}
                 </td>
               </tr>
             </tfoot>
