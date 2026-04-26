@@ -121,7 +121,47 @@ export async function loginToServer(
 
 // ── Synchronous bootstrap (localStorage only, used for initial Zustand state) ─
 function loadFromStorage(): StorageData | null {
-  return loadFromLocalStorage();
+  const data = loadFromLocalStorage();
+  return data ? migrateStorage(data) : null;
+}
+
+// Renames the legacy "indirectos" field on items to "subcontrato" and
+// backfills the new "subcontratoCost" / "oldSubcontratoCost" fields on
+// budget line items so older saves keep working without manual edits.
+function migrateStorage(data: StorageData): StorageData {
+  type LegacyItem = Item & { indirectos?: number };
+  type LegacyBLI = BudgetLineItem & Partial<{ subcontratoCost: number }>;
+  type LegacyBULI = BudgetUpdateLineItem & Partial<{ oldSubcontratoCost: number }>;
+  return {
+    ...data,
+    databases: data.databases.map((db) => ({
+      ...db,
+      items: db.items.map((it) => {
+        const legacy = it as LegacyItem;
+        if ('subcontrato' in legacy && legacy.subcontrato !== undefined) return it;
+        const { indirectos, ...rest } = legacy;
+        return { ...rest, subcontrato: indirectos ?? 0 } as Item;
+      }),
+    })),
+    budgets: data.budgets.map((b) => ({
+      ...b,
+      lineItems: b.lineItems.map((li) => {
+        const legacy = li as LegacyBLI;
+        return legacy.subcontratoCost === undefined
+          ? { ...li, subcontratoCost: 0 }
+          : li;
+      }),
+    })),
+    budgetUpdates: data.budgetUpdates.map((bu) => ({
+      ...bu,
+      lineItems: bu.lineItems.map((li) => {
+        const legacy = li as LegacyBULI;
+        return legacy.oldSubcontratoCost === undefined
+          ? { ...li, oldSubcontratoCost: 0 }
+          : li;
+      }),
+    })),
+  };
 }
 
 interface AppState {
@@ -638,6 +678,7 @@ export const useStore = create<AppState>((set, get) => ({
         materialCost: bd.material,
         manoDeObraCost: bd.manoDeObra,
         equipoCost: bd.equipo,
+        subcontratoCost: bd.subcontrato,
       };
       const budgets = state.budgets.map((b) =>
         b.id === budgetId
@@ -675,6 +716,7 @@ export const useStore = create<AppState>((set, get) => ({
           materialCost: bd.material,
           manoDeObraCost: bd.manoDeObra,
           equipoCost: bd.equipo,
+          subcontratoCost: bd.subcontrato,
         });
       }
       if (newLineItems.length === 0) return {};
@@ -737,6 +779,7 @@ export const useStore = create<AppState>((set, get) => ({
               materialCost: bd.material,
               manoDeObraCost: bd.manoDeObra,
               equipoCost: bd.equipo,
+              subcontratoCost: bd.subcontrato,
             };
           }),
           updatedAt: new Date().toISOString(),
@@ -768,6 +811,7 @@ export const useStore = create<AppState>((set, get) => ({
       oldMaterialCost: li.materialCost,
       oldManoDeObraCost: li.manoDeObraCost,
       oldEquipoCost: li.equipoCost,
+      oldSubcontratoCost: li.subcontratoCost,
     }));
     const newUpdate: BudgetUpdate = {
       id: genId(),
@@ -940,7 +984,7 @@ export const useStore = create<AppState>((set, get) => ({
   },
 
   hydrate: (data) => {
-    set({
+    const migrated = migrateStorage({
       databases: data.databases ?? [],
       currentDatabaseId: data.currentDatabaseId ?? null,
       budgets: data.budgets ?? [],
@@ -949,6 +993,18 @@ export const useStore = create<AppState>((set, get) => ({
       currentBudgetUpdateId: data.currentBudgetUpdateId ?? null,
       medicionProjects: data.medicionProjects ?? [],
       currentMedicionId: data.currentMedicionId ?? null,
+      ivaRates: data.ivaRates ?? [0, 0.05, 0.15],
+      defaultIvaRate: data.defaultIvaRate ?? 0.15,
+    });
+    set({
+      databases: migrated.databases,
+      currentDatabaseId: migrated.currentDatabaseId,
+      budgets: migrated.budgets,
+      currentBudgetId: migrated.currentBudgetId,
+      budgetUpdates: migrated.budgetUpdates,
+      currentBudgetUpdateId: migrated.currentBudgetUpdateId,
+      medicionProjects: migrated.medicionProjects,
+      currentMedicionId: migrated.currentMedicionId,
     });
   },
 
@@ -1033,12 +1089,12 @@ useStore.subscribe((state) => {
 // ── Standalone helper functions ───────────────────────────────────────────────
 
 export function itemTotal(item: Item): number {
-  const base = item.material + item.manoDeObra + item.equipo + item.indirectos;
+  const base = item.material + item.manoDeObra + item.equipo + item.subcontrato;
   return base * (1 + (item.ivaRate ?? 0));
 }
 
 export function itemBase(item: Item): number {
-  return item.material + item.manoDeObra + item.equipo + item.indirectos;
+  return item.material + item.manoDeObra + item.equipo + item.subcontrato;
 }
 
 export function rubroTotal(rubro: Rubro, items: Item[]): number {
@@ -1050,8 +1106,8 @@ export function rubroTotal(rubro: Rubro, items: Item[]): number {
   return base * (1 + (rubro.imprevistos ?? 0));
 }
 
-export function rubroBreakdown(rubro: Rubro, items: Item[]): { material: number; manoDeObra: number; equipo: number } {
-  let material = 0, manoDeObra = 0, equipo = 0;
+export function rubroBreakdown(rubro: Rubro, items: Item[]): { material: number; manoDeObra: number; equipo: number; subcontrato: number } {
+  let material = 0, manoDeObra = 0, equipo = 0, subcontrato = 0;
   for (const comp of rubro.components) {
     const item = items.find((i) => i.id === comp.itemId);
     if (!item) continue;
@@ -1059,8 +1115,9 @@ export function rubroBreakdown(rubro: Rubro, items: Item[]): { material: number;
     if (comp.type === 'material') material += cost;
     else if (comp.type === 'manoDeObra') manoDeObra += cost;
     else if (comp.type === 'equipo') equipo += cost;
+    else if (comp.type === 'subcontrato') subcontrato += cost;
   }
-  return { material, manoDeObra, equipo };
+  return { material, manoDeObra, equipo, subcontrato };
 }
 
 export function getCategoryIds(

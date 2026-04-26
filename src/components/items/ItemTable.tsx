@@ -47,7 +47,7 @@ function ColumnHeader({ label, colKey, sortConfig, onSort, className = '', width
 function detectCategoryType(
   categoryId: string | null,
   categories: ItemCategory[]
-): 'material' | 'manoDeObra' | 'equipo' | 'all' {
+): 'material' | 'manoDeObra' | 'equipo' | 'subcontrato' | 'all' {
   if (!categoryId) return 'all';
   const ids = getCategoryIds(categoryId, categories);
   // Walk up to find root category name
@@ -57,6 +57,7 @@ function detectCategoryType(
     const n = cat.name.toLowerCase();
     if (n.includes('mano') || n.includes('obra') || n.includes('labor')) return 'manoDeObra';
     if (n.includes('equipo') || n.includes('equipment') || n.includes('maquinaria')) return 'equipo';
+    if (n.includes('subcontrat')) return 'subcontrato';
     if (n.includes('material') || n.includes('obra gris') || n.includes('acabado') || n.includes('instalac') || n.includes('herramienta')) return 'material';
   }
   return 'all';
@@ -73,7 +74,7 @@ export default function ItemTable({
   onSort,
 }: ItemTableProps) {
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
-  const { widths, resizer } = useResizableColumns({ codigo: 128, nombre: 280, unidad: 80, material: 110, manoObra: 110, equipo: 96, precioUnit: 112 });
+  const { widths, resizer } = useResizableColumns({ codigo: 128, nombre: 280, unidad: 80, material: 110, manoObra: 110, equipo: 96, subcontrato: 120, precioUnit: 112 });
 
   function toggleExpand(id: string) {
     setExpandedIds((prev) => {
@@ -88,8 +89,9 @@ export default function ItemTable({
   const showMat = colType === 'all' || colType === 'material';
   const showMO  = colType === 'all' || colType === 'manoDeObra';
   const showEq  = colType === 'all' || colType === 'equipo';
+  const showSub = colType === 'all' || colType === 'subcontrato';
 
-  const colSpanTotal = 5 + (showMat ? 1 : 0) + (showMO ? 1 : 0) + (showEq ? 1 : 0);
+  const colSpanTotal = 5 + (showMat ? 1 : 0) + (showMO ? 1 : 0) + (showEq ? 1 : 0) + (showSub ? 1 : 0);
 
   if (items.length === 0) {
     return (
@@ -101,7 +103,7 @@ export default function ItemTable({
 
   const totalTableWidth = 32 + widths.codigo + widths.nombre + widths.unidad +
     (showMat ? widths.material : 0) + (showMO ? widths.manoObra : 0) + (showEq ? widths.equipo : 0) +
-    widths.precioUnit + 80;
+    (showSub ? widths.subcontrato : 0) + widths.precioUnit + 80;
 
   return (
     <table className="border-separate border-spacing-0" style={{ tableLayout: 'fixed', width: Math.max(totalTableWidth, 600) }}>
@@ -114,6 +116,7 @@ export default function ItemTable({
             {showMat && <ColumnHeader label="Material" colKey="material" sortConfig={sortConfig} onSort={onSort} width={widths.material} resizer={resizer('material')} align="right" />}
             {showMO  && <ColumnHeader label="Mano de Obra" colKey="manoDeObra" sortConfig={sortConfig} onSort={onSort} width={widths.manoObra} resizer={resizer('manoObra')} align="right" />}
             {showEq  && <ColumnHeader label="Equipo" colKey="equipo" sortConfig={sortConfig} onSort={onSort} width={widths.equipo} resizer={resizer('equipo')} align="right" />}
+            {showSub && <ColumnHeader label="Subcontrato" colKey="subcontrato" sortConfig={sortConfig} onSort={onSort} width={widths.subcontrato} resizer={resizer('subcontrato')} align="right" />}
             <ColumnHeader label="Precio Unit." colKey="total" sortConfig={sortConfig} onSort={onSort} width={widths.precioUnit} resizer={resizer('precioUnit')} align="right" />
             <th className="px-3 py-3 text-right text-xs font-semibold text-gray-500 uppercase border-b border-gray-200" style={{ width: 80 }}>Acciones</th>
           </tr>
@@ -147,6 +150,7 @@ export default function ItemTable({
                   {showMat && <td className="px-3 py-3 text-sm text-right text-gray-700">{item.material > 0 ? formatMoney(item.material) : <span className="text-gray-300">—</span>}</td>}
                   {showMO  && <td className="px-3 py-3 text-sm text-right text-gray-700">{item.manoDeObra > 0 ? formatMoney(item.manoDeObra) : <span className="text-gray-300">—</span>}</td>}
                   {showEq  && <td className="px-3 py-3 text-sm text-right text-gray-700">{item.equipo > 0 ? formatMoney(item.equipo) : <span className="text-gray-300">—</span>}</td>}
+                  {showSub && <td className="px-3 py-3 text-sm text-right text-gray-700">{item.subcontrato > 0 ? formatMoney(item.subcontrato) : <span className="text-gray-300">—</span>}</td>}
                   <td className="px-3 py-3 text-sm text-right font-semibold text-green-700">{formatMoney(total)}</td>
                   <td className="px-3 py-3 text-right">
                     <div className="flex items-center justify-end gap-1">
@@ -156,7 +160,7 @@ export default function ItemTable({
                   </td>
                 </tr>
                 {isExpanded && (() => {
-                  const base = item.material + item.manoDeObra + item.equipo + item.indirectos;
+                  const base = item.material + item.manoDeObra + item.equipo + item.subcontrato;
                   const rate = item.ivaRate ?? 0;
                   const ivaAmt = base * rate;
                   return (

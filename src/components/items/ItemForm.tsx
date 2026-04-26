@@ -48,7 +48,7 @@ export default function ItemForm({ item, items, categories, initialReadOnly, onS
   const [material, setMaterial] = useState(String(item?.material ?? '0'));
   const [manoDeObra, setManoDeObra] = useState(String(item?.manoDeObra ?? '0'));
   const [equipo, setEquipo] = useState(String(item?.equipo ?? '0'));
-  const [indirectos, setIndirectos] = useState(String(item?.indirectos ?? '0'));
+  const [subcontrato, setSubcontrato] = useState(String(item?.subcontrato ?? '0'));
   const [ivaRate, setIvaRate] = useState(item ? (item.ivaRate ?? 0) : defaultIvaRate);
   const [categoryId, setCategoryId] = useState<string | null>(item?.categoryId ?? null);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -57,6 +57,7 @@ export default function ItemForm({ item, items, categories, initialReadOnly, onS
   const matDisabled = costType !== null && costType !== 'material';
   const moDisabled  = costType !== null && costType !== 'manoDeObra';
   const eqDisabled  = costType !== null && costType !== 'equipo';
+  const subDisabled = costType !== null && costType !== 'subcontrato';
 
   const codeIsDuplicate = code.trim() !== '' && items.some(
     (i) => i.id !== item?.id && i.code.trim().toLowerCase() === code.trim().toLowerCase()
@@ -70,7 +71,7 @@ export default function ItemForm({ item, items, categories, initialReadOnly, onS
     setMaterial(String(item?.material ?? '0'));
     setManoDeObra(String(item?.manoDeObra ?? '0'));
     setEquipo(String(item?.equipo ?? '0'));
-    setIndirectos(String(item?.indirectos ?? '0'));
+    setSubcontrato(String(item?.subcontrato ?? '0'));
     setIvaRate(item ? (item.ivaRate ?? 0) : defaultIvaRate);
     setCategoryId(item?.categoryId ?? null);
     setErrors({});
@@ -81,9 +82,9 @@ export default function ItemForm({ item, items, categories, initialReadOnly, onS
   function handleCategoryChange(newCatId: string | null) {
     const newType = detectCostType(newCatId, categories);
     setCategoryId(newCatId);
-    if (newType === 'material')   { setManoDeObra('0'); setEquipo('0'); }
-    if (newType === 'manoDeObra') { setMaterial('0');   setEquipo('0'); }
-    if (newType === 'equipo')     { setMaterial('0');   setManoDeObra('0'); }
+    if (newType === 'material')   { setManoDeObra('0'); setEquipo('0'); setSubcontrato('0'); }
+    if (newType === 'manoDeObra') { setMaterial('0');   setEquipo('0'); setSubcontrato('0'); }
+    if (newType === 'equipo')     { setMaterial('0');   setManoDeObra('0'); setSubcontrato('0'); }
     if (newType === 'subcontrato'){ setMaterial('0');   setManoDeObra('0'); setEquipo('0'); }
     if (!item) {
       if (newType === 'manoDeObra') setIvaRate(0);
@@ -94,8 +95,8 @@ export default function ItemForm({ item, items, categories, initialReadOnly, onS
   const matVal = parseFloat(material) || 0;
   const moVal  = parseFloat(manoDeObra) || 0;
   const eqVal  = parseFloat(equipo) || 0;
-  const indVal = parseFloat(indirectos) || 0;
-  const base   = matVal + moVal + eqVal + indVal;
+  const subVal = parseFloat(subcontrato) || 0;
+  const base   = matVal + moVal + eqVal + subVal;
   const ivaAmt = base * ivaRate;
   const total  = base * (1 + ivaRate);
 
@@ -120,7 +121,7 @@ export default function ItemForm({ item, items, categories, initialReadOnly, onS
       material: matDisabled ? 0 : matVal,
       manoDeObra: moDisabled ? 0 : moVal,
       equipo: eqDisabled ? 0 : eqVal,
-      indirectos: indVal,
+      subcontrato: subDisabled ? 0 : subVal,
       ivaRate,
       categoryId,
     });
@@ -216,7 +217,7 @@ export default function ItemForm({ item, items, categories, initialReadOnly, onS
               { label: 'Material', val: matVal, color: 'text-blue-600' },
               { label: 'Mano de Obra', val: moVal, color: 'text-orange-600' },
               { label: 'Equipo', val: eqVal, color: 'text-purple-600' },
-              { label: 'Indirectos', val: indVal, color: 'text-gray-600' },
+              { label: 'Subcontrato', val: subVal, color: 'text-pink-600' },
             ].map(({ label, val, color }) => (
               <div key={label} className="flex justify-between">
                 <span className="text-gray-500 text-xs">{label}</span>
@@ -354,8 +355,14 @@ export default function ItemForm({ item, items, categories, initialReadOnly, onS
           />
         </div>
         <div>
-          <label className="block text-sm text-gray-700 mb-1">Costos Indirectos</label>
-          <input type="number" min="0" step="0.0001" value={indirectos} onChange={(e) => setIndirectos(e.target.value)} className={inputCls()} />
+          <label className={`block text-sm mb-1 ${subDisabled ? 'text-gray-400' : 'text-gray-700'}`}>Costo Subcontrato</label>
+          <input
+            type="number" min="0" step="0.0001"
+            value={subDisabled ? '0' : subcontrato}
+            onChange={(e) => setSubcontrato(e.target.value)}
+            disabled={subDisabled}
+            className={inputCls(undefined, subDisabled)}
+          />
         </div>
       </div>
 

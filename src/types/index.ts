@@ -13,7 +13,7 @@ export interface Item {
   material: number;
   manoDeObra: number;
   equipo: number;
-  indirectos: number;
+  subcontrato: number;
   ivaRate?: number;
   categoryId: string | null;
 }
@@ -75,6 +75,7 @@ export interface BudgetLineItem {
   materialCost: number;
   manoDeObraCost: number;
   equipoCost: number;
+  subcontratoCost: number;
 }
 
 export interface Budget {
@@ -105,6 +106,7 @@ export interface BudgetUpdateLineItem {
   oldMaterialCost: number;
   oldManoDeObraCost: number;
   oldEquipoCost: number;
+  oldSubcontratoCost: number;
 }
 
 export interface BudgetUpdate {
