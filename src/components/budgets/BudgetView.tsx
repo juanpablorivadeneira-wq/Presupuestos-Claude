@@ -38,11 +38,14 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
   const [pickSearch, setPickSearch] = useState('');
   const [selectedRubros, setSelectedRubros] = useState<Map<string, number>>(new Map());
   const [lastAdded, setLastAdded] = useState(0);
+  // hide already-added rubros from the picker by default so the user sees only
+  // rubros they can actually add — toggle exposes them when needed
+  const [showAlreadyAdded, setShowAlreadyAdded] = useState(false);
   // duplicates alert: map of categoryName → count of duplicate rubros
   const [duplicateAlert, setDuplicateAlert] = useState<Map<string, number>>(new Map());
 
   // ── Resizable columns ───────────────────────────────────────────────────────
-  const { widths: colWidths, resizer: colResizer } = useResizableColumns({ codigo: 112, nombre: 260, unidad: 72, material: 110, manoObra: 110, equipo: 96, precioUnit: 110, cantidad: 88, total: 120 });
+  const { widths: colWidths, resizer: colResizer } = useResizableColumns({ codigo: 112, nombre: 260, unidad: 72, material: 110, manoObra: 110, equipo: 96, subcontrato: 110, precioUnit: 110, cantidad: 88, total: 120 });
 
   // ── Totals ──────────────────────────────────────────────────────────────────
   // IVA is included in item prices — these are already final values
@@ -50,6 +53,7 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
   const subtotalMat = budget ? budget.lineItems.reduce((s, li) => s + (li.materialCost ?? 0) * li.quantity, 0) : 0;
   const subtotalMO = budget ? budget.lineItems.reduce((s, li) => s + (li.manoDeObraCost ?? 0) * li.quantity, 0) : 0;
   const subtotalEq = budget ? budget.lineItems.reduce((s, li) => s + (li.equipoCost ?? 0) * li.quantity, 0) : 0;
+  const subtotalSub = budget ? budget.lineItems.reduce((s, li) => s + (li.subcontratoCost ?? 0) * li.quantity, 0) : 0;
 
   // ── Filtered + grouped line items ───────────────────────────────────────────
   const filteredLineItems = useMemo(() => {
@@ -87,9 +91,35 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
     });
   }, [budget, sourceDb]);
 
+  // Set of rubroIds already in the budget (used by both the picker filter
+  // and the duplicate detection in commitSelected)
+  const existingRubroIds = useMemo(
+    () => new Set(budget?.lineItems.map((li) => li.rubroId) ?? []),
+    [budget]
+  );
+
   // ── Available rubros for add modal ──────────────────────────────────────────
   const availableRubros = useMemo(() => {
     if (!sourceDb) return [];
+    let rubros = sourceDb.rubros;
+    if (pickCategoryId) {
+      const ids = getCategoryIds(pickCategoryId, sourceDb.rubroCategories);
+      rubros = rubros.filter((r) => r.categoryId !== null && ids.includes(r.categoryId));
+    }
+    if (!showAlreadyAdded) {
+      rubros = rubros.filter((r) => !existingRubroIds.has(r.id));
+    }
+    if (pickSearch.trim()) {
+      const q = pickSearch.toLowerCase();
+      rubros = rubros.filter(
+        (r) => r.code.toLowerCase().includes(q) || r.name.toLowerCase().includes(q)
+      );
+    }
+    return rubros;
+  }, [sourceDb, pickCategoryId, pickSearch, showAlreadyAdded, existingRubroIds]);
+
+  const hiddenAddedCount = useMemo(() => {
+    if (!sourceDb || showAlreadyAdded) return 0;
     let rubros = sourceDb.rubros;
     if (pickCategoryId) {
       const ids = getCategoryIds(pickCategoryId, sourceDb.rubroCategories);
@@ -101,8 +131,8 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
         (r) => r.code.toLowerCase().includes(q) || r.name.toLowerCase().includes(q)
       );
     }
-    return rubros;
-  }, [sourceDb, pickCategoryId, pickSearch]);
+    return rubros.filter((r) => existingRubroIds.has(r.id)).length;
+  }, [sourceDb, pickCategoryId, pickSearch, showAlreadyAdded, existingRubroIds]);
 
   // ── Handlers ────────────────────────────────────────────────────────────────
   function startEdit(li: BudgetLineItem) {
@@ -136,12 +166,6 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
       return next;
     });
   }
-
-  // Set of rubroIds already in the budget
-  const existingRubroIds = useMemo(
-    () => new Set(budget?.lineItems.map((li) => li.rubroId) ?? []),
-    [budget]
-  );
 
   function commitSelected(): number {
     if (!budget || !sourceDb) return 0;
@@ -220,6 +244,7 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
     setSelectedRubros(new Map());
     setPickSearch('');
     setPickCategoryId(null);
+    setShowAlreadyAdded(false);
     setAddModal(true);
   }
 
@@ -347,7 +372,7 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
           <table className="text-sm border-separate border-spacing-0" style={{ tableLayout: 'fixed', width: Object.values(colWidths).reduce((a, b) => a + b, 0) + 40 }}>
             <thead className="bg-gray-50 text-xs text-gray-500 uppercase tracking-wide sticky top-0 z-10">
               <tr>
-                {([ ['codigo','Código','left','px-4',null], ['nombre','Nombre','left','px-4',null], ['unidad','Unidad','left','px-4',null], ['material','Material','right','px-3','text-blue-600'], ['manoObra','Mano Obra','right','px-3','text-orange-600'], ['equipo','Equipo','right','px-3','text-purple-600'], ['precioUnit','Precio Unit.','right','px-3',null], ['cantidad','Cantidad','right','px-3',null], ['total','Total','right','px-3',null] ] as const).map(([col, label, align, px, color]) => (
+                {([ ['codigo','Código','left','px-4',null], ['nombre','Nombre','left','px-4',null], ['unidad','Unidad','left','px-4',null], ['material','Material','right','px-3','text-blue-600'], ['manoObra','Mano Obra','right','px-3','text-orange-600'], ['equipo','Equipo','right','px-3','text-purple-600'], ['subcontrato','Subcontrato','right','px-3','text-pink-600'], ['precioUnit','Precio Unit.','right','px-3',null], ['cantidad','Cantidad','right','px-3',null], ['total','Total','right','px-3',null] ] as const).map(([col, label, align, px, color]) => (
                   <th key={col} style={{ width: colWidths[col as keyof typeof colWidths] }} className={`relative ${px} py-3 text-${align} font-medium border-b border-gray-200 ${color ?? ''} select-none`}>
                     <span className="truncate block">{label}</span>
                     {colResizer(col as keyof typeof colWidths)}
@@ -367,6 +392,7 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
                       const chMat = items.reduce((s, li) => s + (li.materialCost ?? 0) * li.quantity, 0);
                       const chMO  = items.reduce((s, li) => s + (li.manoDeObraCost ?? 0) * li.quantity, 0);
                       const chEq  = items.reduce((s, li) => s + (li.equipoCost ?? 0) * li.quantity, 0);
+                      const chSub = items.reduce((s, li) => s + (li.subcontratoCost ?? 0) * li.quantity, 0);
                       return (
                         <tr
                           className="bg-gray-100 cursor-pointer select-none hover:bg-gray-200 transition-colors"
@@ -389,6 +415,7 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
                           <td className="px-3 py-2 text-right text-xs font-semibold text-blue-700">{formatMoney(chMat)}</td>
                           <td className="px-3 py-2 text-right text-xs font-semibold text-orange-700">{formatMoney(chMO)}</td>
                           <td className="px-3 py-2 text-right text-xs font-semibold text-purple-700">{formatMoney(chEq)}</td>
+                          <td className="px-3 py-2 text-right text-xs font-semibold text-pink-700">{formatMoney(chSub)}</td>
                           <td />{/* Precio Unit. */}
                           <td />{/* Cantidad */}
                           <td className="px-3 py-2 text-right text-xs font-bold text-gray-700">{formatMoney(chapterTotal)}</td>
@@ -413,6 +440,7 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
                         <td className="px-3 py-2.5 text-right text-sm text-blue-700">{(li.materialCost ?? 0) > 0 ? formatMoney(li.materialCost) : <span className="text-gray-300">—</span>}</td>
                         <td className="px-3 py-2.5 text-right text-sm text-orange-700">{(li.manoDeObraCost ?? 0) > 0 ? formatMoney(li.manoDeObraCost) : <span className="text-gray-300">—</span>}</td>
                         <td className="px-3 py-2.5 text-right text-sm text-purple-700">{(li.equipoCost ?? 0) > 0 ? formatMoney(li.equipoCost) : <span className="text-gray-300">—</span>}</td>
+                        <td className="px-3 py-2.5 text-right text-sm text-pink-700">{(li.subcontratoCost ?? 0) > 0 ? formatMoney(li.subcontratoCost) : <span className="text-gray-300">—</span>}</td>
                         <td className="px-3 py-2.5 text-right text-gray-700">{formatMoney(li.unitCost)}</td>
                         <td className="px-3 py-2.5 text-right">
                           {editingId === li.id ? (
@@ -465,13 +493,14 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
                 <td className="px-3 py-2.5 text-right text-sm text-blue-700 font-semibold border-t-2 border-gray-300">{formatMoney(subtotalMat)}</td>
                 <td className="px-3 py-2.5 text-right text-sm text-orange-700 font-semibold border-t-2 border-gray-300">{formatMoney(subtotalMO)}</td>
                 <td className="px-3 py-2.5 text-right text-sm text-purple-700 font-semibold border-t-2 border-gray-300">{formatMoney(subtotalEq)}</td>
+                <td className="px-3 py-2.5 text-right text-sm text-pink-700 font-semibold border-t-2 border-gray-300">{formatMoney(subtotalSub)}</td>
                 <td className="border-t-2 border-gray-300" />
                 <td className="border-t-2 border-gray-300" />
                 <td className="border-t-2 border-gray-300" />
                 <td className="border-t-2 border-gray-300" />
               </tr>
               <tr className="bg-green-50">
-                <td colSpan={8} className="px-4 py-3 text-right text-sm font-bold text-gray-800">TOTAL (IVA incluido)</td>
+                <td colSpan={9} className="px-4 py-3 text-right text-sm font-bold text-gray-800">TOTAL (IVA incluido)</td>
                 <td className="px-3 py-3 text-right text-base font-bold text-green-700">{formatMoney(total)}</td>
                 <td />
               </tr>
@@ -501,38 +530,62 @@ export default function BudgetView({ onNavigate: _onNavigate }: BudgetViewProps)
             {/* Right panel */}
             <div className="flex-1 flex flex-col overflow-hidden">
               {/* Search + select all */}
-              <div className="p-3 border-b border-gray-100 shrink-0 flex gap-2 items-center">
-                <div className="relative flex-1">
-                  <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-                  <input
-                    type="text"
-                    value={pickSearch}
-                    onChange={(e) => setPickSearch(e.target.value)}
-                    placeholder="Buscar rubros..."
-                    className="w-full pl-8 pr-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
-                    autoFocus
-                  />
+              <div className="p-3 border-b border-gray-100 shrink-0 flex flex-col gap-2">
+                <div className="flex gap-2 items-center">
+                  <div className="relative flex-1">
+                    <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                    <input
+                      type="text"
+                      value={pickSearch}
+                      onChange={(e) => setPickSearch(e.target.value)}
+                      placeholder="Buscar rubros..."
+                      className="w-full pl-8 pr-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+                      autoFocus
+                    />
+                  </div>
+                  {availableRubros.length > 0 && (
+                    <button
+                      onClick={allVisibleSelected ? deselectAllVisible : selectAllVisible}
+                      className={`flex items-center gap-1.5 px-3 py-2 text-xs rounded-md border transition-colors shrink-0 font-medium ${
+                        allVisibleSelected
+                          ? 'bg-green-100 border-green-300 text-green-800 hover:bg-green-200'
+                          : 'border-gray-300 text-gray-600 hover:bg-gray-50'
+                      }`}
+                      title={allVisibleSelected ? 'Deseleccionar todos' : 'Seleccionar todos'}
+                    >
+                      <CheckSquare size={13} />
+                      {allVisibleSelected ? 'Deseleccionar' : `Seleccionar todo (${availableRubros.length})`}
+                    </button>
+                  )}
                 </div>
-                {availableRubros.length > 0 && (
-                  <button
-                    onClick={allVisibleSelected ? deselectAllVisible : selectAllVisible}
-                    className={`flex items-center gap-1.5 px-3 py-2 text-xs rounded-md border transition-colors shrink-0 font-medium ${
-                      allVisibleSelected
-                        ? 'bg-green-100 border-green-300 text-green-800 hover:bg-green-200'
-                        : 'border-gray-300 text-gray-600 hover:bg-gray-50'
-                    }`}
-                    title={allVisibleSelected ? 'Deseleccionar todos' : 'Seleccionar todos'}
-                  >
-                    <CheckSquare size={13} />
-                    {allVisibleSelected ? 'Deseleccionar' : `Seleccionar todo (${availableRubros.length})`}
-                  </button>
-                )}
+                <label className="flex items-center gap-2 text-xs text-gray-600 select-none cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={showAlreadyAdded}
+                    onChange={(e) => setShowAlreadyAdded(e.target.checked)}
+                    className="accent-green-600"
+                  />
+                  Mostrar rubros ya agregados al presupuesto
+                  {hiddenAddedCount > 0 && (
+                    <span className="text-gray-400">({hiddenAddedCount} oculto{hiddenAddedCount !== 1 ? 's' : ''})</span>
+                  )}
+                </label>
               </div>
 
               {/* Rubro list — cantidad inline cuando está seleccionado */}
               <div className="flex-1 overflow-y-auto">
                 {availableRubros.length === 0 ? (
-                  <div className="p-6 text-center text-gray-400 text-sm">Sin resultados</div>
+                  <div className="p-6 text-center text-gray-400 text-sm">
+                    {hiddenAddedCount > 0 ? (
+                      <>
+                        Todos los rubros del filtro actual ya están en el presupuesto.
+                        <br />
+                        Activa <strong>“Mostrar rubros ya agregados”</strong> para verlos.
+                      </>
+                    ) : (
+                      'Sin resultados'
+                    )}
+                  </div>
                 ) : (
                   <table className="w-full text-sm">
                     <thead className="bg-gray-50 text-xs text-gray-500 uppercase sticky top-0 border-b border-gray-200">
